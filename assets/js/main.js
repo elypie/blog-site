@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="author-card mobile-author-only" style="margin-top: 36px; margin-bottom: 24px;">
               <h3 class="author-card-heading" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">About the Author</h3>
               <div class="author-info-row" style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
-                <div class="author-avatar-circle" style="width: 48px; height: 48px; border-radius: 50%; background: #FDE8E3; color: var(--accent-coral); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 16px;">EL</div>
+                <img src="assets/images/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
                 <div class="author-details">
                   <h4 class="author-name" style="font-size: 16px; font-weight: 800; margin: 0;">EL</h4>
                   <p class="author-role" style="font-size: 12px; color: var(--text-muted); margin: 0;">IT Student</p>
@@ -476,7 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="author-card">
                 <h3 class="author-card-heading" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">About the Author</h3>
                 <div class="author-info-row" style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
-                  <div class="author-avatar-circle" style="width: 48px; height: 48px; border-radius: 50%; background: #FDE8E3; color: var(--accent-coral); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 16px;">EL</div>
+                  <img src="assets/images/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
                   <div class="author-details">
                     <h4 class="author-name" style="font-size: 16px; font-weight: 800; margin: 0;">EL</h4>
                     <p class="author-role" style="font-size: 12px; color: var(--text-muted); margin: 0;">IT Student</p>
