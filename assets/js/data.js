@@ -59,23 +59,23 @@ const initialData = {
         <h3 id="what-went-wrong">2. What Went Wrong</h3>
         <p>The application failed because security was treated as something optional rather than a fundamental design requirement. Every major issue in the case represents a violation of well-established secure design principles.</p>
 
-        <h4 style="font-size: 18px; margin: 20px 0 10px 0;">2.1 Broken Access Control (Violation of Complete Mediation)</h4>
+        <h4 id="sec-2-1" style="font-size: 18px; margin: 20px 0 10px 0;">2.1 Broken Access Control (Violation of Complete Mediation)</h4>
         <p>The most obvious vulnerability was the ability to change the URL from <code>/profile/1048</code> to <code>/profile/1049</code> and immediately view another student's profile.</p>
         <p>This happened because the application authenticated users only during login but never checked authorization when individual resources were accessed. The server simply assumed that if a user knew the URL, they were allowed to view the information.</p>
         <p>This violates the <strong>Complete Mediation</strong> principle, which requires that <strong>every request to a protected resource must be verified every time it is accessed.</strong></p>
 
-        <h4 style="font-size: 18px; margin: 20px 0 10px 0;">2.2 Database Credentials Stored in GitHub (Violation of Fail-Safe Defaults)</h4>
+        <h4 id="sec-2-2" style="font-size: 18px; margin: 20px 0 10px 0;">2.2 Database Credentials Stored in GitHub (Violation of Fail-Safe Defaults)</h4>
         <p>The developers accidentally committed database passwords and payment API keys into a public GitHub repository. Once secrets become public, attackers no longer need to hack the application—they already possess the keys.</p>
         <p>This violates <strong>Fail-Safe Defaults</strong>, which states that systems should deny access by default and only explicitly grant what is necessary.</p>
 
-        <h4 style="font-size: 18px; margin: 20px 0 10px 0;">2.3 Broad Database Permissions (Violation of Least Privilege)</h4>
+        <h4 id="sec-2-3" style="font-size: 18px; margin: 20px 0 10px 0;">2.3 Broad Database Permissions (Violation of Least Privilege)</h4>
         <p>Every application account was granted broad read access to the database. This means that even a minor vulnerability could expose the entire database rather than only the records needed for one operation.</p>
         <p>This violates the <strong>Least Privilege</strong> principle. Applications should receive only the minimum permissions required.</p>
 
-        <h4 style="font-size: 18px; margin: 20px 0 10px 0;">2.4 Detailed Error Messages (Violation of Economy of Mechanism)</h4>
+        <h4 id="sec-2-4" style="font-size: 18px; margin: 20px 0 10px 0;">2.4 Detailed Error Messages (Violation of Economy of Mechanism)</h4>
         <p>The application displayed complete stack traces whenever an error occurred. Stack traces expose file locations, framework versions, SQL queries, and internal code structure.</p>
 
-        <h4 style="font-size: 18px; margin: 20px 0 10px 0;">2.5 Using Plain HTTP (Violation of Open Design)</h4>
+        <h4 id="sec-2-5" style="font-size: 18px; margin: 20px 0 10px 0;">2.5 Using Plain HTTP (Violation of Open Design)</h4>
         <p>The platform transmitted sensitive information through ordinary HTTP instead of HTTPS. This allowed anyone on the same network to potentially intercept login credentials, uploaded IDs, phone numbers, and GCash screenshots.</p>
 
         <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--border-light);" />

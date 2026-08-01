@@ -251,19 +251,105 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = post.content;
-    const headings = tempDiv.querySelectorAll('h1, h2, h3, h4');
-    const tocItems = [];
-    headings.forEach((h, idx) => {
+    const headingElements = tempDiv.querySelectorAll('h2, h3, h4');
+    const tocGroups = [];
+    let currentGroup = null;
+
+    headingElements.forEach((h, idx) => {
+      const tagName = h.tagName.toLowerCase();
       const id = h.id || `heading-${idx}`;
-      tocItems.push({ id, text: h.innerText });
+      const text = h.innerText.trim();
+
+      if (tagName === 'h2' || (tagName === 'h3' && !text.match(/^\d+\.\d+/))) {
+        currentGroup = {
+          id,
+          text,
+          children: []
+        };
+        tocGroups.push(currentGroup);
+      } else {
+        if (currentGroup) {
+          currentGroup.children.push({ id, text });
+        } else {
+          currentGroup = { id, text, children: [] };
+          tocGroups.push(currentGroup);
+        }
+      }
     });
 
-    const tocHTML = tocItems.map((item, idx) => `
-      <li style="display: flex; align-items: center; font-size: 14px;">
-        <span class="toc-bullet" id="toc-bullet-${item.id}" style="color: var(--accent-coral); font-weight: 800; margin-right: 8px; visibility: ${idx === 0 ? 'visible' : 'hidden'};">•</span>
-        <a href="#${item.id}" class="toc-item-link" id="toc-link-${item.id}" style="${idx === 0 ? 'color: var(--accent-coral); font-weight: 700;' : ''}" onclick="event.preventDefault(); document.getElementById('${item.id}')?.scrollIntoView({behavior:'smooth'});">${item.text}</a>
-      </li>
-    `).join('');
+    const generateTocHTML = (groups) => {
+      if (groups.length === 0) return '';
+
+      return groups.map((group, groupIdx) => {
+        const hasChildren = group.children && group.children.length > 0;
+        const groupId = `toc-group-${groupIdx}`;
+
+        if (!hasChildren) {
+          return `
+            <li class="toc-item parent-item">
+              <div class="toc-parent-row" style="display: flex; align-items: center; gap: 8px;">
+                <span style="color: var(--accent-coral); font-weight: 800; font-size: 14px;">•</span>
+                <a href="#${group.id}" class="toc-item-link parent-link" onclick="event.preventDefault(); document.getElementById('${group.id}')?.scrollIntoView({behavior:'smooth'});">${group.text}</a>
+              </div>
+            </li>
+          `;
+        }
+
+        return `
+          <li class="toc-item parent-item has-children">
+            <div class="toc-parent-row" style="display: flex; align-items: center; gap: 8px;">
+              <button type="button" class="toc-toggle-btn" aria-expanded="false" aria-controls="${groupId}" aria-label="Toggle sub-sections for ${group.text}" onclick="toggleTocGroup(this)">
+                <svg class="toc-arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.25s ease; color: var(--accent-coral);">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+              <a href="#${group.id}" class="toc-item-link parent-link" style="font-weight: 700; color: var(--text-main);" onclick="event.preventDefault(); toggleTocGroupLink(this, '${group.id}');">${group.text}</a>
+            </div>
+            <ul id="${groupId}" class="toc-nested-list" style="display: none; padding-left: 28px; margin-top: 10px; flex-direction: column; gap: 8px; list-style: none;">
+              ${group.children.map(child => `
+                <li class="toc-item child-item">
+                  <a href="#${child.id}" class="toc-item-link child-link" style="font-size: 13.5px; font-weight: 500; color: var(--text-muted);" onclick="event.preventDefault(); document.getElementById('${child.id}')?.scrollIntoView({behavior:'smooth'});">${child.text}</a>
+                </li>
+              `).join('')}
+            </ul>
+          </li>
+        `;
+      }).join('');
+    };
+
+    window.toggleTocGroup = function(btn) {
+      const parentRow = btn.closest('.toc-parent-row');
+      const nestedList = parentRow.nextElementSibling;
+      const arrow = btn.querySelector('.toc-arrow-icon');
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+
+      if (isExpanded) {
+        btn.setAttribute('aria-expanded', 'false');
+        nestedList.style.display = 'none';
+        if (arrow) arrow.style.transform = 'rotate(0deg)';
+      } else {
+        btn.setAttribute('aria-expanded', 'true');
+        nestedList.style.display = 'flex';
+        if (arrow) arrow.style.transform = 'rotate(90deg)';
+      }
+    };
+
+    window.toggleTocGroupLink = function(link, targetId) {
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      const parentRow = link.closest('.toc-parent-row');
+      if (parentRow) {
+        const btn = parentRow.querySelector('.toc-toggle-btn');
+        if (btn && btn.getAttribute('aria-expanded') !== 'true') {
+          window.toggleTocGroup(btn);
+        }
+      }
+    };
+
+    const tocHTML = generateTocHTML(tocGroups);
 
     articleDetailRoot.innerHTML = `
       <div class="container fade-in-up">
@@ -299,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <img src="${post.coverImage}" alt="${post.title}" class="article-cover-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
         </div>
 
-        ${tocItems.length > 0 ? `
+        ${tocGroups.length > 0 ? `
           <div class="toc-card mobile-toc-only" style="margin-bottom: 28px;">
             <h3 class="toc-title" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">On this page</h3>
             <ul class="toc-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
@@ -355,7 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           <aside class="article-sidebar desktop-sidebar-only">
             <div class="sticky-sidebar-content" style="position: sticky; top: 100px; display: flex; flex-direction: column; gap: 24px;">
-              ${tocItems.length > 0 ? `
+              ${tocGroups.length > 0 ? `
                 <div class="toc-card">
                   <h3 class="toc-title" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">On this page</h3>
                   <ul class="toc-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
