@@ -46,31 +46,28 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         const latest = publishedPosts[0];
         latestPostRoot.innerHTML = `
-          <div class="info-card" style="display: grid; grid-template-columns: 1fr 1.3fr; overflow: hidden; cursor: pointer; padding: 0;" onclick="window.location.href='blog-detail.html?id=${latest.id}'">
-            <div style="background-color: var(--accent-coral); min-height: 280px; overflow: hidden;">
-              <img src="${latest.coverImage}" alt="${latest.title}" class="item-cover-img" style="width: 100%; height: 100%; object-fit: cover;" />
+          <div class="blog-item-card featured-card-responsive" onclick="window.location.href='blog-detail.html?id=${latest.id}'" style="display: flex; flex-direction: column; padding: 0;">
+            <div class="featured-card-img-wrap" style="width: 100%; height: 240px; overflow: hidden; border-radius: 16px 16px 0 0;">
+              <img src="${latest.coverImage}" alt="${latest.title}" style="width: 100%; height: 100%; object-fit: cover;" />
             </div>
-            <div style="padding: 40px 48px; display: flex; flex-direction: column;">
+            <div class="featured-card-body" style="padding: 28px; flex: 1; display: flex; flex-direction: column;">
               <div style="margin-bottom: 10px;">
-                <span style="display: inline-block; padding: 4px 12px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 12px; font-size: 12px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${latest.category}</span>
+                <span class="badge-category-subtle" style="display: inline-block; padding: 4px 12px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${latest.category}</span>
               </div>
-              <h3 style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">${latest.title}</h3>
-              <div style="display: flex; align-items: center; gap: 18px; color: var(--text-muted); font-size: 13px; font-weight: 500; margin-bottom: 20px;">
+              <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 10px; line-height: 1.35; color: var(--text-main);">${latest.title}</h3>
+              <div style="display: flex; align-items: center; gap: 14px; color: var(--text-muted); font-size: 13px; font-weight: 500; margin-bottom: 14px; flex-wrap: wrap;">
                 <span style="display: inline-flex; align-items: center;">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                   ${latest.date}
                 </span>
+                <span>•</span>
                 <span style="display: inline-flex; align-items: center;">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                   ${latest.readTime}
                 </span>
               </div>
-              <p style="font-size: 15px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.7;">
-                ${latest.summary}
-              </p>
-              <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: auto;">
-                <a href="blog-detail.html?id=${latest.id}" class="btn-read-more">Continue Reading →</a>
-              </div>
+              <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; flex: 1; line-height: 1.6;">${latest.summary}</p>
+              <a href="blog-detail.html?id=${latest.id}" class="btn-read-more" style="align-self: flex-start;">Continue Reading →</a>
             </div>
           </div>
         `;
@@ -97,13 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
         featuredPostsRoot.innerHTML = `
           <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
             ${featured.map(post => `
-              <div class="blog-item-card" onclick="window.location.href='blog-detail.html?id=${post.id}'" style="display: flex; flex-direction: column; padding: 0;">
-                <div style="height: 200px; overflow: hidden; border-radius: 16px 16px 0 0;">
+              <div class="blog-item-card featured-card-responsive" onclick="window.location.href='blog-detail.html?id=${post.id}'" style="display: flex; flex-direction: column; padding: 0;">
+                <div class="featured-card-img-wrap" style="width: 100%; height: 220px; overflow: hidden; border-radius: 16px 16px 0 0;">
                   <img src="${post.coverImage}" alt="${post.title}" style="width: 100%; height: 100%; object-fit: cover;" />
                 </div>
-                <div style="padding: 24px; flex: 1; display: flex; flex-direction: column;">
-                  <div>
-                    <span style="display: inline-block; margin-bottom: 8px; padding: 3px 10px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 10px; font-size: 11px; font-weight: 700;">${post.category}</span>
+                <div class="featured-card-body" style="padding: 24px; flex: 1; display: flex; flex-direction: column;">
+                  <div style="margin-bottom: 10px;">
+                    <span class="badge-category-subtle" style="display: inline-block; padding: 4px 12px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${post.category}</span>
                   </div>
                   <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">${post.title}</h4>
                   <div style="display: flex; align-items: center; gap: 14px; color: var(--text-muted); font-size: 12px; font-weight: 500; margin-bottom: 12px;">
@@ -214,28 +211,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const articleDetailRoot = document.getElementById('article-detail-root');
   if (articleDetailRoot) {
     const freshData = getBlogData();
-    const urlParams = new URLSearchParams(window.location.search);
-    const paramId = parseInt(urlParams.get('id'));
-    const paramSlug = urlParams.get('slug');
-
-    let post = null;
-    if (paramId) {
-      post = freshData.posts.find(p => p.id === paramId);
-    } else if (paramSlug) {
-      post = freshData.posts.find(p => p.slug === paramSlug);
-    }
-    if (!post) {
-      post = freshData.posts.find(p => p.status === 'Published') || freshData.posts[0];
-    }
-    const author = freshData.author;
-
-    // Previous and Next Post Links
     const publishedPosts = freshData.posts.filter(p => p.status === 'Published');
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = parseInt(urlParams.get('id'), 10) || 1;
+    const post = publishedPosts.find(p => p.id === postId) || publishedPosts[0];
+
+    if (!post) {
+      articleDetailRoot.innerHTML = `
+        <div style="padding: 80px 0; text-align: center; color: var(--text-muted);">
+          <h2>Article Not Found</h2>
+          <p>The requested article does not exist or has been removed.</p>
+          <a href="blogs.html" class="btn-primary" style="margin-top: 16px;">Back to Blogs</a>
+        </div>
+      `;
+      return;
+    }
+
+    const author = freshData.author;
     const currentIndex = publishedPosts.findIndex(p => p.id === post.id);
     const prevPost = currentIndex > 0 ? publishedPosts[currentIndex - 1] : null;
     const nextPost = currentIndex < publishedPosts.length - 1 ? publishedPosts[currentIndex + 1] : null;
 
-    // Related Posts (Same category or tags, excluding current)
     let relatedPosts = publishedPosts.filter(p => p.id !== post.id && p.category === post.category);
     if (relatedPosts.length < 3) {
       const remaining = publishedPosts.filter(p => p.id !== post.id && p.category !== post.category);
@@ -253,17 +249,14 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `).join('');
 
-    // Generate Dynamic Table of Contents from Content Headings if not present
-    let tocItems = post.toc || [];
-    if (!tocItems || tocItems.length === 0) {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(post.content, 'text/html');
-      const headings = doc.querySelectorAll('h1, h2, h3, h4');
-      headings.forEach((h, idx) => {
-        const id = h.id || `heading-${idx}`;
-        tocItems.push({ id, text: h.innerText });
-      });
-    }
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = post.content;
+    const headings = tempDiv.querySelectorAll('h1, h2, h3, h4');
+    const tocItems = [];
+    headings.forEach((h, idx) => {
+      const id = h.id || `heading-${idx}`;
+      tocItems.push({ id, text: h.innerText });
+    });
 
     const tocHTML = tocItems.map((item, idx) => `
       <li style="display: flex; align-items: center; font-size: 14px;">
@@ -302,17 +295,37 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </header>
 
-        <div class="article-cover-wrapper" style="height: 460px; border-radius: 20px; overflow: hidden; margin-bottom: 40px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="openLightbox('${post.coverImage}')">
+        <div class="article-cover-wrapper" style="height: 460px; border-radius: 20px; overflow: hidden; margin-bottom: 32px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="openLightbox('${post.coverImage}')">
           <img src="${post.coverImage}" alt="${post.title}" class="article-cover-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
         </div>
+
+        ${tocItems.length > 0 ? `
+          <div class="toc-card mobile-toc-only" style="margin-bottom: 28px;">
+            <h3 class="toc-title" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">On this page</h3>
+            <ul class="toc-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+              ${tocHTML}
+            </ul>
+          </div>
+        ` : ''}
 
         <div class="article-content-grid" style="display: grid; grid-template-columns: 1fr 340px; gap: 48px;">
           <main class="article-body" id="main-article-content" style="text-align: justify;">
             ${post.content}
 
-            <hr style="margin: 40px 0 32px 0; border: none; border-top: 1px solid var(--border-light);" />
+            <div class="author-card mobile-author-only" style="margin-top: 36px; margin-bottom: 24px;">
+              <h3 class="author-card-heading" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">About the Author</h3>
+              <div class="author-info-row" style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
+                <div class="author-avatar-circle" style="width: 48px; height: 48px; border-radius: 50%; background: #FDE8E3; color: var(--accent-coral); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 16px;">EL</div>
+                <div class="author-details">
+                  <h4 class="author-name" style="font-size: 16px; font-weight: 800; margin: 0;">EL</h4>
+                  <p class="author-role" style="font-size: 12px; color: var(--text-muted); margin: 0;">IT Student</p>
+                </div>
+              </div>
+              <p class="author-bio" style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">Passionate about technology, learning, and sharing insights through educational writing.</p>
+            </div>
 
-            <!-- Share this article at bottom of post -->
+            <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--border-light);" />
+
             <div class="info-card" style="padding: 24px 28px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light);">
               <div>
                 <h4 style="font-size: 16px; font-weight: 800; margin-bottom: 4px;">Share this article</h4>
@@ -324,7 +337,6 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             </div>
 
-            <!-- Previous / Next Article Navigation -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
               ${prevPost ? `
                 <div class="info-card" style="padding: 20px; cursor: pointer;" onclick="window.location.href='blog-detail.html?id=${prevPost.id}'">
@@ -341,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </main>
 
-          <aside class="article-sidebar">
+          <aside class="article-sidebar desktop-sidebar-only">
             <div class="sticky-sidebar-content" style="position: sticky; top: 100px; display: flex; flex-direction: column; gap: 24px;">
               ${tocItems.length > 0 ? `
                 <div class="toc-card">

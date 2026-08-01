@@ -1427,6 +1427,27 @@ img, video, iframe, svg {
   max-width: 100%;
 }
 
+/* Mobile vs Desktop Article Sidebar Visibility Helpers */
+@media (min-width: 768px) {
+  .mobile-toc-only,
+  .mobile-author-only {
+    display: none !important;
+  }
+  .desktop-sidebar-only {
+    display: block !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .desktop-sidebar-only {
+    display: none !important;
+  }
+  .mobile-toc-only,
+  .mobile-author-only {
+    display: block !important;
+  }
+}
+
 /* --- Breakpoint: Desktop (>= 1024px) --- */
 @media (min-width: 1024px) {
   .hero-grid {
