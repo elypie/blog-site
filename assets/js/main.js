@@ -277,19 +277,35 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    function parseHeadingText(rawText) {
+      const match = rawText.match(/^(\d+(?:\.\d+)*\.?)\s+(.*)$/);
+      if (match) {
+        return {
+          num: match[1],
+          title: match[2]
+        };
+      }
+      return {
+        num: '',
+        title: rawText
+      };
+    }
+
     const generateTocHTML = (groups) => {
       if (groups.length === 0) return '';
 
       return groups.map((group, groupIdx) => {
         const hasChildren = group.children && group.children.length > 0;
         const groupId = `toc-group-${groupIdx}`;
+        const parsedParent = parseHeadingText(group.text);
 
         if (!hasChildren) {
           return `
             <li class="toc-item parent-item">
-              <div class="toc-parent-row" style="display: flex; align-items: center; gap: 8px;">
-                <span style="color: var(--accent-coral); font-weight: 800; font-size: 14px;">•</span>
-                <a href="#${group.id}" class="toc-item-link parent-link" onclick="event.preventDefault(); document.getElementById('${group.id}')?.scrollIntoView({behavior:'smooth'});">${group.text}</a>
+              <div class="toc-row parent-row no-arrow">
+                <span class="toc-num parent-num">${parsedParent.num}</span>
+                <a href="#${group.id}" class="toc-title-link parent-link" onclick="event.preventDefault(); document.getElementById('${group.id}')?.scrollIntoView({behavior:'smooth'});">${parsedParent.title}</a>
+                <div class="toc-spacer"></div>
               </div>
             </li>
           `;
@@ -297,20 +313,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return `
           <li class="toc-item parent-item has-children">
-            <div class="toc-parent-row" style="display: flex; align-items: center; gap: 8px;">
-              <button type="button" class="toc-toggle-btn" aria-expanded="false" aria-controls="${groupId}" aria-label="Toggle sub-sections for ${group.text}" onclick="toggleTocGroup(this)">
-                <svg class="toc-arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.25s ease; color: var(--accent-coral);">
-                  <polyline points="9 18 15 12 9 6"></polyline>
+            <div class="toc-row parent-row">
+              <span class="toc-num parent-num">${parsedParent.num}</span>
+              <a href="#${group.id}" class="toc-title-link parent-link" onclick="event.preventDefault(); toggleTocGroupLink(this, '${group.id}');">${parsedParent.title}</a>
+              <button type="button" class="toc-toggle-btn" aria-expanded="false" aria-controls="${groupId}" aria-label="Toggle sub-sections for ${parsedParent.title}" onclick="toggleTocGroup(this)">
+                <svg class="toc-arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
               </button>
-              <a href="#${group.id}" class="toc-item-link parent-link" style="font-weight: 700; color: var(--text-main);" onclick="event.preventDefault(); toggleTocGroupLink(this, '${group.id}');">${group.text}</a>
             </div>
-            <ul id="${groupId}" class="toc-nested-list" style="display: none; padding-left: 28px; margin-top: 10px; flex-direction: column; gap: 8px; list-style: none;">
-              ${group.children.map(child => `
-                <li class="toc-item child-item">
-                  <a href="#${child.id}" class="toc-item-link child-link" style="font-size: 13.5px; font-weight: 500; color: var(--text-muted);" onclick="event.preventDefault(); document.getElementById('${child.id}')?.scrollIntoView({behavior:'smooth'});">${child.text}</a>
-                </li>
-              `).join('')}
+            <ul id="${groupId}" class="toc-sublist" style="display: none;">
+              ${group.children.map(child => {
+                const parsedChild = parseHeadingText(child.text);
+                return `
+                  <li class="toc-item child-item">
+                    <div class="toc-row child-row">
+                      <span class="toc-num child-num">${parsedChild.num}</span>
+                      <a href="#${child.id}" class="toc-title-link child-link" onclick="event.preventDefault(); document.getElementById('${child.id}')?.scrollIntoView({behavior:'smooth'});">${parsedChild.title}</a>
+                    </div>
+                  </li>
+                `;
+              }).join('')}
             </ul>
           </li>
         `;
@@ -318,19 +341,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.toggleTocGroup = function(btn) {
-      const parentRow = btn.closest('.toc-parent-row');
-      const nestedList = parentRow.nextElementSibling;
+      const parentRow = btn.closest('.parent-row');
+      const sublist = parentRow.nextElementSibling;
       const arrow = btn.querySelector('.toc-arrow-icon');
       const isExpanded = btn.getAttribute('aria-expanded') === 'true';
 
       if (isExpanded) {
         btn.setAttribute('aria-expanded', 'false');
-        nestedList.style.display = 'none';
+        sublist.style.display = 'none';
         if (arrow) arrow.style.transform = 'rotate(0deg)';
       } else {
         btn.setAttribute('aria-expanded', 'true');
-        nestedList.style.display = 'flex';
-        if (arrow) arrow.style.transform = 'rotate(90deg)';
+        sublist.style.display = 'flex';
+        if (arrow) arrow.style.transform = 'rotate(180deg)';
       }
     };
 
@@ -340,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
         targetElement.scrollIntoView({ behavior: 'smooth' });
       }
 
-      const parentRow = link.closest('.toc-parent-row');
+      const parentRow = link.closest('.parent-row');
       if (parentRow) {
         const btn = parentRow.querySelector('.toc-toggle-btn');
         if (btn && btn.getAttribute('aria-expanded') !== 'true') {

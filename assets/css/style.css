@@ -774,19 +774,83 @@ body.dark-theme .public-header {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .toc-item {
   list-style: none;
+  width: 100%;
 }
 
-.toc-parent-row {
-  display: flex;
-  align-items: center;
+/* Parent Row 3-Column Grid: Fixed Number (28px) | Flexible Title (minmax(0, 1fr)) | Far-Right Arrow Button (28px) */
+.toc-row.parent-row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 28px;
+  align-items: start;
   gap: 8px;
+  width: 100%;
 }
 
+/* Subsection Sublist Grid: Indented by 28px | Fixed Subsection Number (38px) | Flexible Title */
+.toc-sublist {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 4px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.toc-row.child-row {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Number Columns */
+.toc-num {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--accent-coral);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.toc-num.child-num {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--accent-coral);
+  opacity: 0.9;
+}
+
+/* Title Link Columns */
+.toc-title-link {
+  text-decoration: none;
+  line-height: 1.4;
+  word-break: break-word;
+  transition: color var(--transition-fast);
+}
+
+.toc-title-link.parent-link {
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--text-main);
+}
+
+.toc-title-link.child-link {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.toc-title-link:hover {
+  color: var(--accent-coral) !important;
+}
+
+/* Far-Right Arrow Button Alignment */
 .toc-toggle-btn {
   background: none;
   border: none;
@@ -798,6 +862,8 @@ body.dark-theme .public-header {
   justify-content: center;
   border-radius: 6px;
   transition: background-color var(--transition-fast);
+  margin-top: -2px;
+  margin-left: auto;
 }
 
 .toc-toggle-btn:hover {
@@ -810,31 +876,8 @@ body.dark-theme .public-header {
 }
 
 .toc-arrow-icon {
-  transition: transform 0.25s ease;
-}
-
-.toc-item-link {
-  font-size: 14.5px;
-  color: var(--text-main);
-  font-weight: 600;
-  transition: color var(--transition-fast);
-  text-decoration: none;
-  line-height: 1.4;
-}
-
-.toc-item-link.parent-link {
-  font-weight: 700;
-  color: var(--text-main);
-}
-
-.toc-item-link.child-link {
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--text-muted);
-}
-
-.toc-item-link:hover {
-  color: var(--accent-coral) !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--accent-coral);
 }
 
 .author-card-heading {
