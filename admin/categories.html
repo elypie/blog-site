@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categories - Ely's Blog Admin</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+
+  <aside class="admin-sidebar">
+    <div class="sidebar-brand">
+      <h2 class="brand-logo"><span class="logo-accent">EL</span> Journal</h2>
+      <p class="admin-subtitle">ADMIN CMS</p>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="posts.html" class="sidebar-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        <span>Posts</span>
+      </a>
+      <a href="categories.html" class="sidebar-link active">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+        <span>Categories</span>
+      </a>
+      <a href="media.html" class="sidebar-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        <span>Media</span>
+      </a>
+      <a href="profile-settings.html" class="sidebar-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="login.html" class="sidebar-link" style="color: #EF4444;" id="admin-logout-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div></div>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button class="admin-theme-btn" id="admin-theme-toggle">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <span>Dark Mode</span>
+        </button>
+        <div class="admin-profile-badge">
+          <div class="avatar-circle">EL</div>
+          <div style="display: flex; flex-direction: column;">
+            <span class="admin-name">Ely</span>
+            <span class="admin-role">Administrator</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-content-body">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div>
+          <h1 style="font-size: 28px;">Categories</h1>
+          <p style="color: var(--text-muted); font-size: 14px;">Manage your blog categories and view posts in each category.</p>
+        </div>
+        <button class="btn-primary" id="add-cat-btn">+ Add Category</button>
+      </div>
+
+      <div style="background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-light); padding: 24px;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>CATEGORY NAME</th>
+              <th>POSTS</th>
+              <th style="text-align: right;">ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody id="categories-table-body"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- Category Articles Modal -->
+  <div class="editor-preview-modal" id="cat-posts-modal">
+    <div class="editor-preview-card" style="max-width: 760px;">
+      <div class="editor-preview-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-coral)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          <h3 style="font-size: 18px;" id="cat-modal-title">Posts in Category</h3>
+        </div>
+        <button type="button" class="btn-secondary" id="close-cat-modal-btn" style="padding: 6px 14px; font-size: 13px;">Close</button>
+      </div>
+      <div class="editor-preview-body" style="padding: 24px;">
+        <div id="cat-posts-list-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const data = getBlogData();
+      const tbody = document.getElementById('categories-table-body');
+
+      const catModal = document.getElementById('cat-posts-modal');
+      const catModalTitle = document.getElementById('cat-modal-title');
+      const catPostsContainer = document.getElementById('cat-posts-list-container');
+      const closeCatModalBtn = document.getElementById('close-cat-modal-btn');
+
+      function getCategoryPostCount(catName) {
+        return data.posts.filter(p => p.category.toLowerCase() === catName.toLowerCase()).length;
+      }
+
+      function renderCategories() {
+        tbody.innerHTML = data.categories.map(cat => {
+          const count = getCategoryPostCount(cat.name);
+          return `
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="openCategoryPosts('${cat.name.replace(/'/g, "\\'")}')">
+                  <div style="width: 36px; height: 36px; border-radius: 10px; background: #FDE8E3; color: #E55B44; display: flex; align-items: center; justify-content: center;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                  </div>
+                  <div>
+                    <strong style="color: var(--text-main);">${cat.name}</strong>
+                    <div style="font-size: 11px; color: var(--accent-coral); font-weight: 600;">Click to view posts →</div>
+                  </div>
+                </div>
+              </td>
+              <td><span style="font-size: 13px; color: var(--text-muted); font-weight: 600;">${count} posts</span></td>
+              <td style="text-align: right;">
+                <button onclick="openCategoryPosts('${cat.name.replace(/'/g, "\\'")}')" class="btn-action-edit" style="margin-right: 6px;">View Posts (${count})</button>
+                <button onclick="deleteCat(${cat.id})" class="btn-action-delete">Delete</button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      window.openCategoryPosts = function(catName) {
+        const catPosts = data.posts.filter(p => p.category.toLowerCase() === catName.toLowerCase());
+        catModalTitle.textContent = `Category: ${catName} (${catPosts.length} posts)`;
+
+        if (catPosts.length === 0) {
+          catPostsContainer.innerHTML = `
+            <div style="text-align: center; padding: 36px; color: var(--text-muted);">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 12px; opacity: 0.5;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <p style="font-size: 15px; font-weight: 600;">No posts in this category yet.</p>
+              <a href="post-editor.html" class="btn-primary" style="display: inline-block; margin-top: 16px;">+ Write Article in ${catName}</a>
+            </div>
+          `;
+        } else {
+          catPostsContainer.innerHTML = `
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              ${catPosts.map(post => `
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border-light); border-radius: 16px; background-color: var(--bg-primary);">
+                  <div style="display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0;">
+                    <img src="${post.coverImage}" alt="" style="width: 54px; height: 54px; border-radius: 12px; object-fit: cover;" />
+                    <div style="min-width: 0; flex: 1;">
+                      <h4 style="font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;">${post.title}</h4>
+                      <div style="display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--text-muted);">
+                        <span>Published: ${post.date}</span>
+                        <span>•</span>
+                        <span style="font-weight: 700; color: ${post.status === 'Published' ? '#059669' : '#D97706'};">● ${post.status}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; margin-left: 16px;">
+                    <a href="post-editor.html?id=${post.id}" class="btn-action-edit">Edit Post</a>
+                  </div>
+                </div>
+              `).join('')}
+              <div style="text-align: right; margin-top: 12px;">
+                <a href="posts.html?category=${encodeURIComponent(catName)}" class="btn-secondary" style="font-size: 13px;">Manage in Posts Manager →</a>
+              </div>
+            </div>
+          `;
+        }
+
+        catModal.classList.add('is-open');
+      };
+
+      closeCatModalBtn.addEventListener('click', () => {
+        catModal.classList.remove('is-open');
+      });
+
+      window.deleteCat = function(id) {
+        if (confirm("Delete category?")) {
+          data.categories = data.categories.filter(c => c.id !== id);
+          saveBlogData(data);
+          renderCategories();
+        }
+      };
+
+      document.getElementById('add-cat-btn').addEventListener('click', () => {
+        const name = prompt("Enter new category name:");
+        if (name) {
+          data.categories.push({ id: Date.now(), name, count: 0, color: "#E55B44" });
+          saveBlogData(data);
+          renderCategories();
+        }
+      });
+
+      renderCategories();
+    });
+  </script>
+</body>
+</html>

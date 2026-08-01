@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Editor - Ely's Blog Admin</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+
+  <aside class="admin-sidebar">
+    <div class="sidebar-brand">
+      <h2 class="brand-logo"><span class="logo-accent">EL</span> Journal</h2>
+      <p class="admin-subtitle">ADMIN CMS</p>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="posts.html" class="sidebar-link active">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        <span>Posts</span>
+      </a>
+      <a href="categories.html" class="sidebar-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+        <span>Categories</span>
+      </a>
+      <a href="media.html" class="sidebar-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        <span>Media</span>
+      </a>
+      <a href="profile-settings.html" class="sidebar-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="login.html" class="sidebar-link" style="color: #EF4444;" id="admin-logout-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div></div>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button class="admin-theme-btn" id="admin-theme-toggle">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <span>Dark Mode</span>
+        </button>
+        <div class="admin-profile-badge">
+          <div class="avatar-circle">EL</div>
+          <div style="display: flex; flex-direction: column;">
+            <span class="admin-name">Ely</span>
+            <span class="admin-role">Administrator</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-content-body">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <a href="posts.html" class="btn-secondary">← Back to Posts</a>
+          <h1 style="font-size: 24px;" id="editor-page-title">Create New Blog</h1>
+        </div>
+      </div>
+
+      <form id="blog-form">
+        <div style="display: grid; grid-template-columns: 320px 1fr; gap: 28px; align-items: start;">
+          <!-- Left Column: Post Metadata -->
+          <div style="background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-light); padding: 24px; box-shadow: var(--shadow-sm);">
+            <h3 style="font-size: 16px; margin-bottom: 20px;">Article Settings</h3>
+            
+            <div class="form-group">
+              <label class="form-label">Article Title</label>
+              <input type="text" id="post-title-input" class="input-field" placeholder="Enter blog title..." required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select id="post-category-select" class="input-field">
+                <option value="Information Assurance">Information Assurance</option>
+                <option value="Organizational Context">Organizational Context</option>
+                <option value="Computing Ethics">Computing Ethics</option>
+                <option value="Data Privacy">Data Privacy</option>
+                <option value="Security Principles">Security Principles</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Featured Cover Image URL</label>
+              <input type="text" id="post-image-input" class="input-field" placeholder="https://images.unsplash.com/..." />
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 28px;">
+              <button type="submit" class="btn-primary" style="width: 100%; text-align: center;">Publish Article</button>
+              <button type="button" class="btn-secondary" id="save-draft-btn" style="width: 100%; text-align: center;">Save as Draft</button>
+            </div>
+          </div>
+
+          <!-- Right Column: Professional WYSIWYG Editor -->
+          <div class="editor-container" id="wysiwyg-editor-container">
+            <!-- WYSIWYG Toolbar -->
+            <div class="editor-toolbar">
+              <!-- Group 1: History -->
+              <div class="editor-toolbar-group">
+                <button type="button" class="editor-btn" data-cmd="undo" title="Undo (Ctrl+Z)">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
+                </button>
+                <button type="button" class="editor-btn" data-cmd="redo" title="Redo (Ctrl+Y)">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"></path><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"></path></svg>
+                </button>
+              </div>
+
+              <!-- Group 2: Headings & Typography -->
+              <div class="editor-toolbar-group">
+                <select class="editor-select" id="editor-heading-select" title="Headings">
+                  <option value="p">Paragraph</option>
+                  <option value="h1">Heading 1 (H1)</option>
+                  <option value="h2">Heading 2 (H2)</option>
+                  <option value="h3">Heading 3 (H3)</option>
+                  <option value="h4">Heading 4 (H4)</option>
+                </select>
+
+                <select class="editor-select" id="editor-font-select" title="Font Family">
+                  <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+                  <option value="Inter">Inter (Swiss UI)</option>
+                  <option value="Roboto">Roboto (Clean Sans)</option>
+                  <option value="Poppins">Poppins (Geometric)</option>
+                  <option value="Outfit">Outfit (Tech Modern)</option>
+                  <option value="Playfair Display">Playfair Display (Editorial Serif)</option>
+                  <option value="Lora">Lora (Literary Serif)</option>
+                  <option value="Merriweather">Merriweather (Classic Serif)</option>
+                  <option value="Fira Code">Fira Code (Code Monospace)</option>
+                </select>
+
+                <select class="editor-select" id="editor-size-select" title="Font Size">
+                  <option value="15px">Normal (15px)</option>
+                  <option value="12px">Small (12px)</option>
+                  <option value="18px">Medium (18px)</option>
+                  <option value="22px">Large (22px)</option>
+                  <option value="28px">Extra Large (28px)</option>
+                </select>
+              </div>
+
+              <!-- Group 3: Formatting -->
+              <div class="editor-toolbar-group">
+                <button type="button" class="editor-btn" data-cmd="bold" title="Bold (Ctrl+B)"><b>B</b></button>
+                <button type="button" class="editor-btn" data-cmd="italic" title="Italic (Ctrl+I)"><i>I</i></button>
+                <button type="button" class="editor-btn" data-cmd="underline" title="Underline (Ctrl+U)"><u>U</u></button>
+                <button type="button" class="editor-btn" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
+
+                <label class="editor-color-label" title="Text Color">
+                  <span style="font-weight: 800; color: var(--accent-coral);">A</span>
+                  <input type="color" class="editor-color-input" id="editor-text-color" value="#17171B" />
+                </label>
+
+                <label class="editor-color-label" title="Highlight Color" style="background-color: #FEF3C7;">
+                  <span style="font-size: 11px; font-weight: 800; color: #D97706;">HL</span>
+                  <input type="color" class="editor-color-input" id="editor-bg-color" value="#FEF3C7" />
+                </label>
+
+                <button type="button" class="editor-btn" data-cmd="removeFormat" title="Clear Formatting">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              </div>
+
+              <!-- Group 4: Alignment -->
+              <div class="editor-toolbar-group">
+                <button type="button" class="editor-btn" data-cmd="justifyLeft" title="Align Left">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
+                </button>
+                <button type="button" class="editor-btn" data-cmd="justifyCenter" title="Center">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="10" x2="6" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="18" y1="14" x2="6" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
+                </button>
+                <button type="button" class="editor-btn" data-cmd="justifyRight" title="Align Right">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="7" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="7" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
+                </button>
+                <button type="button" class="editor-btn" data-cmd="justifyFull" title="Justify">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
+                </button>
+              </div>
+
+              <!-- Group 5: Lists -->
+              <div class="editor-toolbar-group">
+                <button type="button" class="editor-btn" data-cmd="insertUnorderedList" title="Bulleted List">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                </button>
+                <button type="button" class="editor-btn" data-cmd="insertOrderedList" title="Numbered List">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="6" x2="21" y2="6"></line><line x1="10" y1="12" x2="21" y2="12"></line><line x1="10" y1="18" x2="21" y2="18"></line><path d="M4 6h1v4"></path><path d="M4 10h2"></path><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg>
+                </button>
+              </div>
+
+              <!-- Group 6: Inserts -->
+              <div class="editor-toolbar-group">
+                <button type="button" class="editor-btn" id="btn-insert-link" title="Insert Link">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                </button>
+                <button type="button" class="editor-btn" id="btn-insert-image" title="Insert Image">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                </button>
+                <button type="button" class="editor-btn" id="btn-insert-table" title="Insert Table">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M3 15h18"></path><path d="M9 3v18"></path><path d="M15 3v18"></path></svg>
+                </button>
+                <button type="button" class="editor-btn" id="btn-insert-hr" title="Horizontal Line">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </button>
+                <button type="button" class="editor-btn" id="btn-insert-quote" title="Blockquote">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21z"></path><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21z"></path></svg>
+                </button>
+                <button type="button" class="editor-btn" id="btn-insert-code" title="Code Block">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                </button>
+              </div>
+
+              <!-- Group 7: Pro Features -->
+              <div style="margin-left: auto; display: flex; align-items: center; gap: 6px;">
+                <button type="button" class="editor-btn" id="btn-live-preview" title="Live Preview" style="width: auto; padding: 0 10px; gap: 5px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  <span>Preview</span>
+                </button>
+                <button type="button" class="editor-btn" id="btn-fullscreen-toggle" title="Toggle Fullscreen Mode">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Contenteditable Canvas -->
+            <div class="editor-canvas-wrapper">
+              <div id="wysiwyg-content-area" class="editor-content-area" contenteditable="true" placeholder="Start writing your blog content here... You can type text, format headings, insert images, code blocks, tables, and quote blocks!"></div>
+            </div>
+
+            <!-- Statusbar -->
+            <div class="editor-statusbar">
+              <div class="editor-stats-item">
+                <span>Words: <strong id="editor-word-count">0</strong></span>
+                <span>Characters: <strong id="editor-char-count">0</strong></span>
+              </div>
+              <div class="editor-stats-item">
+                <span id="editor-autosave-status">Draft Auto-Saved</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- Live Preview Modal -->
+      <div class="editor-preview-modal" id="editor-preview-modal">
+        <div class="editor-preview-card">
+          <div class="editor-preview-header">
+            <h3 style="font-size: 16px;">Live Article Preview</h3>
+            <button type="button" class="btn-secondary" id="close-preview-btn" style="padding: 6px 14px; font-size: 13px;">Close Preview</button>
+          </div>
+          <div class="editor-preview-body" id="editor-preview-body"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const data = getBlogData();
+      const urlParams = new URLSearchParams(window.location.search);
+      const postId = parseInt(urlParams.get('id'));
+
+      const titleInput = document.getElementById('post-title-input');
+      const catSelect = document.getElementById('post-category-select');
+      const imageInput = document.getElementById('post-image-input');
+      const pageTitle = document.getElementById('editor-page-title');
+
+      const editorCanvas = document.getElementById('wysiwyg-content-area');
+      const editorContainer = document.getElementById('wysiwyg-editor-container');
+      const wordCountEl = document.getElementById('editor-word-count');
+      const charCountEl = document.getElementById('editor-char-count');
+      const autosaveStatusEl = document.getElementById('editor-autosave-status');
+
+      let currentPost = null;
+      if (postId) {
+        currentPost = data.posts.find(p => p.id === postId);
+        if (currentPost) {
+          pageTitle.textContent = 'Edit Blog Post';
+          titleInput.value = currentPost.title;
+          catSelect.value = currentPost.category;
+          imageInput.value = currentPost.coverImage;
+          editorCanvas.innerHTML = currentPost.content;
+          updateEditorStats();
+        }
+      }
+
+      // ExecCommand helper
+      document.querySelectorAll('.editor-btn[data-cmd]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const cmd = btn.getAttribute('data-cmd');
+          document.execCommand(cmd, false, null);
+          editorCanvas.focus();
+          updateEditorStats();
+        });
+      });
+
+      // Headings dropdown
+      document.getElementById('editor-heading-select').addEventListener('change', (e) => {
+        const heading = e.target.value;
+        document.execCommand('formatBlock', false, heading);
+        editorCanvas.focus();
+      });
+
+      // Font family
+      document.getElementById('editor-font-select').addEventListener('change', (e) => {
+        const font = e.target.value;
+        document.execCommand('fontName', false, font);
+        editorCanvas.focus();
+      });
+
+      // Font size
+      document.getElementById('editor-size-select').addEventListener('change', (e) => {
+        const size = e.target.value;
+        document.execCommand('fontSize', false, '7');
+        const fontElements = editorCanvas.getElementsByTagName('font');
+        for (let el of fontElements) {
+          if (el.size === '7') {
+            el.removeAttribute('size');
+            el.style.fontSize = size;
+          }
+        }
+        editorCanvas.focus();
+      });
+
+      // Color pickers
+      document.getElementById('editor-text-color').addEventListener('input', (e) => {
+        document.execCommand('foreColor', false, e.target.value);
+      });
+
+      document.getElementById('editor-bg-color').addEventListener('input', (e) => {
+        document.execCommand('hiliteColor', false, e.target.value);
+      });
+
+      // Insert Link
+      document.getElementById('btn-insert-link').addEventListener('click', () => {
+        const url = prompt('Enter Destination Hyperlink URL:', 'https://');
+        if (url) {
+          document.execCommand('createLink', false, url);
+        }
+      });
+
+      // Insert Image
+      document.getElementById('btn-insert-image').addEventListener('click', () => {
+        const url = prompt('Enter Image URL:', 'https://images.unsplash.com/...');
+        if (url) {
+          document.execCommand('insertImage', false, url);
+        }
+      });
+
+      // Insert Table
+      document.getElementById('btn-insert-table').addEventListener('click', () => {
+        const tableHTML = `
+          <table>
+            <thead>
+              <tr><th>Header 1</th><th>Header 2</th><th>Header 3</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Data Cell 1</td><td>Data Cell 2</td><td>Data Cell 3</td></tr>
+              <tr><td>Data Cell 4</td><td>Data Cell 5</td><td>Data Cell 6</td></tr>
+            </tbody>
+          </table>
+          <p></p>
+        `;
+        document.execCommand('insertHTML', false, tableHTML);
+      });
+
+      // Insert HR
+      document.getElementById('btn-insert-hr').addEventListener('click', () => {
+        document.execCommand('insertHorizontalRule', false, null);
+      });
+
+      // Insert Blockquote
+      document.getElementById('btn-insert-quote').addEventListener('click', () => {
+        document.execCommand('formatBlock', false, 'blockquote');
+      });
+
+      // Insert Code Block
+      document.getElementById('btn-insert-code').addEventListener('click', () => {
+        const codeHTML = `<pre><code>// Type or paste your code snippet here...</code></pre><p></p>`;
+        document.execCommand('insertHTML', false, codeHTML);
+      });
+
+      // Fullscreen Toggle
+      document.getElementById('btn-fullscreen-toggle').addEventListener('click', () => {
+        editorContainer.classList.toggle('is-fullscreen');
+      });
+
+      // Live Preview Modal
+      const previewModal = document.getElementById('editor-preview-modal');
+      const previewBody = document.getElementById('editor-preview-body');
+      document.getElementById('btn-live-preview').addEventListener('click', () => {
+        previewBody.innerHTML = `
+          <h1 style="font-size: 32px; margin-bottom: 16px;">${titleInput.value || 'Untitled Article'}</h1>
+          <div style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">
+            Category: <strong>${catSelect.value}</strong> • Author: <strong>Ely</strong>
+          </div>
+          ${imageInput.value ? `<img src="${imageInput.value}" style="width: 100%; max-height: 380px; object-fit: cover; border-radius: 18px; margin-bottom: 28px;" />` : ''}
+          <div>${editorCanvas.innerHTML}</div>
+        `;
+        previewModal.classList.add('is-open');
+      });
+
+      document.getElementById('close-preview-btn').addEventListener('click', () => {
+        previewModal.classList.remove('is-open');
+      });
+
+      // Drag & Drop Image Handling
+      editorCanvas.addEventListener('dragover', (e) => e.preventDefault());
+      editorCanvas.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const files = e.dataTransfer.files;
+        if (files.length > 0 && files[0].type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            document.execCommand('insertImage', false, event.target.result);
+          };
+          reader.readAsDataURL(files[0]);
+        }
+      });
+
+      // Word & Character Counter
+      function updateEditorStats() {
+        const text = editorCanvas.innerText || '';
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        const chars = text.length;
+        wordCountEl.textContent = words;
+        charCountEl.textContent = chars;
+      }
+
+      editorCanvas.addEventListener('input', () => {
+        updateEditorStats();
+        autosaveStatusEl.textContent = 'Editing...';
+      });
+
+      // Auto-Save Draft Interval (every 15s)
+      setInterval(() => {
+        if (titleInput.value.trim() || editorCanvas.innerText.trim()) {
+          const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          autosaveStatusEl.textContent = `Draft Auto-Saved at ${now}`;
+        }
+      }, 15000);
+
+      // Handle Save & Publish
+      function handleSave(status) {
+        const title = titleInput.value.trim();
+        if (!title) { alert("Please enter article title"); return; }
+
+        const htmlContent = editorCanvas.innerHTML;
+        const plainText = editorCanvas.innerText.trim();
+        const textSummary = plainText.slice(0, 160).replace(/\n/g, ' ') + '...';
+
+        // Auto Calculate Read Time (approx 200 words per min)
+        const wordCount = plainText ? plainText.split(/\s+/).length : 0;
+        const calculatedReadTime = Math.max(1, Math.ceil(wordCount / 200)) + " min read";
+
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+        const postObj = {
+          id: currentPost ? currentPost.id : Date.now(),
+          title,
+          slug,
+          category: catSelect.value,
+          status, // 'Published' or 'Draft' or 'Archived'
+          date: status === 'Published' ? formattedDate : (currentPost && currentPost.date ? currentPost.date : formattedDate),
+          readTime: calculatedReadTime,
+          author: "Ely",
+          featured: currentPost ? currentPost.featured : false,
+          isLatest: status === 'Published',
+          coverImage: imageInput.value || "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=1000",
+          summary: textSummary,
+          toc: [{ id: "intro", text: "1. Overview" }],
+          content: htmlContent,
+          createdAt: currentPost && currentPost.createdAt ? currentPost.createdAt : now.toISOString(),
+          updatedAt: now.toISOString()
+        };
+
+        if (currentPost) {
+          const index = data.posts.findIndex(p => p.id === currentPost.id);
+          data.posts[index] = postObj;
+        } else {
+          data.posts.unshift(postObj);
+        }
+
+        saveBlogData(data);
+        alert(`Blog post saved as ${status}!`);
+        window.location.href = 'posts.html';
+      }
+
+      document.getElementById('blog-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleSave('Published');
+      });
+
+      document.getElementById('save-draft-btn').addEventListener('click', () => {
+        handleSave('Draft');
+      });
+    });
+  </script>
+</body>
+</html>

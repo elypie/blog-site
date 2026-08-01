@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ely's Blog - Personal Academic Blog</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Public Header Navigation -->
+  <header class="public-header">
+    <div class="container header-container">
+      <div class="logo-section">
+        <a href="index.html" class="brand-logo"><span class="logo-accent">EL</span> Journal</a>
+      </div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="blogs.html" class="nav-link">Blogs</a>
+        <a href="profile.html" class="nav-link">Profile</a>
+      </nav>
+      <div class="header-actions">
+        <button id="theme-toggle-btn" class="theme-btn" title="Toggle Dark/Light Mode">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Showcase Section -->
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div>
+            <span class="badge-category">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+              </svg>
+              Personal Academic Blog
+            </span>
+          </div>
+          <h1 class="hero-title">Hi, I'm <span class="logo-accent">EL</span></h1>
+          <p class="hero-subtitle">BS Information Technology</p>
+          <p class="hero-bio">
+            Discover my journey in web development, UI design, and cybersecurity as I share what I learn, build, and
+            explore in the world of technology.
+          </p>
+          <div class="hero-cta-wrap">
+            <a href="blogs.html" class="btn-primary">Explore All Blogs →</a>
+          </div>
+        </div>
+
+        <!-- Hero Graphic Showcase Frame -->
+        <div class="hero-visual-frame">
+          <div class="hero-showcase-box">
+            <!-- Top Left Floating Code Tag -->
+            <div class="hero-float-tag float-tag-top">
+              <code>// no comment</code>
+            </div>
+
+            <!-- Red Rounded Background Card with Translucent ERROR Overlay -->
+            <div class="hero-red-card">
+              <span class="hero-bg-watermark">ERROR</span>
+            </div>
+
+            <!-- Elyssa's Cutout Photo (Standing on top of red card!) -->
+            <img src="assets/images/ely-cutout.png" alt="Ma. Elyssa Beda D. Contreras" class="hero-cutout-photo" />
+
+            <!-- Bottom Right Floating Code Tag -->
+            <div class="hero-float-tag float-tag-bottom">
+              <code>&lt;/&gt;</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Blogs Section -->
+    <section style="padding: 40px 0 60px 0;">
+      <div class="container">
+        <h2 style="font-size: 28px; margin-bottom: 6px;">Featured Blogs</h2>
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 28px;">
+          A collection of educational articles and reflections written as part of my academic journey.
+        </p>
+
+        <div id="homepage-featured-posts-root">
+          <div style="padding: 60px 0; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; width: 100%;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--accent-coral)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            <p style="color: var(--text-muted); font-size: 15px; font-weight: 600; margin: 0; text-align: center;">
+              No featured posts available for now. Check back soon!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Blog Section -->
+    <section style="padding: 40px 0 60px 0;">
+      <div class="container">
+        <h2 style="font-size: 28px; margin-bottom: 6px;">Latest Blog</h2>
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 28px;">
+          Recently published articles from my learning journal.
+        </p>
+
+        <div id="homepage-latest-post-root"></div>
+      </div>
+      </div>
+    </section>
+
+    <!-- About the Author Section -->
+    <section style="padding: 40px 0 60px 0;">
+      <div class="container">
+        <h2 style="font-size: 28px; margin-bottom: 6px;">About the Author</h2>
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 28px;">
+          Get to know the creator behind EL Journal.
+        </p>
+
+        <div class="info-card" style="padding: 36px 40px;">
+          <div style="display: flex; align-items: center; gap: 32px; flex-wrap: wrap;">
+            <div
+              style="width: 110px; height: 110px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent-coral); flex-shrink: 0; box-shadow: var(--shadow-sm);">
+              <img src="assets/images/profile-pfp.jpg" alt="Ma. Elyssa Beda D. Contreras"
+                style="width: 100%; height: 100%; object-fit: cover;" />
+            </div>
+            <div style="flex: 1; min-width: 280px;">
+              <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 4px;">Ma. Elyssa Beda D. Contreras</h3>
+              <p style="color: var(--accent-coral); font-size: 14px; font-weight: 700; margin-bottom: 12px;">BSIT 3rd
+                Year Student • Father Saturnino Urios University</p>
+              <p
+                style="font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; text-align: justify;">
+                Hi! I'm a 3rd-year BSIT student at Father Saturnino Urios University who is passionate about designing
+                and developing websites. Alongside web development, I aim to expand my knowledge of cybersecurity to
+                better understand how to build secure and reliable applications.
+              </p>
+              <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                <a href="profile.html" class="btn-primary" style="font-size: 13px; padding: 10px 20px;">View Full
+                  Profile →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Public Footer -->
+  <footer class="public-footer">
+    <div class="container footer-content">
+      <div>
+        <h2 class="footer-logo"><span class="logo-accent">EL</span> Journal</h2>
+        <p class="footer-bio">Learn. Build. Share. Explore the world of technology.</p>
+      </div>
+      <div>
+        <h3 class="footer-heading">Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="blogs.html">Blog</a></li>
+          <li><a href="profile.html">Profile</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-heading">Connect</h3>
+        <div class="social-links">
+          <a href="https://facebook.com/elycontz" class="social-icon" target="_blank" title="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+            </svg>
+          </a>
+          <a href="https://github.com/elybuilds" class="social-icon" target="_blank" title="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+          </a>
+          <a href="https://instagram.com/_beymm" class="social-icon" target="_blank" title="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <hr class="footer-hr">
+      <p class="copyright-text">© 2026 Ely's Blog. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>
