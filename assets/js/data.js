@@ -147,13 +147,8 @@ const initialData = {
 
         <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--border-light);" />
 
-        <h2 id="references">References</h2>
-        <ul style="margin-left: 20px; line-height: 2;">
-          <li>Republic Act No. 10173 — Data Privacy Act of 2012 (Philippines)</li>
-          <li>OWASP Top 10 (2021)</li>
-          <li>OWASP Secure Design Principles</li>
-          <li>NIST Special Publication 800-53</li>
-        </ul>
+        <h2 id="references" style="margin-bottom: 8px;">References</h2>
+        <p class="references-text" style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin-top: 0;">Republic Act No. 10173 — Data Privacy Act of 2012 (Philippines), OWASP Top 10 (2021), OWASP Secure Design Principles, NIST Special Publication 800-53.</p>
       `
     }
   ]

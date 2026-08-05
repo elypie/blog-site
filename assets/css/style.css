@@ -1981,3 +1981,30 @@ svg {
     gap: 28px !important;
   }
 }
+
+/* Compact Technical References Section */
+#references, h2#references {
+  margin-top: 32px;
+  margin-bottom: 8px !important;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.references-text, #references + p {
+  font-size: 13.5px !important;
+  color: var(--text-muted) !important;
+  line-height: 1.65 !important;
+  margin-top: 0 !important;
+  margin-bottom: 24px !important;
+  text-align: left !important;
+}
+
+.references-text a, #references + p a {
+  color: var(--accent-coral) !important;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.references-text a:hover, #references + p a:hover {
+  text-decoration: underline;
+}
