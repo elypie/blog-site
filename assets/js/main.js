@@ -371,14 +371,16 @@ document.addEventListener('DOMContentLoaded', async () => {
               ${post.author || 'Ely'}
             </span>
           </div>
-             <!-- 2. Featured Image -->
-        <div class="article-cover-wrapper" style="height: 420px; border-radius: 16px; overflow: hidden; margin-bottom: 32px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="openLightbox('${post.coverImage}')">
+        </header>
+
+        <!-- 2. Featured Image -->
+        <div class="article-cover-wrapper" style="height: 440px; border-radius: 20px; overflow: hidden; margin-bottom: 36px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="openLightbox('${post.coverImage}')">
           <img src="${post.coverImage}" alt="${post.title}" class="article-cover-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
         </div>
 
         <!-- 3. On this page (Collapsible Accordion Card - Expanded by Default) -->
         ${tocGroups.length > 0 ? `
-          <div class="toc-card is-accordion expanded" id="main-toc-accordion" style="margin-bottom: 32px; width: 100%; padding: 20px 24px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 16px; box-shadow: var(--shadow-sm); transition: all 0.3s ease;">
+          <div class="toc-card is-accordion expanded" id="main-toc-accordion" style="margin-bottom: 32px; width: 100%; padding: 20px 24px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 20px; box-shadow: var(--shadow-sm); transition: all 0.3s ease;">
             <div class="toc-card-header" onclick="window.toggleMainTocAccordion()" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none;">
               <h3 class="toc-title" style="font-size: 16px; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 8px;">
                 <span>On this page</span>
@@ -403,7 +405,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         </main>
 
         <!-- 5. Share this Article -->
-        <div class="info-card" style="padding: 20px 24px; margin-bottom: 20px; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+        <div class="info-card" style="padding: 20px 24px; margin-bottom: 20px; background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
           <div>
             <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 2px;">Share this article</h4>
             <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Enjoyed reading? Share it with your friends and colleagues!</p>
@@ -415,7 +417,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
 
         <!-- 6. About the Author (Compact Card) -->
-        <div class="author-card" style="padding: 20px 24px; margin-bottom: 24px; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light);">
+        <div class="author-card" style="padding: 20px 24px; margin-bottom: 24px; background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-light);">
           <h3 class="author-card-heading" style="font-size: 15px; font-weight: 800; margin-bottom: 12px;">About the Author</h3>
           <div class="author-info-row" style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
             <img src="assets/images/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
@@ -430,13 +432,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         <!-- 7. Article Navigation (Prev/Next) -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-light);">
           ${prevPost ? `
-            <div class="info-card" style="padding: 16px 20px; border-radius: 16px; cursor: pointer;" onclick="window.location.href='blog-detail.html?id=${prevPost.id}'">
+            <div class="info-card" style="padding: 16px 20px; cursor: pointer;" onclick="window.location.href='blog-detail.html?id=${prevPost.id}'">
               <span style="font-size: 11px; color: var(--accent-coral); font-weight: 700;">← PREVIOUS ARTICLE</span>
               <h4 style="font-size: 14px; font-weight: 700; margin-top: 4px; color: var(--text-main); line-clamp: 2;">${prevPost.title}</h4>
             </div>
           ` : '<div></div>'}
           ${nextPost ? `
-            <div class="info-card" style="padding: 16px 20px; border-radius: 16px; cursor: pointer; text-align: right;" onclick="window.location.href='blog-detail.html?id=${nextPost.id}'">
+            <div class="info-card" style="padding: 16px 20px; cursor: pointer; text-align: right;" onclick="window.location.href='blog-detail.html?id=${nextPost.id}'">
               <span style="font-size: 11px; color: var(--accent-coral); font-weight: 700;">NEXT ARTICLE →</span>
               <h4 style="font-size: 14px; font-weight: 700; margin-top: 4px; color: var(--text-main); line-clamp: 2;">${nextPost.title}</h4>
             </div>
