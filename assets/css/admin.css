@@ -3,7 +3,21 @@
 .admin-body {
   display: flex;
   min-height: 100vh;
-  background-color: var(--bg-primary);
+  background-color: #121212 !important;
+  background-image: radial-gradient(circle at 50% 0%, #1A0D10 0%, #121212 65%) !important;
+  background-attachment: fixed !important;
+  color: #F3F4F6;
+}
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #121212 !important;
+  background-image: radial-gradient(circle at 50% 0%, #1A0D10 0%, #121212 65%) !important;
+  background-attachment: fixed !important;
+  padding: 24px;
 }
 
 .admin-sidebar {

@@ -2167,69 +2167,75 @@ svg {
 }
 
 /* ==========================================================================
-   Blog Detail Page - Minimal Deep Dark Red Subtle Radial Gradient
+   Global Dark Theme - Elegant Deep Dark Red Subtle Radial Gradient
    ========================================================================== */
 
-.blog-detail-page,
-body.blog-detail-page {
+body.dark-theme {
   background-color: #121212 !important;
   background-image: radial-gradient(circle at 50% 0%, #1A0D10 0%, #121212 65%) !important;
   background-attachment: fixed !important;
   color: #F3F4F6 !important;
 }
 
-.blog-detail-page .public-header {
+body.dark-theme .public-header {
   background-color: rgba(18, 18, 18, 0.92) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   border-bottom: 1px solid #2A2A36 !important;
 }
 
-.blog-detail-page .public-footer {
+body.dark-theme .public-footer {
   background-color: #121212 !important;
   border-top: 1px solid #2A2A36 !important;
 }
 
-.blog-detail-page #article-detail-root {
+body.dark-theme #article-detail-root {
   background: transparent !important;
 }
 
-/* Subtle Solid Dark Cards against Deep Gradient */
-.blog-detail-page .toc-card,
-.blog-detail-page .info-card,
-.blog-detail-page .author-card,
-.blog-detail-page .concluding-quote-card,
-.blog-detail-page .article-body blockquote,
-.blog-detail-page #main-article-content blockquote {
+/* Solid Cards & Callouts Across All Pages in Dark Mode */
+body.dark-theme .blog-card,
+body.dark-theme .featured-blog-card,
+body.dark-theme .info-card,
+body.dark-theme .toc-card,
+body.dark-theme .author-card,
+body.dark-theme .profile-card,
+body.dark-theme .metric-card,
+body.dark-theme .concluding-quote-card,
+body.dark-theme .article-body blockquote,
+body.dark-theme #main-article-content blockquote {
   background-color: #1C1C24 !important;
   border: 1px solid #2A2A36 !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
 }
 
-.blog-detail-page .concluding-quote-card {
+body.dark-theme .concluding-quote-card {
   border-left: 1px solid #2A2A36 !important;
 }
 
-.blog-detail-page .article-body blockquote,
-.blog-detail-page #main-article-content blockquote {
+body.dark-theme .article-body blockquote,
+body.dark-theme #main-article-content blockquote {
   border-left: 4px solid var(--accent-coral) !important;
 }
 
-.blog-detail-page .article-title,
-.blog-detail-page .article-body h2,
-.blog-detail-page .article-body h3,
-.blog-detail-page .article-body h4,
-.blog-detail-page .article-body p,
-.blog-detail-page .toc-link,
-.blog-detail-page .author-name,
-.blog-detail-page .concluding-quote-text {
+body.dark-theme .article-title,
+body.dark-theme .article-body h2,
+body.dark-theme .article-body h3,
+body.dark-theme .article-body h4,
+body.dark-theme .article-body p,
+body.dark-theme .toc-link,
+body.dark-theme .author-name,
+body.dark-theme .concluding-quote-text,
+body.dark-theme .card-title,
+body.dark-theme .section-title {
   color: #F3F4F6 !important;
 }
 
-.blog-detail-page .article-subtitle,
-.blog-detail-page .article-meta-row,
-.blog-detail-page .author-role,
-.blog-detail-page .author-bio,
-.blog-detail-page .toc-link.child-link {
+body.dark-theme .article-subtitle,
+body.dark-theme .article-meta-row,
+body.dark-theme .author-role,
+body.dark-theme .author-bio,
+body.dark-theme .toc-link.child-link,
+body.dark-theme .card-summary {
   color: #9CA3AF !important;
 }
