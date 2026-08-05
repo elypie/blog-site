@@ -343,11 +343,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tocHTML = generateTocHTML(tocGroups);
 
     articleDetailRoot.innerHTML = `
-      <div class="container fade-in-up">
+      <div class="article-reader-container fade-in-up">
         <button class="back-link-btn" onclick="window.location.href='blogs.html'">
           ← Back to Blogs
         </button>
 
+        <!-- 1. Article Header -->
         <header class="article-header" style="margin-bottom: 32px;">
           <div class="category-badge-wrap" style="margin-bottom: 14px;">
             <span class="badge-category-subtle" style="padding: 5px 14px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 12px; font-size: 13px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${post.category}</span>
@@ -372,120 +373,68 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
         </header>
 
-        <div class="article-content-grid" style="display: grid; grid-template-columns: 1fr 340px; gap: 48px; align-items: start;">
-          <!-- Left Main Column (Featured Image + Article Body) -->
-          <main class="article-main-column" style="min-width: 0;">
-            <div class="article-cover-wrapper" style="height: 440px; border-radius: 20px; overflow: hidden; margin-bottom: 32px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="openLightbox('${post.coverImage}')">
-              <img src="${post.coverImage}" alt="${post.title}" class="article-cover-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
+        <!-- 2. Featured Image -->
+        <div class="article-cover-wrapper" style="height: 440px; border-radius: 20px; overflow: hidden; margin-bottom: 36px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="openLightbox('${post.coverImage}')">
+          <img src="${post.coverImage}" alt="${post.title}" class="article-cover-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
+        </div>
+
+        <!-- 3. On this page (Table of Contents Full-Width Card) -->
+        ${tocGroups.length > 0 ? `
+          <div class="toc-card" style="margin-bottom: 36px; width: 100%; padding: 24px 28px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 20px; box-shadow: var(--shadow-sm);">
+            <h3 class="toc-title" style="font-size: 16px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between;">
+              <span>On this page</span>
+              <span style="font-size: 12px; color: var(--accent-coral); font-weight: 700;">Outline</span>
+            </h3>
+            <ul class="toc-list">
+              ${tocHTML}
+            </ul>
+          </div>
+        ` : ''}
+
+        <!-- 4. Blog Article Content -->
+        <main class="article-body" id="main-article-content" style="text-align: justify; margin-bottom: 40px;">
+          ${post.content}
+        </main>
+
+        <!-- 5. Share this Article -->
+        <div class="info-card" style="padding: 24px 28px; margin-bottom: 24px; background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
+          <div>
+            <h4 style="font-size: 16px; font-weight: 800; margin-bottom: 4px;">Share this article</h4>
+            <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Enjoyed reading? Share it with your friends and colleagues!</p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <button class="social-share-btn" onclick="window.open('https://facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href), '_blank')" title="Share on Facebook">f</button>
+            <button class="social-share-btn" onclick="navigator.clipboard.writeText(location.href); alert('Article link copied to clipboard!');" title="Copy Link">🔗</button>
+          </div>
+        </div>
+
+        <!-- 6. About the Author -->
+        <div class="author-card" style="padding: 24px 28px; margin-bottom: 40px; background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-light);">
+          <h3 class="author-card-heading" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">About the Author</h3>
+          <div class="author-info-row" style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+            <img src="assets/images/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
+            <div class="author-details">
+              <h4 class="author-name" style="font-size: 17px; font-weight: 800; margin: 0;">EL</h4>
+              <p class="author-role" style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">IT Student</p>
             </div>
+          </div>
+          <p class="author-bio" style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin: 0;">Passionate about technology, learning, and sharing insights through educational writing.</p>
+        </div>
 
-            <!-- Mobile Table of Contents (Starts after featured image on mobile) -->
-            ${tocGroups.length > 0 ? `
-              <details class="mobile-toc-details mobile-only-block" style="margin-bottom: 28px;">
-                <summary>
-                  <span>On this page</span>
-                  <span style="font-size: 13px; color: var(--accent-coral); font-weight: 700;">Tap to view outline ▾</span>
-                </summary>
-                <ul class="toc-list">
-                  ${tocHTML}
-                </ul>
-              </details>
-            ` : ''}
-
-            <!-- Main Article Content Body -->
-            <div class="article-body" id="main-article-content" style="text-align: justify;">
-              ${post.content}
+        <!-- 7. Article Navigation (Prev/Next) -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 24px; padding-top: 28px; border-top: 1px solid var(--border-light);">
+          ${prevPost ? `
+            <div class="info-card" style="padding: 20px; cursor: pointer;" onclick="window.location.href='blog-detail.html?id=${prevPost.id}'">
+              <span style="font-size: 12px; color: var(--accent-coral); font-weight: 700;">← PREVIOUS ARTICLE</span>
+              <h4 style="font-size: 15px; font-weight: 700; margin-top: 6px; color: var(--text-main); line-clamp: 2;">${prevPost.title}</h4>
             </div>
-
-            <!-- Mobile Share this article -->
-            <div class="info-card mobile-only-block" style="padding: 24px; margin-top: 36px; margin-bottom: 24px; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light);">
-              <h4 style="font-size: 16px; font-weight: 800; margin-bottom: 4px;">Share this article</h4>
-              <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Enjoyed reading? Share it with your friends and colleagues!</p>
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <button class="social-share-btn" onclick="window.open('https://facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href), '_blank')" title="Share on Facebook">f</button>
-                <button class="social-share-btn" onclick="navigator.clipboard.writeText(location.href); alert('Article link copied to clipboard!');" title="Copy Link">🔗</button>
-              </div>
+          ` : '<div></div>'}
+          ${nextPost ? `
+            <div class="info-card" style="padding: 20px; cursor: pointer; text-align: right;" onclick="window.location.href='blog-detail.html?id=${nextPost.id}'">
+              <span style="font-size: 12px; color: var(--accent-coral); font-weight: 700;">NEXT ARTICLE →</span>
+              <h4 style="font-size: 15px; font-weight: 700; margin-top: 6px; color: var(--text-main); line-clamp: 2;">${nextPost.title}</h4>
             </div>
-
-            <!-- Mobile About the Author -->
-            <div class="author-card mobile-only-block" style="margin-bottom: 36px;">
-              <h3 class="author-card-heading" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">About the Author</h3>
-              <div class="author-info-row" style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
-                <img src="assets/images/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
-                <div class="author-details">
-                  <h4 class="author-name" style="font-size: 16px; font-weight: 800; margin: 0;">EL</h4>
-                  <p class="author-role" style="font-size: 12px; color: var(--text-muted); margin: 0;">IT Student</p>
-                </div>
-              </div>
-              <p class="author-bio" style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">Passionate about technology, learning, and sharing insights through educational writing.</p>
-            </div>
-
-            <!-- Article Navigation (Prev/Next) -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border-light);">
-              ${prevPost ? `
-                <div class="info-card" style="padding: 20px; cursor: pointer;" onclick="window.location.href='blog-detail.html?id=${prevPost.id}'">
-                  <span style="font-size: 12px; color: var(--accent-coral); font-weight: 700;">← PREVIOUS ARTICLE</span>
-                  <h4 style="font-size: 15px; font-weight: 700; margin-top: 6px; color: var(--text-main); line-clamp: 2;">${prevPost.title}</h4>
-                </div>
-              ` : '<div></div>'}
-              ${nextPost ? `
-                <div class="info-card" style="padding: 20px; cursor: pointer; text-align: right;" onclick="window.location.href='blog-detail.html?id=${nextPost.id}'">
-                  <span style="font-size: 12px; color: var(--accent-coral); font-weight: 700;">NEXT ARTICLE →</span>
-                  <h4 style="font-size: 15px; font-weight: 700; margin-top: 6px; color: var(--text-main); line-clamp: 2;">${nextPost.title}</h4>
-                </div>
-              ` : '<div></div>'}
-            </div>
-          </main>
-
-          <!-- Desktop Sidebar Column (Starts at top edge of Featured Image!) -->
-          <aside class="article-sidebar desktop-sidebar-only">
-            <div class="sticky-sidebar-content" style="position: sticky; top: 90px; display: flex; flex-direction: column; gap: 24px;">
-              <!-- 1. On this page (Table of Contents) -->
-              ${tocGroups.length > 0 ? `
-                <div class="toc-card">
-                  <h3 class="toc-title">
-                    <span>On this page</span>
-                  </h3>
-                  <ul class="toc-list">
-                    ${tocHTML}
-                  </ul>
-                </div>
-              ` : ''}
-
-              <!-- 2. Share this article -->
-              <div class="info-card" style="padding: 24px; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light);">
-                <h4 style="font-size: 16px; font-weight: 800; margin-bottom: 6px;">Share this article</h4>
-                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Enjoyed reading? Share it with your friends and colleagues!</p>
-                <div style="display: flex; align-items: center; gap: 12px;">
-                  <button class="social-share-btn" onclick="window.open('https://facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href), '_blank')" title="Share on Facebook">f</button>
-                  <button class="social-share-btn" onclick="navigator.clipboard.writeText(location.href); alert('Article link copied to clipboard!');" title="Copy Link">🔗</button>
-                </div>
-              </div>
-
-              <!-- 3. About the Author -->
-              <div class="author-card">
-                <h3 class="author-card-heading" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">About the Author</h3>
-                <div class="author-info-row" style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
-                  <img src="assets/images/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
-                  <div class="author-details">
-                    <h4 class="author-name" style="font-size: 16px; font-weight: 800; margin: 0;">EL</h4>
-                    <p class="author-role" style="font-size: 12px; color: var(--text-muted); margin: 0;">IT Student</p>
-                  </div>
-                </div>
-                <p class="author-bio" style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">Passionate about technology, learning, and sharing insights through educational writing.</p>
-              </div>
-
-              <!-- 4. Related Posts -->
-              ${relatedPosts.length > 0 ? `
-                <div class="info-card" style="padding: 24px;">
-                  <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">Related Posts</h3>
-                  <div style="display: flex; flex-direction: column; gap: 14px;">
-                    ${relatedHTML}
-                  </div>
-                </div>
-              ` : ''}
-            </div>
-          </aside>
+          ` : '<div></div>'}
         </div>
       </div>
     `;
