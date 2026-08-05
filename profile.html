@@ -236,14 +236,17 @@
       if (data && data.author) {
         const author = data.author;
 
-        // Populate Images
-        if (author.coverUrl) {
-          const coverImg = document.getElementById('profile-cover-img');
-          if (coverImg) coverImg.src = author.coverUrl;
+        // Populate Images with Fallbacks
+        const coverImg = document.getElementById('profile-cover-img');
+        if (coverImg) {
+          coverImg.src = (author.coverUrl && !author.coverUrl.includes('unsplash.com')) ? author.coverUrl : 'assets/images/profile-cover.png';
+          coverImg.onerror = function() { this.src = 'assets/images/profile-cover.png'; };
         }
-        if (author.avatarUrl) {
-          const avatarImg = document.getElementById('profile-avatar-img');
-          if (avatarImg) avatarImg.src = author.avatarUrl;
+
+        const avatarImg = document.getElementById('profile-avatar-img');
+        if (avatarImg) {
+          avatarImg.src = (author.avatarUrl && !author.avatarUrl.includes('unsplash.com')) ? author.avatarUrl : 'assets/images/profile-pfp.jpg';
+          avatarImg.onerror = function() { this.src = 'assets/images/profile-pfp.jpg'; };
         }
 
         // Populate Main Identity

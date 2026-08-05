@@ -218,8 +218,8 @@
       facebookInput.value = author.facebook || 'https://facebook.com/elycontz';
       githubInput.value = author.github || 'https://github.com/elypie';
       instagramInput.value = author.instagram || 'https://instagram.com/_beymm';
-      avatarInput.value = author.avatarUrl || 'assets/images/profile-pfp.jpg';
-      coverInput.value = author.coverUrl || 'assets/images/profile-cover.png';
+      avatarInput.value = (author.avatarUrl && !author.avatarUrl.includes('unsplash.com')) ? author.avatarUrl : 'assets/images/profile-pfp.jpg';
+      coverInput.value = (author.coverUrl && !author.coverUrl.includes('unsplash.com')) ? author.coverUrl : 'assets/images/profile-cover.png';
 
       document.getElementById('profile-info-form').addEventListener('submit', (e) => {
         e.preventDefault();
