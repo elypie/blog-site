@@ -2073,8 +2073,9 @@ svg {
 .article-body blockquote,
 #main-article-content blockquote {
   padding: 16px 22px !important;
+  border: 1px solid var(--border-light) !important;
   border-left: 4px solid var(--accent-coral) !important;
-  background: rgba(165, 21, 12, 0.04) !important;
+  background: var(--bg-card) !important;
   margin: 18px 0 24px 0 !important;
   border-radius: 0 12px 12px 0 !important;
   font-size: 15px !important;
@@ -2109,22 +2110,22 @@ svg {
   }
 }
 
-/* Single Clean Pull Quote Card (Medium / Stripe / Apple Editorial Style) */
+/* Single Clean Pull Quote Card */
 .concluding-quote-card {
-  margin: 48px 0 !important;
-  padding: 40px 48px !important;
-  background: rgba(165, 21, 12, 0.03) !important;
-  border: 1px solid rgba(165, 21, 12, 0.15) !important;
+  margin: 44px 0 !important;
+  padding: 38px 44px !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-light) !important;
   border-radius: 20px !important;
   text-align: center !important;
-  box-shadow: 0 4px 20px rgba(165, 21, 12, 0.04) !important;
+  box-shadow: var(--shadow-sm) !important;
   position: relative !important;
   transition: all var(--transition-normal);
 }
 
 .concluding-quote-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(165, 21, 12, 0.08) !important;
+  box-shadow: var(--shadow-md) !important;
   border-color: rgba(165, 21, 12, 0.25) !important;
 }
 
@@ -2138,15 +2139,14 @@ svg {
   width: 22px !important;
   height: 22px !important;
   fill: var(--accent-coral) !important;
-  opacity: 0.65 !important;
+  opacity: 0.75 !important;
 }
 
 .concluding-quote-text {
   font-family: 'Playfair Display', 'Lora', serif !important;
-  font-size: 1.6rem !important; /* ~25px */
+  font-size: 1.55rem !important; /* ~25px */
   font-weight: 700 !important;
-  font-style: italic !important;
-  color: var(--accent-coral) !important;
+  color: var(--text-main) !important;
   line-height: 1.45 !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -2157,11 +2157,11 @@ svg {
 
 @media (max-width: 768px) {
   .concluding-quote-card {
-    padding: 28px 20px !important;
-    margin: 36px 0 !important;
+    padding: 26px 20px !important;
+    margin: 32px 0 !important;
   }
   .concluding-quote-text {
-    font-size: 1.25rem !important; /* ~20px */
+    font-size: 1.2rem !important; /* ~19px */
     line-height: 1.4 !important;
   }
 }

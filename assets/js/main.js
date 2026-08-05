@@ -351,7 +351,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <!-- 1. Article Header -->
         <header class="article-header" style="margin-bottom: 32px;">
           <div class="category-badge-wrap" style="margin-bottom: 14px;">
-            <span class="badge-category-subtle" style="padding: 5px 14px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 12px; font-size: 13px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${post.category}</span>
+            <span class="badge-category-subtle" style="padding: 5px 14px; background: var(--bg-card); color: var(--accent-coral); border-radius: 12px; font-size: 13px; font-weight: 700; border: 1px solid var(--border-light);">${post.category}</span>
           </div>
           <h1 class="article-title" style="font-size: 40px; font-weight: 800; margin-bottom: 12px; font-family: 'Playfair Display', serif; line-height: 1.25;">${post.title}</h1>
           <p class="article-subtitle" style="font-size: 16px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">${post.summary}</p>
@@ -385,7 +385,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               <h3 class="toc-title" style="font-size: 16px; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 8px;">
                 <span>On this page</span>
               </h3>
-              <button type="button" class="toc-accordion-btn" aria-label="Toggle Outline" style="background: rgba(165, 21, 12, 0.08); border: none; padding: 4px; cursor: pointer; color: var(--accent-coral); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; transition: transform 0.3s ease, background 0.2s ease;">
+              <button type="button" class="toc-accordion-btn" aria-label="Toggle Outline" style="background: transparent; border: none; padding: 4px; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; transition: transform 0.3s ease;">
                 <svg id="main-toc-chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
