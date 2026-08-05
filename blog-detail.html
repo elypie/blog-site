@@ -175,6 +175,42 @@
       border-bottom: 1px solid var(--border-light);
     }
 
+    /* Floating Back to Top Button */
+    .back-to-top-btn {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--accent-coral);
+      color: #FFFFFF;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(165, 21, 12, 0.35);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(16px);
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.2s ease, box-shadow 0.2s ease;
+      z-index: 9999;
+    }
+    .back-to-top-btn.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .back-to-top-btn:hover {
+      background: var(--accent-coral-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(165, 21, 12, 0.45);
+    }
+    .back-to-top-btn:active {
+      transform: translateY(0);
+    }
+
     .author-info-row { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
     .author-avatar-circle { width: 48px; height: 48px; border-radius: 50%; background: #FDE8E3; color: var(--accent-coral); font-weight: 800; display: flex; align-items: center; justify-content: center; }
     .author-name { font-size: 16px; font-weight: 800; }
@@ -183,6 +219,12 @@
 
     @media (max-width: 900px) {
       .article-content-grid { grid-template-columns: 1fr; }
+      .back-to-top-btn {
+        bottom: 24px;
+        right: 24px;
+        width: 44px;
+        height: 44px;
+      }
     }
   </style>
 </head>
@@ -205,6 +247,13 @@
   </header>
 
   <main id="article-detail-root" style="padding: 40px 0 80px 0;"></main>
+
+  <!-- Floating Back to Top Button -->
+  <button id="back-to-top-btn" class="back-to-top-btn" aria-label="Back to top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
 
   <!-- Image Lightbox Modal -->
   <div id="image-lightbox-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center; cursor: zoom-out;" onclick="this.style.display='none'">

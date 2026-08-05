@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
   }
 
-  // --- Scroll Reveal Animations ---
+  // --- Scroll Reveal Animations & Back to Top Observer ---
   function initScrollObserver() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -550,4 +550,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   initScrollObserver();
+
+  // Floating Back to Top Button Scroll Listener
+  const backToTopBtn = document.getElementById('back-to-top-btn');
+  if (backToTopBtn) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add('is-visible');
+      } else {
+        backToTopBtn.classList.remove('is-visible');
+      }
+    }, { passive: true });
+  }
 });
