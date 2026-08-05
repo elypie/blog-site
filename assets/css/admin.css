@@ -26,9 +26,13 @@
   border-right: 1px solid var(--border-light);
   display: flex;
   flex-direction: column;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  bottom: 0;
   height: 100vh;
+  z-index: 1000;
+  overflow-y: auto;
   transition: background-color var(--transition-normal), border-color var(--transition-normal);
 }
 
@@ -87,6 +91,7 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+  margin-left: 250px;
 }
 
 .admin-topbar {
