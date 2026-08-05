@@ -372,27 +372,43 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
         </header>
 
-        <div class="article-cover-wrapper" style="height: 460px; border-radius: 20px; overflow: hidden; margin-bottom: 32px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="openLightbox('${post.coverImage}')">
-          <img src="${post.coverImage}" alt="${post.title}" class="article-cover-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
-        </div>
+        <div class="article-content-grid" style="display: grid; grid-template-columns: 1fr 340px; gap: 48px; align-items: start;">
+          <!-- Left Main Column (Featured Image + Article Body) -->
+          <main class="article-main-column" style="min-width: 0;">
+            <div class="article-cover-wrapper" style="height: 440px; border-radius: 20px; overflow: hidden; margin-bottom: 32px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="openLightbox('${post.coverImage}')">
+              <img src="${post.coverImage}" alt="${post.title}" class="article-cover-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
+            </div>
 
-        ${tocGroups.length > 0 ? `
-          <details class="mobile-toc-details mobile-toc-only">
-            <summary>
-              <span>On this page</span>
-              <span style="font-size: 13px; color: var(--accent-coral); font-weight: 700;">Tap to view outline ▾</span>
-            </summary>
-            <ul class="toc-list">
-              ${tocHTML}
-            </ul>
-          </details>
-        ` : ''}
+            <!-- Mobile Table of Contents (Starts after featured image on mobile) -->
+            ${tocGroups.length > 0 ? `
+              <details class="mobile-toc-details mobile-only-block" style="margin-bottom: 28px;">
+                <summary>
+                  <span>On this page</span>
+                  <span style="font-size: 13px; color: var(--accent-coral); font-weight: 700;">Tap to view outline ▾</span>
+                </summary>
+                <ul class="toc-list">
+                  ${tocHTML}
+                </ul>
+              </details>
+            ` : ''}
 
-        <div class="article-content-grid" style="display: grid; grid-template-columns: 1fr 340px; gap: 48px;">
-          <main class="article-body" id="main-article-content" style="text-align: justify;">
-            ${post.content}
+            <!-- Main Article Content Body -->
+            <div class="article-body" id="main-article-content" style="text-align: justify;">
+              ${post.content}
+            </div>
 
-            <div class="author-card mobile-author-only" style="margin-top: 36px; margin-bottom: 24px;">
+            <!-- Mobile Share this article -->
+            <div class="info-card mobile-only-block" style="padding: 24px; margin-top: 36px; margin-bottom: 24px; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light);">
+              <h4 style="font-size: 16px; font-weight: 800; margin-bottom: 4px;">Share this article</h4>
+              <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Enjoyed reading? Share it with your friends and colleagues!</p>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="social-share-btn" onclick="window.open('https://facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href), '_blank')" title="Share on Facebook">f</button>
+                <button class="social-share-btn" onclick="navigator.clipboard.writeText(location.href); alert('Article link copied to clipboard!');" title="Copy Link">🔗</button>
+              </div>
+            </div>
+
+            <!-- Mobile About the Author -->
+            <div class="author-card mobile-only-block" style="margin-bottom: 36px;">
               <h3 class="author-card-heading" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">About the Author</h3>
               <div class="author-info-row" style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
                 <img src="assets/images/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
@@ -404,20 +420,8 @@ document.addEventListener('DOMContentLoaded', async () => {
               <p class="author-bio" style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">Passionate about technology, learning, and sharing insights through educational writing.</p>
             </div>
 
-            <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--border-light);" />
-
-            <div class="info-card" style="padding: 24px 28px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light);">
-              <div>
-                <h4 style="font-size: 16px; font-weight: 800; margin-bottom: 4px;">Share this article</h4>
-                <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Enjoyed reading? Share it with your friends and colleagues!</p>
-              </div>
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <button class="social-share-btn" onclick="window.open('https://facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href), '_blank')" title="Share on Facebook">f</button>
-                <button class="social-share-btn" onclick="navigator.clipboard.writeText(location.href); alert('Article link copied to clipboard!');" title="Copy Link">🔗</button>
-              </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <!-- Article Navigation (Prev/Next) -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border-light);">
               ${prevPost ? `
                 <div class="info-card" style="padding: 20px; cursor: pointer;" onclick="window.location.href='blog-detail.html?id=${prevPost.id}'">
                   <span style="font-size: 12px; color: var(--accent-coral); font-weight: 700;">← PREVIOUS ARTICLE</span>
@@ -433,8 +437,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
           </main>
 
+          <!-- Desktop Sidebar Column (Starts at top edge of Featured Image!) -->
           <aside class="article-sidebar desktop-sidebar-only">
-            <div class="sticky-sidebar-content" style="position: sticky; top: 100px; display: flex; flex-direction: column; gap: 24px;">
+            <div class="sticky-sidebar-content" style="position: sticky; top: 90px; display: flex; flex-direction: column; gap: 24px;">
+              <!-- 1. On this page (Table of Contents) -->
               ${tocGroups.length > 0 ? `
                 <div class="toc-card">
                   <h3 class="toc-title">
@@ -446,6 +452,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
               ` : ''}
 
+              <!-- 2. Share this article -->
+              <div class="info-card" style="padding: 24px; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-light);">
+                <h4 style="font-size: 16px; font-weight: 800; margin-bottom: 6px;">Share this article</h4>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Enjoyed reading? Share it with your friends and colleagues!</p>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <button class="social-share-btn" onclick="window.open('https://facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href), '_blank')" title="Share on Facebook">f</button>
+                  <button class="social-share-btn" onclick="navigator.clipboard.writeText(location.href); alert('Article link copied to clipboard!');" title="Copy Link">🔗</button>
+                </div>
+              </div>
+
+              <!-- 3. About the Author -->
               <div class="author-card">
                 <h3 class="author-card-heading" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">About the Author</h3>
                 <div class="author-info-row" style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
@@ -458,6 +475,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <p class="author-bio" style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">Passionate about technology, learning, and sharing insights through educational writing.</p>
               </div>
 
+              <!-- 4. Related Posts -->
               ${relatedPosts.length > 0 ? `
                 <div class="info-card" style="padding: 24px;">
                   <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">Related Posts</h3>

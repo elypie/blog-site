@@ -217,8 +217,14 @@
     .author-role { font-size: 12px; color: var(--text-muted); }
     .author-bio { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
 
+    .mobile-only-block {
+      display: none;
+    }
+
     @media (max-width: 900px) {
-      .article-content-grid { grid-template-columns: 1fr; }
+      .article-content-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+      .desktop-sidebar-only { display: none !important; }
+      .mobile-only-block { display: block !important; }
       .back-to-top-btn {
         bottom: 24px;
         right: 24px;
