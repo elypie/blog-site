@@ -165,8 +165,23 @@ function getBlogData() {
   if (saved) {
     try { 
       const parsed = JSON.parse(saved);
-      // Ensure categories exist but allow empty posts array
       if (!parsed.posts) parsed.posts = [];
+      
+      // Auto-sync initial posts if updated in initialData
+      if (initialData && initialData.posts) {
+        initialData.posts.forEach(initPost => {
+          const idx = parsed.posts.findIndex(p => p.id === initPost.id);
+          if (idx !== -1) {
+            if (parsed.posts[idx].title !== initPost.title) {
+              parsed.posts[idx] = { ...parsed.posts[idx], ...initPost };
+            }
+          } else {
+            parsed.posts.push(initPost);
+          }
+        });
+      }
+      
+      localStorage.setItem('elys_blog_data', JSON.stringify(parsed));
       return parsed;
     } catch(e) {}
   }
@@ -178,5 +193,5 @@ function saveBlogData(data) {
   localStorage.setItem('elys_blog_data', JSON.stringify(data));
 }
 
-// Auto-reset helper for clean slate
-localStorage.setItem('elys_blog_data', JSON.stringify(initialData));
+// Ensure default initialData is synced to localStorage on script load
+getBlogData();
