@@ -167,7 +167,9 @@
         const username = usernameInput.value.trim();
         const password = passwordInput.value.trim();
 
-        // Attempt Supabase Email Authentication if input looks like an email or if Supabase is connected
+        let supabaseAuthError = null;
+
+        // Attempt Supabase Email Authentication if Supabase is configured
         if (typeof signInAdminWithSupabase === 'function' && isSupabaseConfigured()) {
           try {
             const email = username.includes('@') ? username : 'ely.admin@elysblog.com';
@@ -177,18 +179,26 @@
             window.location.href = 'dashboard.html';
             return;
           } catch(err) {
-            console.warn('Supabase Auth attempt failed, trying fallback authentication:', err);
+            console.warn('Supabase Auth attempt failed:', err);
+            supabaseAuthError = err.message || 'Invalid credentials in Supabase';
           }
         }
 
         // Fallback local authentication
-        if ((username.toLowerCase() === 'admin' || username.toLowerCase() === 'ely') && (password === 'admin123' || password === 'admin' || password === 'ely123')) {
+        const isKnownUser = ['admin', 'ely', 'ely.admin@elysblog.com'].includes(username.toLowerCase());
+        const isKnownPass = ['admin123', 'admin', 'ely123'].includes(password);
+
+        if (isKnownUser && isKnownPass) {
           localStorage.setItem('elys_admin_logged_in', 'true');
           localStorage.setItem('elys_admin_user', username);
           window.location.href = 'dashboard.html';
         } else {
           errorBanner.style.display = 'block';
-          errorBanner.textContent = 'Invalid credentials. Please verify your login details and try again.';
+          if (supabaseAuthError) {
+            errorBanner.textContent = `Supabase Error: ${supabaseAuthError}. If using local fallback, try username 'admin' and password 'admin123'.`;
+          } else {
+            errorBanner.textContent = 'Invalid credentials. Check your password or try username "admin" with password "admin123".';
+          }
         }
       });
     });
