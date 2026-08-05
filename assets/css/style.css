@@ -2167,27 +2167,34 @@ svg {
 }
 
 /* ==========================================================================
-   Blog Detail Page - Uniform Solid Dark Background (#121212)
+   Blog Detail Page - Minimal Deep Dark Red Subtle Radial Gradient
    ========================================================================== */
 
 .blog-detail-page,
 body.blog-detail-page {
   background-color: #121212 !important;
-  background-image: none !important;
+  background-image: radial-gradient(circle at 50% 0%, #1A0D10 0%, #121212 65%) !important;
+  background-attachment: fixed !important;
   color: #F3F4F6 !important;
 }
 
-.blog-detail-page .public-header,
-.blog-detail-page .public-footer,
-.blog-detail-page #article-detail-root {
-  background-color: #121212 !important;
-  background-image: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border-color: #2A2A36 !important;
+.blog-detail-page .public-header {
+  background-color: rgba(18, 18, 18, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid #2A2A36 !important;
 }
 
-/* Solid Cards & Callouts - No Gradients or Overlays */
+.blog-detail-page .public-footer {
+  background-color: #121212 !important;
+  border-top: 1px solid #2A2A36 !important;
+}
+
+.blog-detail-page #article-detail-root {
+  background: transparent !important;
+}
+
+/* Subtle Solid Dark Cards against Deep Gradient */
 .blog-detail-page .toc-card,
 .blog-detail-page .info-card,
 .blog-detail-page .author-card,
@@ -2195,9 +2202,8 @@ body.blog-detail-page {
 .blog-detail-page .article-body blockquote,
 .blog-detail-page #main-article-content blockquote {
   background-color: #1C1C24 !important;
-  background-image: none !important;
   border: 1px solid #2A2A36 !important;
-  box-shadow: none !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
 }
 
 .blog-detail-page .concluding-quote-card {
