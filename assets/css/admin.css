@@ -3,10 +3,9 @@
 .admin-body {
   display: flex;
   min-height: 100vh;
-  background-color: #121212 !important;
-  background-image: radial-gradient(circle at 50% 0%, rgba(165, 21, 12, 0.20) 0%, #121212 70%) !important;
-  background-attachment: fixed !important;
-  color: #F3F4F6;
+  background-color: #F8F9FA;
+  color: var(--text-main);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
 .login-container {
@@ -14,10 +13,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #F8F9FA;
+  padding: 24px;
+}
+
+/* Dark Mode Overrides for Admin Body & Login */
+body.dark-theme.admin-body,
+body.dark-theme .login-container {
   background-color: #121212 !important;
   background-image: radial-gradient(circle at 50% 0%, rgba(165, 21, 12, 0.20) 0%, #121212 70%) !important;
   background-attachment: fixed !important;
-  padding: 24px;
+  color: #F3F4F6 !important;
 }
 
 .admin-sidebar {
@@ -646,50 +652,67 @@ body.admin-body.dark-theme .media-card {
   border-color: rgba(255, 255, 255, 0.08);
 }
 
-/* Admin Dark Theme Rich Gradients */
-body.admin-body.dark-theme {
-  background: 
-    radial-gradient(circle at 90% 10%, rgba(165, 21, 12, 0.24) 0%, transparent 42%),
-    radial-gradient(circle at 10% 90%, rgba(165, 21, 12, 0.15) 0%, transparent 48%),
-    linear-gradient(135deg, #0B0A0E 0%, #14121B 50%, #1D131A 100%) fixed !important;
-  color: #FFFFFF !important;
+/* Admin Dark Theme Component Overrides */
+body.dark-theme .admin-sidebar,
+body.dark-theme .admin-topbar,
+body.dark-theme .editor-toolbar,
+body.dark-theme .editor-statusbar {
+  background-color: #1C1C24 !important;
+  background-image: none !important;
+  border-color: #2A2A36 !important;
+  color: #F3F4F6 !important;
 }
 
-body.admin-body.dark-theme .admin-sidebar {
-  background: linear-gradient(180deg, #16141F 0%, #0F0E14 100%) !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+body.dark-theme .admin-card,
+body.dark-theme .stat-card,
+body.dark-theme .metric-card,
+body.dark-theme .admin-table-container,
+body.dark-theme .wysiwyg-wrapper,
+body.dark-theme .admin-content-body form > div,
+body.dark-theme .admin-content-body > div > div {
+  background-color: #1C1C24 !important;
+  background-image: none !important;
+  border: 1px solid #2A2A36 !important;
+  color: #F3F4F6 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
 }
 
-body.admin-body.dark-theme .admin-topbar,
-body.admin-body.dark-theme .editor-toolbar,
-body.admin-body.dark-theme .editor-statusbar {
-  background: rgba(22, 20, 31, 0.85) !important;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-color: rgba(255, 255, 255, 0.08) !important;
+body.dark-theme .form-label,
+body.dark-theme label,
+body.dark-theme h1,
+body.dark-theme h2,
+body.dark-theme h3,
+body.dark-theme h4,
+body.dark-theme .admin-name {
+  color: #F3F4F6 !important;
 }
 
-body.admin-body.dark-theme .admin-card,
-body.admin-body.dark-theme .stat-card,
-body.admin-body.dark-theme .admin-table-container,
-body.admin-body.dark-theme .wysiwyg-wrapper {
-  background: linear-gradient(145deg, #23202B 0%, #1A1823 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+body.dark-theme .input-field,
+body.dark-theme .select-field,
+body.dark-theme .textarea-field {
+  background-color: #121218 !important;
+  border-color: #2A2A36 !important;
+  color: #F3F4F6 !important;
 }
 
-body.admin-body.dark-theme .admin-table th {
-  background: linear-gradient(180deg, #2D2938 0%, #24212C 100%) !important;
-  color: #CBD5E1 !important;
+body.dark-theme .input-field::placeholder {
+  color: #6B7280 !important;
 }
 
-body.admin-body.dark-theme .admin-table td {
-  border-bottom-color: rgba(255, 255, 255, 0.06);
+body.dark-theme .admin-table th {
+  background-color: #181820 !important;
+  color: #F3F4F6 !important;
+  border-bottom-color: #2A2A36 !important;
 }
 
-body.admin-body.dark-theme .editor-content-area {
-  background: linear-gradient(145deg, #1D1B24 0%, #17151E 100%) !important;
-  color: #FFFFFF !important;
+body.dark-theme .admin-table td {
+  border-bottom-color: #2A2A36 !important;
+  color: #F3F4F6 !important;
+}
+
+body.dark-theme .editor-content-area {
+  background-color: #121218 !important;
+  color: #F3F4F6 !important;
 }
 
 /* Admin Theme Toggle Button */
