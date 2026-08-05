@@ -2109,59 +2109,59 @@ svg {
   }
 }
 
-/* Featured Concluding Takeaway Quote Card */
+/* Single Clean Pull Quote Card (Medium / Stripe / Apple Editorial Style) */
 .concluding-quote-card {
-  margin: 40px 0;
-  padding: 32px 36px;
-  background: rgba(165, 21, 12, 0.04);
-  border: 1px solid rgba(165, 21, 12, 0.18);
-  border-left: 5px solid var(--accent-coral);
-  border-radius: 18px;
-  text-align: center;
-  box-shadow: 0 6px 24px rgba(165, 21, 12, 0.06);
-  position: relative;
+  margin: 48px 0 !important;
+  padding: 40px 48px !important;
+  background: rgba(165, 21, 12, 0.03) !important;
+  border: 1px solid rgba(165, 21, 12, 0.15) !important;
+  border-radius: 20px !important;
+  text-align: center !important;
+  box-shadow: 0 4px 20px rgba(165, 21, 12, 0.04) !important;
+  position: relative !important;
   transition: all var(--transition-normal);
 }
 
 .concluding-quote-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(165, 21, 12, 0.1);
-  border-color: rgba(165, 21, 12, 0.28);
+  box-shadow: 0 8px 24px rgba(165, 21, 12, 0.08) !important;
+  border-color: rgba(165, 21, 12, 0.25) !important;
 }
 
 .quote-icon-wrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 12px;
+  display: flex !important;
+  justify-content: center !important;
+  margin-bottom: 14px !important;
 }
 
 .quote-icon-wrap svg {
-  width: 28px;
-  height: 28px;
-  fill: var(--accent-coral);
-  opacity: 0.75;
+  width: 22px !important;
+  height: 22px !important;
+  fill: var(--accent-coral) !important;
+  opacity: 0.65 !important;
 }
 
 .concluding-quote-text {
   font-family: 'Playfair Display', 'Lora', serif !important;
-  font-size: 21px !important;
+  font-size: 1.6rem !important; /* ~25px */
   font-weight: 700 !important;
-  font-style: italic;
+  font-style: italic !important;
   color: var(--accent-coral) !important;
-  line-height: 1.5 !important;
+  line-height: 1.45 !important;
   margin: 0 !important;
   padding: 0 !important;
   border: none !important;
   background: none !important;
+  letter-spacing: -0.2px !important;
 }
 
 @media (max-width: 768px) {
   .concluding-quote-card {
-    padding: 24px 20px;
-    margin: 32px 0;
+    padding: 28px 20px !important;
+    margin: 36px 0 !important;
   }
   .concluding-quote-text {
-    font-size: 18px !important;
-    line-height: 1.45 !important;
+    font-size: 1.25rem !important; /* ~20px */
+    line-height: 1.4 !important;
   }
 }
