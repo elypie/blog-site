@@ -191,7 +191,7 @@ const initialData = {
 
         <hr style="margin: 36px 0; border: none; border-top: 1px solid var(--border-light);" />
 
-        <h2 id="references" style="margin-bottom: 8px;">References</h2>
+        <h4 id="references" style="font-size: 16px; font-weight: 800; font-family: var(--font-heading); margin-top: 32px; margin-bottom: 8px; border-bottom: none;">References</h4>
         <p class="references-text" style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin-top: 0;">Republic Act No. 10173 — Data Privacy Act of 2012 (Philippines), OWASP Top 10 (2021), OWASP Secure Design Principles, NIST Special Publication 800-53.</p>
       `
     }

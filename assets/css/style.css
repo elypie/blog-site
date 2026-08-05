@@ -2028,6 +2028,25 @@ svg {
   letter-spacing: -0.2px;
 }
 
+#references,
+.article-body #references,
+#main-article-content #references {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+  margin-top: 32px !important;
+  margin-bottom: 8px !important;
+  padding-bottom: 0 !important;
+  border-bottom: none !important;
+}
+
+.author-card-heading {
+  font-size: 26px !important;
+  font-weight: 800 !important;
+  font-family: 'Playfair Display', serif !important;
+  margin-bottom: 16px !important;
+}
+
 .article-body h2:first-of-type,
 #main-article-content h2:first-of-type {
   margin-top: 16px !important;
