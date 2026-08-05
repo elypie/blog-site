@@ -36,7 +36,7 @@ const initialData = {
       author: "Ely",
       featured: true,
       isLatest: true,
-      coverImage: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200",
+      coverImage: "assets/images/post1-cover.png",
       summary: "A technical blog post on secure design principles, AI-generated code, and developer obligations under Republic Act No. 10173.",
       toc: [
         { id: "intro", text: "I. Introduction" },
