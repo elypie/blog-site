@@ -421,8 +421,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
 
         <!-- 6. About the Author (Compact Card) -->
-        <div class="author-card" style="padding: 24px 28px; margin-bottom: 24px; background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-light);">
-          <h2 class="author-card-heading" style="font-size: 26px; font-weight: 800; font-family: 'Playfair Display', serif; margin-bottom: 16px; border-bottom: none;">About the Author</h2>
+        <div class="author-card" style="padding: 20px 24px; margin-bottom: 24px; background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-light);">
+          <h4 class="author-card-heading" style="font-size: 15px; font-weight: 800; font-family: var(--font-heading); margin-bottom: 12px; border-bottom: none;">About the Author</h4>
           <div class="author-info-row" style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
             <img src="assets/images/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
             <div class="author-details">

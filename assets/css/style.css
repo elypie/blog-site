@@ -2045,10 +2045,10 @@ h2#references {
 }
 
 .author-card-heading {
-  font-size: 26px !important;
+  font-size: 15px !important;
   font-weight: 800 !important;
-  font-family: 'Playfair Display', serif !important;
-  margin-bottom: 16px !important;
+  font-family: var(--font-heading), 'Plus Jakarta Sans', sans-serif !important;
+  margin-bottom: 12px !important;
 }
 
 .article-body h2:first-of-type,
