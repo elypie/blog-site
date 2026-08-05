@@ -376,21 +376,6 @@
           alert('Failed to save blog post: ' + err.message);
         }
       }
-
-      document.getElementById('blog-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        handleSave('Published');
-      });
-
-      document.getElementById('save-draft-btn').addEventListener('click', () => {
-        handleSave('Draft');
-      });
-    });
-  </script>
-</body>
-</html>
-
-      // ExecCommand helper
       document.querySelectorAll('.editor-btn[data-cmd]').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
@@ -546,54 +531,6 @@
           autosaveStatusEl.textContent = `Draft Auto-Saved at ${now}`;
         }
       }, 15000);
-
-      // Handle Save & Publish
-      function handleSave(status) {
-        const title = titleInput.value.trim();
-        if (!title) { alert("Please enter article title"); return; }
-
-        const htmlContent = editorCanvas.innerHTML;
-        const plainText = editorCanvas.innerText.trim();
-        const textSummary = plainText.slice(0, 160).replace(/\n/g, ' ') + '...';
-
-        // Auto Calculate Read Time (approx 200 words per min)
-        const wordCount = plainText ? plainText.split(/\s+/).length : 0;
-        const calculatedReadTime = Math.max(1, Math.ceil(wordCount / 200)) + " min read";
-
-        const now = new Date();
-        const formattedDate = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-
-        const postObj = {
-          id: currentPost ? currentPost.id : Date.now(),
-          title,
-          slug,
-          category: catSelect.value,
-          status, // 'Published' or 'Draft' or 'Archived'
-          date: status === 'Published' ? formattedDate : (currentPost && currentPost.date ? currentPost.date : formattedDate),
-          readTime: calculatedReadTime,
-          author: "Ely",
-          featured: currentPost ? currentPost.featured : false,
-          isLatest: status === 'Published',
-          coverImage: imageInput.value || "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=1000",
-          summary: textSummary,
-          toc: [{ id: "intro", text: "1. Overview" }],
-          content: htmlContent,
-          createdAt: currentPost && currentPost.createdAt ? currentPost.createdAt : now.toISOString(),
-          updatedAt: now.toISOString()
-        };
-
-        if (currentPost) {
-          const index = data.posts.findIndex(p => p.id === currentPost.id);
-          data.posts[index] = postObj;
-        } else {
-          data.posts.unshift(postObj);
-        }
-
-        saveBlogData(data);
-        alert(`Blog post saved as ${status}!`);
-        window.location.href = 'posts.html';
-      }
 
       document.getElementById('blog-form').addEventListener('submit', (e) => {
         e.preventDefault();
