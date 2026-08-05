@@ -430,7 +430,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               <p class="author-role" style="font-size: 12px; color: var(--text-muted); margin-top: 1px;">IT Student</p>
             </div>
           </div>
-          <p class="author-bio" style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin: 0;">Passionate about technology, learning, and sharing insights through educational writing.</p>
+          <p class="author-bio" style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin: 0;">A BSIT student at Father Saturnino Urios University with a passion for designing and developing websites while expanding knowledge in cybersecurity. This blog shares knowledge, projects, and insights gained through exploring technology and building secure, reliable applications.</p>
         </div>
 
         <!-- 7. Article Navigation (Prev/Next) -->
