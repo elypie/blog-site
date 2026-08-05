@@ -378,66 +378,98 @@ document.addEventListener('DOMContentLoaded', async () => {
           <img src="${post.coverImage}" alt="${post.title}" class="article-cover-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
         </div>
 
-        <!-- 3. On this page (Table of Contents Full-Width Card) -->
+        <!-- 3. On this page (Collapsible Accordion Card - Expanded by Default) -->
         ${tocGroups.length > 0 ? `
-          <div class="toc-card" style="margin-bottom: 36px; width: 100%; padding: 24px 28px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 20px; box-shadow: var(--shadow-sm);">
-            <h3 class="toc-title" style="font-size: 16px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between;">
-              <span>On this page</span>
-              <span style="font-size: 12px; color: var(--accent-coral); font-weight: 700;">Outline</span>
-            </h3>
-            <ul class="toc-list">
-              ${tocHTML}
-            </ul>
+          <div class="toc-card is-accordion expanded" id="main-toc-accordion" style="margin-bottom: 32px; width: 100%; padding: 20px 24px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 20px; box-shadow: var(--shadow-sm); transition: all 0.3s ease;">
+            <div class="toc-card-header" onclick="window.toggleMainTocAccordion()" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none;">
+              <h3 class="toc-title" style="font-size: 16px; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 8px;">
+                <span>On this page</span>
+              </h3>
+              <button type="button" class="toc-accordion-btn" aria-label="Toggle Outline" style="background: rgba(165, 21, 12, 0.08); border: none; padding: 4px; cursor: pointer; color: var(--accent-coral); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; transition: transform 0.3s ease, background 0.2s ease;">
+                <svg id="main-toc-chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </div>
+            <div class="toc-card-body" id="main-toc-accordion-body" style="margin-top: 16px; max-height: 1500px; opacity: 1; overflow: hidden; transition: max-height 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin 0.25s ease;">
+              <ul class="toc-list">
+                ${tocHTML}
+              </ul>
+            </div>
           </div>
         ` : ''}
 
         <!-- 4. Blog Article Content -->
-        <main class="article-body" id="main-article-content" style="text-align: justify; margin-bottom: 40px;">
+        <main class="article-body" id="main-article-content" style="text-align: justify; margin-bottom: 32px;">
           ${post.content}
         </main>
 
         <!-- 5. Share this Article -->
-        <div class="info-card" style="padding: 24px 28px; margin-bottom: 24px; background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
+        <div class="info-card" style="padding: 20px 24px; margin-bottom: 20px; background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
           <div>
-            <h4 style="font-size: 16px; font-weight: 800; margin-bottom: 4px;">Share this article</h4>
+            <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 2px;">Share this article</h4>
             <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Enjoyed reading? Share it with your friends and colleagues!</p>
           </div>
-          <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
             <button class="social-share-btn" onclick="window.open('https://facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href), '_blank')" title="Share on Facebook">f</button>
             <button class="social-share-btn" onclick="navigator.clipboard.writeText(location.href); alert('Article link copied to clipboard!');" title="Copy Link">🔗</button>
           </div>
         </div>
 
-        <!-- 6. About the Author -->
-        <div class="author-card" style="padding: 24px 28px; margin-bottom: 40px; background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-light);">
-          <h3 class="author-card-heading" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">About the Author</h3>
-          <div class="author-info-row" style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
-            <img src="assets/images/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
+        <!-- 6. About the Author (Compact Card) -->
+        <div class="author-card" style="padding: 20px 24px; margin-bottom: 24px; background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-light);">
+          <h3 class="author-card-heading" style="font-size: 15px; font-weight: 800; margin-bottom: 12px;">About the Author</h3>
+          <div class="author-info-row" style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+            <img src="assets/images/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
             <div class="author-details">
-              <h4 class="author-name" style="font-size: 17px; font-weight: 800; margin: 0;">EL</h4>
-              <p class="author-role" style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">IT Student</p>
+              <h4 class="author-name" style="font-size: 16px; font-weight: 800; margin: 0;">EL</h4>
+              <p class="author-role" style="font-size: 12px; color: var(--text-muted); margin-top: 1px;">IT Student</p>
             </div>
           </div>
-          <p class="author-bio" style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin: 0;">Passionate about technology, learning, and sharing insights through educational writing.</p>
+          <p class="author-bio" style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin: 0;">Passionate about technology, learning, and sharing insights through educational writing.</p>
         </div>
 
         <!-- 7. Article Navigation (Prev/Next) -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 24px; padding-top: 28px; border-top: 1px solid var(--border-light);">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-light);">
           ${prevPost ? `
-            <div class="info-card" style="padding: 20px; cursor: pointer;" onclick="window.location.href='blog-detail.html?id=${prevPost.id}'">
-              <span style="font-size: 12px; color: var(--accent-coral); font-weight: 700;">← PREVIOUS ARTICLE</span>
-              <h4 style="font-size: 15px; font-weight: 700; margin-top: 6px; color: var(--text-main); line-clamp: 2;">${prevPost.title}</h4>
+            <div class="info-card" style="padding: 16px 20px; cursor: pointer;" onclick="window.location.href='blog-detail.html?id=${prevPost.id}'">
+              <span style="font-size: 11px; color: var(--accent-coral); font-weight: 700;">← PREVIOUS ARTICLE</span>
+              <h4 style="font-size: 14px; font-weight: 700; margin-top: 4px; color: var(--text-main); line-clamp: 2;">${prevPost.title}</h4>
             </div>
           ` : '<div></div>'}
           ${nextPost ? `
-            <div class="info-card" style="padding: 20px; cursor: pointer; text-align: right;" onclick="window.location.href='blog-detail.html?id=${nextPost.id}'">
-              <span style="font-size: 12px; color: var(--accent-coral); font-weight: 700;">NEXT ARTICLE →</span>
-              <h4 style="font-size: 15px; font-weight: 700; margin-top: 6px; color: var(--text-main); line-clamp: 2;">${nextPost.title}</h4>
+            <div class="info-card" style="padding: 16px 20px; cursor: pointer; text-align: right;" onclick="window.location.href='blog-detail.html?id=${nextPost.id}'">
+              <span style="font-size: 11px; color: var(--accent-coral); font-weight: 700;">NEXT ARTICLE →</span>
+              <h4 style="font-size: 14px; font-weight: 700; margin-top: 4px; color: var(--text-main); line-clamp: 2;">${nextPost.title}</h4>
             </div>
           ` : '<div></div>'}
         </div>
       </div>
     `;
+
+    // Toggle Main Table of Contents Accordion
+    window.toggleMainTocAccordion = function() {
+      const card = document.getElementById('main-toc-accordion');
+      const body = document.getElementById('main-toc-accordion-body');
+      const chevron = document.getElementById('main-toc-chevron-icon');
+
+      if (card && body) {
+        const isExpanded = card.classList.contains('expanded');
+        if (isExpanded) {
+          card.classList.remove('expanded');
+          body.style.maxHeight = '0px';
+          body.style.opacity = '0';
+          body.style.marginTop = '0px';
+          if (chevron) chevron.style.transform = 'rotate(-90deg)';
+        } else {
+          card.classList.add('expanded');
+          body.style.maxHeight = '1500px';
+          body.style.opacity = '1';
+          body.style.marginTop = '16px';
+          if (chevron) chevron.style.transform = 'rotate(0deg)';
+        }
+      }
+    };
 
     // Image Lightbox Helper Function
     window.openLightbox = function(src) {
