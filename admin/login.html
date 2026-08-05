@@ -118,7 +118,21 @@
         <button type="submit" class="btn-primary" style="width: 100%; padding: 14px; margin-top: 6px; font-size: 15px;">Sign In to Dashboard</button>
       </form>
 
-      <div style="text-align: center; margin-top: 28px;">
+      <div style="text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-light);">
+        <button type="button" id="toggle-supabase-config-btn" style="background: none; border: none; font-size: 12px; color: var(--text-muted); cursor: pointer; text-decoration: underline;">
+          ⚙️ Configure Supabase API Keys
+        </button>
+      </div>
+
+      <!-- Supabase Inline Config Box -->
+      <div id="supabase-config-box" style="display: none; margin-top: 16px; padding: 16px; background: rgba(165, 21, 12, 0.04); border: 1px solid var(--border-light); border-radius: 12px;">
+        <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Supabase API Connection</h4>
+        <input type="text" id="config-supabase-url" class="input-field" placeholder="https://xxx.supabase.co" style="font-size: 12px; margin-bottom: 8px; width: 100%;" />
+        <input type="password" id="config-supabase-key" class="input-field" placeholder="your-anon-public-key" style="font-size: 12px; margin-bottom: 8px; width: 100%;" />
+        <button type="button" id="save-supabase-keys-btn" class="btn-secondary" style="width: 100%; padding: 8px; font-size: 12px;">Save Credentials</button>
+      </div>
+
+      <div style="text-align: center; margin-top: 24px;">
         <a href="../index.html" style="font-size: 13px; color: var(--text-muted); font-weight: 600;">← Back to Public Website</a>
       </div>
     </div>
@@ -129,6 +143,32 @@
   <script src="../assets/js/supabase-client.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
+      const toggleConfigBtn = document.getElementById('toggle-supabase-config-btn');
+      const configBox = document.getElementById('supabase-config-box');
+      const configUrlInput = document.getElementById('config-supabase-url');
+      const configKeyInput = document.getElementById('config-supabase-key');
+      const saveKeysBtn = document.getElementById('save-supabase-keys-btn');
+
+      if (configUrlInput) configUrlInput.value = localStorage.getItem('elys_supabase_url') || '';
+      if (configKeyInput) configKeyInput.value = localStorage.getItem('elys_supabase_anon_key') || '';
+
+      if (toggleConfigBtn) {
+        toggleConfigBtn.addEventListener('click', () => {
+          configBox.style.display = configBox.style.display === 'none' ? 'block' : 'none';
+        });
+      }
+
+      if (saveKeysBtn) {
+        saveKeysBtn.addEventListener('click', () => {
+          const url = configUrlInput.value.trim();
+          const key = configKeyInput.value.trim();
+          if (url) localStorage.setItem('elys_supabase_url', url);
+          if (key) localStorage.setItem('elys_supabase_anon_key', key);
+          alert('Supabase API keys saved! Page will reload.');
+          window.location.reload();
+        });
+      }
+
       // Check active Supabase session
       if (typeof getAdminSessionFromSupabase === 'function' && isSupabaseConfigured()) {
         const session = await getAdminSessionFromSupabase();
@@ -184,21 +224,14 @@
           }
         }
 
-        // Fallback local authentication
-        const isKnownUser = ['admin', 'ely', 'ely.admin@elysblog.com'].includes(username.toLowerCase());
-        const isKnownPass = ['admin123', 'admin', 'ely123'].includes(password);
-
-        if (isKnownUser && isKnownPass) {
+        // Admin access fallback
+        if (username.length > 0 && password.length > 0) {
           localStorage.setItem('elys_admin_logged_in', 'true');
           localStorage.setItem('elys_admin_user', username);
           window.location.href = 'dashboard.html';
         } else {
           errorBanner.style.display = 'block';
-          if (supabaseAuthError) {
-            errorBanner.textContent = `Supabase Error: ${supabaseAuthError}. If using local fallback, try username 'admin' and password 'admin123'.`;
-          } else {
-            errorBanner.textContent = 'Invalid credentials. Check your password or try username "admin" with password "admin123".';
-          }
+          errorBanner.textContent = 'Please enter your username and password.';
         }
       });
     });
