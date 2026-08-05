@@ -260,14 +260,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const id = h.id || `heading-${idx}`;
       const text = h.innerText.trim();
 
-      if (tagName === 'h2' || (tagName === 'h3' && !text.match(/^\d+\.\d+/))) {
+      if (tagName === 'h2') {
         currentGroup = {
           id,
           text,
           children: []
         };
         tocGroups.push(currentGroup);
-      } else {
+      } else if (tagName === 'h3' || tagName === 'h4') {
         if (currentGroup) {
           currentGroup.children.push({ id, text });
         } else {
@@ -277,98 +277,72 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    function parseHeadingText(rawText) {
-      const match = rawText.match(/^(\d+(?:\.\d+)*\.?)\s+(.*)$/);
-      if (match) {
-        return {
-          num: match[1],
-          title: match[2]
-        };
-      }
-      return {
-        num: '',
-        title: rawText
-      };
-    }
-
     const generateTocHTML = (groups) => {
       if (groups.length === 0) return '';
 
-      return groups.map((group, groupIdx) => {
+      return groups.map((group) => {
         const hasChildren = group.children && group.children.length > 0;
-        const groupId = `toc-group-${groupIdx}`;
-        const parsedParent = parseHeadingText(group.text);
-
-        if (!hasChildren) {
-          return `
-            <li class="toc-item parent-item">
-              <div class="toc-row parent-row no-arrow">
-                <span class="toc-num parent-num">${parsedParent.num}</span>
-                <a href="#${group.id}" class="toc-title-link parent-link" onclick="event.preventDefault(); document.getElementById('${group.id}')?.scrollIntoView({behavior:'smooth'});">${parsedParent.title}</a>
-                <div class="toc-spacer"></div>
-              </div>
-            </li>
-          `;
-        }
 
         return `
-          <li class="toc-item parent-item has-children">
-            <div class="toc-row parent-row">
-              <span class="toc-num parent-num">${parsedParent.num}</span>
-              <a href="#${group.id}" class="toc-title-link parent-link" onclick="event.preventDefault(); toggleTocGroupLink(this, '${group.id}');">${parsedParent.title}</a>
-              <button type="button" class="toc-toggle-btn" aria-expanded="false" aria-controls="${groupId}" aria-label="Toggle sub-sections for ${parsedParent.title}" onclick="toggleTocGroup(this)">
-                <svg class="toc-arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-              </button>
+          <li class="toc-group ${hasChildren ? 'has-children' : ''}" data-group-id="${group.id}">
+            <div class="toc-group-header" onclick="window.handleTocHeaderClick(event, '${group.id}', ${hasChildren})">
+              ${hasChildren ? `
+                <button type="button" class="toc-chevron-btn" aria-label="Toggle section" onclick="event.stopPropagation(); window.toggleTocGroup('${group.id}');">
+                  <svg class="chevron-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              ` : `<span class="toc-chevron-spacer"></span>`}
+              <a href="#${group.id}" class="toc-link parent-link toc-link-target-${group.id}" onclick="event.preventDefault(); window.scrollToHeading('${group.id}', ${hasChildren});">
+                ${group.text}
+              </a>
             </div>
-            <ul id="${groupId}" class="toc-sublist" style="display: none;">
-              ${group.children.map(child => {
-                const parsedChild = parseHeadingText(child.text);
-                return `
-                  <li class="toc-item child-item">
-                    <div class="toc-row child-row">
-                      <span class="toc-num child-num">${parsedChild.num}</span>
-                      <a href="#${child.id}" class="toc-title-link child-link" onclick="event.preventDefault(); document.getElementById('${child.id}')?.scrollIntoView({behavior:'smooth'});">${parsedChild.title}</a>
-                    </div>
+            ${hasChildren ? `
+              <ul class="toc-sublist" id="toc-sublist-${group.id}">
+                ${group.children.map(child => `
+                  <li class="toc-subitem">
+                    <a href="#${child.id}" class="toc-link child-link toc-link-target-${child.id}" onclick="event.preventDefault(); window.scrollToHeading('${child.id}', false);">
+                      ${child.text}
+                    </a>
                   </li>
-                `;
-              }).join('')}
-            </ul>
+                `).join('')}
+              </ul>
+            ` : ''}
           </li>
         `;
       }).join('');
     };
 
-    window.toggleTocGroup = function(btn) {
-      const parentRow = btn.closest('.parent-row');
-      const sublist = parentRow.nextElementSibling;
-      const arrow = btn.querySelector('.toc-arrow-icon');
-      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+    window.scrollToHeading = function(id, shouldExpand = false) {
+      const targetElement = document.getElementById(id);
+      if (targetElement) {
+        const yOffset = -90;
+        const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
 
-      if (isExpanded) {
-        btn.setAttribute('aria-expanded', 'false');
-        sublist.style.display = 'none';
-        if (arrow) arrow.style.transform = 'rotate(0deg)';
-      } else {
-        btn.setAttribute('aria-expanded', 'true');
-        sublist.style.display = 'flex';
-        if (arrow) arrow.style.transform = 'rotate(180deg)';
+      if (shouldExpand) {
+        window.toggleTocGroup(id, true);
       }
     };
 
-    window.toggleTocGroupLink = function(link, targetId) {
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-      }
-
-      const parentRow = link.closest('.parent-row');
-      if (parentRow) {
-        const btn = parentRow.querySelector('.toc-toggle-btn');
-        if (btn && btn.getAttribute('aria-expanded') !== 'true') {
-          window.toggleTocGroup(btn);
+    window.toggleTocGroup = function(groupId, forceExpand = false) {
+      const allGroups = document.querySelectorAll(`.toc-group[data-group-id="${groupId}"]`);
+      allGroups.forEach(g => {
+        if (forceExpand) {
+          g.classList.add('expanded');
+        } else {
+          g.classList.toggle('expanded');
         }
+      });
+    };
+
+    window.handleTocHeaderClick = function(event, groupId, hasChildren) {
+      if (event.target.tagName.toLowerCase() === 'a') return;
+      if (hasChildren) {
+        window.toggleTocGroup(groupId);
+      } else {
+        window.scrollToHeading(groupId, false);
       }
     };
 
@@ -409,12 +383,15 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 
         ${tocGroups.length > 0 ? `
-          <div class="toc-card mobile-toc-only" style="margin-bottom: 28px;">
-            <h3 class="toc-title" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">On this page</h3>
-            <ul class="toc-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+          <details class="mobile-toc-details mobile-toc-only">
+            <summary>
+              <span>On this page</span>
+              <span style="font-size: 13px; color: var(--accent-coral); font-weight: 700;">Tap to view outline ▾</span>
+            </summary>
+            <ul class="toc-list">
               ${tocHTML}
             </ul>
-          </div>
+          </details>
         ` : ''}
 
         <div class="article-content-grid" style="display: grid; grid-template-columns: 1fr 340px; gap: 48px;">
@@ -466,8 +443,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="sticky-sidebar-content" style="position: sticky; top: 100px; display: flex; flex-direction: column; gap: 24px;">
               ${tocGroups.length > 0 ? `
                 <div class="toc-card">
-                  <h3 class="toc-title" style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">On this page</h3>
-                  <ul class="toc-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+                  <h3 class="toc-title">
+                    <span>On this page</span>
+                  </h3>
+                  <ul class="toc-list">
                     ${tocHTML}
                   </ul>
                 </div>
@@ -509,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    // Attach Lightbox click listener to all article content images
+    // Attach Lightbox & IntersectionObserver for active TOC highlight + auto expand on scroll
     setTimeout(() => {
       document.querySelectorAll('#main-article-content img').forEach(img => {
         img.style.cursor = 'zoom-in';
@@ -517,31 +496,37 @@ document.addEventListener('DOMContentLoaded', () => {
         img.addEventListener('click', () => window.openLightbox(img.src));
       });
 
-      // Highlight active TOC item on scroll
-      const articleHeadings = document.querySelectorAll('#main-article-content h1, #main-article-content h2, #main-article-content h3, #main-article-content h4');
+      const articleHeadings = document.querySelectorAll('#main-article-content h2, #main-article-content h3');
       if (articleHeadings.length > 0) {
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
               const id = entry.target.id;
-              document.querySelectorAll('.toc-item-link').forEach(link => {
-                link.style.color = 'var(--text-muted)';
-                link.style.fontWeight = '400';
-              });
-              document.querySelectorAll('.toc-bullet').forEach(b => b.style.visibility = 'hidden');
+              if (!id) return;
 
-              const activeLink = document.getElementById(`toc-link-${id}`);
-              const activeBullet = document.getElementById(`toc-bullet-${id}`);
-              if (activeLink) {
-                activeLink.style.color = 'var(--accent-coral)';
-                activeLink.style.fontWeight = '700';
-              }
-              if (activeBullet) {
-                activeBullet.style.visibility = 'visible';
-              }
+              document.querySelectorAll('.toc-link').forEach(link => link.classList.remove('active'));
+              document.querySelectorAll('.toc-group-header').forEach(hdr => hdr.classList.remove('active-header'));
+
+              const activeLinks = document.querySelectorAll(`.toc-link-target-${id}`);
+              activeLinks.forEach(link => {
+                link.classList.add('active');
+                const parentHeader = link.closest('.toc-group-header');
+                if (parentHeader) {
+                  parentHeader.classList.add('active-header');
+                }
+
+                // Auto expand parent group while scrolling
+                const parentGroup = link.closest('.toc-group');
+                if (parentGroup) {
+                  const groupId = parentGroup.getAttribute('data-group-id');
+                  if (groupId) {
+                    document.querySelectorAll(`.toc-group[data-group-id="${groupId}"]`).forEach(g => g.classList.add('expanded'));
+                  }
+                }
+              });
             }
           });
-        }, { rootMargin: '-100px 0px -60% 0px' });
+        }, { rootMargin: '-80px 0px -55% 0px' });
 
         articleHeadings.forEach(h => observer.observe(h));
       }
