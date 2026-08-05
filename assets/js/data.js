@@ -35,9 +35,41 @@ const initialData = {
       summary: "A technical blog post on secure design principles, AI-generated code, and developer obligations under Republic Act No. 10173.",
       toc: [
         { id: "intro", text: "I. Introduction" },
-        { id: "what-went-wrong", text: "II. What Went Wrong: The Vulnerabilities" },
-        { id: "immediate-steps", text: "III. Immediate Steps: What To Do First" },
-        { id: "rebuilding-it-right", text: "IV. Rebuilding It Right: Long-Term Solutions" },
+        { 
+          id: "what-went-wrong", 
+          text: "II. What Went Wrong: The Vulnerabilities",
+          children: [
+            { id: "vuln-1", text: "1. Insecure Direct Object Reference (IDOR)" },
+            { id: "vuln-2", text: "2. Credentials Exposed in Public Repo" },
+            { id: "vuln-3", text: "3. Overprivileged Database Access" },
+            { id: "vuln-4", text: "4. Verbose Error Messages" },
+            { id: "vuln-5", text: "5. No HTTPS" },
+            { id: "vuln-6", text: "6. Security Through Obscurity" }
+          ]
+        },
+        { 
+          id: "immediate-steps", 
+          text: "III. Immediate Steps: What To Do First",
+          children: [
+            { id: "step-a", text: "A. Take Application Offline" },
+            { id: "step-b", text: "B. Rotate Exposed Credentials" },
+            { id: "step-c", text: "C. Remove Secrets from Git" },
+            { id: "step-d", text: "D. Notify Affected Users & NPC" },
+            { id: "step-e", text: "E. Audit Access Logs" }
+          ]
+        },
+        { 
+          id: "rebuilding-it-right", 
+          text: "IV. Rebuilding It Right: Long-Term Solutions",
+          children: [
+            { id: "long-1", text: "1. Enforce Authorization on Every Request" },
+            { id: "long-2", text: "2. Implement Role-Based Access Control" },
+            { id: "long-3", text: "3. Keep Secrets Outside Codebase" },
+            { id: "long-4", text: "4. Enforce HTTPS" },
+            { id: "long-5", text: "5. Handle Errors Safely" },
+            { id: "long-6", text: "6. Apply Data Minimization" }
+          ]
+        },
         { id: "ai-generated-code", text: "V. The Problem with AI-Generated Code" },
         { id: "conclusion", text: "VI. Conclusion" },
         { id: "references", text: "References" }
@@ -52,30 +84,30 @@ const initialData = {
 
         <p>This article examines what went wrong, how the incident should have been handled, and how the system could have been designed more securely from the beginning, based on Secure Design Principles and developers' responsibilities under Republic Act No. 10173.</p>
 
-        <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--border-light);" />
+        <hr style="margin: 36px 0; border: none; border-top: 1px solid var(--border-light);" />
 
         <h2 id="what-went-wrong">II. What Went Wrong: The Vulnerabilities</h2>
         <p>To understand how to fix the problem, it is important to first identify what the actual vulnerabilities were.</p>
 
-        <h3 id="vuln-1">1. Insecure Direct Object Reference (IDOR)</h3>
+        <h4 id="vuln-1">1. Insecure Direct Object Reference (IDOR)</h4>
         <p>The app used sequential numbers in the URL to identify user profiles. The server never verified whether the person making the request was actually authorized to view that record. Anyone could access any profile just by changing that number.</p>
 
-        <h3 id="vuln-2">2. Credentials Exposed in a Public Repository</h3>
+        <h4 id="vuln-2">2. Credentials Exposed in a Public Repository</h4>
         <p>The database password and payment API key were committed directly into the source code and pushed to a public GitHub repository. Even if deleted later, Git preserves its full commit history—meaning those credentials remained accessible to anyone who looked.</p>
 
-        <h3 id="vuln-3">3. Overprivileged Database Access</h3>
+        <h4 id="vuln-3">3. Overprivileged Database Access</h4>
         <p>Every user account had broad read access to the database. There was no segmentation based on role or record ownership, which meant one compromised account could expose everyone's data.</p>
 
-        <h3 id="vuln-4">4. Verbose Error Messages</h3>
+        <h4 id="vuln-4">4. Verbose Error Messages</h4>
         <p>When errors occurred, the app returned full stack traces to any user who triggered them. Stack traces expose internal application details that attackers can use to find further vulnerabilities.</p>
 
-        <h3 id="vuln-5">5. No HTTPS</h3>
+        <h4 id="vuln-5">5. No HTTPS</h4>
         <p>The application ran on plain HTTP, meaning all data sent between users and the server was transmitted without encryption and could be intercepted.</p>
 
-        <h3 id="vuln-6">6. Security Through Obscurity</h3>
+        <h4 id="vuln-6">6. Security Through Obscurity</h4>
         <p>The team assumed that since most users would not know the internal URL structure, no one would look for vulnerabilities. This is not a security strategy—it is simply the absence of one.</p>
 
-        <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--border-light);" />
+        <hr style="margin: 36px 0; border: none; border-top: 1px solid var(--border-light);" />
 
         <h2 id="immediate-steps">III. Immediate Steps: What To Do First</h2>
         <p>When a security issue of this scale is discovered, the first priority is damage control. The following actions should be taken right away, along with the Secure Design Principle each one restores.</p>
@@ -111,41 +143,41 @@ const initialData = {
           <strong style="color: var(--accent-coral);">Principle Restored:</strong> <strong>Auditability.</strong>
         </blockquote>
 
-        <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--border-light);" />
+        <hr style="margin: 36px 0; border: none; border-top: 1px solid var(--border-light);" />
 
         <h2 id="rebuilding-it-right">IV. Rebuilding It Right: Long-Term Solutions</h2>
 
-        <h3 id="long-1">Enforce Authorization on Every Request</h3>
+        <h4 id="long-1">1. Enforce Authorization on Every Request</h4>
         <p>Instead of relying on URL obscurity or client-side validation, every backend API endpoint must verify that the authenticated user has explicit permission to access the requested resource. UUIDs or non-sequential identifiers should replace sequential database IDs, and session tokens must be validated against resource ownership before returning any sensitive records.</p>
 
-        <h3 id="long-2">Implement Role-Based Access Control (RBAC)</h3>
+        <h4 id="long-2">2. Implement Role-Based Access Control (RBAC)</h4>
         <p>Access permissions must be structured around explicit user roles (e.g., student, organization officer, administrator). Database queries and API permissions should strictly enforce the Principle of Least Privilege so that normal users cannot execute administrative actions or inspect records belonging to other users.</p>
 
-        <h3 id="long-3">Keep Secrets Outside the Codebase</h3>
+        <h4 id="long-3">3. Keep Secrets Outside the Codebase</h4>
         <p>Sensitive credentials, API keys, and database passwords must never be stored directly in source code or committed to repository tracking. Use environment variables (managed via <code>.gitignore</code>) and dedicated secrets management solutions (such as HashiCorp Vault or cloud secret managers) to inject credentials dynamically at runtime.</p>
 
-        <h3 id="long-4">Enforce HTTPS</h3>
+        <h4 id="long-4">4. Enforce HTTPS</h4>
         <p>All communication between clients and servers must be encrypted using Transport Layer Security (TLS/HTTPS). Plain HTTP requests should automatically redirect to HTTPS with HTTP Strict Transport Security (HSTS) enabled, preventing attackers on public networks from eavesdropping on session tokens, credentials, or personal data.</p>
 
-        <h3 id="long-5">Handle Errors Safely in Production</h3>
+        <h4 id="long-5">5. Handle Errors Safely in Production</h4>
         <p>Detailed stack traces, raw SQL queries, and internal system file paths must never be exposed to end users. In production, applications must catch runtime exceptions gracefully, log technical details securely to internal log management systems, and present generic, user-friendly error messages to the client (Economy of Mechanism).</p>
 
-        <h3 id="long-6">Apply Data Minimization</h3>
+        <h4 id="long-6">6. Apply Data Minimization</h4>
         <p>Collect, process, and retain only the minimum amount of personal data strictly necessary for the platform's functionality. Unnecessary ID photos or excessive payment details should not be stored longer than required, minimizing overall impact and vulnerability exposure in the event of a system breach.</p>
 
-        <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--border-light);" />
+        <hr style="margin: 36px 0; border: none; border-top: 1px solid var(--border-light);" />
 
         <h2 id="ai-generated-code">V. The Problem with AI-Generated Code</h2>
         <p>AI coding tools excel at generating functional boilerplate code rapidly, but they do not automatically audit for security. Code assistants prioritize solving the immediate syntax and logical task specified in a prompt, often omitting authorization checks, input sanitization, or secure credential handling unless explicitly commanded to include them.</p>
         <p>Developers who rely uncritically on AI-generated code risk deploying vulnerable patterns into production. AI tools must be treated as productivity assistants, not as substitutes for secure software engineering, rigorous peer review, and continuous security testing.</p>
 
-        <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--border-light);" />
+        <hr style="margin: 36px 0; border: none; border-top: 1px solid var(--border-light);" />
 
         <h2 id="conclusion">VI. Conclusion</h2>
         <p>Developing applications at high speed with modern AI tools opens incredible opportunities for innovation, but rapid deployment can never justify compromising user privacy or application security. A secure-by-design mindset, proactive risk mitigation, and compliance with privacy frameworks like Republic Act No. 10173 must be integrated into every stage of software development.</p>
         <p style="font-weight: 700; font-size: 18px; color: var(--accent-coral); margin-top: 24px;">Building fast is a choice. Building responsibly is an obligation.</p>
 
-        <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--border-light);" />
+        <hr style="margin: 36px 0; border: none; border-top: 1px solid var(--border-light);" />
 
         <h2 id="references" style="margin-bottom: 8px;">References</h2>
         <p class="references-text" style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin-top: 0;">Republic Act No. 10173 — Data Privacy Act of 2012 (Philippines), OWASP Top 10 (2021), OWASP Secure Design Principles, NIST Special Publication 800-53.</p>
