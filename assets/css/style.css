@@ -1983,14 +1983,16 @@ svg {
 }
 
 /* Compact Technical References Section */
-#references, h2#references {
-  margin-top: 32px;
+#references,
+h2#references {
+  margin-top: 28px;
   margin-bottom: 8px !important;
   font-size: 20px;
   font-weight: 700;
 }
 
-.references-text, #references + p {
+.references-text,
+#references+p {
   font-size: 13.5px !important;
   color: var(--text-muted) !important;
   line-height: 1.65 !important;
@@ -1999,13 +2001,15 @@ svg {
   text-align: left !important;
 }
 
-.references-text a, #references + p a {
+.references-text a,
+#references+p a {
   color: var(--accent-coral) !important;
   text-decoration: none;
   font-weight: 500;
 }
 
-.references-text a:hover, #references + p a:hover {
+.references-text a:hover,
+#references+p a:hover {
   text-decoration: underline;
 }
 
@@ -2103,24 +2107,28 @@ svg {
 
 /* Responsive Mobile Typography Scale */
 @media (max-width: 768px) {
+
   .article-body h2,
   #main-article-content h2 {
     font-size: 22px !important;
     margin-top: 36px !important;
     margin-bottom: 14px !important;
   }
+
   .article-body h3,
   #main-article-content h3 {
     font-size: 18.5px !important;
     margin-top: 26px !important;
     margin-bottom: 10px !important;
   }
+
   .article-body h4,
   #main-article-content h4 {
     font-size: 16px !important;
     margin-top: 20px !important;
     margin-bottom: 8px !important;
   }
+
   .article-body p,
   #main-article-content p {
     font-size: 15px !important;
@@ -2161,7 +2169,8 @@ svg {
 
 .concluding-quote-text {
   font-family: 'Playfair Display', 'Lora', serif !important;
-  font-size: 1.65rem !important; /* ~26px */
+  font-size: 1.65rem !important;
+  /* ~26px */
   font-weight: 700 !important;
   color: var(--text-main) !important;
   line-height: 1.45 !important;
@@ -2177,8 +2186,10 @@ svg {
     padding: 16px 0 !important;
     margin: 32px 0 !important;
   }
+
   .concluding-quote-text {
-    font-size: 1.25rem !important; /* ~20px */
+    font-size: 1.25rem !important;
+    /* ~20px */
     line-height: 1.4 !important;
   }
 }
