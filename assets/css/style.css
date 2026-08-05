@@ -2110,46 +2110,44 @@ svg {
   }
 }
 
-/* Single Clean Pull Quote Card */
+/* Editorial Pull Quote (Unboxed) */
 .concluding-quote-card {
-  margin: 44px 0 !important;
-  padding: 38px 44px !important;
-  background: var(--bg-card) !important;
-  border: 1px solid var(--border-light) !important;
-  border-radius: 20px !important;
+  margin: 48px 0 !important;
+  padding: 24px 0 !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
   text-align: center !important;
-  box-shadow: var(--shadow-sm) !important;
+  box-shadow: none !important;
   position: relative !important;
-  transition: all var(--transition-normal);
 }
 
 .concluding-quote-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md) !important;
-  border-color: rgba(165, 21, 12, 0.25) !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 .quote-icon-wrap {
   display: flex !important;
   justify-content: center !important;
-  margin-bottom: 14px !important;
+  margin-bottom: 12px !important;
 }
 
 .quote-icon-wrap svg {
-  width: 22px !important;
-  height: 22px !important;
+  width: 24px !important;
+  height: 24px !important;
   fill: var(--accent-coral) !important;
-  opacity: 0.75 !important;
+  opacity: 0.85 !important;
 }
 
 .concluding-quote-text {
   font-family: 'Playfair Display', 'Lora', serif !important;
-  font-size: 1.55rem !important; /* ~25px */
+  font-size: 1.65rem !important; /* ~26px */
   font-weight: 700 !important;
   color: var(--text-main) !important;
   line-height: 1.45 !important;
   margin: 0 !important;
-  padding: 0 !important;
+  padding: 0 16px !important;
   border: none !important;
   background: none !important;
   letter-spacing: -0.2px !important;
@@ -2157,11 +2155,11 @@ svg {
 
 @media (max-width: 768px) {
   .concluding-quote-card {
-    padding: 26px 20px !important;
+    padding: 16px 0 !important;
     margin: 32px 0 !important;
   }
   .concluding-quote-text {
-    font-size: 1.2rem !important; /* ~19px */
+    font-size: 1.25rem !important; /* ~20px */
     line-height: 1.4 !important;
   }
 }
@@ -2201,7 +2199,6 @@ body.dark-theme .toc-card,
 body.dark-theme .author-card,
 body.dark-theme .profile-card,
 body.dark-theme .metric-card,
-body.dark-theme .concluding-quote-card,
 body.dark-theme .article-body blockquote,
 body.dark-theme #main-article-content blockquote {
   background-color: #1C1C24 !important;
@@ -2210,7 +2207,9 @@ body.dark-theme #main-article-content blockquote {
 }
 
 body.dark-theme .concluding-quote-card {
-  border-left: 1px solid #2A2A36 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 body.dark-theme .article-body blockquote,
