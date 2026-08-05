@@ -1,15 +1,20 @@
 const initialData = {
   author: {
     name: "Elyssa Contreras",
+    fullName: "Ma. Elyssa Beda D. Contreras",
     nickname: "EL",
-    title: "IT Student",
+    role: "BSIT 3rd Year Student",
+    course: "BS Information Technology",
     school: "Father Saturnino Urios University",
     yearLevel: "3rd Year",
+    motto: "instructor by name, self-study by experience",
     email: "ely.admin@elysblog.com",
     bio: "Hi! I'm a 3rd-year BSIT student at Father Saturnino Urios University who is passionate about designing and developing websites. Alongside web development, I aim to expand my knowledge of cybersecurity to better understand how to build secure and reliable applications. Through this blog, I share my knowledge, projects, experiences, and reflections as I continue exploring the ever-evolving world of technology, web development, and cybersecurity.",
-    facebook: "facebook.com/elycontz",
-    github: "github.com/elypie",
-    avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400"
+    facebook: "https://facebook.com/elycontz",
+    github: "https://github.com/elypie",
+    instagram: "https://instagram.com/_beymm",
+    avatarUrl: "assets/images/profile-pfp.jpg",
+    coverUrl: "assets/images/profile-cover.png"
   },
   categories: [
     { id: 1, name: "Information Assurance", count: 1, color: "#E55B44" },

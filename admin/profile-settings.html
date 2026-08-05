@@ -71,26 +71,98 @@
         <p style="color: var(--text-muted); font-size: 14px;">Manage your account information and password.</p>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+      <div style="display: grid; grid-template-columns: 1fr; gap: 24px; max-width: 860px;">
         <!-- Profile Info Form -->
         <div style="background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-light); padding: 28px;">
-          <h3 style="font-size: 18px; margin-bottom: 24px;">Profile Information</h3>
+          <h3 style="font-size: 18px; margin-bottom: 24px;">Profile Page Information</h3>
           <form id="profile-info-form">
-            <div class="form-group">
-              <label class="form-label">Name</label>
-              <input type="text" id="admin-name-input" class="input-field" value="Ely" required />
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">Display Name</label>
+                <input type="text" id="admin-name-input" class="input-field" placeholder="e.g. Elyssa Contreras" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Full Name (Quick Facts)</label>
+                <input type="text" id="admin-fullname-input" class="input-field" placeholder="e.g. Ma. Elyssa Beda D. Contreras" required />
+              </div>
             </div>
-            <div class="form-group">
-              <label class="form-label">Email</label>
-              <input type="email" id="admin-email-input" class="input-field" value="ely.admin@elysblog.com" required />
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">Role / Subtitle</label>
+                <input type="text" id="admin-role-input" class="input-field" placeholder="e.g. BSIT 3rd Year Student" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Course</label>
+                <input type="text" id="admin-course-input" class="input-field" placeholder="e.g. BS Information Technology" required />
+              </div>
             </div>
-            <button type="submit" class="btn-primary">Save Changes</button>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">University / School</label>
+                <input type="text" id="admin-school-input" class="input-field" placeholder="e.g. Father Saturnino Urios University" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Year Level</label>
+                <input type="text" id="admin-yearlevel-input" class="input-field" placeholder="e.g. 3rd Year" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Motto / Tagline Quote</label>
+              <input type="text" id="admin-motto-input" class="input-field" placeholder="e.g. instructor by name, self-study by experience" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">About Me Bio</label>
+              <textarea id="admin-bio-input" class="input-field" rows="4" style="resize: vertical;" required></textarea>
+            </div>
+
+            <h4 style="font-size: 15px; margin: 24px 0 16px 0; color: var(--accent-coral);">Contact & Social Links</h4>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" id="admin-email-input" class="input-field" placeholder="e.g. ely.admin@elysblog.com" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Facebook Profile URL</label>
+                <input type="text" id="admin-facebook-input" class="input-field" placeholder="https://facebook.com/username" />
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">GitHub Profile URL</label>
+                <input type="text" id="admin-github-input" class="input-field" placeholder="https://github.com/username" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Instagram Profile URL</label>
+                <input type="text" id="admin-instagram-input" class="input-field" placeholder="https://instagram.com/username" />
+              </div>
+            </div>
+
+            <h4 style="font-size: 15px; margin: 24px 0 16px 0; color: var(--accent-coral);">Profile Media</h4>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">Avatar Image URL / Path</label>
+                <input type="text" id="admin-avatar-input" class="input-field" placeholder="assets/images/profile-pfp.jpg" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Cover Banner Image URL / Path</label>
+                <input type="text" id="admin-cover-input" class="input-field" placeholder="assets/images/profile-cover.png" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-top: 12px;">Save Profile Changes</button>
           </form>
         </div>
 
         <!-- Change Password Form -->
         <div style="background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-light); padding: 28px;">
-          <h3 style="font-size: 18px; margin-bottom: 24px;">Change Password</h3>
+          <h3 style="font-size: 18px; margin-bottom: 24px;">Change Admin Password</h3>
           <form id="password-form">
             <div class="form-group">
               <label class="form-label">Current Password</label>
@@ -116,20 +188,62 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const data = getBlogData();
-      const nameInput = document.getElementById('admin-name-input');
-      const emailInput = document.getElementById('admin-email-input');
+      const author = data.author || {};
 
-      if (data.author) {
-        nameInput.value = data.author.nickname || 'Ely';
-        emailInput.value = data.author.email || 'ely.admin@elysblog.com';
-      }
+      const nameInput = document.getElementById('admin-name-input');
+      const fullNameInput = document.getElementById('admin-fullname-input');
+      const roleInput = document.getElementById('admin-role-input');
+      const courseInput = document.getElementById('admin-course-input');
+      const schoolInput = document.getElementById('admin-school-input');
+      const yearInput = document.getElementById('admin-yearlevel-input');
+      const mottoInput = document.getElementById('admin-motto-input');
+      const bioInput = document.getElementById('admin-bio-input');
+      const emailInput = document.getElementById('admin-email-input');
+      const facebookInput = document.getElementById('admin-facebook-input');
+      const githubInput = document.getElementById('admin-github-input');
+      const instagramInput = document.getElementById('admin-instagram-input');
+      const avatarInput = document.getElementById('admin-avatar-input');
+      const coverInput = document.getElementById('admin-cover-input');
+
+      // Populate input values
+      nameInput.value = author.name || 'Elyssa Contreras';
+      fullNameInput.value = author.fullName || 'Ma. Elyssa Beda D. Contreras';
+      roleInput.value = author.role || 'BSIT 3rd Year Student';
+      courseInput.value = author.course || 'BS Information Technology';
+      schoolInput.value = author.school || 'Father Saturnino Urios University';
+      yearInput.value = author.yearLevel || '3rd Year';
+      mottoInput.value = author.motto || 'instructor by name, self-study by experience';
+      bioInput.value = author.bio || '';
+      emailInput.value = author.email || 'ely.admin@elysblog.com';
+      facebookInput.value = author.facebook || 'https://facebook.com/elycontz';
+      githubInput.value = author.github || 'https://github.com/elypie';
+      instagramInput.value = author.instagram || 'https://instagram.com/_beymm';
+      avatarInput.value = author.avatarUrl || 'assets/images/profile-pfp.jpg';
+      coverInput.value = author.coverUrl || 'assets/images/profile-cover.png';
 
       document.getElementById('profile-info-form').addEventListener('submit', (e) => {
         e.preventDefault();
-        data.author.nickname = nameInput.value;
-        data.author.email = emailInput.value;
+        
+        data.author = {
+          ...data.author,
+          name: nameInput.value,
+          fullName: fullNameInput.value,
+          role: roleInput.value,
+          course: courseInput.value,
+          school: schoolInput.value,
+          yearLevel: yearInput.value,
+          motto: mottoInput.value,
+          bio: bioInput.value,
+          email: emailInput.value,
+          facebook: facebookInput.value,
+          github: githubInput.value,
+          instagram: instagramInput.value,
+          avatarUrl: avatarInput.value,
+          coverUrl: coverInput.value
+        };
+
         saveBlogData(data);
-        alert("Profile info updated successfully!");
+        alert("Profile information updated successfully! Public profile page has been updated.");
       });
 
       document.getElementById('password-form').addEventListener('submit', (e) => {
