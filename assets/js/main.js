@@ -313,27 +313,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }).join('');
     };
 
-    window.scrollToHeading = function(id, shouldExpand = false) {
+    window.scrollToHeading = function(id) {
       const targetElement = document.getElementById(id);
       if (targetElement) {
         const yOffset = -90;
         const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
         window.scrollTo({ top: y, behavior: 'smooth' });
       }
-
-      if (shouldExpand) {
-        window.toggleTocGroup(id, true);
-      }
     };
 
-    window.toggleTocGroup = function(groupId, forceExpand = false) {
+    window.toggleTocGroup = function(groupId) {
       const allGroups = document.querySelectorAll(`.toc-group[data-group-id="${groupId}"]`);
       allGroups.forEach(g => {
-        if (forceExpand) {
-          g.classList.add('expanded');
-        } else {
-          g.classList.toggle('expanded');
-        }
+        g.classList.toggle('expanded');
       });
     };
 
@@ -342,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (hasChildren) {
         window.toggleTocGroup(groupId);
       } else {
-        window.scrollToHeading(groupId, false);
+        window.scrollToHeading(groupId);
       }
     };
 
@@ -513,15 +505,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const parentHeader = link.closest('.toc-group-header');
                 if (parentHeader) {
                   parentHeader.classList.add('active-header');
-                }
-
-                // Auto expand parent group while scrolling
-                const parentGroup = link.closest('.toc-group');
-                if (parentGroup) {
-                  const groupId = parentGroup.getAttribute('data-group-id');
-                  if (groupId) {
-                    document.querySelectorAll(`.toc-group[data-group-id="${groupId}"]`).forEach(g => g.classList.add('expanded'));
-                  }
                 }
               });
             }
