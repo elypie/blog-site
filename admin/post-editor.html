@@ -266,11 +266,16 @@
     </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/supabase-client.js"></script>
   <script src="../assets/js/data.js"></script>
   <script src="../assets/js/admin.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const data = getBlogData();
+    document.addEventListener('DOMContentLoaded', async () => {
+      const data = (typeof getBlogDataAsync === 'function') 
+        ? await getBlogDataAsync(true) 
+        : getBlogData();
       const urlParams = new URLSearchParams(window.location.search);
       const postId = parseInt(urlParams.get('id'));
 
@@ -287,7 +292,12 @@
 
       let currentPost = null;
       if (postId) {
-        currentPost = data.posts.find(p => p.id === postId);
+        if (typeof fetchPostBySlugOrIdFromSupabase === 'function' && isSupabaseConfigured()) {
+          currentPost = await fetchPostBySlugOrIdFromSupabase(postId);
+        } else {
+          currentPost = data.posts.find(p => p.id === postId);
+        }
+
         if (currentPost) {
           pageTitle.textContent = 'Edit Blog Post';
           titleInput.value = currentPost.title;
@@ -297,6 +307,88 @@
           updateEditorStats();
         }
       }
+
+      // Populate Category Options
+      if (catSelect && data.categories) {
+        catSelect.innerHTML = data.categories.map(c => `
+          <option value="${c.name}" ${currentPost && currentPost.category === c.name ? 'selected' : ''}>${c.name}</option>
+        `).join('');
+      }
+
+      function updateEditorStats() {
+        const text = editorCanvas.innerText || '';
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        const chars = text.length;
+        wordCountEl.textContent = words;
+        charCountEl.textContent = chars;
+      }
+
+      editorCanvas.addEventListener('input', updateEditorStats);
+
+      // Handle Save & Publish to Supabase
+      async function handleSave(status) {
+        const title = titleInput.value.trim();
+        if (!title) { alert("Please enter article title"); return; }
+
+        const htmlContent = editorCanvas.innerHTML;
+        const plainText = editorCanvas.innerText.trim();
+        const textSummary = plainText.slice(0, 160).replace(/\n/g, ' ') + '...';
+
+        const wordCount = plainText ? plainText.split(/\s+/).length : 0;
+        const calculatedReadTime = Math.max(1, Math.ceil(wordCount / 200)) + " min read";
+
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+        const postObj = {
+          id: currentPost ? currentPost.id : null,
+          title,
+          slug,
+          category: catSelect.value || "Information Assurance",
+          status, // 'Published' or 'Draft'
+          date: status === 'Published' ? formattedDate : (currentPost && currentPost.date ? currentPost.date : formattedDate),
+          readTime: calculatedReadTime,
+          author: "Ely",
+          featured: currentPost ? currentPost.featured : false,
+          isLatest: status === 'Published',
+          coverImage: imageInput.value || "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200",
+          summary: textSummary,
+          content: htmlContent
+        };
+
+        try {
+          if (typeof savePostAsync === 'function') {
+            await savePostAsync(postObj, Boolean(currentPost));
+          } else {
+            if (currentPost) {
+              const index = data.posts.findIndex(p => p.id === currentPost.id);
+              data.posts[index] = postObj;
+            } else {
+              postObj.id = Date.now();
+              data.posts.unshift(postObj);
+            }
+            saveBlogData(data);
+          }
+          alert(`Blog post saved as ${status}!`);
+          window.location.href = 'posts.html';
+        } catch(err) {
+          alert('Failed to save blog post: ' + err.message);
+        }
+      }
+
+      document.getElementById('blog-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleSave('Published');
+      });
+
+      document.getElementById('save-draft-btn').addEventListener('click', () => {
+        handleSave('Draft');
+      });
+    });
+  </script>
+</body>
+</html>
 
       // ExecCommand helper
       document.querySelectorAll('.editor-btn[data-cmd]').forEach(btn => {

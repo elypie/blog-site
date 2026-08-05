@@ -1,7 +1,9 @@
 /* Ely's Blog - Public JS Script */
 
-document.addEventListener('DOMContentLoaded', () => {
-  const data = getBlogData();
+document.addEventListener('DOMContentLoaded', async () => {
+  const data = (typeof getBlogDataAsync === 'function') 
+    ? await getBlogDataAsync(false) 
+    : getBlogData();
 
   // Dark Mode Toggle with SVG Icons
   const themeBtn = document.getElementById('theme-toggle-btn');
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const featuredPostsRoot = document.getElementById('homepage-featured-posts-root');
 
   function renderHomepagePosts() {
-    const freshData = getBlogData();
+    const freshData = data;
     const publishedPosts = freshData.posts.filter(p => p.status === 'Published');
 
     // Sort published posts by newest first

@@ -5,15 +5,22 @@ if (localStorage.getItem('elys_admin_logged_in') !== 'true') {
   window.location.href = 'login.html';
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   initAdminTheme();
-  const data = getBlogData();
+
+  // Async data fetch from Supabase (with fallback)
+  const data = (typeof getBlogDataAsync === 'function') 
+    ? await getBlogDataAsync(true) 
+    : getBlogData();
 
   // Setup Logout action for sidebar exit links
   const sidebarExitLink = document.querySelector('.sidebar-footer .sidebar-link');
   if (sidebarExitLink) {
-    sidebarExitLink.addEventListener('click', (e) => {
+    sidebarExitLink.addEventListener('click', async (e) => {
       e.preventDefault();
+      if (typeof signOutAdminWithSupabase === 'function') {
+        await signOutAdminWithSupabase();
+      }
       localStorage.removeItem('elys_admin_logged_in');
       localStorage.removeItem('elys_admin_user');
       window.location.href = 'login.html';
@@ -47,6 +54,17 @@ document.addEventListener('DOMContentLoaded', () => {
         return true;
       });
 
+      if (filtered.length === 0) {
+        postsTableBody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 40px; color: var(--text-muted);">
+              No blog posts found in database.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
       postsTableBody.innerHTML = filtered.map(post => `
         <tr>
           <td>
@@ -55,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <strong style="max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${post.title}</strong>
             </div>
           </td>
-          <td><span className="badge-category-subtle" style="padding: 4px 10px; background: #FDE8E3; color: #E55B44; border-radius: 12px; font-size: 12px; font-weight: 600;">${post.category}</span></td>
+          <td><span class="badge-category-subtle" style="padding: 4px 10px; background: rgba(165,21,12,0.08); color: var(--accent-coral); border-radius: 12px; font-size: 12px; font-weight: 600;">${post.category}</span></td>
           <td>
             <span class="badge-status ${post.status === 'Published' ? 'published' : 'draft'}" onclick="toggleStatus(${post.id})" style="cursor: pointer;">
               ● ${post.status}
@@ -84,19 +102,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Global functions for inline table events
-  window.toggleStatus = function (id) {
+  window.toggleStatus = async function (id) {
     const post = data.posts.find(p => p.id === id);
     if (post) {
       post.status = post.status === 'Published' ? 'Draft' : 'Published';
-      saveBlogData(data);
+      if (typeof savePostAsync === 'function') {
+        await savePostAsync(post, true);
+      } else {
+        saveBlogData(data);
+      }
       window.location.reload();
     }
   };
 
-  window.deletePost = function (id) {
+  window.deletePost = async function (id) {
     if (confirm("Delete this blog post?")) {
-      data.posts = data.posts.filter(p => p.id !== id);
-      saveBlogData(data);
+      if (typeof deletePostAsync === 'function') {
+        await deletePostAsync(id);
+      } else {
+        data.posts = data.posts.filter(p => p.id !== id);
+        saveBlogData(data);
+      }
       window.location.reload();
     }
   };

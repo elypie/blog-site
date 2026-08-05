@@ -129,44 +129,42 @@
               <td>
                 <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="openCategoryPosts('${cat.name.replace(/'/g, "\\'")}')">
                   <div style="width: 36px; height: 36px; border-radius: 10px; background: #FDE8E3; color: #E55B44; display: flex; align-items: center; justify-content: center;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-                  </div>
-                  <div>
-                    <strong style="color: var(--text-main);">${cat.name}</strong>
-                    <div style="font-size: 11px; color: var(--accent-coral); font-weight: 600;">Click to view posts →</div>
-                  </div>
-                </div>
-              </td>
-              <td><span style="font-size: 13px; color: var(--text-muted); font-weight: 600;">${count} posts</span></td>
-              <td style="text-align: right;">
-                <button onclick="openCategoryPosts('${cat.name.replace(/'/g, "\\'")}')" class="btn-action-edit" style="margin-right: 6px;">View Posts (${count})</button>
+            <div class="category-admin-card">
+              <div class="category-card-top">
+                <span class="category-dot" style="background: ${cat.color};"></span>
+                <span class="category-count-pill">${postCount} posts</span>
+              </div>
+              <h3 class="category-name">${cat.name}</h3>
+              <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Category identifier for articles</p>
+
+              <div class="category-card-actions">
+                <button onclick="viewCategoryPosts('${cat.name}')" class="btn-action-edit">View Posts</button>
                 <button onclick="deleteCat(${cat.id})" class="btn-action-delete">Delete</button>
-              </td>
-            </tr>
+              </div>
+            </div>
           `;
         }).join('');
       }
 
-      window.openCategoryPosts = function(catName) {
+      window.viewCategoryPosts = function(catName) {
         const catPosts = data.posts.filter(p => p.category.toLowerCase() === catName.toLowerCase());
-        catModalTitle.textContent = `Category: ${catName} (${catPosts.length} posts)`;
+        catModalTitle.textContent = `${catName} Articles (${catPosts.length})`;
 
         if (catPosts.length === 0) {
-          catPostsContainer.innerHTML = `
-            <div style="text-align: center; padding: 36px; color: var(--text-muted);">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 12px; opacity: 0.5;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <p style="font-size: 15px; font-weight: 600;">No posts in this category yet.</p>
-              <a href="post-editor.html" class="btn-primary" style="display: inline-block; margin-top: 16px;">+ Write Article in ${catName}</a>
+          catModalBody.innerHTML = `
+            <div style="padding: 40px; text-align: center; color: var(--text-muted);">
+              <p style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">No posts assigned to this category yet.</p>
+              <a href="post-editor.html" class="btn-primary" style="font-size: 13px;">+ Write Article in ${catName}</a>
             </div>
           `;
         } else {
-          catPostsContainer.innerHTML = `
-            <div style="display: flex; flex-direction: column; gap: 16px;">
+          catModalBody.innerHTML = `
+            <div style="display: flex; flex-direction: column; gap: 12px;">
               ${catPosts.map(post => `
-                <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border-light); border-radius: 16px; background-color: var(--bg-primary);">
-                  <div style="display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0;">
-                    <img src="${post.coverImage}" alt="" style="width: 54px; height: 54px; border-radius: 12px; object-fit: cover;" />
-                    <div style="min-width: 0; flex: 1;">
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--bg-primary); border: 1px solid var(--border-light); border-radius: 12px;">
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="${post.coverImage}" alt="" style="width: 40px; height: 40px; border-radius: 8px; object-fit: cover;" />
+                    <div>
                       <h4 style="font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;">${post.title}</h4>
                       <div style="display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--text-muted);">
                         <span>Published: ${post.date}</span>
@@ -175,41 +173,14 @@
                       </div>
                     </div>
                   </div>
-                  <div style="display: flex; align-items: center; gap: 8px; margin-left: 16px;">
-                    <a href="post-editor.html?id=${post.id}" class="btn-action-edit">Edit Post</a>
-                  </div>
                 </div>
               `).join('')}
-              <div style="text-align: right; margin-top: 12px;">
-                <a href="posts.html?category=${encodeURIComponent(catName)}" class="btn-secondary" style="font-size: 13px;">Manage in Posts Manager →</a>
-              </div>
             </div>
           `;
         }
 
         catModal.classList.add('is-open');
       };
-
-      closeCatModalBtn.addEventListener('click', () => {
-        catModal.classList.remove('is-open');
-      });
-
-      window.deleteCat = function(id) {
-        if (confirm("Delete category?")) {
-          data.categories = data.categories.filter(c => c.id !== id);
-          saveBlogData(data);
-          renderCategories();
-        }
-      };
-
-      document.getElementById('add-cat-btn').addEventListener('click', () => {
-        const name = prompt("Enter new category name:");
-        if (name) {
-          data.categories.push({ id: Date.now(), name, count: 0, color: "#E55B44" });
-          saveBlogData(data);
-          renderCategories();
-        }
-      });
 
       renderCategories();
     });

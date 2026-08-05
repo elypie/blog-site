@@ -124,9 +124,21 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/supabase-client.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // If already logged in, redirect straight to dashboard
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Check active Supabase session
+      if (typeof getAdminSessionFromSupabase === 'function' && isSupabaseConfigured()) {
+        const session = await getAdminSessionFromSupabase();
+        if (session) {
+          localStorage.setItem('elys_admin_logged_in', 'true');
+          window.location.href = 'dashboard.html';
+          return;
+        }
+      }
+
       if (localStorage.getItem('elys_admin_logged_in') === 'true') {
         window.location.href = 'dashboard.html';
       }
@@ -139,11 +151,9 @@
       const eyeIcon = document.getElementById('eye-icon');
       const eyeOffIcon = document.getElementById('eye-off-icon');
 
-      // Ensure input fields are completely empty on initial load
       usernameInput.value = '';
       passwordInput.value = '';
 
-      // Password visibility toggle
       togglePasswordBtn.addEventListener('click', () => {
         const isPassword = passwordInput.type === 'password';
         passwordInput.type = isPassword ? 'text' : 'password';
@@ -151,20 +161,35 @@
         eyeOffIcon.style.display = isPassword ? 'block' : 'none';
       });
 
-      loginForm.addEventListener('submit', (e) => {
+      loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        errorBanner.style.display = 'none';
         const username = usernameInput.value.trim();
         const password = passwordInput.value.trim();
 
-        // Accept 'admin' or 'ely' with valid password
+        // Attempt Supabase Email Authentication if input looks like an email or if Supabase is connected
+        if (typeof signInAdminWithSupabase === 'function' && isSupabaseConfigured()) {
+          try {
+            const email = username.includes('@') ? username : 'ely.admin@elysblog.com';
+            await signInAdminWithSupabase(email, password);
+            localStorage.setItem('elys_admin_logged_in', 'true');
+            localStorage.setItem('elys_admin_user', username);
+            window.location.href = 'dashboard.html';
+            return;
+          } catch(err) {
+            console.warn('Supabase Auth attempt failed, trying fallback authentication:', err);
+          }
+        }
+
+        // Fallback local authentication
         if ((username.toLowerCase() === 'admin' || username.toLowerCase() === 'ely') && (password === 'admin123' || password === 'admin' || password === 'ely123')) {
           localStorage.setItem('elys_admin_logged_in', 'true');
           localStorage.setItem('elys_admin_user', username);
           window.location.href = 'dashboard.html';
         } else {
           errorBanner.style.display = 'block';
-          errorBanner.textContent = 'Invalid username or password. Please check your credentials and try again.';
-                }
+          errorBanner.textContent = 'Invalid credentials. Please verify your login details and try again.';
+        }
       });
     });
   </script>

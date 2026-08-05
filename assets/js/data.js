@@ -159,7 +159,7 @@ const initialData = {
   ]
 };
 
-// LocalStorage Persistence Helper
+// LocalStorage Persistence Helper (Fallback)
 function getBlogData() {
   const saved = localStorage.getItem('elys_blog_data');
   if (saved) {
@@ -192,5 +192,77 @@ function saveBlogData(data) {
 
 // Sync default initialData to localStorage on script load
 localStorage.setItem('elys_blog_data', JSON.stringify(getBlogData()));
+
+// --- ASYNCHRONOUS SUPABASE DATA ADAPTER ---
+
+async function getBlogDataAsync(forAdmin = false) {
+  if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+    const posts = forAdmin 
+      ? await fetchAllPostsFromSupabase() 
+      : await fetchPublishedPostsFromSupabase();
+    
+    const categories = await fetchCategoriesFromSupabase();
+
+    if (posts !== null) {
+      const data = {
+        author: initialData.author,
+        categories: (categories && categories.length > 0) ? categories : initialData.categories,
+        posts: posts
+      };
+
+      // Seed initial posts to Supabase DB if database table is completely empty
+      if (posts.length === 0 && initialData.posts.length > 0 && forAdmin) {
+        for (const post of initialData.posts) {
+          try {
+            await createPostInSupabase(post);
+          } catch(e) {}
+        }
+        const seededPosts = await fetchAllPostsFromSupabase();
+        if (seededPosts) data.posts = seededPosts;
+      }
+
+      saveBlogData(data);
+      return data;
+    }
+  }
+
+  // Fallback to local storage if Supabase is not configured or offline
+  return getBlogData();
+}
+
+async function savePostAsync(post, isEdit = false) {
+  if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+    if (isEdit && post.id) {
+      return await updatePostInSupabase(post.id, post);
+    } else {
+      return await createPostInSupabase(post);
+    }
+  }
+
+  // Fallback to local storage
+  const data = getBlogData();
+  if (isEdit && post.id) {
+    const idx = data.posts.findIndex(p => p.id === post.id);
+    if (idx !== -1) data.posts[idx] = post;
+  } else {
+    post.id = Date.now();
+    data.posts.unshift(post);
+  }
+  saveBlogData(data);
+  return post;
+}
+
+async function deletePostAsync(id) {
+  if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+    const success = await deletePostFromSupabase(id);
+    if (success) return true;
+  }
+
+  const data = getBlogData();
+  data.posts = data.posts.filter(p => p.id !== id);
+  saveBlogData(data);
+  return true;
+}
+
 
 
