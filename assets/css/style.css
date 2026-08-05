@@ -65,39 +65,39 @@
 }
 
 body.dark-theme {
-  --bg-primary: #17171B;
+  --bg-primary: #121212;
   /* Page Background */
-  --bg-card: #2B2930;
+  --bg-card: #1C1C24;
   /* Elevated Cards */
-  --bg-card-secondary: #232129;
+  --bg-card-secondary: #181820;
   /* Secondary Surface / Navbar */
-  --bg-card-hover: #35333B;
+  --bg-card-hover: #262632;
   /* Card Hover State */
-  --bg-dark: #1E1C22;
+  --bg-dark: #121212;
   /* Footer Background */
-  --bg-dark-accent: #17171B;
+  --bg-dark-accent: #121212;
 
   --accent-coral: #A5150C;
   /* Accent Red */
   --accent-coral-hover: #861009;
   --accent-coral-light: rgba(165, 21, 12, 0.12);
 
-  --text-main: #FFFFFF;
-  /* Primary White Text */
-  --text-muted: #B8B8C0;
+  --text-main: #F3F4F6;
+  /* Primary Crisp White Text */
+  --text-muted: #9CA3AF;
   /* Soft Gray Secondary Text */
-  --text-light: #8E8E99;
+  --text-light: #6B7280;
   --text-white: #FFFFFF;
 
-  --border-light: rgba(255, 255, 255, 0.08);
-  /* Low-opacity white border */
-  --border-subtle: rgba(255, 255, 255, 0.12);
+  --border-light: #2A2A36;
+  /* Dark border */
+  --border-subtle: #363644;
 
-  --badge-bg: #232129;
-  --badge-text: #FFFFFF;
+  --badge-bg: #1C1C24;
+  --badge-text: #F3F4F6;
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.25);
   --shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.45);
 }
 
