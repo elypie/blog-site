@@ -175,7 +175,14 @@ const initialData = {
 
         <h2 id="conclusion">VI. Conclusion</h2>
         <p>Developing applications at high speed with modern AI tools opens incredible opportunities for innovation, but rapid deployment can never justify compromising user privacy or application security. A secure-by-design mindset, proactive risk mitigation, and compliance with privacy frameworks like Republic Act No. 10173 must be integrated into every stage of software development.</p>
-        <p style="font-weight: 700; font-size: 18px; color: var(--accent-coral); margin-top: 24px;">Building fast is a choice. Building responsibly is an obligation.</p>
+        <div class="concluding-quote-card">
+          <div class="quote-icon-wrap">
+            <svg viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+          </div>
+          <blockquote class="concluding-quote-text">
+            "Building fast is a choice. Building responsibly is an obligation."
+          </blockquote>
+        </div>
 
         <hr style="margin: 36px 0; border: none; border-top: 1px solid var(--border-light);" />
 
