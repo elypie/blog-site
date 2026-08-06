@@ -2281,3 +2281,276 @@ body.dark-theme .toc-link.child-link,
 body.dark-theme .card-summary {
   color: #9CA3AF !important;
 }
+
+/* ==========================================================================
+   Interactive Enhancements: Reading Progress Bar, Theme Toggle & Search Modal
+   ========================================================================== */
+
+/* 1. Reading Progress Bar */
+.reading-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.reading-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #A5150C 0%, #E55B44 50%, #FF8A7A 100%);
+  box-shadow: 0 0 10px rgba(229, 91, 68, 0.6);
+  transition: width 0.1s ease-out;
+  border-radius: 0 2px 2px 0;
+}
+
+/* 2. Theme Toggle & Header Action Buttons */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-btn {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding: 0;
+}
+
+.icon-btn:hover {
+  background: var(--accent-coral-light);
+  color: var(--accent-coral);
+  border-color: rgba(165, 21, 12, 0.3);
+  transform: translateY(-1px);
+}
+
+body.dark-theme .icon-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #E2E8F0;
+}
+
+body.dark-theme .icon-btn:hover {
+  background: rgba(229, 91, 68, 0.2);
+  color: #FF8A7A;
+  border-color: rgba(229, 91, 68, 0.4);
+}
+
+.search-shortcut-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+body.dark-theme .search-shortcut-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #A0AEC0;
+}
+
+/* 3. Quick Search Modal (Ctrl + K) */
+.quick-search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 15, 20, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 80px 16px 24px 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.quick-search-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.quick-search-modal {
+  width: 100%;
+  max-width: 640px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  transform: translateY(-20px) scale(0.97);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.quick-search-overlay.active .quick-search-modal {
+  transform: translateY(0) scale(1);
+}
+
+body.dark-theme .quick-search-modal {
+  background: #181720;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+.quick-search-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-light);
+  gap: 12px;
+}
+
+body.dark-theme .quick-search-header {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.quick-search-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.quick-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--text-main);
+  outline: none;
+}
+
+body.dark-theme .quick-search-input {
+  color: #F7FAFC;
+}
+
+.quick-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.quick-search-close {
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.quick-search-close:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-main);
+}
+
+body.dark-theme .quick-search-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}
+
+.quick-search-results {
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.search-result-item {
+  display: block;
+  padding: 12px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text-main);
+  transition: background 0.15s ease;
+  margin-bottom: 4px;
+}
+
+.search-result-item:hover,
+.search-result-item.selected {
+  background: rgba(165, 21, 12, 0.06);
+}
+
+body.dark-theme .search-result-item {
+  color: #E2E8F0;
+}
+
+body.dark-theme .search-result-item:hover,
+body.dark-theme .search-result-item.selected {
+  background: rgba(229, 91, 68, 0.15);
+}
+
+.search-result-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--text-main);
+}
+
+body.dark-theme .search-result-title {
+  color: #FFFFFF;
+}
+
+.search-result-snippet {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+body.dark-theme .search-result-snippet {
+  color: #A0AEC0;
+}
+
+.search-result-category {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-coral);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quick-search-footer {
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.02);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+body.dark-theme .quick-search-footer {
+  background: rgba(0, 0, 0, 0.2);
+  border-top-color: rgba(255, 255, 255, 0.08);
+  color: #718096;
+}
+
+.quick-search-empty {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--text-muted);
+  font-size: 14px;
+}

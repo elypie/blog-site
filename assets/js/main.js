@@ -560,4 +560,208 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }, { passive: true });
   }
+
+  // --- 1. Theme Toggle Initialization ---
+  function initThemeToggle() {
+    const savedTheme = localStorage.getItem('elys_theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.body.classList.add('dark-theme');
+    }
+
+    const toggleBtns = document.querySelectorAll('.theme-toggle-btn');
+    toggleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        const isDark = document.body.classList.contains('dark-theme');
+        localStorage.setItem('elys_theme', isDark ? 'dark' : 'light');
+        updateToggleIcons(isDark);
+      });
+    });
+
+    updateToggleIcons(document.body.classList.contains('dark-theme'));
+  }
+
+  function updateToggleIcons(isDark) {
+    document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+      btn.innerHTML = isDark ? `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      ` : `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      `;
+      btn.setAttribute('title', isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode');
+      btn.setAttribute('aria-label', isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode');
+    });
+  }
+
+  // --- 2. Reading Progress Bar ---
+  function initReadingProgressBar() {
+    const progressBar = document.getElementById('reading-progress-bar');
+    if (!progressBar) return;
+
+    window.addEventListener('scroll', () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight <= 0) {
+        progressBar.style.width = '0%';
+        return;
+      }
+      const progress = Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100));
+      progressBar.style.width = `${progress}%`;
+    }, { passive: true });
+  }
+
+  // --- 3. Quick Search Modal (Ctrl + K) ---
+  function initQuickSearchModal() {
+    const overlay = document.getElementById('quick-search-overlay');
+    const input = document.getElementById('quick-search-input');
+    const resultsContainer = document.getElementById('quick-search-results');
+    const closeBtn = document.getElementById('quick-search-close');
+    const openBtns = document.querySelectorAll('.nav-search-btn, [data-open-search]');
+
+    if (!overlay || !input || !resultsContainer) return;
+
+    let selectedIndex = -1;
+    let currentResults = [];
+
+    const openModal = () => {
+      overlay.classList.add('active');
+      input.value = '';
+      selectedIndex = -1;
+      renderQuickSearchResults('');
+      setTimeout(() => input.focus(), 50);
+    };
+
+    const closeModal = () => {
+      overlay.classList.remove('active');
+    };
+
+    openBtns.forEach(btn => btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    }));
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (overlay.classList.contains('active')) {
+          closeModal();
+        } else {
+          openModal();
+        }
+      } else if (e.key === 'Escape' && overlay.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    async function renderQuickSearchResults(query) {
+      const q = query.toLowerCase().trim();
+      const allData = (typeof getBlogDataAsync === 'function') 
+        ? await getBlogDataAsync(true) 
+        : getBlogData();
+
+      const publishedPosts = (allData.posts || []).filter(p => p.status === 'Published');
+
+      if (!q) {
+        currentResults = publishedPosts.slice(0, 4);
+        resultsContainer.innerHTML = `
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 16px 4px 16px;">Recent Articles</div>
+          ${currentResults.map((p, idx) => `
+            <a href="blog-detail.html?slug=${p.slug}" class="search-result-item ${idx === selectedIndex ? 'selected' : ''}">
+              <span class="search-result-category">${p.category}</span>
+              <div class="search-result-title">${p.title}</div>
+              <div class="search-result-snippet">${p.summary || ''}</div>
+            </a>
+          `).join('')}
+        `;
+        return;
+      }
+
+      currentResults = publishedPosts.filter(p => {
+        return (p.title && p.title.toLowerCase().includes(q)) ||
+               (p.summary && p.summary.toLowerCase().includes(q)) ||
+               (p.category && p.category.toLowerCase().includes(q)) ||
+               (p.content && p.content.toLowerCase().includes(q));
+      }).slice(0, 6);
+
+      if (currentResults.length === 0) {
+        resultsContainer.innerHTML = `
+          <div class="quick-search-empty">
+            No results found for "<strong>${escapeHtml(query)}</strong>"
+          </div>
+        `;
+        return;
+      }
+
+      resultsContainer.innerHTML = currentResults.map((p, idx) => `
+        <a href="blog-detail.html?slug=${p.slug}" class="search-result-item ${idx === selectedIndex ? 'selected' : ''}">
+          <span class="search-result-category">${p.category}</span>
+          <div class="search-result-title">${p.title}</div>
+          <div class="search-result-snippet">${p.summary || ''}</div>
+        </a>
+      `).join('');
+    }
+
+    input.addEventListener('input', (e) => {
+      selectedIndex = -1;
+      renderQuickSearchResults(e.target.value);
+    });
+
+    input.addEventListener('keydown', (e) => {
+      const items = resultsContainer.querySelectorAll('.search-result-item');
+      if (items.length === 0) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex + 1) % items.length;
+        updateSelectedResult(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+        updateSelectedResult(items);
+      } else if (e.key === 'Enter' && selectedIndex >= 0 && selectedIndex < currentResults.length) {
+        e.preventDefault();
+        window.location.href = `blog-detail.html?slug=${currentResults[selectedIndex].slug}`;
+      }
+    });
+
+    function updateSelectedResult(items) {
+      items.forEach((item, idx) => {
+        if (idx === selectedIndex) {
+          item.classList.add('selected');
+          item.scrollIntoView({ block: 'nearest' });
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+      });
+    }
+  }
+
+  // Initialize interactive extensions
+  initThemeToggle();
+  initReadingProgressBar();
+  initQuickSearchModal();
 });
+
