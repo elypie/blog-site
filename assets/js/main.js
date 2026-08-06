@@ -538,21 +538,43 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }, 100);
 
-    // --- Increment View Count ---
+    // --- Increment & Display View Count ---
     async function initViewCountSystem(p) {
       if (!p || !p.id) return;
 
+      const viewTextEl = document.getElementById('post-view-count-text');
+      const sessionKey = `elys_viewed_session_post_${p.id}`;
+      const localCountKey = `elys_local_views_post_${p.id}`;
+      const lastViewTime = sessionStorage.getItem(sessionKey);
+      const isAlreadyViewed = Boolean(lastViewTime);
+
       function formatViews(n) {
-        const count = Number(n) || 0;
+        const count = Math.max(0, Number(n) || 0);
         return `${count} ${count === 1 ? 'view' : 'views'}`;
       }
 
-      if (typeof incrementPostViewsFromSupabase === 'function' && isSupabaseConfigured()) {
-        const newViews = await incrementPostViewsFromSupabase(p.id);
-        if (newViews !== null && newViews !== undefined) {
-          const textEl = document.getElementById('post-view-count-text');
-          if (textEl) textEl.textContent = formatViews(newViews);
+      let finalViews = 0;
+      const storedLocalViews = parseInt(localStorage.getItem(localCountKey), 10) || (Number(p.views) || 0);
+
+      if (typeof trackPostViewsInSupabase === 'function' && isSupabaseConfigured()) {
+        const remoteViews = await trackPostViewsInSupabase(p.id, !isAlreadyViewed);
+        if (remoteViews !== null && remoteViews !== undefined) {
+          finalViews = remoteViews;
+        } else {
+          finalViews = isAlreadyViewed ? storedLocalViews : Math.max(1, storedLocalViews + 1);
         }
+      } else {
+        finalViews = isAlreadyViewed ? storedLocalViews : Math.max(1, storedLocalViews + 1);
+      }
+
+      // Record session visit to prevent rapid increment on page refresh
+      sessionStorage.setItem(sessionKey, Date.now().toString());
+      localStorage.setItem(localCountKey, finalViews.toString());
+      p.views = finalViews;
+
+      // Update UI in real time
+      if (viewTextEl) {
+        viewTextEl.textContent = formatViews(finalViews);
       }
     }
 

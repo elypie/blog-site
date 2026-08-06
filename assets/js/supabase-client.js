@@ -233,24 +233,59 @@ async function getAdminSessionFromSupabase() {
   return data ? data.session : null;
 }
 
-// --- VIEWS TRACKER, COMMENTS API & REALTIME SUBSCRIPTIONS ---
+// --- VIEWS TRACKER & SUPABASE API ---
 
-// Increment view count for a specific post
-async function incrementPostViewsFromSupabase(postId) {
+// Fetch or increment view count for a specific post in Supabase
+async function trackPostViewsInSupabase(postId, shouldIncrement = true) {
   const client = getSupabaseClient();
   if (!client || !postId) return null;
 
   try {
-    const { data: postData } = await client.from('posts').select('views').eq('id', postId).single();
-    const currentViews = postData ? (postData.views || 0) : 0;
+    // 1. Fetch current post record from Supabase
+    let { data: postData, error: fetchErr } = await client
+      .from('posts')
+      .select('id, views')
+      .eq('id', postId)
+      .maybeSingle();
+
+    // If post record does not exist in Supabase posts table yet, auto-insert post
+    if (!postData && typeof initialData !== 'undefined' && initialData.posts) {
+      const matchPost = initialData.posts.find(p => p.id === postId) || initialData.posts[0];
+      if (matchPost) {
+        const dbPayload = mapPostToDb(matchPost);
+        dbPayload.id = matchPost.id;
+        dbPayload.views = 1;
+        const { data: newPosts } = await client.from('posts').upsert([dbPayload]).select();
+        if (newPosts && newPosts[0]) return Number(newPosts[0].views || 1);
+      }
+    }
+
+    const currentViews = postData ? Number(postData.views || 0) : 0;
+    if (!shouldIncrement) {
+      return currentViews;
+    }
+
     const newViews = currentViews + 1;
-    const { error } = await client.from('posts').update({ views: newViews }).eq('id', postId);
-    if (error) console.warn('Could not update views in Supabase:', error);
+    const { error: updateErr } = await client
+      .from('posts')
+      .update({ views: newViews })
+      .eq('id', postId);
+
+    if (updateErr) {
+      console.warn('Could not update views in Supabase (check RLS policies):', updateErr);
+      return currentViews > 0 ? currentViews : 1;
+    }
+
     return newViews;
   } catch (err) {
-    console.warn('Error incrementing post views:', err);
+    console.warn('Error tracking post views in Supabase:', err);
     return null;
   }
+}
+
+// Backward compatibility alias
+async function incrementPostViewsFromSupabase(postId) {
+  return await trackPostViewsInSupabase(postId, true);
 }
 
 // Fetch comments for a specific post
