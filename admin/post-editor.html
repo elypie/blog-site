@@ -97,8 +97,44 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label">Featured Cover Image URL</label>
-              <input type="text" id="post-image-input" class="input-field" placeholder="https://images.unsplash.com/..." />
+              <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
+                <span>Featured Cover Image</span>
+                <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Direct Upload</span>
+              </label>
+
+              <!-- Upload Dropzone -->
+              <div id="image-dropzone" style="border: 2px dashed var(--border-light); border-radius: 16px; padding: 22px 14px; text-align: center; background: var(--bg-primary); cursor: pointer; transition: all 0.2s ease;">
+                <input type="file" id="post-image-file" accept="image/jpeg, image/jpg, image/png, image/webp" style="display: none;" />
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--accent-coral)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 6px;">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <p style="font-size: 13px; font-weight: 700; margin-bottom: 2px; color: var(--text-main);">Click or Drag & Drop Image</p>
+                <span style="font-size: 11px; color: var(--text-muted);">JPG, PNG, WEBP supported</span>
+              </div>
+
+              <!-- Live Image Preview Card -->
+              <div id="image-preview-wrapper" style="display: none; margin-top: 10px;">
+                <div style="border-radius: 14px; overflow: hidden; border: 1px solid var(--border-light); background: var(--bg-primary);">
+                  <img id="image-preview-img" src="" alt="Featured Cover Preview" style="width: 100%; height: 150px; object-fit: cover; display: block;" />
+                  <div style="padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); border-top: 1px solid var(--border-light);">
+                    <span id="image-preview-filename" style="font-size: 11px; font-weight: 600; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">image.jpg</span>
+                    <button type="button" id="remove-image-btn" style="background: rgba(239, 68, 68, 0.12); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">Remove</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- URL / Local Path toggle -->
+              <div style="margin-top: 10px; text-align: right;">
+                <button type="button" id="toggle-url-input-btn" style="background: none; border: none; font-size: 11px; font-weight: 600; color: var(--accent-coral); cursor: pointer; padding: 0;">
+                  + Or use image URL / path
+                </button>
+              </div>
+
+              <div id="url-input-container" style="display: none; margin-top: 8px;">
+                <input type="text" id="post-image-input" class="input-field" placeholder="https://... or assets/images/..." style="font-size: 13px;" />
+              </div>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 28px;">
@@ -308,6 +344,109 @@
         }
       }
 
+      // Featured Image Upload Dropzone & Live Preview Logic
+      const imageDropzone = document.getElementById('image-dropzone');
+      const imageFileInput = document.getElementById('post-image-file');
+      const imagePreviewWrapper = document.getElementById('image-preview-wrapper');
+      const imagePreviewImg = document.getElementById('image-preview-img');
+      const imagePreviewFilename = document.getElementById('image-preview-filename');
+      const removeImageBtn = document.getElementById('remove-image-btn');
+      const toggleUrlBtn = document.getElementById('toggle-url-input-btn');
+      const urlInputContainer = document.getElementById('url-input-container');
+
+      function showImagePreview(src, filename = 'Featured Image') {
+        if (!src) return;
+        imageInput.value = src;
+        imagePreviewImg.src = src;
+        imagePreviewFilename.textContent = filename;
+        imagePreviewWrapper.style.display = 'block';
+        imageDropzone.style.display = 'none';
+      }
+
+      function clearImagePreview() {
+        imageInput.value = '';
+        if (imageFileInput) imageFileInput.value = '';
+        imagePreviewImg.src = '';
+        imagePreviewWrapper.style.display = 'none';
+        imageDropzone.style.display = 'block';
+      }
+
+      if (imageDropzone && imageFileInput) {
+        imageDropzone.addEventListener('click', () => imageFileInput.click());
+
+        // Drag & Drop Styling
+        imageDropzone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          imageDropzone.style.borderColor = 'var(--accent-coral)';
+          imageDropzone.style.background = 'var(--accent-coral-light)';
+        });
+
+        ['dragleave', 'dragend'].forEach(type => {
+          imageDropzone.addEventListener(type, () => {
+            imageDropzone.style.borderColor = 'var(--border-light)';
+            imageDropzone.style.background = 'var(--bg-primary)';
+          });
+        });
+
+        imageDropzone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          imageDropzone.style.borderColor = 'var(--border-light)';
+          imageDropzone.style.background = 'var(--bg-primary)';
+          if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            handleFileUpload(e.dataTransfer.files[0]);
+          }
+        });
+
+        imageFileInput.addEventListener('change', (e) => {
+          if (e.target.files && e.target.files.length > 0) {
+            handleFileUpload(e.target.files[0]);
+          }
+        });
+      }
+
+      function handleFileUpload(file) {
+        if (!file.type.startsWith('image/')) {
+          alert('Please select a valid image file (JPG, PNG, WEBP).');
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          showImagePreview(evt.target.result, file.name);
+        };
+        reader.readAsDataURL(file);
+      }
+
+      if (removeImageBtn) {
+        removeImageBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          clearImagePreview();
+        });
+      }
+
+      if (toggleUrlBtn) {
+        toggleUrlBtn.addEventListener('click', () => {
+          const isHidden = urlInputContainer.style.display === 'none';
+          urlInputContainer.style.display = isHidden ? 'block' : 'none';
+          toggleUrlBtn.textContent = isHidden ? '- Hide image URL input' : '+ Or use image URL / path';
+        });
+      }
+
+      if (imageInput) {
+        imageInput.addEventListener('input', (e) => {
+          const val = e.target.value.trim();
+          if (val) {
+            showImagePreview(val, val.split('/').pop() || 'URL Image');
+          } else {
+            clearImagePreview();
+          }
+        });
+      }
+
+      // Prepopulate image preview in edit mode
+      if (currentPost && currentPost.coverImage) {
+        showImagePreview(currentPost.coverImage, currentPost.coverImage.split('/').pop() || 'Cover Image');
+      }
+
       // Populate Category Options
       if (catSelect && data.categories) {
         catSelect.innerHTML = data.categories.map(c => `
@@ -352,7 +491,7 @@
           author: "Ely",
           featured: currentPost ? currentPost.featured : false,
           isLatest: status === 'Published',
-          coverImage: imageInput.value || "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200",
+          coverImage: imageInput.value || "assets/images/post1-cover.png",
           summary: textSummary,
           content: htmlContent
         };
