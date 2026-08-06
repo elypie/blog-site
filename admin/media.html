@@ -145,27 +145,34 @@
     .file-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: space-between;
+      gap: 8px;
       padding-top: 10px;
       border-top: 1px solid var(--border-light);
     }
     .file-btn {
-      flex: 1;
-      padding: 6px;
-      border-radius: 8px;
-      font-size: 11px;
-      font-weight: 700;
+      width: 36px;
+      height: 34px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
       border: 1px solid var(--border-light);
       background: var(--bg-primary);
       color: var(--text-main);
       cursor: pointer;
-      text-align: center;
       transition: all 0.2s ease;
     }
     .file-btn:hover {
       background: var(--accent-coral-light);
       color: var(--accent-coral);
       border-color: var(--accent-coral);
+    }
+    .file-btn-delete:hover {
+      background: rgba(239, 68, 68, 0.12) !important;
+      color: #EF4444 !important;
+      border-color: rgba(239, 68, 68, 0.3) !important;
     }
 
     .explorer-upload-zone {
@@ -508,9 +515,15 @@
                 <div class="file-meta">${file.size || 'Image File'} • ${file.date || 'Recent'}</div>
               </div>
               <div class="file-actions">
-                <button class="file-btn" onclick="openLightbox('${file.name}', '${relativeImgPath}', '${file.path}')">Preview</button>
-                <button class="file-btn" onclick="copyFilePath('${file.path}')">Copy URL</button>
-                <button class="file-btn" onclick="deleteFile(${file.id})" style="color: #EF4444;">Delete</button>
+                <button class="file-btn" onclick="openLightbox('${file.name.replace(/'/g, "\\'")}', '${relativeImgPath}', '${file.path.replace(/'/g, "\\'")}')" title="Preview Image" aria-label="Preview">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+                <button class="file-btn" onclick="copyFilePath('${file.path.replace(/'/g, "\\'")}')" title="Copy File URL" aria-label="Copy URL">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+                <button class="file-btn file-btn-delete" onclick="deleteFile(${file.id})" title="Delete Image" aria-label="Delete" style="color: #EF4444;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
               </div>
             </div>
           </div>
