@@ -451,34 +451,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           <p class="author-bio" style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin: 0;">A BSIT student at Father Saturnino Urios University with a passion for designing and developing websites while expanding knowledge in cybersecurity. This blog shares knowledge, projects, and insights gained through exploring technology and building secure, reliable applications.</p>
         </div>
 
-        <!-- 6.5 Live Comments Section -->
-        <div class="comments-section-container" style="margin-top: 36px; padding: 28px 24px; background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
-            <h3 style="font-size: 22px; font-weight: 800; font-family: var(--font-sans); margin: 0; display: flex; align-items: center; gap: 10px;">
-              <span>Discussion & Comments</span>
-              <span id="comments-count-badge" style="font-size: 13px; font-weight: 700; background: rgba(165, 21, 12, 0.1); color: var(--accent-coral); padding: 2px 10px; border-radius: 12px;">0</span>
-            </h3>
-          </div>
-
-          <!-- Add Comment Form -->
-          <form id="public-comment-form" style="margin-bottom: 32px; background: var(--bg-card-secondary); padding: 20px; border-radius: 16px; border: 1px solid var(--border-light);">
-            <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text-main);">Leave a Comment</h4>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
-              <input type="text" id="comment-author-name" class="input-field" placeholder="Your Name *" required style="font-size: 13px; padding: 10px 14px;" />
-              <input type="email" id="comment-author-email" class="input-field" placeholder="Your Email (Optional)" style="font-size: 13px; padding: 10px 14px;" />
-            </div>
-            <textarea id="comment-content" class="input-field" rows="3" placeholder="Share your thoughts or questions..." required style="font-size: 13px; padding: 12px 14px; margin-bottom: 12px; resize: vertical;"></textarea>
-            <div style="display: flex; justify-content: flex-end;">
-              <button type="submit" class="btn-primary" style="padding: 10px 20px; font-size: 13px;">Post Comment</button>
-            </div>
-          </form>
-
-          <!-- Comments List Container -->
-          <div id="comments-list-wrap">
-            <div style="text-align: center; color: var(--text-muted); padding: 20px; font-size: 13px;">Loading comments...</div>
-          </div>
-        </div>
-
         <!-- 7. Article Navigation (Prev/Next) -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-light);">
           ${prevPost ? `
@@ -566,8 +538,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }, 100);
 
-    // --- Increment View Count & Init Realtime Comments ---
-    async function initCommentsAndViewsSystem(p) {
+    // --- Increment View Count ---
+    async function initViewCountSystem(p) {
       if (!p || !p.id) return;
 
       function formatViews(n) {
@@ -575,7 +547,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return `${count} ${count === 1 ? 'view' : 'views'}`;
       }
 
-      // 1. Increment View Count
       if (typeof incrementPostViewsFromSupabase === 'function' && isSupabaseConfigured()) {
         const newViews = await incrementPostViewsFromSupabase(p.id);
         if (newViews !== null && newViews !== undefined) {
@@ -583,245 +554,9 @@ document.addEventListener('DOMContentLoaded', async () => {
           if (textEl) textEl.textContent = formatViews(newViews);
         }
       }
-
-      // 2. Comments System Setup & Realtime Subscription
-      const form = document.getElementById('public-comment-form');
-      const listWrap = document.getElementById('comments-list-wrap');
-      const countBadge = document.getElementById('comments-count-badge');
-
-      let commentsData = [];
-
-      async function loadComments() {
-        let remoteComments = null;
-        if (typeof fetchPostCommentsFromSupabase === 'function' && isSupabaseConfigured()) {
-          remoteComments = await fetchPostCommentsFromSupabase(p.id);
-        }
-        const localComments = getLocalComments(p.id);
-
-        const commentMap = new Map();
-        (localComments || []).forEach(c => commentMap.set(String(c.id), c));
-        (remoteComments || []).forEach(c => commentMap.set(String(c.id), c));
-
-        commentsData = Array.from(commentMap.values());
-        saveLocalComments(p.id, commentsData);
-        renderCommentsList();
-      }
-
-      function getLocalComments(postId) {
-        const key = `elys_comments_post_${postId}`;
-        try {
-          return JSON.parse(localStorage.getItem(key)) || [];
-        } catch(e) {
-          return [];
-        }
-      }
-
-      function saveLocalComments(postId, list) {
-        const key = `elys_comments_post_${postId}`;
-        localStorage.setItem(key, JSON.stringify(list));
-      }
-
-      function escapeHtml(str) {
-        return (str || '').replace(/[&<>"']/g, function(m) {
-          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
-        });
-      }
-
-      function renderCommentsList() {
-        if (!listWrap) return;
-        if (countBadge) countBadge.textContent = commentsData.length;
-
-        if (commentsData.length === 0) {
-          listWrap.innerHTML = `
-            <div style="text-align: center; color: var(--text-muted); padding: 32px 16px; font-size: 13px; background: rgba(0,0,0,0.02); border-radius: 14px;">
-              No comments yet. Be the first to start the discussion!
-            </div>
-          `;
-          return;
-        }
-
-        const rootComments = commentsData.filter(c => !c.parentId);
-        const replies = commentsData.filter(c => c.parentId);
-
-        listWrap.innerHTML = rootComments.map(c => renderCommentItem(c, replies)).join('');
-        attachCommentEventListeners();
-      }
-
-      function renderCommentItem(comment, allReplies) {
-        const childReplies = allReplies.filter(r => r.parentId === comment.id);
-        const initial = (comment.authorName || 'A').charAt(0).toUpperCase();
-
-        return `
-          <div class="comment-item" style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-light);">
-            <div style="display: flex; gap: 12px;">
-              <div style="width: 36px; height: 36px; border-radius: 50%; background: #FDE8E3; color: var(--accent-coral); font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                ${initial}
-              </div>
-              <div style="flex: 1;">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
-                  <span style="font-weight: 700; font-size: 14px; color: var(--text-main);">${escapeHtml(comment.authorName)}</span>
-                  <span style="font-size: 11px; color: var(--text-muted);">${comment.createdAt || 'Just now'}</span>
-                </div>
-                <p style="font-size: 13px; color: var(--text-main); line-height: 1.5; margin: 0 0 10px 0;">${escapeHtml(comment.content)}</p>
-                <div style="display: flex; align-items: center; gap: 16px;">
-                  <button type="button" class="like-comment-btn" data-comment-id="${comment.id}" data-likes="${comment.likes || 0}" style="background: none; border: none; font-size: 12px; color: var(--text-muted); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; padding: 0;">
-                    💖 <span>${comment.likes || 0}</span> Likes
-                  </button>
-                  <button type="button" class="reply-comment-btn" data-comment-id="${comment.id}" style="background: none; border: none; font-size: 12px; color: var(--accent-coral); font-weight: 600; cursor: pointer; padding: 0;">
-                    Reply
-                  </button>
-                </div>
-
-                <!-- Inline Reply Form Container -->
-                <div id="reply-form-wrap-${comment.id}" style="display: none; margin-top: 12px;"></div>
-
-                <!-- Child Replies Container -->
-                ${childReplies.length > 0 ? `
-                  <div style="margin-top: 14px; padding-left: 16px; border-left: 2px solid var(--accent-coral-light);">
-                    ${childReplies.map(r => renderCommentItem(r, allReplies)).join('')}
-                  </div>
-                ` : ''}
-              </div>
-            </div>
-          </div>
-        `;
-      }
-
-      function attachCommentEventListeners() {
-        // Handle Likes
-        document.querySelectorAll('.like-comment-btn').forEach(btn => {
-          btn.addEventListener('click', async () => {
-            const cid = Number(btn.getAttribute('data-comment-id'));
-            const currentLikes = Number(btn.getAttribute('data-likes'));
-            let updatedLikes = currentLikes + 1;
-
-            if (typeof toggleCommentLikeInSupabase === 'function' && isSupabaseConfigured()) {
-              updatedLikes = await toggleCommentLikeInSupabase(cid, currentLikes);
-            }
-
-            const targetComment = commentsData.find(c => c.id === cid);
-            if (targetComment) targetComment.likes = updatedLikes;
-            saveLocalComments(p.id, commentsData);
-            renderCommentsList();
-          });
-        });
-
-        // Handle Reply Toggle
-        document.querySelectorAll('.reply-comment-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const cid = Number(btn.getAttribute('data-comment-id'));
-            const replyWrap = document.getElementById(`reply-form-wrap-${cid}`);
-            if (!replyWrap) return;
-
-            if (replyWrap.style.display === 'block') {
-              replyWrap.style.display = 'none';
-              replyWrap.innerHTML = '';
-            } else {
-              document.querySelectorAll('[id^="reply-form-wrap-"]').forEach(w => {
-                w.style.display = 'none';
-                w.innerHTML = '';
-              });
-              replyWrap.style.display = 'block';
-              replyWrap.innerHTML = `
-                <form class="inline-reply-form" data-parent-id="${cid}" style="background: var(--bg-card); padding: 12px; border-radius: 12px; border: 1px solid var(--border-light);">
-                  <input type="text" class="reply-name-input input-field" placeholder="Your Name *" required style="font-size: 12px; padding: 6px 10px; margin-bottom: 8px; width: 100%;" />
-                  <textarea class="reply-content-input input-field" rows="2" placeholder="Write a reply..." required style="font-size: 12px; padding: 8px; margin-bottom: 8px; width: 100%; resize: vertical;"></textarea>
-                  <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                    <button type="button" class="btn-secondary cancel-reply-btn" style="padding: 4px 10px; font-size: 11px;">Cancel</button>
-                    <button type="submit" class="btn-primary" style="padding: 4px 12px; font-size: 11px;">Post Reply</button>
-                  </div>
-                </form>
-              `;
-
-              replyWrap.querySelector('.cancel-reply-btn').addEventListener('click', () => {
-                replyWrap.style.display = 'none';
-                replyWrap.innerHTML = '';
-              });
-
-              replyWrap.querySelector('.inline-reply-form').addEventListener('submit', async (reEv) => {
-                reEv.preventDefault();
-                const name = replyWrap.querySelector('.reply-name-input').value.trim();
-                const content = replyWrap.querySelector('.reply-content-input').value.trim();
-
-                const replyObj = {
-                  postId: p.id,
-                  authorName: name,
-                  authorEmail: '',
-                  content: content,
-                  parentId: cid
-                };
-
-                let newReply = null;
-                if (typeof addPostCommentToSupabase === 'function' && isSupabaseConfigured()) {
-                  newReply = await addPostCommentToSupabase(replyObj);
-                }
-
-                if (!newReply) {
-                  newReply = {
-                    id: Date.now(),
-                    ...replyObj,
-                    likes: 0,
-                    createdAt: 'Just now'
-                  };
-                }
-
-                commentsData.push(newReply);
-                saveLocalComments(p.id, commentsData);
-                renderCommentsList();
-              });
-            }
-          });
-        });
-      }
-
-      if (form) {
-        form.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const nameInput = document.getElementById('comment-author-name');
-          const emailInput = document.getElementById('comment-author-email');
-          const contentInput = document.getElementById('comment-content');
-
-          const newCommentPayload = {
-            postId: p.id,
-            authorName: nameInput.value.trim(),
-            authorEmail: emailInput ? emailInput.value.trim() : '',
-            content: contentInput.value.trim(),
-            parentId: null
-          };
-
-          let savedComment = null;
-          if (typeof addPostCommentToSupabase === 'function' && isSupabaseConfigured()) {
-            savedComment = await addPostCommentToSupabase(newCommentPayload);
-          }
-
-          if (!savedComment) {
-            savedComment = {
-              id: Date.now(),
-              ...newCommentPayload,
-              likes: 0,
-              createdAt: 'Just now'
-            };
-          }
-
-          commentsData.push(savedComment);
-          saveLocalComments(p.id, commentsData);
-          contentInput.value = '';
-          renderCommentsList();
-        });
-      }
-
-      // Initial comment load
-      await loadComments();
-
-      // Enable Supabase Realtime Subscription for instant live updates
-      if (typeof subscribeToPostComments === 'function' && isSupabaseConfigured()) {
-        subscribeToPostComments(p.id, () => {
-          loadComments();
-        });
-      }
     }
 
-    initCommentsAndViewsSystem(post);
+    initViewCountSystem(post);
   }
 
   // --- Scroll Reveal Animations & Back to Top Observer ---
