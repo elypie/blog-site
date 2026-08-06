@@ -170,19 +170,6 @@
         });
       }
 
-      // Check active Supabase session
-      if (typeof getAdminSessionFromSupabase === 'function' && isSupabaseConfigured()) {
-        const session = await getAdminSessionFromSupabase();
-        if (session) {
-          localStorage.setItem('elys_admin_logged_in', 'true');
-          window.location.href = 'dashboard.html';
-          return;
-        }
-      }
-
-      if (localStorage.getItem('elys_admin_logged_in') === 'true') {
-        window.location.href = 'dashboard.html';
-      }
 
       const loginForm = document.getElementById('login-form');
       const usernameInput = document.getElementById('username');
