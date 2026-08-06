@@ -33,7 +33,7 @@ const initialData = {
       status: "Published",
       date: "Aug 5, 2026",
       readTime: "6 min read",
-      author: "Ely",
+      author: "Elyssa",
       featured: true,
       isLatest: true,
       coverImage: "assets/images/posts/post1-cover.png",

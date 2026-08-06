@@ -436,7 +436,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           <div class="author-info-row" style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
             <img src="assets/images/profile/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
             <div class="author-details">
-              <h4 class="author-name" style="font-size: 16px; font-weight: 800; margin: 0;">EL</h4>
+              <h4 class="author-name" style="font-size: 16px; font-weight: 800; margin: 0;">Elyssa</h4>
               <p class="author-role" style="font-size: 12px; color: var(--text-muted); margin-top: 1px;">IT Student</p>
             </div>
           </div>
