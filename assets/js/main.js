@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         latestPostRoot.innerHTML = `
           <div class="blog-item-card featured-card-responsive" onclick="window.location.href='blog-detail.html?id=${latest.id}'" style="display: flex; flex-direction: column; padding: 0;">
             <div class="featured-card-img-wrap" style="width: 100%; height: 240px; overflow: hidden; border-radius: 16px 16px 0 0;">
-              <img src="${latest.coverImage}" alt="${latest.title}" style="width: 100%; height: 100%; object-fit: cover;" />
+              <img src="${(!latest.coverImage || latest.coverImage === 'assets/images/post1-cover.png') ? 'assets/images/posts/post1-cover.png' : latest.coverImage}" alt="${latest.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/images/posts/post1-cover.png'" />
             </div>
             <div class="featured-card-body" style="padding: 28px; flex: 1; display: flex; flex-direction: column;">
               <div style="margin-bottom: 10px;">
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             ${featured.map(post => `
               <div class="blog-item-card featured-card-responsive" onclick="window.location.href='blog-detail.html?id=${post.id}'" style="display: flex; flex-direction: column; padding: 0;">
                 <div class="featured-card-img-wrap" style="width: 100%; height: 220px; overflow: hidden; border-radius: 16px 16px 0 0;">
-                  <img src="${post.coverImage}" alt="${post.title}" style="width: 100%; height: 100%; object-fit: cover;" />
+                  <img src="${(!post.coverImage || post.coverImage === 'assets/images/post1-cover.png') ? 'assets/images/posts/post1-cover.png' : post.coverImage}" alt="${post.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/images/posts/post1-cover.png'" />
                 </div>
                 <div class="featured-card-body" style="padding: 24px; flex: 1; display: flex; flex-direction: column;">
                   <div style="margin-bottom: 10px;">
@@ -384,8 +384,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         </header>
 
         <!-- 2. Featured Image -->
-        <div class="article-cover-wrapper" style="height: 440px; border-radius: 20px; overflow: hidden; margin-bottom: 36px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="openLightbox('${post.coverImage}')">
-          <img src="${post.coverImage}" alt="${post.title}" class="article-cover-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
+        <div class="article-cover-wrapper" style="height: 440px; border-radius: 20px; overflow: hidden; margin-bottom: 36px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="openLightbox('${(!post.coverImage || post.coverImage === 'assets/images/post1-cover.png') ? 'assets/images/posts/post1-cover.png' : post.coverImage}')">
+          <img src="${(!post.coverImage || post.coverImage === 'assets/images/post1-cover.png') ? 'assets/images/posts/post1-cover.png' : post.coverImage}" alt="${post.title}" class="article-cover-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/images/posts/post1-cover.png'" />
         </div>
 
         <!-- 3. On this page (Collapsible Accordion Card - Expanded by Default) -->

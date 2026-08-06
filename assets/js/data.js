@@ -209,6 +209,9 @@ function getBlogData() {
           if (p.summary && p.summary.startsWith('I. Introduction')) {
             p.summary = "A technical blog post on secure design principles, AI-generated code, and developer obligations under Republic Act No. 10173.";
           }
+          if (!p.coverImage || p.coverImage === 'assets/images/post1-cover.png') {
+            p.coverImage = 'assets/images/posts/post1-cover.png';
+          }
         });
         localStorage.setItem('elys_blog_data', JSON.stringify(parsed));
         return parsed;
