@@ -7,7 +7,7 @@ const initialData = {
     course: "BS Information Technology",
     school: "Father Saturnino Urios University",
     yearLevel: "3rd Year",
-    motto: "instructor by name, self-study by experience",
+    motto: "Code. Create. Protect.",
     email: "ely.admin@elysblog.com",
     bio: "Hi! I'm a 3rd-year BSIT student at Father Saturnino Urios University who is passionate about designing and developing websites. Alongside web development, I aim to expand my knowledge of cybersecurity to better understand how to build secure and reliable applications. Through this blog, I share my knowledge, projects, experiences, and reflections as I continue exploring the ever-evolving world of technology, web development, and cybersecurity.",
     facebook: "https://facebook.com/elycontz",
@@ -205,6 +205,9 @@ function getBlogData() {
     try { 
       const parsed = JSON.parse(saved);
       if (parsed && parsed.posts && parsed.posts.length > 0) {
+        if (parsed.author) {
+          parsed.author.motto = "Code. Create. Protect.";
+        }
         parsed.posts.forEach(p => {
           if (p.summary && p.summary.startsWith('I. Introduction')) {
             p.summary = "A technical blog post on secure design principles, AI-generated code, and developer obligations under Republic Act No. 10173.";
