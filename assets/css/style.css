@@ -2031,8 +2031,16 @@ h2#references {
   margin-top: 48px !important;
   margin-bottom: 18px !important;
   padding-bottom: 8px !important;
-  border-bottom: 1px solid rgba(165, 21, 12, 0.12) !important;
+  border-bottom: 1px solid var(--border-light) !important;
   letter-spacing: -0.2px;
+}
+
+hr,
+.article-body hr,
+#main-article-content hr {
+  border: none !important;
+  border-top: 1px solid var(--border-light) !important;
+  opacity: 1 !important;
 }
 
 #references,
