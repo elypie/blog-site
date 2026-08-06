@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <!-- 5. Share this Article -->
         <div class="info-card" style="padding: 20px 24px; margin-bottom: 20px; background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
           <div>
-            <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 2px;">Share this article</h4>
+            <h4 style="font-size: 18px; font-weight: 800; font-family: var(--font-sans); margin-bottom: 2px;">Share this article</h4>
             <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Enjoyed reading? Share it with your friends and colleagues!</p>
           </div>
           <div style="display: flex; align-items: center; gap: 10px;">
@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         <!-- 6. About the Author (Compact Card) -->
         <div class="author-card" style="padding: 20px 24px; margin-bottom: 24px; background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-light);">
-          <h4 class="author-card-heading" style="font-size: 15px; font-weight: 800; font-family: var(--font-heading); margin-bottom: 12px; border-bottom: none;">About the Author</h4>
+          <h4 class="author-card-heading" style="font-size: 18px; font-weight: 800; font-family: var(--font-sans); margin-bottom: 12px; border-bottom: none;">About the Author</h4>
           <div class="author-info-row" style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
             <img src="assets/images/profile/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
             <div class="author-details">
