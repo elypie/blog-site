@@ -748,3 +748,29 @@ body.dark-theme .editor-content-area {
   color: var(--accent-coral);
   border-color: var(--accent-coral);
 }
+
+/* Fullscreen Editor Mode */
+.editor-container.is-fullscreen {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2500 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: var(--bg-card) !important;
+}
+
+.editor-container.is-fullscreen .editor-canvas-wrapper {
+  flex: 1 !important;
+  max-height: none !important;
+  height: calc(100vh - 110px) !important;
+  overflow-y: auto !important;
+}
+
+.editor-container.is-fullscreen .editor-content-area {
+  min-height: 100% !important;
+}
