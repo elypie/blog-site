@@ -103,6 +103,11 @@
             </div>
 
             <div class="form-group">
+              <label class="form-label">Short Description / Subtitle</label>
+              <textarea id="post-summary-input" class="input-field" rows="3" placeholder="Enter short description or subtitle..." style="font-size: 13px; resize: vertical; line-height: 1.5;"></textarea>
+            </div>
+
+            <div class="form-group">
               <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
                 <span>Featured Cover Image</span>
                 <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Direct Upload</span>
@@ -445,6 +450,8 @@
 
           if (titleInput) titleInput.value = currentPost.title || '';
           if (catSelect) catSelect.value = currentPost.category || 'Information Assurance';
+          const summaryInput = document.getElementById('post-summary-input');
+          if (summaryInput) summaryInput.value = currentPost.summary || '';
           if (currentPost.coverImage) {
             showImagePreview(currentPost.coverImage, currentPost.coverImage.split('/').pop() || 'Cover Image');
           }
@@ -614,6 +621,10 @@
         const formattedDate = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
+        const summaryInputEl = document.getElementById('post-summary-input');
+        const userSummary = summaryInputEl ? summaryInputEl.value.trim() : '';
+        const finalSummary = userSummary || (currentPost && currentPost.summary ? currentPost.summary : textSummary);
+
         const postObj = {
           id: currentPost ? currentPost.id : Date.now(),
           title,
@@ -627,7 +638,7 @@
           featured: currentPost ? currentPost.featured : false,
           isLatest: status === 'Published',
           coverImage: imageInput.value || "assets/images/posts/post1-cover.png",
-          summary: textSummary,
+          summary: finalSummary,
           content: htmlContent
         };
 

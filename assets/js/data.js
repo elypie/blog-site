@@ -205,6 +205,12 @@ function getBlogData() {
     try { 
       const parsed = JSON.parse(saved);
       if (parsed && parsed.posts && parsed.posts.length > 0) {
+        parsed.posts.forEach(p => {
+          if (p.summary && p.summary.startsWith('I. Introduction')) {
+            p.summary = "A technical blog post on secure design principles, AI-generated code, and developer obligations under Republic Act No. 10173.";
+          }
+        });
+        localStorage.setItem('elys_blog_data', JSON.stringify(parsed));
         return parsed;
       }
     } catch(e) {}
