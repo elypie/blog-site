@@ -204,21 +204,9 @@ function getBlogData() {
   if (saved) {
     try { 
       const parsed = JSON.parse(saved);
-      if (!parsed.posts || parsed.posts.length === 0) {
-        parsed.posts = initialData.posts;
-      } else {
-        // Sync post #1 if updated in initialData
-        initialData.posts.forEach(initPost => {
-          const idx = parsed.posts.findIndex(p => p.id === initPost.id);
-          if (idx !== -1) {
-            parsed.posts[idx] = initPost;
-          } else {
-            parsed.posts.push(initPost);
-          }
-        });
+      if (parsed && parsed.posts && parsed.posts.length > 0) {
+        return parsed;
       }
-      localStorage.setItem('elys_blog_data', JSON.stringify(parsed));
-      return parsed;
     } catch(e) {}
   }
   localStorage.setItem('elys_blog_data', JSON.stringify(initialData));
@@ -228,9 +216,6 @@ function getBlogData() {
 function saveBlogData(data) {
   localStorage.setItem('elys_blog_data', JSON.stringify(data));
 }
-
-// Sync default initialData to localStorage on script load
-localStorage.setItem('elys_blog_data', JSON.stringify(getBlogData()));
 
 // --- ASYNCHRONOUS SUPABASE DATA ADAPTER ---
 
