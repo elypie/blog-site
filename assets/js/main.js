@@ -538,38 +538,40 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }, 100);
 
-    // --- Increment & Display View Count ---
+    // --- Synchronized Global View Count Tracker ---
     async function initViewCountSystem(p) {
       if (!p || !p.id) return;
 
       const viewTextEl = document.getElementById('post-view-count-text');
       const sessionKey = `elys_viewed_session_post_${p.id}`;
       const localCountKey = `elys_local_views_post_${p.id}`;
-      const lastViewTime = sessionStorage.getItem(sessionKey);
-      const isAlreadyViewed = Boolean(lastViewTime);
+      const isAlreadyViewed = Boolean(sessionStorage.getItem(sessionKey));
 
       function formatViews(n) {
         const count = Math.max(0, Number(n) || 0);
         return `${count} ${count === 1 ? 'view' : 'views'}`;
       }
 
-      let finalViews = 0;
-      const storedLocalViews = parseInt(localStorage.getItem(localCountKey), 10) || (Number(p.views) || 0);
+      let finalViews = Number(p.views) || 0;
 
       if (typeof trackPostViewsInSupabase === 'function' && isSupabaseConfigured()) {
         const remoteViews = await trackPostViewsInSupabase(p.id, !isAlreadyViewed);
         if (remoteViews !== null && remoteViews !== undefined) {
           finalViews = remoteViews;
+          localStorage.setItem(localCountKey, finalViews.toString());
         } else {
+          const storedLocalViews = parseInt(localStorage.getItem(localCountKey), 10) || finalViews;
           finalViews = isAlreadyViewed ? storedLocalViews : Math.max(1, storedLocalViews + 1);
+          localStorage.setItem(localCountKey, finalViews.toString());
         }
       } else {
+        const storedLocalViews = parseInt(localStorage.getItem(localCountKey), 10) || finalViews;
         finalViews = isAlreadyViewed ? storedLocalViews : Math.max(1, storedLocalViews + 1);
+        localStorage.setItem(localCountKey, finalViews.toString());
       }
 
-      // Record session visit to prevent rapid increment on page refresh
+      // Record session visit so refreshing doesn't add duplicate views
       sessionStorage.setItem(sessionKey, Date.now().toString());
-      localStorage.setItem(localCountKey, finalViews.toString());
       p.views = finalViews;
 
       // Update UI in real time
