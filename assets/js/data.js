@@ -13,8 +13,8 @@ const initialData = {
     facebook: "https://facebook.com/elycontz",
     github: "https://github.com/elypie",
     instagram: "https://instagram.com/_beymm",
-    avatarUrl: "assets/images/profile-pfp.jpg",
-    coverUrl: "assets/images/profile-cover.png"
+    avatarUrl: "assets/images/profile/profile-pfp.jpg",
+    coverUrl: "assets/images/profile/profile-cover.png"
   },
   categories: [
     { id: 1, name: "Information Assurance", count: 1, color: "#E55B44" },
@@ -36,7 +36,7 @@ const initialData = {
       author: "Ely",
       featured: true,
       isLatest: true,
-      coverImage: "assets/images/post1-cover.png",
+      coverImage: "assets/images/posts/post1-cover.png",
       summary: "A technical blog post on secure design principles, AI-generated code, and developer obligations under Republic Act No. 10173.",
       toc: [
         { id: "intro", text: "I. Introduction" },

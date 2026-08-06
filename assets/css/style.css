@@ -1993,7 +1993,7 @@ h2#references {
 
 .references-text,
 #references+p {
-  font-size: 13.5px !important;
+  font-size: 12px !important;
   color: var(--text-muted) !important;
   line-height: 1.65 !important;
   margin-top: 0 !important;
@@ -2045,10 +2045,10 @@ h2#references {
 }
 
 .author-card-heading {
-  font-size: 15px !important;
+  font-size: 26px !important;
   font-weight: 800 !important;
-  font-family: var(--font-heading), 'Plus Jakarta Sans', sans-serif !important;
-  margin-bottom: 12px !important;
+  font-family: 'Playfair Display', serif !important;
+  margin-bottom: 16px !important;
 }
 
 .article-body h2:first-of-type,

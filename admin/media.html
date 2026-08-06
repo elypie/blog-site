@@ -129,6 +129,13 @@
         </div>
       </div>
 
+      <!-- Folder Navigation Tabs -->
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <button class="media-folder-tab active" data-folder="all" style="padding: 8px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; border: 1px solid var(--accent-coral); background: var(--accent-coral); color: #FFF; cursor: pointer;">📂 All Media</button>
+        <button class="media-folder-tab" data-folder="profile" style="padding: 8px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; border: 1px solid var(--border-light); background: var(--bg-card); color: var(--text-main); cursor: pointer;">📁 Profile & Branding (/profile/)</button>
+        <button class="media-folder-tab" data-folder="posts" style="padding: 8px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; border: 1px solid var(--border-light); background: var(--bg-card); color: var(--text-main); cursor: pointer;">📁 Post Covers (/posts/)</button>
+      </div>
+
       <div class="upload-dropzone" onclick="document.getElementById('media-file-input').click()">
         <input type="file" id="media-file-input" style="display: none;" accept="image/*" />
         <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--accent-coral)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 10px;">
@@ -141,32 +148,35 @@
       </div>
 
       <div class="media-grid" id="media-grid-container">
-        <div class="media-card">
-          <img src="../assets/images/ely-cutout.png" alt="Showcase Cutout" class="media-preview" />
-          <div class="media-info">
-            <div class="media-name">ely-cutout.png</div>
-            <div class="media-path">assets/images/ely-cutout.png</div>
-          </div>
-        </div>
-        <div class="media-card">
-          <img src="../assets/images/profile-pfp.jpg" alt="Profile Avatar" class="media-preview" />
+        <!-- Profile Folder Items -->
+        <div class="media-card" data-folder="profile">
+          <img src="../assets/images/profile/profile-pfp.jpg" alt="Profile Avatar" class="media-preview" />
           <div class="media-info">
             <div class="media-name">profile-pfp.jpg</div>
-            <div class="media-path">assets/images/profile-pfp.jpg</div>
+            <div class="media-path">assets/images/profile/profile-pfp.jpg</div>
           </div>
         </div>
-        <div class="media-card">
-          <img src="../assets/images/profile-cover.png" alt="Profile Cover Banner" class="media-preview" />
+        <div class="media-card" data-folder="profile">
+          <img src="../assets/images/profile/profile-cover.png" alt="Profile Cover Banner" class="media-preview" />
           <div class="media-info">
             <div class="media-name">profile-cover.png</div>
-            <div class="media-path">assets/images/profile-cover.png</div>
+            <div class="media-path">assets/images/profile/profile-cover.png</div>
           </div>
         </div>
-        <div class="media-card">
-          <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=1000" alt="Blog Cover" class="media-preview" />
+        <div class="media-card" data-folder="profile">
+          <img src="../assets/images/profile/ely-cutout.png" alt="Showcase Cutout" class="media-preview" />
           <div class="media-info">
-            <div class="media-name">computing-ethics.jpg</div>
-            <div class="media-path">https://images.unsplash.com/...</div>
+            <div class="media-name">ely-cutout.png</div>
+            <div class="media-path">assets/images/profile/ely-cutout.png</div>
+          </div>
+        </div>
+
+        <!-- Post Cover Items -->
+        <div class="media-card" data-folder="posts">
+          <img src="../assets/images/posts/post1-cover.png" alt="Post 1 Cover" class="media-preview" />
+          <div class="media-info">
+            <div class="media-name">post1-cover.png</div>
+            <div class="media-path">assets/images/posts/post1-cover.png</div>
           </div>
         </div>
       </div>
@@ -175,5 +185,36 @@
 
   <script src="../assets/js/data.js"></script>
   <script src="../assets/js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.media-folder-tab');
+      const cards = document.querySelectorAll('.media-card');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => {
+            t.classList.remove('active');
+            t.style.background = 'var(--bg-card)';
+            t.style.color = 'var(--text-main)';
+            t.style.borderColor = 'var(--border-light)';
+          });
+
+          tab.classList.add('active');
+          tab.style.background = 'var(--accent-coral)';
+          tab.style.color = '#FFF';
+          tab.style.borderColor = 'var(--accent-coral)';
+
+          const folder = tab.getAttribute('data-folder');
+          cards.forEach(card => {
+            if (folder === 'all' || card.getAttribute('data-folder') === folder) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+  </script>
 </body>
 </html>

@@ -434,7 +434,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="author-card" style="padding: 20px 24px; margin-bottom: 24px; background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-light);">
           <h4 class="author-card-heading" style="font-size: 15px; font-weight: 800; font-family: var(--font-heading); margin-bottom: 12px; border-bottom: none;">About the Author</h4>
           <div class="author-info-row" style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
-            <img src="assets/images/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
+            <img src="assets/images/profile/profile-pfp.jpg" alt="Elyssa Contreras" class="author-avatar-img" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light); flex-shrink: 0;" />
             <div class="author-details">
               <h4 class="author-name" style="font-size: 16px; font-weight: 800; margin: 0;">EL</h4>
               <p class="author-role" style="font-size: 12px; color: var(--text-muted); margin-top: 1px;">IT Student</p>

@@ -68,14 +68,14 @@
       <section class="profile-main-card fade-in-up">
         <!-- Cover Banner Image -->
         <div class="profile-cover-banner">
-          <img src="assets/images/profile-cover.png" alt="Cyber Security Tech Banner" class="cover-banner-img" id="profile-cover-img" />
+          <img src="assets/images/profile/profile-cover.png" alt="Cyber Security Tech Banner" class="cover-banner-img" id="profile-cover-img" />
         </div>
 
         <!-- Profile Header Body -->
         <div class="profile-card-body">
           <div class="profile-identity-row">
             <div class="profile-avatar-box">
-              <img src="assets/images/profile-pfp.jpg" alt="Elyssa Contreras" class="avatar-circle-profile" id="profile-avatar-img" />
+              <img src="assets/images/profile/profile-pfp.jpg" alt="Elyssa Contreras" class="avatar-circle-profile" id="profile-avatar-img" />
             </div>
             <div class="profile-identity-meta">
               <h1 class="profile-name-title" id="profile-name-title">Elyssa Contreras</h1>
@@ -239,14 +239,14 @@
         // Populate Images with Fallbacks
         const coverImg = document.getElementById('profile-cover-img');
         if (coverImg) {
-          coverImg.src = (author.coverUrl && !author.coverUrl.includes('unsplash.com')) ? author.coverUrl : 'assets/images/profile-cover.png';
-          coverImg.onerror = function() { this.src = 'assets/images/profile-cover.png'; };
+          coverImg.src = (author.coverUrl && !author.coverUrl.includes('unsplash.com')) ? author.coverUrl : 'assets/images/profile/profile-cover.png';
+          coverImg.onerror = function() { this.src = 'assets/images/profile/profile-cover.png'; };
         }
 
         const avatarImg = document.getElementById('profile-avatar-img');
         if (avatarImg) {
-          avatarImg.src = (author.avatarUrl && !author.avatarUrl.includes('unsplash.com')) ? author.avatarUrl : 'assets/images/profile-pfp.jpg';
-          avatarImg.onerror = function() { this.src = 'assets/images/profile-pfp.jpg'; };
+          avatarImg.src = (author.avatarUrl && !author.avatarUrl.includes('unsplash.com')) ? author.avatarUrl : 'assets/images/profile/profile-pfp.jpg';
+          avatarImg.onerror = function() { this.src = 'assets/images/profile/profile-pfp.jpg'; };
         }
 
         // Populate Main Identity
