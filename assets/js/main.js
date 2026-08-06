@@ -213,10 +213,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   const articleDetailRoot = document.getElementById('article-detail-root');
   if (articleDetailRoot) {
     const freshData = getBlogData();
-    const publishedPosts = freshData.posts.filter(p => p.status === 'Published');
+    const publishedPosts = (freshData.posts || []).filter(p => p.status === 'Published');
     const urlParams = new URLSearchParams(window.location.search);
-    const postId = parseInt(urlParams.get('id'), 10) || 1;
-    const post = publishedPosts.find(p => p.id === postId) || publishedPosts[0];
+    const postSlug = urlParams.get('slug');
+    const postId = parseInt(urlParams.get('id'), 10);
+    const post = (postSlug ? publishedPosts.find(p => p.slug === postSlug) : null) || 
+                 (postId ? publishedPosts.find(p => p.id === postId) : null) || 
+                 publishedPosts[0];
 
     if (!post) {
       articleDetailRoot.innerHTML = `
