@@ -43,6 +43,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (postsTableBody) {
     let currentTab = 'all';
     const categoryParam = new URLSearchParams(window.location.search).get('category');
+    const postCommentsMap = new Map();
+
+    async function fetchAllCommentsForAdmin() {
+      for (const post of data.posts) {
+        if (typeof fetchPostCommentsFromSupabase === 'function' && isSupabaseConfigured()) {
+          const comments = await fetchPostCommentsFromSupabase(post.id);
+          postCommentsMap.set(post.id, comments || []);
+        } else {
+          try {
+            const local = JSON.parse(localStorage.getItem(`elys_comments_post_${post.id}`)) || [];
+            postCommentsMap.set(post.id, local);
+          } catch(e) {
+            postCommentsMap.set(post.id, []);
+          }
+        }
+      }
+      renderPostsTable();
+    }
 
     function renderPostsTable() {
       const filtered = data.posts.filter(p => {
@@ -57,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (filtered.length === 0) {
         postsTableBody.innerHTML = `
           <tr>
-            <td colspan="5" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
               No blog posts found in database.
             </td>
           </tr>
@@ -65,27 +83,37 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      postsTableBody.innerHTML = filtered.map(post => `
-        <tr>
-          <td>
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <img src="${post.coverImage}" alt="" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover;" />
-              <strong style="max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${post.title}</strong>
-            </div>
-          </td>
-          <td><span class="badge-category-subtle" style="padding: 4px 10px; background: rgba(165,21,12,0.08); color: var(--accent-coral); border-radius: 12px; font-size: 12px; font-weight: 600;">${post.category}</span></td>
-          <td>
-            <span class="badge-status ${post.status === 'Published' ? 'published' : 'draft'}" onclick="toggleStatus(${post.id})" style="cursor: pointer;">
-              ● ${post.status}
-            </span>
-          </td>
-          <td>${post.date}</td>
-          <td style="text-align: right;">
-            <button onclick="editPost(${post.id})" class="btn-action-edit">Edit</button>
-            <button onclick="deletePost(${post.id})" class="btn-action-delete">Delete</button>
-          </td>
-        </tr>
-      `).join('');
+      postsTableBody.innerHTML = filtered.map(post => {
+        const comments = postCommentsMap.get(post.id) || [];
+        const viewCount = Number(post.views) || 0;
+        return `
+          <tr>
+            <td>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <img src="${post.coverImage}" alt="" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover;" />
+                <strong style="max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${post.title}</strong>
+              </div>
+            </td>
+            <td><span class="badge-category-subtle" style="padding: 4px 10px; background: rgba(165,21,12,0.08); color: var(--accent-coral); border-radius: 12px; font-size: 12px; font-weight: 600;">${post.category}</span></td>
+            <td>
+              <span class="badge-status ${post.status === 'Published' ? 'published' : 'draft'}" onclick="toggleStatus(${post.id})" style="cursor: pointer;">
+                ● ${post.status}
+              </span>
+            </td>
+            <td><strong>👁️ ${viewCount.toLocaleString()}</strong></td>
+            <td>
+              <button type="button" onclick="openAdminCommentsModal(${post.id})" class="btn-secondary" style="font-size: 11px; padding: 3px 8px; cursor: pointer;">
+                💬 ${comments.length} comments
+              </button>
+            </td>
+            <td>${post.date}</td>
+            <td style="text-align: right;">
+              <button onclick="editPost(${post.id})" class="btn-action-edit">Edit</button>
+              <button onclick="deletePost(${post.id})" class="btn-action-delete">Delete</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
     }
 
     // Tab button events
@@ -98,8 +126,87 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
 
-    renderPostsTable();
+    fetchAllCommentsForAdmin();
   }
+
+  // Admin Comments Modal Handler
+  window.openAdminCommentsModal = async function(postId) {
+    const modal = document.getElementById('admin-comments-modal');
+    const titleEl = document.getElementById('admin-modal-post-title');
+    const listEl = document.getElementById('admin-comments-modal-list');
+    const closeBtn = document.getElementById('admin-close-comments-modal');
+
+    if (!modal || !listEl) return;
+
+    const post = data.posts.find(p => p.id === postId);
+    if (titleEl && post) titleEl.textContent = `Comments for "${post.title}"`;
+
+    modal.style.display = 'flex';
+
+    if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
+
+    async function loadModalComments() {
+      listEl.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 20px;">Loading comments...</div>`;
+      let comments = [];
+
+      if (typeof fetchPostCommentsFromSupabase === 'function' && isSupabaseConfigured()) {
+        comments = await fetchPostCommentsFromSupabase(postId) || [];
+      } else {
+        try {
+          comments = JSON.parse(localStorage.getItem(`elys_comments_post_${postId}`)) || [];
+        } catch(e) { comments = []; }
+      }
+
+      if (comments.length === 0) {
+        listEl.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 24px;">No comments found for this blog post.</div>`;
+        return;
+      }
+
+      listEl.innerHTML = comments.map(c => `
+        <div style="background: var(--bg-card-secondary); padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); margin-bottom: 10px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <div>
+              <strong style="font-size: 13px; color: var(--text-main);">${escapeAdminHtml(c.authorName)}</strong>
+              ${c.authorEmail ? `<span style="font-size: 11px; color: var(--text-muted); margin-left: 6px;">(${escapeAdminHtml(c.authorEmail)})</span>` : ''}
+            </div>
+            <button type="button" onclick="adminDeleteComment(${c.id}, ${postId})" style="background: rgba(239,68,68,0.1); color: #EF4444; border: 1px solid rgba(239,68,68,0.2); border-radius: 6px; font-size: 11px; padding: 2px 8px; cursor: pointer;">
+              🗑️ Delete
+            </button>
+          </div>
+          <p style="font-size: 12px; color: var(--text-main); margin: 0 0 6px 0;">${escapeAdminHtml(c.content)}</p>
+          <div style="font-size: 11px; color: var(--text-muted); display: flex; gap: 12px;">
+            <span>${c.createdAt || 'Just now'}</span>
+            <span>💖 ${c.likes || 0} Likes</span>
+            ${c.parentId ? `<span style="color: var(--accent-coral);">Nested Reply</span>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.adminDeleteComment = async function(commentId, pid) {
+      if (confirm('Are you sure you want to delete this comment?')) {
+        if (typeof deleteCommentFromSupabase === 'function' && isSupabaseConfigured()) {
+          await deleteCommentFromSupabase(commentId);
+        }
+        try {
+          const key = `elys_comments_post_${pid}`;
+          let local = JSON.parse(localStorage.getItem(key)) || [];
+          local = local.filter(c => c.id !== commentId && c.parentId !== commentId);
+          localStorage.setItem(key, JSON.stringify(local));
+        } catch(e) {}
+
+        loadModalComments();
+      }
+    };
+
+    function escapeAdminHtml(str) {
+      return (str || '').replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+      });
+    }
+
+    loadModalComments();
+  };
 
   // Global functions for inline table events
   window.toggleStatus = async function (id) {

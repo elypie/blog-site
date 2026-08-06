@@ -31,6 +31,7 @@ function mapPostFromDb(dbPost) {
     date: dbPost.created_at ? new Date(dbPost.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Aug 5, 2026',
     readTime: dbPost.read_time || '5 min read',
     author: dbPost.author || 'Elyssa',
+    views: Number(dbPost.views || 0),
     featured: Boolean(dbPost.featured),
     isLatest: Boolean(dbPost.is_latest),
     coverImage: dbPost.cover_image || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200',
@@ -231,3 +232,160 @@ async function getAdminSessionFromSupabase() {
   const { data } = await client.auth.getSession();
   return data ? data.session : null;
 }
+
+// --- VIEWS TRACKER, COMMENTS API & REALTIME SUBSCRIPTIONS ---
+
+// Increment view count for a specific post
+async function incrementPostViewsFromSupabase(postId) {
+  const client = getSupabaseClient();
+  if (!client || !postId) return null;
+
+  try {
+    const { data: postData } = await client.from('posts').select('views').eq('id', postId).single();
+    const currentViews = postData ? (postData.views || 0) : 0;
+    const newViews = currentViews + 1;
+    const { error } = await client.from('posts').update({ views: newViews }).eq('id', postId);
+    if (error) console.warn('Could not update views in Supabase:', error);
+    return newViews;
+  } catch (err) {
+    console.warn('Error incrementing post views:', err);
+    return null;
+  }
+}
+
+// Fetch comments for a specific post
+async function fetchPostCommentsFromSupabase(postId) {
+  const client = getSupabaseClient();
+  if (!client || !postId) return null;
+
+  try {
+    const { data, error } = await client
+      .from('comments')
+      .select('*')
+      .eq('post_id', postId)
+      .order('created_at', { ascending: true });
+
+    if (error) throw error;
+    return (data || []).map(c => ({
+      id: c.id,
+      postId: c.post_id,
+      authorName: c.author_name,
+      authorEmail: c.author_email,
+      content: c.content,
+      likes: c.likes || 0,
+      parentId: c.parent_id || null,
+      createdAt: c.created_at ? new Date(c.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Just now'
+    }));
+  } catch (err) {
+    console.warn('Error fetching comments from Supabase:', err);
+    return null;
+  }
+}
+
+// Add a new comment or reply
+async function addPostCommentToSupabase(commentObj) {
+  const client = getSupabaseClient();
+  if (!client) return null;
+
+  try {
+    let targetPostId = commentObj.postId;
+
+    // Verify post exists in Supabase posts table
+    if (targetPostId) {
+      const { data: existingPost } = await client.from('posts').select('id').eq('id', targetPostId).single();
+      if (!existingPost) {
+        const { data: allPosts } = await client.from('posts').select('id').limit(1);
+        if (allPosts && allPosts.length > 0) {
+          targetPostId = allPosts[0].id;
+        } else if (typeof initialData !== 'undefined' && initialData.posts && initialData.posts[0]) {
+          const firstPost = initialData.posts[0];
+          const { data: newPost } = await client.from('posts').insert([mapPostToDb(firstPost)]).select();
+          if (newPost && newPost[0]) targetPostId = newPost[0].id;
+        }
+      }
+    }
+
+    const dbPayload = {
+      post_id: targetPostId || 1,
+      author_name: commentObj.authorName,
+      author_email: commentObj.authorEmail || '',
+      content: commentObj.content,
+      parent_id: commentObj.parentId || null,
+      likes: 0
+    };
+    const { data, error } = await client.from('comments').insert([dbPayload]).select();
+    if (error) throw error;
+    if (data && data[0]) {
+      const c = data[0];
+      return {
+        id: c.id,
+        postId: c.post_id,
+        authorName: c.author_name,
+        authorEmail: c.author_email,
+        content: c.content,
+        likes: c.likes || 0,
+        parentId: c.parent_id || null,
+        createdAt: 'Just now'
+      };
+    }
+    return null;
+  } catch (err) {
+    console.warn('Error adding comment to Supabase:', err);
+    return null;
+  }
+}
+
+// Delete a comment (Admin operation)
+async function deleteCommentFromSupabase(commentId) {
+  const client = getSupabaseClient();
+  if (!client || !commentId) return false;
+
+  try {
+    const { error } = await client.from('comments').delete().eq('id', commentId);
+    if (error) throw error;
+    return true;
+  } catch (err) {
+    console.warn('Error deleting comment in Supabase:', err);
+    return false;
+  }
+}
+
+// Toggle comment like count
+async function toggleCommentLikeInSupabase(commentId, currentLikes) {
+  const client = getSupabaseClient();
+  if (!client) return currentLikes + 1;
+
+  try {
+    const newLikes = (currentLikes || 0) + 1;
+    const { error } = await client.from('comments').update({ likes: newLikes }).eq('id', commentId);
+    if (error) console.warn('Could not update comment likes in Supabase:', error);
+    return newLikes;
+  } catch (err) {
+    console.warn('Error liking comment:', err);
+    return currentLikes + 1;
+  }
+}
+
+// Supabase Realtime Subscription for Comments
+function subscribeToPostComments(postId, callback) {
+  const client = getSupabaseClient();
+  if (!client || !postId) return null;
+
+  try {
+    const channel = client.channel(`comments-realtime-post-${postId}`)
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'comments', filter: `post_id=eq.${postId}` },
+        (payload) => {
+          if (typeof callback === 'function') callback(payload);
+        }
+      )
+      .subscribe();
+
+    return channel;
+  } catch (err) {
+    console.warn('Could not subscribe to Supabase Realtime comments:', err);
+    return null;
+  }
+}
+
