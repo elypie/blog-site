@@ -229,6 +229,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
+    // Dynamic Title & SEO Metadata Update
+    document.title = `${post.title} - EL Journal`;
+    let ogTitleMeta = document.querySelector('meta[property="og:title"]');
+    if (!ogTitleMeta) {
+      ogTitleMeta = document.createElement('meta');
+      ogTitleMeta.setAttribute('property', 'og:title');
+      document.head.appendChild(ogTitleMeta);
+    }
+    ogTitleMeta.setAttribute('content', post.title);
+
     const author = freshData.author;
     const currentIndex = publishedPosts.findIndex(p => p.id === post.id);
     const prevPost = currentIndex > 0 ? publishedPosts[currentIndex - 1] : null;

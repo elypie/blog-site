@@ -27,7 +27,7 @@ const initialData = {
   posts: [
     {
       id: 1,
-      title: "Built in 72 Hours, Broken in One Click: A Security Post-Mortem",
+      title: "Fast, But at What Cost? A Security Post-Mortem of an AI-Generated Application",
       slug: "built-in-72-hours-broken-in-one-click-a-security-post-mortem",
       category: "Information Assurance",
       status: "Published",
