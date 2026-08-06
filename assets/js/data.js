@@ -281,8 +281,12 @@ async function savePostAsync(post, isEdit = false) {
   // Fallback to local storage
   const data = getBlogData();
   if (isEdit && post.id) {
-    const idx = data.posts.findIndex(p => p.id === post.id);
-    if (idx !== -1) data.posts[idx] = post;
+    const idx = data.posts.findIndex(p => String(p.id) === String(post.id));
+    if (idx !== -1) {
+      data.posts[idx] = { ...data.posts[idx], ...post };
+    } else {
+      data.posts.unshift(post);
+    }
   } else {
     post.id = Date.now();
     data.posts.unshift(post);
@@ -298,7 +302,7 @@ async function deletePostAsync(id) {
   }
 
   const data = getBlogData();
-  data.posts = data.posts.filter(p => p.id !== id);
+  data.posts = data.posts.filter(p => String(p.id) !== String(id));
   saveBlogData(data);
   return true;
 }

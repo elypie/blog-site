@@ -66,11 +66,17 @@
     </header>
 
     <main class="admin-content-body">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
         <div style="display: flex; align-items: center; gap: 16px;">
           <a href="posts.html" class="btn-secondary">← Back to Posts</a>
           <h1 style="font-size: 24px;" id="editor-page-title">Create New Blog</h1>
+          <div id="editor-status-badge"></div>
         </div>
+      </div>
+
+      <!-- Toast Notification Banner -->
+      <div id="editor-toast" style="display: none; position: fixed; top: 24px; right: 24px; z-index: 3000; background: #10B981; color: #FFF; padding: 14px 22px; border-radius: 14px; font-weight: 700; font-size: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); transition: all 0.3s ease;">
+        ✓ Article updated successfully.
       </div>
 
       <form id="blog-form">
@@ -141,9 +147,11 @@
               </div>
             </div>
 
+            <!-- Action Buttons -->
             <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 28px;">
-              <button type="submit" class="btn-primary" style="width: 100%; text-align: center;">Publish Article</button>
+              <button type="submit" class="btn-primary" id="submit-post-btn" style="width: 100%; text-align: center;">Publish Article</button>
               <button type="button" class="btn-secondary" id="save-draft-btn" style="width: 100%; text-align: center;">Save as Draft</button>
+              <button type="button" id="delete-post-btn" style="display: none; width: 100%; text-align: center; background: rgba(239, 68, 68, 0.1); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.3); padding: 10px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">🗑️ Delete Article</button>
             </div>
           </div>
 
@@ -334,12 +342,17 @@
         ? await getBlogDataAsync(true) 
         : getBlogData();
       const urlParams = new URLSearchParams(window.location.search);
-      const postId = parseInt(urlParams.get('id'));
+      const rawPostId = urlParams.get('id');
 
       const titleInput = document.getElementById('post-title-input');
       const catSelect = document.getElementById('post-category-select');
       const imageInput = document.getElementById('post-image-input');
       const pageTitle = document.getElementById('editor-page-title');
+      const statusBadge = document.getElementById('editor-status-badge');
+      const submitBtn = document.getElementById('submit-post-btn');
+      const saveDraftBtn = document.getElementById('save-draft-btn');
+      const deleteBtn = document.getElementById('delete-post-btn');
+      const toastEl = document.getElementById('editor-toast');
 
       const editorCanvas = document.getElementById('wysiwyg-content-area');
       const editorContainer = document.getElementById('wysiwyg-editor-container');
@@ -347,20 +360,57 @@
       const charCountEl = document.getElementById('editor-char-count');
       const autosaveStatusEl = document.getElementById('editor-autosave-status');
 
+      function showToast(message, bg = '#10B981') {
+        if (toastEl) {
+          toastEl.textContent = message;
+          toastEl.style.background = bg;
+          toastEl.style.display = 'block';
+        }
+      }
+
       let currentPost = null;
-      if (postId) {
+      if (rawPostId) {
         if (typeof fetchPostBySlugOrIdFromSupabase === 'function' && isSupabaseConfigured()) {
-          currentPost = await fetchPostBySlugOrIdFromSupabase(postId);
-        } else {
-          currentPost = data.posts.find(p => p.id === postId);
+          currentPost = await fetchPostBySlugOrIdFromSupabase(rawPostId);
+        }
+        if (!currentPost && data && data.posts) {
+          currentPost = data.posts.find(p => String(p.id) === String(rawPostId));
         }
 
         if (currentPost) {
           pageTitle.textContent = 'Edit Blog Post';
-          titleInput.value = currentPost.title;
-          catSelect.value = currentPost.category;
-          imageInput.value = currentPost.coverImage;
-          editorCanvas.innerHTML = currentPost.content;
+          
+          if (currentPost.status === 'Published') {
+            submitBtn.textContent = 'Update Article';
+            if (statusBadge) {
+              statusBadge.innerHTML = `<span style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">🟢 Published</span>`;
+            }
+          } else {
+            submitBtn.textContent = 'Publish Article';
+            if (statusBadge) {
+              statusBadge.innerHTML = `<span style="background: rgba(245, 158, 11, 0.15); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">🟡 Draft</span>`;
+            }
+          }
+
+          if (deleteBtn) {
+            deleteBtn.style.display = 'block';
+            deleteBtn.addEventListener('click', async () => {
+              if (confirm(`Are you sure you want to delete "${currentPost.title}"? This action cannot be undone.`)) {
+                if (typeof deletePostAsync === 'function') {
+                  await deletePostAsync(currentPost.id);
+                }
+                showToast('Article deleted successfully.', '#EF4444');
+                setTimeout(() => window.location.href = 'posts.html', 900);
+              }
+            });
+          }
+
+          titleInput.value = currentPost.title || '';
+          catSelect.value = currentPost.category || 'Information Assurance';
+          if (currentPost.coverImage) {
+            showImagePreview(currentPost.coverImage, currentPost.coverImage.split('/').pop() || 'Cover Image');
+          }
+          editorCanvas.innerHTML = currentPost.content || '';
           updateEditorStats();
         }
       }
@@ -535,7 +585,7 @@
 
       editorCanvas.addEventListener('input', updateEditorStats);
 
-      // Handle Save & Publish to Supabase
+      // Handle Save & Update
       async function handleSave(status) {
         const title = titleInput.value.trim();
         if (!title) { alert("Please enter article title"); return; }
@@ -552,17 +602,18 @@
         const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
         const postObj = {
-          id: currentPost ? currentPost.id : null,
+          id: currentPost ? currentPost.id : Date.now(),
           title,
-          slug,
+          slug: (currentPost && currentPost.slug) ? currentPost.slug : slug,
           category: catSelect.value || "Information Assurance",
           status, // 'Published' or 'Draft'
-          date: status === 'Published' ? formattedDate : (currentPost && currentPost.date ? currentPost.date : formattedDate),
+          date: (currentPost && currentPost.date) ? currentPost.date : formattedDate,
+          lastUpdated: formattedDate,
           readTime: calculatedReadTime,
-          author: "Elyssa",
+          author: (currentPost && currentPost.author) ? currentPost.author : "Elyssa",
           featured: currentPost ? currentPost.featured : false,
           isLatest: status === 'Published',
-          coverImage: imageInput.value || "assets/images/post1-cover.png",
+          coverImage: imageInput.value || "assets/images/posts/post1-cover.png",
           summary: textSummary,
           content: htmlContent
         };
@@ -570,18 +621,29 @@
         try {
           if (typeof savePostAsync === 'function') {
             await savePostAsync(postObj, Boolean(currentPost));
-          } else {
-            if (currentPost) {
-              const index = data.posts.findIndex(p => p.id === currentPost.id);
-              data.posts[index] = postObj;
-            } else {
-              postObj.id = Date.now();
-              data.posts.unshift(postObj);
-            }
-            saveBlogData(data);
           }
-          alert(`Blog post saved as ${status}!`);
-          window.location.href = 'posts.html';
+
+          // Always synchronize local cache for immediate public site & admin reflection
+          if (typeof getBlogData === 'function') {
+            const localData = getBlogData();
+            if (currentPost) {
+              const index = localData.posts.findIndex(p => String(p.id) === String(currentPost.id));
+              if (index !== -1) {
+                localData.posts[index] = { ...localData.posts[index], ...postObj };
+              } else {
+                localData.posts.unshift(postObj);
+              }
+            } else {
+              localData.posts.unshift(postObj);
+            }
+            saveBlogData(localData);
+          }
+
+          const toastMsg = currentPost ? "Article updated successfully." : `Article saved as ${status}!`;
+          showToast(toastMsg);
+          setTimeout(() => {
+            window.location.href = 'posts.html';
+          }, 900);
         } catch(err) {
           alert('Failed to save blog post: ' + err.message);
         }
