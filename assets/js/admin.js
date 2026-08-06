@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (filtered.length === 0) {
         postsTableBody.innerHTML = `
           <tr>
-            <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <td colspan="5" style="text-align: center; padding: 40px; color: var(--text-muted);">
               No blog posts found in database.
             </td>
           </tr>
@@ -65,31 +65,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      postsTableBody.innerHTML = filtered.map(post => {
-        const viewCount = Number(post.views) || 0;
-        return `
-          <tr>
-            <td>
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <img src="${post.coverImage}" alt="" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover;" />
-                <strong style="max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${post.title}</strong>
-              </div>
-            </td>
-            <td><span class="badge-category-subtle" style="padding: 4px 10px; background: rgba(165,21,12,0.08); color: var(--accent-coral); border-radius: 12px; font-size: 12px; font-weight: 600;">${post.category}</span></td>
-            <td>
-              <span class="badge-status ${post.status === 'Published' ? 'published' : 'draft'}" onclick="toggleStatus(${post.id})" style="cursor: pointer;">
-                ● ${post.status}
-              </span>
-            </td>
-            <td><strong>👁️ ${viewCount.toLocaleString()}</strong></td>
-            <td>${post.date}</td>
-            <td style="text-align: right;">
-              <button onclick="editPost(${post.id})" class="btn-action-edit">Edit</button>
-              <button onclick="deletePost(${post.id})" class="btn-action-delete">Delete</button>
-            </td>
-          </tr>
-        `;
-      }).join('');
+      postsTableBody.innerHTML = filtered.map(post => `
+        <tr>
+          <td>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <img src="${post.coverImage}" alt="" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover;" />
+              <strong style="max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${post.title}</strong>
+            </div>
+          </td>
+          <td><span class="badge-category-subtle" style="padding: 4px 10px; background: rgba(165,21,12,0.08); color: var(--accent-coral); border-radius: 12px; font-size: 12px; font-weight: 600;">${post.category}</span></td>
+          <td>
+            <span class="badge-status ${post.status === 'Published' ? 'published' : 'draft'}" onclick="toggleStatus(${post.id})" style="cursor: pointer;">
+              ● ${post.status}
+            </span>
+          </td>
+          <td>${post.date}</td>
+          <td style="text-align: right;">
+            <button onclick="editPost(${post.id})" class="btn-action-edit">Edit</button>
+            <button onclick="deletePost(${post.id})" class="btn-action-delete">Delete</button>
+          </td>
+        </tr>
+      `).join('');
     }
 
     // Tab button events

@@ -383,11 +383,6 @@ document.addEventListener('DOMContentLoaded', async () => {
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
               ${post.author || 'Ely'}
             </span>
-            <span>•</span>
-            <span style="display: inline-flex; align-items: center;" id="post-view-count-badge">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-              <span id="post-view-count-text">${(Number(post.views) || 0) === 1 ? '1 view' : ((Number(post.views) || 0) + ' views')}</span>
-            </span>
           </div>
         </header>
 
@@ -537,50 +532,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         articleHeadings.forEach(h => observer.observe(h));
       }
     }, 100);
-
-    // --- Synchronized Global View Count Tracker ---
-    async function initViewCountSystem(p) {
-      if (!p || !p.id) return;
-
-      const viewTextEl = document.getElementById('post-view-count-text');
-      const sessionKey = `elys_viewed_session_post_${p.id}`;
-      const localCountKey = `elys_local_views_post_${p.id}`;
-      const isAlreadyViewed = Boolean(sessionStorage.getItem(sessionKey));
-
-      function formatViews(n) {
-        const count = Math.max(0, Number(n) || 0);
-        return `${count} ${count === 1 ? 'view' : 'views'}`;
-      }
-
-      let finalViews = Number(p.views) || 0;
-
-      if (typeof trackPostViewsInSupabase === 'function' && isSupabaseConfigured()) {
-        const remoteViews = await trackPostViewsInSupabase(p.id, !isAlreadyViewed);
-        if (remoteViews !== null && remoteViews !== undefined) {
-          finalViews = remoteViews;
-          localStorage.setItem(localCountKey, finalViews.toString());
-        } else {
-          const storedLocalViews = parseInt(localStorage.getItem(localCountKey), 10) || finalViews;
-          finalViews = isAlreadyViewed ? storedLocalViews : Math.max(1, storedLocalViews + 1);
-          localStorage.setItem(localCountKey, finalViews.toString());
-        }
-      } else {
-        const storedLocalViews = parseInt(localStorage.getItem(localCountKey), 10) || finalViews;
-        finalViews = isAlreadyViewed ? storedLocalViews : Math.max(1, storedLocalViews + 1);
-        localStorage.setItem(localCountKey, finalViews.toString());
-      }
-
-      // Record session visit so refreshing doesn't add duplicate views
-      sessionStorage.setItem(sessionKey, Date.now().toString());
-      p.views = finalViews;
-
-      // Update UI in real time
-      if (viewTextEl) {
-        viewTextEl.textContent = formatViews(finalViews);
-      }
-    }
-
-    initViewCountSystem(post);
   }
 
   // --- Scroll Reveal Animations & Back to Top Observer ---

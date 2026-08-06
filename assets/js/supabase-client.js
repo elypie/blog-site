@@ -31,7 +31,6 @@ function mapPostFromDb(dbPost) {
     date: dbPost.created_at ? new Date(dbPost.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Aug 5, 2026',
     readTime: dbPost.read_time || '5 min read',
     author: dbPost.author || 'Elyssa',
-    views: Number(dbPost.views || 0),
     featured: Boolean(dbPost.featured),
     isLatest: Boolean(dbPost.is_latest),
     coverImage: dbPost.cover_image || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200',
@@ -233,60 +232,7 @@ async function getAdminSessionFromSupabase() {
   return data ? data.session : null;
 }
 
-// --- VIEWS TRACKER & SUPABASE API ---
-
-// Fetch or increment view count for a specific post in Supabase
-async function trackPostViewsInSupabase(postId, shouldIncrement = true) {
-  const client = getSupabaseClient();
-  if (!client || !postId) return null;
-
-  try {
-    // 1. Fetch current post record from Supabase
-    let { data: postData, error: fetchErr } = await client
-      .from('posts')
-      .select('id, views')
-      .eq('id', postId)
-      .maybeSingle();
-
-    // If post record does not exist in Supabase posts table yet, auto-insert post
-    if (!postData && typeof initialData !== 'undefined' && initialData.posts) {
-      const matchPost = initialData.posts.find(p => p.id === postId) || initialData.posts[0];
-      if (matchPost) {
-        const dbPayload = mapPostToDb(matchPost);
-        dbPayload.id = matchPost.id;
-        dbPayload.views = 1;
-        const { data: newPosts } = await client.from('posts').upsert([dbPayload]).select();
-        if (newPosts && newPosts[0]) return Number(newPosts[0].views || 1);
-      }
-    }
-
-    const currentViews = postData ? Number(postData.views || 0) : 0;
-    if (!shouldIncrement) {
-      return currentViews;
-    }
-
-    const newViews = currentViews + 1;
-    const { error: updateErr } = await client
-      .from('posts')
-      .update({ views: newViews })
-      .eq('id', postId);
-
-    if (updateErr) {
-      console.warn('Could not update views in Supabase (check RLS policies):', updateErr);
-      return currentViews > 0 ? currentViews : 1;
-    }
-
-    return newViews;
-  } catch (err) {
-    console.warn('Error tracking post views in Supabase:', err);
-    return null;
-  }
-}
-
-// Backward compatibility alias
-async function incrementPostViewsFromSupabase(postId) {
-  return await trackPostViewsInSupabase(postId, true);
-}
+// --- SUPABASE COMMENTS & REALTIME API ---
 
 // Fetch comments for a specific post
 async function fetchPostCommentsFromSupabase(postId) {
