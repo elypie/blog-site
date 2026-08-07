@@ -15,27 +15,25 @@
 
 <body class="dark-theme" style="margin: 0; padding: 0; overflow: hidden; background-color: #0D0C11;">
 
-  <!-- Standalone Welcome Screen Page (Not an Overlay) -->
-  <div id="welcome-screen-container">
+  <!-- Standalone Welcome Screen Overlay -->
+  <div id="welcome-screen-overlay" style="opacity: 1; visibility: visible;">
+    <div id="welcome-tsparticles"></div>
     <div class="welcome-content">
       <div class="welcome-icons-row">
         <div class="welcome-icon-box" title="Journal / Blog">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
           </svg>
         </div>
         <div class="welcome-icon-box" title="Code / Development">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="16 18 22 12 16 6"></polyline>
             <polyline points="8 6 2 12 8 18"></polyline>
           </svg>
         </div>
         <div class="welcome-icon-box" title="UI/UX Design">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <path d="m4.93 4.93 4.24 4.24"></path>
             <path d="m14.83 9.17 4.24-4.24"></path>
@@ -59,17 +57,66 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/tsparticles-slim@2.12.0/tsparticles.slim.bundle.min.js"></script>
-  <script src="assets/js/particles-bg.js"></script>
   <script>
     (function () {
       'use strict';
 
-      // 1. Progress Bar & Auto-Redirect to index.html
+      // Load exact tsParticles red constellation particle engine on Welcome Screen
+      function initWelcomeParticles() {
+        if (typeof tsParticles === 'undefined') {
+          setTimeout(initWelcomeParticles, 100);
+          return;
+        }
+
+        const welcomeParticlesContainer = document.getElementById('welcome-tsparticles');
+        if (!welcomeParticlesContainer) return;
+
+        tsParticles.load("welcome-tsparticles", {
+          fpsLimit: 120,
+          fullScreen: { enable: false },
+          particles: {
+            color: { value: ["#A5150C", "#FF3333", "#DC2626"] },
+            links: {
+              color: "#A5150C",
+              distance: 140,
+              enable: true,
+              opacity: 0.4,
+              width: 1.2,
+              shadow: { enable: true, color: "#A5150C", blur: 5 }
+            },
+            move: {
+              direction: "none",
+              enable: true,
+              outModes: { default: "out" },
+              random: true,
+              speed: 0.8,
+              straight: false
+            },
+            number: { density: { enable: true, area: 800 }, value: 90 },
+            opacity: {
+              value: { min: 0.4, max: 0.85 },
+              animation: { enable: true, speed: 1, minimumValue: 0.3, sync: false }
+            },
+            shape: { type: "circle" },
+            size: { value: { min: 2, max: 4.5 } },
+            shadow: { enable: true, color: "#A5150C", blur: 8 }
+          },
+          interactivity: {
+            detectsOn: "window",
+            events: { onHover: { enable: true, mode: "repel" } },
+            modes: { repel: { distance: 120, duration: 0.4 } }
+          }
+        });
+      }
+
+      initWelcomeParticles();
+
+      // Progress Bar & Auto-Redirect to index.html
       const progressBar = document.getElementById('welcome-progress-bar');
       const loadingTxt = document.getElementById('welcome-loading-txt');
 
       let progress = 0;
-      const duration = 5600; // 5.6 seconds fill time
+      const duration = 2600; // 2.6 seconds loading duration
       const startTime = performance.now();
 
       const dots = ['Loading.', 'Loading..', 'Loading...'];
@@ -94,8 +141,8 @@
           if (loadingTxt) loadingTxt.textContent = 'Loading...';
 
           setTimeout(() => {
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.5s ease';
+            const overlay = document.getElementById('welcome-screen-overlay');
+            if (overlay) overlay.classList.add('welcome-hidden');
             setTimeout(() => {
               window.location.href = 'index.html';
             }, 500);

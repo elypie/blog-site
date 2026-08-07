@@ -2641,8 +2641,7 @@ body.dark-theme .quick-search-footer {
 }
 
 /* --- Full-Screen Welcome / Loading Screen --- */
-#welcome-screen-overlay,
-#welcome-screen-container {
+#welcome-screen-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -2670,7 +2669,7 @@ body.dark-theme .quick-search-footer {
   pointer-events: none;
 }
 
-#welcome-canvas {
+#welcome-tsparticles {
   position: absolute;
   top: 0;
   left: 0;
