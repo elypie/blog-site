@@ -34,16 +34,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       } else {
         const latest = publishedPosts[0];
         latestPostRoot.innerHTML = `
-          <div class="blog-item-card featured-card-responsive" onclick="window.location.href='blog-detail.html?id=${latest.id}'" style="display: flex; flex-direction: column; padding: 0;">
-            <div class="featured-card-img-wrap" style="width: 100%; height: 240px; overflow: hidden; border-radius: 16px 16px 0 0;">
-              <img src="${(!latest.coverImage || latest.coverImage === 'assets/images/post1-cover.png') ? 'assets/images/posts/post1-cover.png' : latest.coverImage}" alt="${latest.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/images/posts/post1-cover.png'" />
+          <div class="blog-item-card featured-latest-card" onclick="window.location.href='blog-detail.html?id=${latest.id}'">
+            <div class="featured-latest-img-wrap">
+              <img src="${(!latest.coverImage || latest.coverImage === 'assets/images/post1-cover.png') ? 'assets/images/posts/post1-cover.png' : latest.coverImage}" alt="${latest.title}" class="featured-latest-img" onerror="this.src='assets/images/posts/post1-cover.png'" />
             </div>
-            <div class="featured-card-body" style="padding: 28px; flex: 1; display: flex; flex-direction: column;">
-              <div style="margin-bottom: 10px;">
+            <div class="featured-latest-body">
+              <div class="featured-latest-badge-wrap">
                 <span class="badge-category-subtle" style="display: inline-block; padding: 4px 12px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${latest.category}</span>
               </div>
-              <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 10px; line-height: 1.35; color: var(--text-main);">${latest.title}</h3>
-              <div style="display: flex; align-items: center; gap: 14px; color: var(--text-muted); font-size: 13px; font-weight: 500; margin-bottom: 14px; flex-wrap: wrap;">
+              <h3 class="featured-latest-title">${latest.title}</h3>
+              <div class="featured-latest-meta">
                 <span style="display: inline-flex; align-items: center;">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                   ${latest.date}
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                   ${latest.readTime}
                 </span>
               </div>
-              <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; flex: 1; line-height: 1.6;">${latest.summary}</p>
+              <p class="featured-latest-summary">${latest.summary}</p>
               <a href="blog-detail.html?id=${latest.id}" class="btn-read-more" style="align-self: flex-start;">Continue Reading →</a>
             </div>
           </div>
