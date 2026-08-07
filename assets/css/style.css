@@ -172,7 +172,8 @@ button {
   transition: background-color var(--transition-normal), border-color var(--transition-normal);
 }
 
-.theme-toggle-btn, .theme-btn {
+.theme-toggle-btn,
+.theme-btn {
   display: none !important;
 }
 
@@ -2628,6 +2629,13 @@ body.dark-theme .quick-search-footer {
 }
 
 @keyframes typewriterBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
