@@ -1,20 +1,15 @@
 /**
  * EL Journal - Full-Screen Welcome / Loading Screen Component
- * Smooth entrance animation, particle backdrop, glassmorphism badge, progress bar, and session storage guard.
+ * Automatically prepends the welcome screen on page load, animates progress bar, and smoothly reveals homepage.
  */
 
 (function () {
   'use strict';
 
-  // 1. Session Storage Guard: Show only once per browser session
-  if (sessionStorage.getItem('el_journal_welcome_seen')) {
-    return;
-  }
-
   // Prevent scrolling while loading screen is active
   document.body.style.overflow = 'hidden';
 
-  // 2. Inject Welcome Overlay DOM Structure
+  // 1. Inject Welcome Overlay DOM Structure dynamically on page load
   const overlay = document.createElement('div');
   overlay.id = 'welcome-screen-overlay';
   overlay.innerHTML = `
@@ -59,23 +54,16 @@
 
   document.body.prepend(overlay);
 
-  // 3. Floating Particle Canvas Background
+  // 2. Floating Particle Canvas Background
   const canvas = document.getElementById('welcome-canvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    let mouse = { x: width / 2, y: height / 2 };
-
     window.addEventListener('resize', () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
     });
 
     const particlesCount = Math.min(Math.floor(window.innerWidth / 18), 50);
@@ -104,7 +92,6 @@
         if (p.x < 0 || p.x > width) p.vx *= -1;
         if (p.y < 0 || p.y > height) p.vy *= -1;
 
-        // Draw particle dot
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(229, 91, 68, ${p.alpha})`;
@@ -113,7 +100,6 @@
         ctx.fill();
         ctx.shadowBlur = 0;
 
-        // Draw connection lines
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dx = p.x - p2.x;
@@ -135,13 +121,12 @@
     }
     renderParticles();
 
-    // Clean up particle loop when overlay is removed
     overlay.addEventListener('transitionend', () => {
       cancelAnimationFrame(animId);
     });
   }
 
-  // 4. Progress Bar & Animated Loading Dots
+  // 3. Progress Bar & Animated Loading Dots
   const progressBar = document.getElementById('welcome-progress-bar');
   const loadingTxt = document.getElementById('welcome-loading-txt');
 
@@ -170,11 +155,10 @@
       clearInterval(dotInterval);
       if (loadingTxt) loadingTxt.textContent = 'Loading...';
 
-      // 5. Exit Transition: Scale down & fade out overlay
+      // 4. Exit Transition: Scale down & fade out overlay, revealing homepage underneath
       setTimeout(() => {
         overlay.classList.add('welcome-hidden');
         document.body.style.overflow = '';
-        sessionStorage.setItem('el_journal_welcome_seen', 'true');
 
         setTimeout(() => {
           overlay.remove();
