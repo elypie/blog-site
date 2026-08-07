@@ -1432,9 +1432,13 @@ body.dark-theme .quote-symbol {
   gap: 32px;
 }
 
-/* Dark Theme Article Readability & Rich Gradient Overrides */
+/* Dark Theme Charcoal Black Background & Soft Subtle Red Glow for Depth */
 body.dark-theme {
-  background-color: #121212 !important;
+  background-color: #0D0D0D !important;
+  background-image:
+    radial-gradient(circle at 85% 15%, rgba(165, 21, 12, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 15% 85%, rgba(165, 21, 12, 0.08) 0%, transparent 60%) !important;
+  background-attachment: fixed !important;
 }
 
 body.dark-theme .public-header {

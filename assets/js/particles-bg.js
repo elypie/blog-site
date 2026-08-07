@@ -30,7 +30,7 @@
     container.style.bottom = '0';
     container.style.width = '100vw';
     container.style.height = '100vh';
-    container.style.zIndex = '-1';
+    container.style.zIndex = '0';
     container.style.pointerEvents = 'none';
 
     // Respect reduced motion preference
@@ -40,7 +40,7 @@
       fpsLimit: 120,
       fullScreen: {
         enable: true,
-        zIndex: -1
+        zIndex: 0
       },
       particles: {
         color: {
