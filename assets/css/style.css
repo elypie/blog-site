@@ -715,6 +715,121 @@ button {
   box-shadow: 0 6px 20px rgba(165, 21, 12, 0.25);
 }
 
+/* --- Connect With Me Compact Glass Social Cards --- */
+.social-connect-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-main);
+}
+
+.social-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.social-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: linear-gradient(145deg, rgba(26, 26, 26, 0.8) 0%, rgba(18, 18, 18, 0.8) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  text-decoration: none;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.social-card:hover {
+  transform: translateY(-4px) scale(1.015);
+  background: linear-gradient(145deg, rgba(35, 30, 38, 0.9) 0%, rgba(24, 20, 28, 0.9) 100%);
+  border-color: rgba(165, 21, 12, 0.55);
+  box-shadow: 0 10px 30px rgba(165, 21, 12, 0.25);
+}
+
+.social-card-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(165, 21, 12, 0.12);
+  border: 1px solid rgba(165, 21, 12, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-coral);
+  flex-shrink: 0;
+  transition: background 0.28s ease, border-color 0.28s ease, transform 0.28s ease;
+}
+
+.social-card:hover .social-card-icon-box {
+  background: rgba(165, 21, 12, 0.22);
+  border-color: rgba(165, 21, 12, 0.45);
+  transform: scale(1.05);
+}
+
+.social-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.social-card-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.social-card-handle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  font-family: var(--font-mono, monospace);
+}
+
+.social-card-arrow {
+  color: var(--text-light);
+  opacity: 0.6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease, color 0.28s ease;
+}
+
+.social-card:hover .social-card-arrow {
+  transform: translate(3px, -3px);
+  opacity: 1;
+  color: var(--accent-coral);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 576px) {
+  .social-card {
+    padding: 14px 16px;
+  }
+  .social-card-icon-box {
+    width: 38px;
+    height: 38px;
+  }
+  .social-card-name {
+    font-size: 14px;
+  }
+  .social-card-handle {
+    font-size: 12px;
+  }
+}
+
 .social-btn-icon {
   width: 34px;
   height: 34px;
