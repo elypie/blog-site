@@ -25,6 +25,17 @@
 
   <!-- Full-Screen Welcome / Loading Overlay -->
   <div id="welcome-screen-overlay">
+    <script>
+      (function () {
+        var navEntry = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+        var isReload = navEntry && navEntry.type === 'reload';
+        var isInitialOpen = !document.referrer || !document.referrer.includes(window.location.host);
+        if (!isReload && !isInitialOpen) {
+          var el = document.getElementById('welcome-screen-overlay');
+          if (el) el.style.display = 'none';
+        }
+      })();
+    </script>
     <div id="welcome-tsparticles"></div>
     <div class="welcome-content">
       <div class="welcome-icons-row">

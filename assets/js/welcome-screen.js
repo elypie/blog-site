@@ -10,6 +10,12 @@
   const overlay = document.getElementById('welcome-screen-overlay');
   if (!overlay) return;
 
+  // Check if inline script already hid overlay for internal navigation
+  if (overlay.style.display === 'none') {
+    overlay.remove();
+    return;
+  }
+
   // Check navigation type and referrer
   const navEntry = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
   const isReload = navEntry && navEntry.type === 'reload';
