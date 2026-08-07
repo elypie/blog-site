@@ -2,6 +2,11 @@
 
 (function () {
   function initParticles() {
+    // Exclude particle effect on Blog Detail page
+    if (window.location.pathname.includes('blog-detail.html')) {
+      return;
+    }
+
     if (typeof tsParticles === 'undefined') {
       console.warn('tsParticles library not loaded yet.');
       return;
