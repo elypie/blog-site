@@ -1,58 +1,17 @@
 /**
  * EL Journal - Full-Screen Welcome / Loading Screen Component
- * Automatically prepends the welcome screen on page load, animates progress bar, and smoothly reveals homepage.
+ * Smooth entrance animation, particle backdrop, glassmorphism badge, progress bar.
  */
 
 (function () {
   'use strict';
 
+  // 1. Get pre-rendered Welcome Overlay from HTML
+  const overlay = document.getElementById('welcome-screen-overlay');
+  if (!overlay) return;
+
   // Prevent scrolling while loading screen is active
   document.body.style.overflow = 'hidden';
-
-  // 1. Inject Welcome Overlay DOM Structure dynamically on page load
-  const overlay = document.createElement('div');
-  overlay.id = 'welcome-screen-overlay';
-  overlay.innerHTML = `
-    <canvas id="welcome-canvas"></canvas>
-    <div class="welcome-content">
-      <div class="welcome-icons-row">
-        <div class="welcome-icon-box" title="Journal / Blog">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-          </svg>
-        </div>
-        <div class="welcome-icon-box" title="Code / Development">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="16 18 22 12 16 6"></polyline>
-            <polyline points="8 6 2 12 8 18"></polyline>
-          </svg>
-        </div>
-        <div class="welcome-icon-box" title="UI/UX Design">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="m4.93 4.93 4.24 4.24"></path>
-            <path d="m14.83 9.17 4.24-4.24"></path>
-            <path d="m14.83 14.83 4.24 4.24"></path>
-            <path d="m9.17 14.83-4.24 4.24"></path>
-          </svg>
-        </div>
-      </div>
-      <div class="welcome-title-subtitle">Welcome To</div>
-      <h1 class="welcome-title-main">EL JOURNAL WEBSITE</h1>
-      <div class="welcome-badge">
-        <span>✨ Personal Blog • Developer • UI/UX Enthusiast</span>
-      </div>
-      <div class="welcome-progress-wrap">
-        <div class="welcome-progress-track">
-          <div class="welcome-progress-fill" id="welcome-progress-bar"></div>
-        </div>
-        <div class="welcome-loading-text" id="welcome-loading-txt">Loading.</div>
-      </div>
-    </div>
-  `;
-
-  document.body.prepend(overlay);
 
   // 2. Floating Particle Canvas Background
   const canvas = document.getElementById('welcome-canvas');
