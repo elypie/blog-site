@@ -10,7 +10,18 @@
   const overlay = document.getElementById('welcome-screen-overlay');
   if (!overlay) return;
 
-  // Prevent scrolling while loading screen is active
+  // Check navigation type and referrer
+  const navEntry = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  const isReload = navEntry && navEntry.type === 'reload';
+  const isInitialOpen = !document.referrer || !document.referrer.includes(window.location.host);
+
+  // If navigating from an internal subpage (e.g. profile.html or blogs.html), skip welcome screen
+  if (!isReload && !isInitialOpen) {
+    overlay.remove();
+    return;
+  }
+
+  // Lock scrolling while loading screen is active
   document.body.style.overflow = 'hidden';
 
   // 2. Load exact tsParticles red constellation particle engine on Welcome Screen
