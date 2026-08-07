@@ -2,10 +2,10 @@
 
 (function () {
   function initParticles() {
-    // Render particle background ONLY on the Home page
+    // Render particle background on Home page and Welcome page
     const path = window.location.pathname.toLowerCase();
-    const isHome = path.endsWith('/') || path.endsWith('/index.html') || path.includes('index.html') || (path.split('/').pop() === '');
-    if (!isHome) {
+    const isHomeOrWelcome = path.endsWith('/') || path.endsWith('/index.html') || path.includes('index.html') || path.includes('welcome.html') || (path.split('/').pop() === '');
+    if (!isHomeOrWelcome) {
       return;
     }
 
@@ -26,9 +26,11 @@
     container.style.position = 'fixed';
     container.style.top = '0';
     container.style.left = '0';
+    container.style.right = '0';
+    container.style.bottom = '0';
     container.style.width = '100vw';
     container.style.height = '100vh';
-    container.style.zIndex = '-1';
+    container.style.zIndex = '0';
     container.style.pointerEvents = 'none';
 
     // Respect reduced motion preference
@@ -38,7 +40,7 @@
       fpsLimit: 120,
       fullScreen: {
         enable: true,
-        zIndex: -1
+        zIndex: 0
       },
       particles: {
         color: {
