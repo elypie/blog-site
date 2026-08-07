@@ -334,6 +334,13 @@ button {
   transform: translateY(0);
 }
 
+.hero-cta-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
 /* --- Search Input & Form Controls --- */
 .search-input,
 .input-field {
