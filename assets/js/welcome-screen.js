@@ -6,11 +6,6 @@
 (function () {
   'use strict';
 
-  // 1. Session Storage Guard: Show only once per browser session
-  if (sessionStorage.getItem('el_journal_welcome_seen')) {
-    return;
-  }
-
   // Prevent scrolling while loading screen is active
   document.body.style.overflow = 'hidden';
 
@@ -143,7 +138,7 @@
   const loadingTxt = document.getElementById('welcome-loading-txt');
 
   let progress = 0;
-  const duration = 2600; // 2.6 seconds fill time
+  const duration = 10000; // 10 seconds fill time
   const startTime = performance.now();
 
   const dots = ['Loading.', 'Loading..', 'Loading...'];
@@ -171,7 +166,6 @@
       setTimeout(() => {
         overlay.classList.add('welcome-hidden');
         document.body.style.overflow = '';
-        sessionStorage.setItem('el_journal_welcome_seen', 'true');
 
         setTimeout(() => {
           overlay.remove();
