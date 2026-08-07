@@ -2,8 +2,10 @@
 
 (function () {
   function initParticles() {
-    // Exclude particle effect on Blog Detail page
-    if (window.location.pathname.includes('blog-detail.html')) {
+    // Render particle background ONLY on the Home page
+    const path = window.location.pathname.toLowerCase();
+    const isHome = path.endsWith('/') || path.endsWith('/index.html') || path.includes('index.html') || (path.split('/').pop() === '');
+    if (!isHome) {
       return;
     }
 
