@@ -2647,11 +2647,13 @@ body.dark-theme .quick-search-footer {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #0D0C11;
+  background-color: rgba(13, 12, 17, 0.75);
   background-image:
-    radial-gradient(circle at 10% 50%, rgba(165, 21, 12, 0.25) 0%, transparent 45%),
-    radial-gradient(circle at 90% 50%, rgba(165, 21, 12, 0.25) 0%, transparent 45%),
-    linear-gradient(135deg, #0D0C11 0%, #15131C 50%, #100E14 100%);
+    radial-gradient(circle at 10% 50%, rgba(165, 21, 12, 0.3) 0%, transparent 45%),
+    radial-gradient(circle at 90% 50%, rgba(165, 21, 12, 0.3) 0%, transparent 45%),
+    linear-gradient(135deg, rgba(13, 12, 17, 0.75) 0%, rgba(21, 19, 28, 0.75) 50%, rgba(16, 14, 20, 0.75) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 999999;
   display: flex;
   flex-direction: column;
