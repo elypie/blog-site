@@ -11,12 +11,16 @@
   --color-crimson-hover: #861009;
   --color-crimson-light: rgba(165, 21, 12, 0.12);
 
+  /* Navbar & Header Surface Tokens */
+  --navbar-bg: rgba(16, 15, 20, 0.88);
+  --navbar-border: rgba(255, 255, 255, 0.08);
+
   /* Surface & Layout Tokens */
   --bg-primary: #121212;
   --bg-card: #1C1C24;
   --bg-card-secondary: #181820;
   --bg-card-hover: #262632;
-  --bg-dark: #121212;
+  --bg-dark: rgba(16, 15, 20, 0.88);
   --bg-dark-accent: #121212;
 
   /* Accent Tokens */
@@ -158,10 +162,10 @@ button {
 
 /* --- Header & Navigation --- */
 .public-header {
-  background-color: rgba(18, 18, 32, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: var(--navbar-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--navbar-border);
   position: sticky;
   top: 0;
   z-index: 900;
@@ -926,11 +930,13 @@ button {
 
 /* --- Footer --- */
 .public-footer {
-  background-color: var(--bg-dark);
+  background: var(--navbar-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   color: #FFFFFF;
   padding: 64px 0 32px 0;
   margin-top: 80px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--navbar-border);
 }
 
 .footer-content {
@@ -1470,8 +1476,10 @@ body.dark-theme .badge-category-subtle {
 }
 
 body.dark-theme .public-footer {
-  background: linear-gradient(180deg, #131219 0%, #0B0A0E 100%) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--navbar-bg) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--navbar-border) !important;
 }
 
 body.dark-theme .article-body,
