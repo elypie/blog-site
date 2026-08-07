@@ -1434,10 +1434,7 @@ body.dark-theme .quote-symbol {
 
 /* Dark Theme Article Readability & Rich Gradient Overrides */
 body.dark-theme {
-  background:
-    radial-gradient(circle at 85% 12%, rgba(165, 21, 12, 0.22) 0%, transparent 45%),
-    radial-gradient(circle at 15% 88%, rgba(165, 21, 12, 0.14) 0%, transparent 50%),
-    linear-gradient(135deg, #0D0C11 0%, #15131C 50%, #1D131B 100%) fixed !important;
+  background-color: #121212 !important;
 }
 
 body.dark-theme .public-header {
