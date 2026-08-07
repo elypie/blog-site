@@ -2647,8 +2647,12 @@ body.dark-theme .quick-search-footer {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: transparent !important;
-  z-index: 1000001;
+  background-color: #0D0C11 !important;
+  background-image:
+    radial-gradient(circle at 10% 50%, rgba(165, 21, 12, 0.25) 0%, transparent 45%),
+    radial-gradient(circle at 90% 50%, rgba(165, 21, 12, 0.25) 0%, transparent 45%),
+    linear-gradient(135deg, #0D0C11 0%, #15131C 50%, #100E14 100%) !important;
+  z-index: 999999;
   display: flex;
   flex-direction: column;
   align-items: center;
