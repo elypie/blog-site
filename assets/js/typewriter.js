@@ -7,8 +7,7 @@
 
     const titles = [
       "BS Information Technology",
-      "Full-Stack Web Developer",
-      "UI/UX & Cybersecurity Enthusiast"
+      "UI/UX Enthusiast"
     ];
 
     let titleIndex = 0;
