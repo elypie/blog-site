@@ -133,22 +133,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function initAdminTheme() {
-  const savedTheme = localStorage.getItem('elys_admin_theme') || 'light';
-  if (savedTheme === 'dark') {
-    document.body.classList.add('dark-theme');
-  } else {
-    document.body.classList.remove('dark-theme');
-  }
+  document.body.classList.add('dark-theme');
+  localStorage.setItem('elys_admin_theme', 'dark');
 
   const themeToggleBtn = document.getElementById('admin-theme-toggle');
   if (themeToggleBtn) {
-    updateThemeIcon(themeToggleBtn, savedTheme === 'dark');
-    themeToggleBtn.addEventListener('click', () => {
-      const isDark = document.body.classList.toggle('dark-theme');
-      const newTheme = isDark ? 'dark' : 'light';
-      localStorage.setItem('elys_admin_theme', newTheme);
-      updateThemeIcon(themeToggleBtn, isDark);
-    });
+    themeToggleBtn.style.display = 'none';
   }
 }
 
