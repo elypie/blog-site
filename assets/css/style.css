@@ -18,9 +18,9 @@
   /* Surface & Layout Tokens */
   --bg-primary: #121212;
   --bg-card: var(--navbar-bg);
-  --bg-card-secondary: #181820;
-  --bg-card-hover: #262632;
-  --bg-dark: rgba(16, 15, 20, 0.88);
+  --bg-card-secondary: var(--navbar-bg);
+  --bg-card-hover: var(--navbar-bg);
+  --bg-dark: var(--navbar-bg);
   --bg-dark-accent: #121212;
 
   /* Accent Tokens */
