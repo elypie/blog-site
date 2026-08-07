@@ -1288,8 +1288,10 @@ body.dark-theme .hero-float-tag {
 
 /* --- Exact Profile Card Redesign --- */
 .profile-main-card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-light);
+  background: var(--navbar-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--navbar-border);
   border-radius: 28px;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
@@ -1299,6 +1301,8 @@ body.dark-theme .hero-float-tag {
 
 .profile-main-card:hover {
   box-shadow: var(--shadow-md);
+  border-color: rgba(165, 21, 12, 0.3);
+  background: var(--navbar-bg);
 }
 
 .profile-cover-banner {
