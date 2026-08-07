@@ -572,10 +572,10 @@ button {
 
 .social-btn:hover {
   transform: translateY(-2px);
-  border-color: var(--accent-coral);
-  background-color: var(--accent-coral-light);
+  border-color: rgba(165, 21, 12, 0.55);
+  background: var(--navbar-bg);
   color: var(--accent-coral);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 6px 20px rgba(165, 21, 12, 0.25);
 }
 
 .social-btn-icon {
@@ -1463,7 +1463,8 @@ body.dark-theme .blog-item-card:hover,
 body.dark-theme .info-card:hover,
 body.dark-theme .toc-card:hover,
 body.dark-theme .author-card:hover,
-body.dark-theme .profile-main-card:hover {
+body.dark-theme .profile-main-card:hover,
+body.dark-theme .social-btn:hover {
   background: var(--navbar-bg) !important;
   border-color: rgba(165, 21, 12, 0.55) !important;
   box-shadow: 0 12px 35px rgba(165, 21, 12, 0.3) !important;
