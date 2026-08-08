@@ -198,9 +198,25 @@ button {
   transition: background-color var(--transition-normal), border-color var(--transition-normal);
 }
 
-.theme-toggle-btn,
-.theme-btn {
-  display: none !important;
+.theme-toggle-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.theme-toggle-btn:hover {
+  background: var(--accent-coral-light);
+  border-color: var(--accent-coral);
+  color: var(--accent-coral);
+  transform: scale(1.05);
 }
 
 .header-container {
