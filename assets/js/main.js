@@ -792,7 +792,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Initialize interactive extensions
-  initThemeToggle();
   initReadingProgressBar();
   initQuickSearchModal();
 });
