@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
             <div class="featured-latest-body">
               <div class="featured-latest-badge-wrap">
-                <span class="badge-category-subtle" style="display: inline-block; padding: 4px 12px; background: rgba(101, 135, 97, 0.16); color: #DFA05D; border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid rgba(101, 135, 97, 0.3);">${latest.category}</span>
+                <span class="badge-category-subtle" style="display: inline-block; padding: 4px 12px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${latest.category}</span>
               </div>
               <h3 class="featured-latest-title">${latest.title}</h3>
               <div class="featured-latest-meta">
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
                 <div class="featured-card-body" style="padding: 24px; flex: 1; display: flex; flex-direction: column;">
                   <div style="margin-bottom: 10px;">
-                    <span class="badge-category-subtle" style="display: inline-block; padding: 4px 12px; background: rgba(101, 135, 97, 0.16); color: #DFA05D; border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid rgba(101, 135, 97, 0.3);">${post.category}</span>
+                    <span class="badge-category-subtle" style="display: inline-block; padding: 4px 12px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${post.category}</span>
                   </div>
                   <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">${post.title}</h4>
                   <div style="display: flex; align-items: center; gap: 14px; color: var(--text-muted); font-size: 12px; font-weight: 500; margin-bottom: 12px;">
