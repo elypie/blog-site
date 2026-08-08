@@ -5,60 +5,97 @@ document.addEventListener('DOMContentLoaded', async () => {
     ? await getBlogDataAsync(false) 
     : getBlogData();
 
-  // --- Light / Dark Theme Toggle Controller ---
-  function initThemeToggle() {
-    // Theme class is already applied by the inline <head> script (no-flash).
-    // Just wire up the toggle button clicks here.
-    const toggleBtns = document.querySelectorAll('.theme-toggle-btn, #theme-toggle-btn');
-    toggleBtns.forEach(btn => {
-      btn.style.display = 'inline-flex';
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        // Read current state first, then flip it
-        const currentlyDark = document.documentElement.classList.contains('dark-theme')
-          || document.body.classList.contains('dark-theme');
-        const goingDark = !currentlyDark;
+  // ======================================================
+  // GLOBAL LIGHT / DARK THEME CONTROLLER
+  // ======================================================
 
-        // Force-set both html and body to the same state
-        document.documentElement.classList.toggle('dark-theme', goingDark);
-        document.body.classList.toggle('dark-theme', goingDark);
+  const THEME_STORAGE_KEY = 'elys_theme';
 
-        localStorage.setItem('elys_theme', goingDark ? 'dark' : 'light');
-        updateToggleIcons(goingDark);
-      });
-    });
-
-    // Set correct icon based on current applied theme
-    const initiallyDark = document.documentElement.classList.contains('dark-theme')
-      || document.body.classList.contains('dark-theme');
-    updateToggleIcons(initiallyDark);
+  function getSavedTheme() {
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      return savedTheme;
+    }
+    // Default theme when visiting for the first time
+    return 'dark';
   }
 
-  function updateToggleIcons(isDark) {
-    document.querySelectorAll('.theme-toggle-btn, #theme-toggle-btn').forEach(btn => {
-      btn.innerHTML = isDark ? `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      ` : `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-      `;
-      btn.setAttribute('title', isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode');
-      btn.setAttribute('aria-label', isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode');
+  function applyTheme(theme) {
+    const isDark = theme === 'dark';
+
+    // Keep BOTH HTML and BODY synchronized
+    document.documentElement.classList.toggle('dark-theme', isDark);
+    document.body.classList.toggle('dark-theme', isDark);
+
+    // Explicit theme value for easier CSS/debugging
+    document.documentElement.setAttribute('data-theme', theme);
+
+    // Save theme
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+
+    updateThemeToggleIcons(isDark);
+  }
+
+  function toggleTheme() {
+    const currentTheme = document.documentElement.classList.contains('dark-theme')
+      ? 'dark'
+      : 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applyTheme(newTheme);
+  }
+
+  function updateThemeToggleIcons(isDark) {
+    const buttons = document.querySelectorAll('.theme-toggle-btn, #theme-toggle-btn');
+    buttons.forEach((btn) => {
+      btn.style.display = 'inline-flex';
+      if (isDark) {
+        btn.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        `;
+        btn.setAttribute('title', 'Switch to Light Mode');
+        btn.setAttribute('aria-label', 'Switch to Light Mode');
+      } else {
+        btn.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        `;
+        btn.setAttribute('title', 'Switch to Dark Mode');
+        btn.setAttribute('aria-label', 'Switch to Dark Mode');
+      }
+    });
+  }
+
+  function initThemeToggle() {
+    // 1. Restore the saved theme
+    const savedTheme = getSavedTheme();
+    applyTheme(savedTheme);
+
+    // 2. Find all theme buttons
+    const buttons = document.querySelectorAll('.theme-toggle-btn, #theme-toggle-btn');
+
+    // 3. Add ONE click listener to each button
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleTheme();
+      });
     });
   }
 
   initThemeToggle();
+
 
   // --- HOMEPAGE DYNAMIC RENDERING ---
   const latestPostRoot = document.getElementById('homepage-latest-post-root');

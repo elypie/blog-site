@@ -14,25 +14,6 @@
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="stylesheet" href="assets/css/style.css">
-  <script>
-    /* Apply theme before render to prevent flash */
-    (function(){
-      var t=localStorage.getItem('elys_theme');
-      var d=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
-      var dark=(t==='dark'||(t!=='light'&&d));
-      if(dark){
-        document.documentElement.classList.add('dark-theme');
-        if(document.body) document.body.classList.add('dark-theme');
-      } else {
-        document.documentElement.classList.remove('dark-theme');
-      }
-      /* Sync body class as soon as it's available */
-      document.addEventListener('DOMContentLoaded',function(){
-        if(dark){ document.body.classList.add('dark-theme'); }
-        else { document.body.classList.remove('dark-theme'); }
-      },{once:true});
-    })();
-  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
