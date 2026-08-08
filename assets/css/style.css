@@ -1770,13 +1770,13 @@ body.dark-theme {
 
 body.dark-theme .hero-section {
   background-color: transparent !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-bottom: none !important;
 }
 
 body.dark-theme .latest-section {
   background-color: transparent !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-top: none !important;
+  border-bottom: none !important;
 }
 
 body.dark-theme .public-header {
