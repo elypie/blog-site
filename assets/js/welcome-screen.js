@@ -30,17 +30,11 @@
   // Lock scrolling while loading screen is active
   document.body.style.overflow = 'hidden';
 
-  // 2. Load exact tsParticles red constellation particle engine on Welcome Screen
+  // 2. Particle backgrounds disabled as per design specification
   function initWelcomeParticles() {
-    if (typeof tsParticles === 'undefined') {
-      setTimeout(initWelcomeParticles, 100);
-      return;
-    }
-
     const welcomeParticlesContainer = document.getElementById('welcome-tsparticles');
-    if (!welcomeParticlesContainer) return;
-
-    tsParticles.load("welcome-tsparticles", {
+    if (welcomeParticlesContainer) welcomeParticlesContainer.style.display = 'none';
+  }
       fpsLimit: 120,
       fullScreen: {
         enable: false
