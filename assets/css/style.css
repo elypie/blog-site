@@ -727,72 +727,115 @@ button {
   flex-shrink: 0;
 }
 
-/* --- 2x2 Social Pills Grid --- */
-.social-pills-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+/* --- Premium Connect With Me Contact Panel --- */
+.connect-rows-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   margin-top: 12px;
 }
 
-.social-pill-card {
+.connect-row-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-decoration: none;
+  position: relative;
+  transition: all 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 3px solid transparent;
+  border-radius: 8px;
+}
+
+.connect-row-item:last-child {
+  border-bottom: none;
+}
+
+.connect-row-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.connect-icon-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(165, 21, 12, 0.12);
+  border: 1px solid rgba(165, 21, 12, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 84px;
-  border-radius: 28px;
-  text-decoration: none;
-  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--accent-coral);
+  flex-shrink: 0;
+  transition: all 280ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.pill-github {
-  background: #12151D;
+.connect-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.connect-platform-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+  transition: color 280ms ease;
+}
+
+.connect-username {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.connect-arrow {
+  color: var(--accent-coral);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), color 280ms ease;
+  flex-shrink: 0;
+}
+
+/* Connect Row Hover Effects */
+.connect-row-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-left-color: var(--accent-coral);
+  box-shadow: 0 4px 16px rgba(165, 21, 12, 0.2);
+}
+
+.connect-row-item:hover .connect-icon-circle {
+  background: rgba(165, 21, 12, 0.22);
+  border-color: rgba(165, 21, 12, 0.5);
+  transform: scale(1.05);
+}
+
+.connect-row-item:hover .connect-platform-name {
   color: #FFFFFF;
 }
 
-.pill-github:hover {
-  background: #181C27;
-  transform: translateY(-3px);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.08);
+.connect-row-item:hover .connect-arrow {
+  transform: translateX(6px);
 }
 
-.pill-instagram {
-  background: #1A121A;
-  color: #E1306C;
-}
-
-.pill-instagram:hover {
-  background: #241624;
-  transform: translateY(-3px);
-  border-color: rgba(225, 48, 108, 0.35);
-  box-shadow: 0 8px 24px rgba(225, 48, 108, 0.2);
-}
-
-.pill-facebook {
-  background: #101624;
-  color: #1877F2;
-}
-
-.pill-facebook:hover {
-  background: #151D30;
-  transform: translateY(-3px);
-  border-color: rgba(24, 119, 242, 0.35);
-  box-shadow: 0 8px 24px rgba(24, 119, 242, 0.2);
-}
-
-.pill-email {
-  background: #1C1215;
-  color: #EA4335;
-}
-
-.pill-email:hover {
-  background: #27171C;
-  transform: translateY(-3px);
-  border-color: rgba(234, 67, 53, 0.35);
-  box-shadow: 0 8px 24px rgba(234, 67, 53, 0.2);
+/* Connect Mobile Responsiveness (< 768px) */
+@media (max-width: 767px) {
+  .connect-row-item {
+    padding: 14px 12px;
+  }
+  .connect-icon-circle {
+    width: 36px;
+    height: 36px;
+  }
+  .connect-platform-name {
+    font-size: 14px;
+  }
+  .connect-username {
+    font-size: 12px;
+  }
 }
 
 .social-btn:hover .social-btn-icon {
