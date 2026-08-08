@@ -2929,9 +2929,9 @@ body.dark-theme .quick-search-footer {
   width: 42px;
   height: 42px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #FFFFFF;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2940,11 +2940,11 @@ body.dark-theme .quick-search-footer {
 }
 
 .hero-social-icon-btn:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.35);
-  color: #FFFFFF;
+  background: var(--bg-card);
+  border-color: var(--accent-coral);
+  color: var(--accent-coral);
   transform: translateY(-3px) scale(1.1);
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow-hover);
 }
 
 /* Typewriter Cursor */
