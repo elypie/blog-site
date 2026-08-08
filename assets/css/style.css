@@ -63,35 +63,43 @@
 
 body:not(.dark-theme),
 html:not(.dark-theme) {
-  --bg-primary: #F8F9FA;
+  --color-white: #FFFFFF;
+  --color-offwhite: #F8F9FA;
+  --color-charcoal: #232129;
+  --color-crimson: #A5150C;
+  --color-crimson-hover: #861009;
+  --color-crimson-light: rgba(165, 21, 12, 0.08);
+
+  --bg-primary: #FFFFFF;
   --bg-card: #FFFFFF;
-  --bg-card-secondary: #F1F3F5;
+  --bg-card-secondary: #F8F9FA;
   --bg-card-hover: #FFFFFF;
-  --bg-dark: #F1F3F5;
-  --bg-dark-accent: #E9ECEF;
+  --bg-dark: #232129;
+  --bg-dark-accent: #19171E;
 
   --navbar-bg: rgba(255, 255, 255, 0.95);
-  --navbar-border: rgba(0, 0, 0, 0.08);
+  --navbar-border: #E5E7EB;
 
   --accent-coral: #A5150C;
   --accent-coral-hover: #861009;
   --accent-coral-light: rgba(165, 21, 12, 0.08);
 
-  --text-main: #111827;
-  --text-body: #374151;
-  --text-muted: #6B7280;
-  --text-light: #9CA3AF;
+  --text-main: #232129;
+  --text-body: #3B3842;
+  --text-muted: #5C5866;
+  --text-light: #8A8594;
   --text-white: #FFFFFF;
 
   --border-light: #E5E7EB;
-  --border-subtle: #E5E7EB;
+  --border-subtle: #D1D5DB;
 
-  --badge-bg: rgba(165, 21, 12, 0.08);
+  --badge-bg: #F3F4F6;
   --badge-text: #A5150C;
 
-  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.06);
-  --shadow-hover: 0 10px 30px rgba(165, 21, 12, 0.12);
+  --shadow-sm: 0 2px 8px rgba(35, 33, 41, 0.04);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 10px 25px rgba(35, 33, 41, 0.1);
+  --shadow-focus: 0 0 0 3px rgba(165, 21, 12, 0.2);
 }
 
 body.dark-theme,
