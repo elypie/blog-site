@@ -47,17 +47,17 @@
       },
       particles: {
         color: {
-          value: ["#B83A2D", "#C84B3D", "#9B2F24"]
+          value: ["#AC5045", "#DFA05D", "#658761"]
         },
         links: {
-          color: "#B83A2D",
+          color: "#AC5045",
           distance: 140,
           enable: true,
-          opacity: 0.25,
+          opacity: 0.2,
           width: 1.2,
           shadow: {
             enable: true,
-            color: "#B83A2D",
+            color: "#AC5045",
             blur: 5
           }
         },
