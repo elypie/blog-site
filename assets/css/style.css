@@ -63,42 +63,36 @@
 
 body:not(.dark-theme),
 html:not(.dark-theme) {
-  --color-white: #FFFFFF;
-  --color-offwhite: #F8F9FA;
-  --color-charcoal: #232129;
-  --color-crimson: #A5150C;
-  --color-crimson-hover: #861009;
-  --color-crimson-light: rgba(165, 21, 12, 0.08);
-
-  --bg-primary: #FFFFFF;
+  /* === MATCHES ADMIN DASHBOARD LIGHT MODE EXACTLY === */
+  --bg-primary: #F8F9FA;
   --bg-card: #FFFFFF;
-  --bg-card-secondary: #F8F9FA;
-  --bg-card-hover: #FFFFFF;
-  --bg-dark: #232129;
-  --bg-dark-accent: #19171E;
+  --bg-card-secondary: #F3F4F6;
+  --bg-card-hover: #F0F2F5;
+  --bg-dark: #111827;
+  --bg-dark-accent: #1F2937;
 
-  --navbar-bg: rgba(255, 255, 255, 0.95);
+  --navbar-bg: #FFFFFF;
   --navbar-border: #E5E7EB;
 
   --accent-coral: #A5150C;
   --accent-coral-hover: #861009;
   --accent-coral-light: rgba(165, 21, 12, 0.08);
 
-  --text-main: #232129;
-  --text-body: #3B3842;
-  --text-muted: #5C5866;
-  --text-light: #8A8594;
+  --text-main: #111827;
+  --text-body: #374151;
+  --text-muted: #6B7280;
+  --text-light: #9CA3AF;
   --text-white: #FFFFFF;
 
   --border-light: #E5E7EB;
-  --border-subtle: #D1D5DB;
+  --border-subtle: #E5E7EB;
 
   --badge-bg: #F3F4F6;
   --badge-text: #A5150C;
 
-  --shadow-sm: 0 2px 8px rgba(35, 33, 41, 0.04);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.06);
-  --shadow-hover: 0 10px 25px rgba(35, 33, 41, 0.1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.10), 0 4px 6px rgba(0, 0, 0, 0.05);
   --shadow-focus: 0 0 0 3px rgba(165, 21, 12, 0.2);
 }
 
