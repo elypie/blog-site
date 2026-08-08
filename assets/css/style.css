@@ -104,13 +104,13 @@ body.dark-theme {
   --color-crimson-light: rgba(165, 21, 12, 0.12);
 
   /* Backgrounds */
-  --bg-primary: #1C1C24;
-  --bg-card: #25242D;
-  --bg-card-secondary: #212028;
-  --bg-card-hover: #2E2D37;
+  --bg-primary: #121212;
+  --bg-card: #16151A;
+  --bg-card-secondary: #141318;
+  --bg-card-hover: #1B1A20;
 
-  --bg-dark: #25242D;
-  --bg-dark-accent: #1C1C24;
+  --bg-dark: #16151A;
+  --bg-dark-accent: #121212;
 
   /* Navbar */
   --navbar-bg: rgba(16, 15, 20, 0.88);
@@ -1762,7 +1762,10 @@ body.dark-theme .quote-symbol {
 
 /* Dark Theme Article Readability & Rich Gradient Overrides */
 body.dark-theme {
-  background: var(--bg-primary) !important;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(165, 21, 12, 0.22) 0%, transparent 45%),
+    radial-gradient(circle at 15% 88%, rgba(165, 21, 12, 0.14) 0%, transparent 50%),
+    linear-gradient(135deg, #0D0C11 0%, #15131C 50%, #1D131B 100%) fixed !important;
 }
 
 body.dark-theme .hero-section,
