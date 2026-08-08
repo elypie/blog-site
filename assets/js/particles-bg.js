@@ -2,13 +2,6 @@
 
 (function () {
   function initParticles() {
-    // Hide particles completely if Light Mode is active
-    let container = document.getElementById('tsparticles');
-    if (document.body.classList.contains('light-theme') || document.documentElement.classList.contains('light-theme')) {
-      if (container) container.style.display = 'none';
-      return;
-    }
-
     // Render particle background on Home page and Welcome page
     const path = window.location.pathname.toLowerCase();
     const isHomeOrWelcome = path.endsWith('/') || path.endsWith('/index.html') || path.includes('index.html') || path.includes('welcome.html') || (path.split('/').pop() === '');
@@ -22,7 +15,7 @@
     }
 
     // Ensure particle container element exists
-    container = document.getElementById('tsparticles');
+    let container = document.getElementById('tsparticles');
     if (!container) {
       container = document.createElement('div');
       container.id = 'tsparticles';

@@ -5,9 +5,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     ? await getBlogDataAsync(false) 
     : getBlogData();
 
-  // --- THEME SYSTEM INITIALIZATION ---
-  if (window.ElysTheme) {
-    window.ElysTheme.applyTheme(window.ElysTheme.getTheme());
+  // Enforce Dark Mode Always
+  document.body.classList.add('dark-theme');
+  localStorage.setItem('elys_dark_mode', 'true');
+  const themeBtn = document.getElementById('theme-toggle-btn');
+  if (themeBtn) {
+    themeBtn.style.display = 'none';
   }
 
   // --- HOMEPAGE DYNAMIC RENDERING ---
