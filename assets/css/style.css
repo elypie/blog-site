@@ -3112,7 +3112,7 @@ body.dark-theme .quick-search-footer {
    PUBLIC FOOTER STYLES
    ====================================================== */
 .public-footer {
-  background-color: #FDE8E3;
+  background-color: #FFFFFF;
   padding: 60px 0 24px 0;
   color: var(--text-main);
   transition: background-color var(--transition-normal);
