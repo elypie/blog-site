@@ -105,6 +105,18 @@
   const initialTheme = getPreferredTheme();
   applyTheme(initialTheme);
 
+  // Observer to guarantee body gets attribute as soon as body is created by browser parser
+  if (document.documentElement) {
+    const observer = new MutationObserver(() => {
+      if (document.body) {
+        document.body.setAttribute('data-theme', getPreferredTheme());
+        document.body.className = getPreferredTheme() + '-theme';
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.documentElement, { childList: true });
+  }
+
   // 2. Re-apply and bind event listeners when DOM is loaded
   document.addEventListener('DOMContentLoaded', () => {
     applyTheme(getPreferredTheme());
