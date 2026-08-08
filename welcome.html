@@ -17,7 +17,6 @@
 
   <!-- Standalone Welcome Screen Overlay -->
   <div id="welcome-screen-overlay" style="opacity: 1; visibility: visible;">
-    <div id="welcome-tsparticles"></div>
     <div class="welcome-content">
       <div class="welcome-icons-row">
         <div class="welcome-icon-box" title="Journal / Blog">
@@ -56,60 +55,9 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/tsparticles-slim@2.12.0/tsparticles.slim.bundle.min.js"></script>
   <script>
     (function () {
       'use strict';
-
-      // Load exact tsParticles red constellation particle engine on Welcome Screen
-      function initWelcomeParticles() {
-        if (typeof tsParticles === 'undefined') {
-          setTimeout(initWelcomeParticles, 100);
-          return;
-        }
-
-        const welcomeParticlesContainer = document.getElementById('welcome-tsparticles');
-        if (!welcomeParticlesContainer) return;
-
-        tsParticles.load("welcome-tsparticles", {
-          fpsLimit: 120,
-          fullScreen: { enable: false },
-          particles: {
-            color: { value: ["#A5150C", "#FF3333", "#DC2626"] },
-            links: {
-              color: "#A5150C",
-              distance: 140,
-              enable: true,
-              opacity: 0.4,
-              width: 1.2,
-              shadow: { enable: true, color: "#A5150C", blur: 5 }
-            },
-            move: {
-              direction: "none",
-              enable: true,
-              outModes: { default: "out" },
-              random: true,
-              speed: 0.8,
-              straight: false
-            },
-            number: { density: { enable: true, area: 800 }, value: 90 },
-            opacity: {
-              value: { min: 0.4, max: 0.85 },
-              animation: { enable: true, speed: 1, minimumValue: 0.3, sync: false }
-            },
-            shape: { type: "circle" },
-            size: { value: { min: 2, max: 4.5 } },
-            shadow: { enable: true, color: "#A5150C", blur: 8 }
-          },
-          interactivity: {
-            detectsOn: "window",
-            events: { onHover: { enable: true, mode: "repel" } },
-            modes: { repel: { distance: 120, duration: 0.4 } }
-          }
-        });
-      }
-
-      initWelcomeParticles();
 
       // Progress Bar & Auto-Redirect to index.html
       const progressBar = document.getElementById('welcome-progress-bar');
