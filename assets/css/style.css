@@ -3213,7 +3213,7 @@ body.dark-theme .public-footer {
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 10px;
   border: 1px solid #000000;
   color: #000000;
   transition: all var(--transition-fast);
