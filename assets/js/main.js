@@ -5,14 +5,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     ? await getBlogDataAsync(false) 
     : getBlogData();
 
-  // Enforce Dark Mode Always
-  document.body.classList.add('dark-theme');
-  localStorage.setItem('elys_dark_mode', 'true');
-  const themeBtn = document.getElementById('theme-toggle-btn');
-  if (themeBtn) {
-    themeBtn.style.display = 'none';
-  }
-
   // --- HOMEPAGE DYNAMIC RENDERING ---
   const latestPostRoot = document.getElementById('homepage-latest-post-root');
   const featuredPostsRoot = document.getElementById('homepage-featured-posts-root');
@@ -553,17 +545,33 @@ document.addEventListener('DOMContentLoaded', async () => {
   // --- 1. Theme Toggle Initialization ---
   function initThemeToggle() {
     const savedTheme = localStorage.getItem('elys_theme');
-    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+    if (isDark) {
       document.body.classList.add('dark-theme');
+      document.body.classList.remove('light-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+      document.body.classList.add('light-theme');
     }
 
     const toggleBtns = document.querySelectorAll('.theme-toggle-btn');
     toggleBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.body.classList.toggle('dark-theme');
-        const isDark = document.body.classList.contains('dark-theme');
-        localStorage.setItem('elys_theme', isDark ? 'dark' : 'light');
-        updateToggleIcons(isDark);
+      btn.style.display = 'inline-flex';
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const currentlyDark = document.body.classList.contains('dark-theme');
+        if (currentlyDark) {
+          document.body.classList.remove('dark-theme');
+          document.body.classList.add('light-theme');
+          localStorage.setItem('elys_theme', 'light');
+          updateToggleIcons(false);
+        } else {
+          document.body.classList.remove('light-theme');
+          document.body.classList.add('dark-theme');
+          localStorage.setItem('elys_theme', 'dark');
+          updateToggleIcons(true);
+        }
       });
     });
 
