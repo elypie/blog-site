@@ -25,9 +25,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function applyTheme(theme) {
     if (theme === 'light') {
+      document.documentElement.classList.remove('dark-theme');
+      document.documentElement.classList.add('light-theme');
       document.body.classList.remove('dark-theme');
       document.body.classList.add('light-theme');
     } else {
+      document.documentElement.classList.remove('light-theme');
+      document.documentElement.classList.add('dark-theme');
       document.body.classList.remove('light-theme');
       document.body.classList.add('dark-theme');
     }

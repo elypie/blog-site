@@ -61,6 +61,7 @@
   --transition-fast: 0.15s ease;
 }
 
+html.light-theme,
 body.light-theme {
   --bg-primary: #FAFAFD;
   --bg-card: #FFFFFF;
@@ -93,6 +94,7 @@ body.light-theme {
   --shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.14);
 }
 
+html.dark-theme,
 body.dark-theme {
   --bg-primary: #121212;
   --bg-card: #1C1C24;
@@ -106,6 +108,7 @@ body.dark-theme {
   --accent-coral-light: rgba(165, 21, 12, 0.12);
 
   --text-main: #F3F4F6;
+  --text-body: #D1D5DB;
   --text-muted: #9CA3AF;
   --text-light: #6B7280;
   --text-white: #FFFFFF;

@@ -2,6 +2,18 @@
 <html lang="en">
 
 <head>
+  <script>
+    (function () {
+      var saved = localStorage.getItem('elys_theme');
+      var theme = 'dark';
+      if (saved === 'light' || saved === 'dark') {
+        theme = saved;
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        theme = 'light';
+      }
+      document.documentElement.className = theme + '-theme';
+    })();
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EL Journal</title>
@@ -34,6 +46,15 @@
           var el = document.getElementById('welcome-screen-overlay');
           if (el) el.style.display = 'none';
         }
+        var saved = localStorage.getItem('elys_theme');
+        var theme = 'dark';
+        if (saved === 'light' || saved === 'dark') {
+          theme = saved;
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+          theme = 'light';
+        }
+        document.body.className = theme + '-theme';
+        document.documentElement.className = theme + '-theme';
       })();
     </script>
     <div id="welcome-tsparticles"></div>
