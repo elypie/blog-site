@@ -7,32 +7,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // --- Light / Dark Theme Toggle Controller ---
   function initThemeToggle() {
-    const savedTheme = localStorage.getItem('elys_theme');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark) || (!savedTheme && !window.matchMedia);
-
-    if (isDark) {
-      document.body.classList.add('dark-theme');
-      document.documentElement.classList.add('dark-theme');
-    } else {
-      document.body.classList.remove('dark-theme');
-      document.documentElement.classList.remove('dark-theme');
-    }
-
+    // Theme class is already applied by the inline <head> script (no-flash).
+    // Just wire up the toggle button clicks here.
     const toggleBtns = document.querySelectorAll('.theme-toggle-btn, #theme-toggle-btn');
     toggleBtns.forEach(btn => {
       btn.style.display = 'inline-flex';
       btn.addEventListener('click', (e) => {
         e.preventDefault();
-        document.body.classList.toggle('dark-theme');
-        document.documentElement.classList.toggle('dark-theme');
-        const currentlyDark = document.body.classList.contains('dark-theme');
-        localStorage.setItem('elys_theme', currentlyDark ? 'dark' : 'light');
-        updateToggleIcons(currentlyDark);
+        const isDark = document.documentElement.classList.toggle('dark-theme');
+        document.body.classList.toggle('dark-theme', isDark);
+        localStorage.setItem('elys_theme', isDark ? 'dark' : 'light');
+        updateToggleIcons(isDark);
       });
     });
 
-    updateToggleIcons(document.body.classList.contains('dark-theme'));
+    // Set correct icon based on current applied theme
+    updateToggleIcons(document.documentElement.classList.contains('dark-theme'));
   }
 
   function updateToggleIcons(isDark) {

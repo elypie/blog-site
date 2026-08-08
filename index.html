@@ -14,6 +14,9 @@
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="stylesheet" href="assets/css/style.css">
+  <script>/* Apply theme before render to prevent flash */
+    (function(){var t=localStorage.getItem('elys_theme');var d=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(t!=='light'&&d)){document.documentElement.classList.add('dark-theme');document.body&&document.body.classList.add('dark-theme');}})();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
