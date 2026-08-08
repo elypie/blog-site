@@ -585,9 +585,11 @@ button {
     width: 40% !important;
     min-width: 40% !important;
   }
+
   .featured-latest-body {
     padding: 28px !important;
   }
+
   .featured-latest-title {
     font-size: 20px !important;
   }
@@ -876,13 +878,16 @@ button {
   .connect-row-item {
     padding: 14px 12px;
   }
+
   .connect-icon-circle {
     width: 36px;
     height: 36px;
   }
+
   .connect-platform-name {
     font-size: 14px;
   }
+
   .connect-username {
     font-size: 12px;
   }
@@ -3096,6 +3101,7 @@ body.dark-theme .quick-search-footer {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -3106,7 +3112,7 @@ body.dark-theme .quick-search-footer {
    PUBLIC FOOTER STYLES
    ====================================================== */
 .public-footer {
-  background-color: #FAF5F1;
+  background-color: #FDE8E3;
   padding: 60px 0 24px 0;
   color: var(--text-main);
   transition: background-color var(--transition-normal);
