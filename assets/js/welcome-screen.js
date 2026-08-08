@@ -30,15 +30,21 @@
   // Lock scrolling while loading screen is active
   document.body.style.overflow = 'hidden';
 
-  // 2. Load exact tsParticles red constellation particle engine on Welcome Screen
+  // 2. Load tsParticles red constellation particle engine on Welcome Screen (Dark Mode Only)
   function initWelcomeParticles() {
+    const welcomeParticlesContainer = document.getElementById('welcome-tsparticles');
+    if (document.body.classList.contains('light-theme')) {
+      if (welcomeParticlesContainer) welcomeParticlesContainer.style.display = 'none';
+      return;
+    }
+
     if (typeof tsParticles === 'undefined') {
       setTimeout(initWelcomeParticles, 100);
       return;
     }
 
-    const welcomeParticlesContainer = document.getElementById('welcome-tsparticles');
     if (!welcomeParticlesContainer) return;
+    welcomeParticlesContainer.style.display = 'block';
 
     tsParticles.load("welcome-tsparticles", {
       fpsLimit: 120,

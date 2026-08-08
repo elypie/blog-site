@@ -5,13 +5,97 @@ document.addEventListener('DOMContentLoaded', async () => {
     ? await getBlogDataAsync(false) 
     : getBlogData();
 
-  // Enforce Dark Mode Always
-  document.body.classList.add('dark-theme');
-  localStorage.setItem('elys_dark_mode', 'true');
-  const themeBtn = document.getElementById('theme-toggle-btn');
-  if (themeBtn) {
-    themeBtn.style.display = 'none';
+  // --- THEME & DEVICE PREFERENCE SYSTEM ---
+  const themeBtns = document.querySelectorAll('.theme-toggle-btn');
+  
+  function getPreferredTheme() {
+    const savedTheme = localStorage.getItem('elys_theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      return savedTheme;
+    }
+    // Default to device OS system preference if no saved choice
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      return 'light';
+    }
+    return 'dark'; // Default fallback
   }
+
+  function applyTheme(theme) {
+    if (theme === 'light') {
+      document.body.classList.remove('dark-theme');
+      document.body.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+      document.body.classList.add('dark-theme');
+    }
+    updateThemeIcons(theme);
+    toggleParticlesVisibility(theme);
+  }
+
+  function toggleParticlesVisibility(theme) {
+    const homeParticles = document.getElementById('tsparticles');
+    const welcomeParticles = document.getElementById('welcome-tsparticles');
+    if (theme === 'light') {
+      if (homeParticles) homeParticles.style.display = 'none';
+      if (welcomeParticles) welcomeParticles.style.display = 'none';
+    } else {
+      if (homeParticles) homeParticles.style.display = 'block';
+      if (welcomeParticles) welcomeParticles.style.display = 'block';
+    }
+  }
+
+  function updateThemeIcons(theme) {
+    themeBtns.forEach(btn => {
+      btn.style.display = 'inline-flex';
+      if (theme === 'light') {
+        // Moon Icon (click to switch to Dark Mode)
+        btn.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>`;
+        btn.setAttribute('title', 'Switch to Dark Mode');
+      } else {
+        // Sun Icon (click to switch to Light Mode)
+        btn.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>`;
+        btn.setAttribute('title', 'Switch to Light Mode');
+      }
+    });
+  }
+
+  // Listen for OS system theme changes if user has no saved theme preference
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (!localStorage.getItem('elys_theme')) {
+        applyTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+  }
+
+  // Initialize theme on page load
+  const currentTheme = getPreferredTheme();
+  applyTheme(currentTheme);
+
+  themeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const active = document.body.classList.contains('light-theme') ? 'dark' : 'light';
+      localStorage.setItem('elys_theme', active);
+      applyTheme(active);
+    });
+  });
 
   // --- HOMEPAGE DYNAMIC RENDERING ---
   const latestPostRoot = document.getElementById('homepage-latest-post-root');
