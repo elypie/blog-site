@@ -7,47 +7,61 @@
    ====================================================== */
 
 :root {
+  /* User's Light Mode Color System */
+  --bg-primary: #FFFFFF;
+  --bg-soft: #FFF5F3;
+  --bg-soft-alt: #FDF1EE;
+  --bg-accent: #FDE8E3;
+
+  --card-bg: #FFFFFF;
+  --border: #E8DEDC;
+
+  --accent-red: #A5150C;
+
+  --text-primary: #18181B;
+  --text-secondary: #62626A;
+
   /* Brand */
   --color-white: #FFFFFF;
-  --color-offwhite: #F8F9FA;
-  --color-charcoal: #232129;
+  --color-offwhite: var(--bg-soft-alt);
+  --color-charcoal: var(--text-primary);
 
-  --color-crimson: #A5150C;
+  --color-crimson: var(--accent-red);
   --color-crimson-hover: #861009;
   --color-crimson-light: rgba(165, 21, 12, 0.08);
 
   /* Backgrounds */
   --bg-primary: #FFFFFF;
-  --bg-card: #FFFFFF;
-  --bg-card-secondary: #F8F9FA;
+  --bg-card: var(--card-bg);
+  --bg-card-secondary: var(--bg-soft);
   --bg-card-hover: #FAFAFA;
 
   --bg-dark: #232129;
   --bg-dark-accent: #19171E;
 
   /* Navbar */
-  --navbar-bg: rgba(255, 255, 255, 0.95);
-  --navbar-border: #E5E7EB;
+  --navbar-bg: var(--bg-accent);
+  --navbar-border: var(--border);
 
   /* Accent */
-  --accent-coral: #A5150C;
+  --accent-coral: var(--accent-red);
   --accent-coral-hover: #861009;
   --accent-coral-light: rgba(165, 21, 12, 0.08);
 
   /* Text */
-  --text-main: #232129;
+  --text-main: var(--text-primary);
   --text-body: #3B3842;
-  --text-muted: #5C5866;
+  --text-muted: var(--text-secondary);
   --text-light: #8A8594;
   --text-white: #FFFFFF;
 
   /* Borders */
-  --border-light: #E5E7EB;
+  --border-light: var(--border);
   --border-subtle: #D1D5DB;
 
   /* Badges */
   --badge-bg: #F3F4F6;
-  --badge-text: #A5150C;
+  --badge-text: var(--accent-red);
 
   /* Fonts */
   --font-heading: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
@@ -77,6 +91,11 @@
 
 html.dark-theme,
 body.dark-theme {
+  /* Dark Mode Variables Mapping */
+  --bg-soft: #121212;
+  --bg-soft-alt: #121212;
+  --border: transparent;
+
   --color-offwhite: #181820;
   --color-charcoal: #121212;
 
@@ -3119,7 +3138,7 @@ body.dark-theme .quick-search-footer {
    PUBLIC FOOTER STYLES
    ====================================================== */
 .public-footer {
-  background-color: #FFFFFF;
+  background-color: var(--bg-accent);
   padding: 60px 0 24px 0;
   color: var(--text-main);
   transition: background-color var(--transition-normal);
@@ -3253,4 +3272,21 @@ html.dark-theme .footer-hr {
   color: var(--accent-coral);
   margin-right: 4px;
   font-weight: 700;
+}
+
+/* --- Homepage Section Background Design --- */
+.featured-section {
+  background-color: var(--bg-soft);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.latest-section {
+  background-color: var(--bg-primary);
+}
+
+.author-section {
+  background-color: var(--bg-soft-alt);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
