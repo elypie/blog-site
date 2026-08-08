@@ -3151,20 +3151,17 @@ body.dark-theme .quick-search-footer {
    PUBLIC FOOTER STYLES
    ====================================================== */
 .public-footer {
-  background-color: var(--bg-accent);
+  background-color: #121212;
   padding: 60px 0 24px 0;
-  color: var(--text-main);
+  color: #FFFFFF;
   transition: background-color var(--transition-normal);
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-body.dark-theme .public-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-}
-
-html.dark-theme .public-footer,
-body.dark-theme .public-footer {
-  background-color: var(--bg-card);
+body.dark-theme .public-footer,
+html.dark-theme .public-footer {
+  background-color: #121212 !important;
+  border-top-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 .footer-content {
@@ -3186,11 +3183,11 @@ body.dark-theme .public-footer {
   font-size: 26px;
   font-weight: 800;
   margin-bottom: 16px;
-  color: var(--text-main);
+  color: #FFFFFF;
 }
 
 .footer-bio {
-  color: var(--text-main);
+  color: #A1A1AA;
   font-size: 15px;
   line-height: 1.6;
   max-width: 320px;
@@ -3210,7 +3207,7 @@ body.dark-theme .public-footer {
   font-size: 17px;
   font-weight: 700;
   margin-bottom: 24px;
-  color: var(--text-main);
+  color: #FFFFFF;
 }
 
 .footer-links {
@@ -3224,7 +3221,7 @@ body.dark-theme .public-footer {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  color: var(--text-main);
+  color: #E4E4E7;
   font-weight: 600;
   font-size: 15px;
   transition: color var(--transition-fast);
@@ -3251,16 +3248,16 @@ body.dark-theme .public-footer {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  border: 1px solid #000000;
-  color: #000000;
+  border: 1px solid #FFFFFF;
+  color: #FFFFFF;
   transition: all var(--transition-fast);
   background: transparent;
 }
 
 html.dark-theme .public-footer .social-icon,
 body.dark-theme .public-footer .social-icon {
-  border-color: var(--text-main);
-  color: var(--text-main);
+  border-color: #FFFFFF !important;
+  color: #FFFFFF !important;
 }
 
 .public-footer .social-icon:hover {
@@ -3272,17 +3269,17 @@ body.dark-theme .public-footer .social-icon {
 
 .footer-hr {
   border: none;
-  border-top: 1px solid rgba(165, 21, 12, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   margin-bottom: 24px;
 }
 
 html.dark-theme .footer-hr {
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .copyright-text {
   font-size: 14px;
-  color: var(--text-main);
+  color: #A1A1AA;
   font-weight: 500;
 }
 
