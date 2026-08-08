@@ -3152,7 +3152,7 @@ body.dark-theme .quick-search-footer {
    ====================================================== */
 .public-footer {
   background-color: #121212;
-  padding: 60px 0 24px 0;
+  padding: 40px 0 24px 0;
   color: #FFFFFF;
   transition: background-color var(--transition-normal);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
