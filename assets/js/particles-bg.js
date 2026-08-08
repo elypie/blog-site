@@ -22,7 +22,7 @@
     }
 
     // Ensure particle container element exists
-    let container = document.getElementById('tsparticles');
+    container = document.getElementById('tsparticles');
     if (!container) {
       container = document.createElement('div');
       container.id = 'tsparticles';
