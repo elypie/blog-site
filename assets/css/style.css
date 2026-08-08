@@ -9,12 +9,12 @@
 :root {
   /* User's Light Mode Color System */
   --bg-primary: #FFFFFF;
-  --bg-soft: #FFF5F3;
-  --bg-soft-alt: #FDF1EE;
-  --bg-accent: #FDE8E3;
+  --bg-soft: #FFFBFB;
+  --bg-soft-alt: #FAF4F2;
+  --bg-accent: #FCEDE9;
 
   --card-bg: #FFFFFF;
-  --border: #E8DEDC;
+  --border: #EFE7E5;
 
   --accent-red: #A5150C;
 
