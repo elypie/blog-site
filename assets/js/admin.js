@@ -133,12 +133,32 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function initAdminTheme() {
-  document.body.classList.add('dark-theme');
-  localStorage.setItem('elys_admin_theme', 'dark');
+  const savedTheme = localStorage.getItem('elys_admin_theme') || 'dark';
+  const isDark = savedTheme === 'dark';
+
+  if (isDark) {
+    document.body.classList.add('dark-theme');
+  } else {
+    document.body.classList.remove('dark-theme');
+  }
 
   const themeToggleBtn = document.getElementById('admin-theme-toggle');
   if (themeToggleBtn) {
-    themeToggleBtn.style.display = 'none';
+    themeToggleBtn.style.display = 'inline-flex';
+    updateThemeIcon(themeToggleBtn, isDark);
+
+    themeToggleBtn.onclick = function () {
+      const currentlyDark = document.body.classList.contains('dark-theme');
+      if (currentlyDark) {
+        document.body.classList.remove('dark-theme');
+        localStorage.setItem('elys_admin_theme', 'light');
+        updateThemeIcon(themeToggleBtn, false);
+      } else {
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('elys_admin_theme', 'dark');
+        updateThemeIcon(themeToggleBtn, true);
+      }
+    };
   }
 }
 

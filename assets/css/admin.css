@@ -17,6 +17,24 @@
   padding: 24px;
 }
 
+/* Light Mode Variables for Admin Body */
+body.admin-body:not(.dark-theme) {
+  --bg-primary: #F8F9FA;
+  --bg-card: #FFFFFF;
+  --bg-card-secondary: #F3F4F6;
+  --bg-card-hover: #F0F2F5;
+  --text-main: #111827;
+  --text-muted: #6B7280;
+  --text-light: #9CA3AF;
+  --border-light: #E5E7EB;
+  --border-subtle: #E5E7EB;
+  --navbar-bg: #FFFFFF;
+  --navbar-border: #E5E7EB;
+  background-color: #F8F9FA !important;
+  background-image: none !important;
+  color: #111827 !important;
+}
+
 /* Dark Mode Overrides for Admin Body & Login */
 body.dark-theme.admin-body,
 body.dark-theme .login-container {
