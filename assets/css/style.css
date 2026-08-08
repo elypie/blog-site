@@ -496,8 +496,7 @@ body.dark-theme .nav-link {
 
 .blog-item-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
-  border-color: rgba(165, 21, 12, 0.6);
+  box-shadow: 0 10px 30px rgba(165, 21, 12, 0.06);
   background: var(--bg-card-hover);
 }
 
@@ -747,9 +746,8 @@ body.dark-theme .nav-link {
 .info-card:hover,
 .toc-card:hover,
 .author-card:hover {
-  box-shadow: var(--shadow-hover);
   transform: translateY(-3px);
-  border-color: rgba(165, 21, 12, 0.6);
+  box-shadow: 0 10px 30px rgba(165, 21, 12, 0.06);
   background: var(--bg-card-hover);
 }
 
@@ -1635,7 +1633,6 @@ body.dark-theme .hero-float-tag {
 
 .profile-main-card:hover {
   box-shadow: 0 12px 35px rgba(165, 21, 12, 0.15);
-  border-color: var(--accent-coral-hover);
   background: #FFFFFF;
 }
 
@@ -1805,8 +1802,7 @@ body.dark-theme .author-card:hover,
 body.dark-theme .profile-main-card:hover,
 body.dark-theme .social-btn:hover {
   background: var(--bg-card-hover) !important;
-  border-color: rgba(165, 21, 12, 0.6) !important;
-  box-shadow: var(--shadow-hover) !important;
+  box-shadow: 0 12px 30px rgba(165, 21, 12, 0.22) !important;
 }
 
 body.dark-theme .hero-red-card {
