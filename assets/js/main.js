@@ -5,64 +5,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     ? await getBlogDataAsync(false) 
     : getBlogData();
 
-  // --- THEME TOGGLE SYSTEM (LIGHT / DARK MODE) ---
-  const themeBtns = document.querySelectorAll('.theme-toggle-btn');
-  
-  function getSavedTheme() {
-    return localStorage.getItem('elys_theme') || 'dark';
+  // Enforce Dark Mode Always
+  document.body.classList.add('dark-theme');
+  localStorage.setItem('elys_dark_mode', 'true');
+  const themeBtn = document.getElementById('theme-toggle-btn');
+  if (themeBtn) {
+    themeBtn.style.display = 'none';
   }
-
-  function applyTheme(theme) {
-    if (theme === 'light') {
-      document.body.classList.remove('dark-theme');
-      document.body.classList.add('light-theme');
-    } else {
-      document.body.classList.remove('light-theme');
-      document.body.classList.add('dark-theme');
-    }
-    updateThemeIcons(theme);
-  }
-
-  function updateThemeIcons(theme) {
-    themeBtns.forEach(btn => {
-      if (theme === 'light') {
-        // Moon Icon (click to switch to Dark Mode)
-        btn.innerHTML = `
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>`;
-        btn.setAttribute('title', 'Switch to Dark Mode');
-      } else {
-        // Sun Icon (click to switch to Light Mode)
-        btn.innerHTML = `
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>`;
-        btn.setAttribute('title', 'Switch to Light Mode');
-      }
-      btn.style.display = 'inline-flex';
-    });
-  }
-
-  // Initialize theme from storage
-  const currentTheme = getSavedTheme();
-  applyTheme(currentTheme);
-
-  themeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const active = document.body.classList.contains('light-theme') ? 'dark' : 'light';
-      localStorage.setItem('elys_theme', active);
-      applyTheme(active);
-    });
-  });
 
   // --- HOMEPAGE DYNAMIC RENDERING ---
   const latestPostRoot = document.getElementById('homepage-latest-post-root');
@@ -91,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
             <div class="featured-latest-body">
               <div class="featured-latest-badge-wrap">
-                <span class="badge-category-subtle" style="display: inline-block; padding: 4px 12px; background: var(--badge-bg); color: var(--badge-text); border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid var(--border-subtle);">${latest.category}</span>
+                <span class="badge-category-subtle" style="display: inline-block; padding: 4px 12px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${latest.category}</span>
               </div>
               <h3 class="featured-latest-title">${latest.title}</h3>
               <div class="featured-latest-meta">
@@ -139,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
                 <div class="featured-card-body" style="padding: 24px; flex: 1; display: flex; flex-direction: column;">
                   <div style="margin-bottom: 10px;">
-                    <span class="badge-category-subtle" style="display: inline-block; padding: 4px 12px; background: var(--badge-bg); color: var(--badge-text); border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid var(--border-subtle);">${post.category}</span>
+                    <span class="badge-category-subtle" style="display: inline-block; padding: 4px 12px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${post.category}</span>
                   </div>
                   <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">${post.title}</h4>
                   <div style="display: flex; align-items: center; gap: 14px; color: var(--text-muted); font-size: 12px; font-weight: 500; margin-bottom: 12px;">
