@@ -3207,11 +3207,16 @@ body.dark-theme .public-footer {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid var(--text-main);
-  opacity: 0.8;
-  color: var(--text-main);
+  border: 1px solid #000000;
+  color: #000000;
   transition: all var(--transition-fast);
   background: transparent;
+}
+
+html.dark-theme .public-footer .social-icon,
+body.dark-theme .public-footer .social-icon {
+  border-color: var(--text-main);
+  color: var(--text-main);
 }
 
 .public-footer .social-icon:hover {
