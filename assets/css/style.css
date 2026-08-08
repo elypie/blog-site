@@ -263,10 +263,15 @@ button {
 .nav-link {
   font-weight: 600;
   font-size: 15px;
-  color: var(--text-muted);
+  color: #000000;
   position: relative;
   padding: 8px 4px;
   transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+html.dark-theme .nav-link,
+body.dark-theme .nav-link {
+  color: var(--text-main);
 }
 
 .nav-link:hover {
