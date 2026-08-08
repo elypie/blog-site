@@ -1593,10 +1593,8 @@ body.dark-theme .hero-float-tag {
 
 /* --- Exact Profile Card Redesign --- */
 .profile-main-card {
-  background: linear-gradient(145deg, #1B1923 0%, #14121A 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #FFFFFF;
+  border: 1px solid var(--accent-coral);
   border-radius: 28px;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
@@ -1605,9 +1603,9 @@ body.dark-theme .hero-float-tag {
 }
 
 .profile-main-card:hover {
-  box-shadow: 0 12px 35px rgba(165, 21, 12, 0.3);
-  border-color: rgba(165, 21, 12, 0.6);
-  background: linear-gradient(145deg, #1B1923 0%, #14121A 100%);
+  box-shadow: 0 12px 35px rgba(165, 21, 12, 0.15);
+  border-color: var(--accent-coral-hover);
+  background: #FFFFFF;
 }
 
 .profile-cover-banner {
