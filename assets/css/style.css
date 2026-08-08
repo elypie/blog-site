@@ -746,10 +746,8 @@ button {
   align-items: center;
   gap: 14px;
   padding: 14px 20px;
-  background: var(--navbar-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--navbar-border);
+  background: var(--bg-card-secondary);
+  border: 1px solid var(--border-light);
   border-radius: 18px;
   margin-bottom: 12px;
   font-weight: 600;
@@ -760,23 +758,29 @@ button {
 
 .social-btn:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.3);
-  background: var(--navbar-bg);
-  color: #FFFFFF;
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+  border-color: var(--accent-coral);
+  background: var(--bg-card);
+  color: var(--accent-coral);
+  box-shadow: var(--shadow-md);
 }
 
 .social-btn-icon {
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--accent-coral-light);
+  border: 1px solid rgba(165, 21, 12, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #FFFFFF;
+  color: var(--accent-coral);
   flex-shrink: 0;
+  transition: all var(--transition-normal);
+}
+
+.social-btn:hover .social-btn-icon {
+  background: var(--accent-coral);
+  color: #FFFFFF;
 }
 
 /* --- Premium Connect With Me Contact Panel --- */
