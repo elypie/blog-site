@@ -3146,7 +3146,7 @@ body.dark-theme .public-footer {
 }
 
 .footer-bio {
-  color: var(--text-muted);
+  color: var(--text-main);
   font-size: 15px;
   line-height: 1.6;
   max-width: 320px;
@@ -3207,7 +3207,8 @@ body.dark-theme .public-footer {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(165, 21, 12, 0.4);
+  border: 1px solid var(--text-main);
+  opacity: 0.8;
   color: var(--text-main);
   transition: all var(--transition-fast);
   background: transparent;
@@ -3232,7 +3233,7 @@ html.dark-theme .footer-hr {
 
 .copyright-text {
   font-size: 14px;
-  color: var(--text-muted);
+  color: var(--text-main);
   font-weight: 500;
 }
 
