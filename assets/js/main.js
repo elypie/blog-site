@@ -14,15 +14,24 @@ document.addEventListener('DOMContentLoaded', async () => {
       btn.style.display = 'inline-flex';
       btn.addEventListener('click', (e) => {
         e.preventDefault();
-        const isDark = document.documentElement.classList.toggle('dark-theme');
-        document.body.classList.toggle('dark-theme', isDark);
-        localStorage.setItem('elys_theme', isDark ? 'dark' : 'light');
-        updateToggleIcons(isDark);
+        // Read current state first, then flip it
+        const currentlyDark = document.documentElement.classList.contains('dark-theme')
+          || document.body.classList.contains('dark-theme');
+        const goingDark = !currentlyDark;
+
+        // Force-set both html and body to the same state
+        document.documentElement.classList.toggle('dark-theme', goingDark);
+        document.body.classList.toggle('dark-theme', goingDark);
+
+        localStorage.setItem('elys_theme', goingDark ? 'dark' : 'light');
+        updateToggleIcons(goingDark);
       });
     });
 
     // Set correct icon based on current applied theme
-    updateToggleIcons(document.documentElement.classList.contains('dark-theme'));
+    const initiallyDark = document.documentElement.classList.contains('dark-theme')
+      || document.body.classList.contains('dark-theme');
+    updateToggleIcons(initiallyDark);
   }
 
   function updateToggleIcons(isDark) {
