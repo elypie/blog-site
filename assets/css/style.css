@@ -40,7 +40,7 @@
   --bg-dark-accent: #19171E;
 
   /* Navbar */
-  --navbar-bg: var(--bg-accent);
+  --navbar-bg: var(--bg-primary);
   --navbar-border: var(--border);
 
   /* Accent */
@@ -1443,6 +1443,8 @@ body.dark-theme .nav-link {
   padding: 64px 0 88px 0;
   position: relative;
   overflow: hidden;
+  background-color: var(--bg-accent);
+  border-bottom: 1px solid var(--border);
 }
 
 .hero-grid {
@@ -1764,6 +1766,17 @@ body.dark-theme {
     radial-gradient(circle at 85% 12%, rgba(165, 21, 12, 0.22) 0%, transparent 45%),
     radial-gradient(circle at 15% 88%, rgba(165, 21, 12, 0.14) 0%, transparent 50%),
     linear-gradient(135deg, #0D0C11 0%, #15131C 50%, #1D131B 100%) fixed !important;
+}
+
+body.dark-theme .hero-section {
+  background-color: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-theme .latest-section {
+  background-color: transparent !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 body.dark-theme .public-header {
@@ -3142,6 +3155,11 @@ body.dark-theme .quick-search-footer {
   padding: 60px 0 24px 0;
   color: var(--text-main);
   transition: background-color var(--transition-normal);
+  border-top: 1px solid var(--border);
+}
+
+body.dark-theme .public-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 html.dark-theme .public-footer,
@@ -3276,17 +3294,15 @@ html.dark-theme .footer-hr {
 
 /* --- Homepage Section Background Design --- */
 .featured-section {
-  background-color: var(--bg-soft);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-
-.latest-section {
   background-color: var(--bg-primary);
 }
 
-.author-section {
+.latest-section {
   background-color: var(--bg-soft-alt);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+}
+
+.author-section {
+  background-color: var(--bg-primary);
 }
