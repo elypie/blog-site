@@ -1768,15 +1768,12 @@ body.dark-theme {
     linear-gradient(135deg, #0D0C11 0%, #15131C 50%, #1D131B 100%) fixed !important;
 }
 
-body.dark-theme .hero-section {
+body.dark-theme .hero-section,
+body.dark-theme .featured-section,
+body.dark-theme .latest-section,
+body.dark-theme .author-section {
   background-color: transparent !important;
-  border-bottom: none !important;
-}
-
-body.dark-theme .latest-section {
-  background-color: transparent !important;
-  border-top: none !important;
-  border-bottom: none !important;
+  border: none !important;
 }
 
 body.dark-theme .public-header {
