@@ -396,10 +396,10 @@ body.dark-theme .nav-link {
   background-color: var(--bg-card);
   border: 1px solid var(--border-subtle);
   color: var(--text-main);
-  padding: 10px 22px;
+  padding: 11px 25px;
   border-radius: 12px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
   transition: all var(--transition-fast);
   box-shadow: var(--shadow-sm);
   cursor: pointer;
@@ -1829,12 +1829,7 @@ body.dark-theme .badge-category-subtle {
   border: 1px solid rgba(165, 21, 12, 0.3) !important;
 }
 
-body.dark-theme .public-footer {
-  background: var(--navbar-bg) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-top: 1px solid var(--navbar-border) !important;
-}
+
 
 body.dark-theme .article-body,
 body.dark-theme .article-body p,
