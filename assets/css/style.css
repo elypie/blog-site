@@ -727,114 +727,95 @@ button {
   flex-shrink: 0;
 }
 
-/* --- Premium Connect With Me Contact Panel --- */
-.connect-rows-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin-top: 12px;
-}
-
-.connect-row-item {
+/* --- 2x2 Grid Social Media Pills (Matching Reference Image) --- */
+.connect-grid-heading {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 18px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  text-decoration: none;
-  position: relative;
-  transition: all 280ms cubic-bezier(0.16, 1, 0.3, 1);
-  border-left: 3px solid transparent;
-  border-radius: 8px;
-}
-
-.connect-row-item:last-child {
-  border-bottom: none;
-}
-
-.connect-row-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.connect-icon-circle {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: rgba(165, 21, 12, 0.12);
-  border: 1px solid rgba(165, 21, 12, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent-coral);
-  flex-shrink: 0;
-  transition: all 280ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.connect-info {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.connect-platform-name {
-  font-size: 15px;
-  font-weight: 700;
+  gap: 10px;
   color: var(--text-main);
-  transition: color 280ms ease;
 }
 
-.connect-username {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-muted);
+.social-pills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 10px;
 }
 
-.connect-arrow {
-  color: var(--accent-coral);
+.social-pill-card {
+  height: 80px;
+  border-radius: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), color 280ms ease;
-  flex-shrink: 0;
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Connect Row Hover Effects */
-.connect-row-item:hover {
-  background: rgba(255, 255, 255, 0.03);
-  border-left-color: var(--accent-coral);
-  box-shadow: 0 4px 16px rgba(165, 21, 12, 0.2);
+.social-pill-card:hover {
+  transform: translateY(-4px) scale(1.02);
 }
 
-.connect-row-item:hover .connect-icon-circle {
-  background: rgba(165, 21, 12, 0.22);
-  border-color: rgba(165, 21, 12, 0.5);
-  transform: scale(1.05);
+.social-pill-card:active {
+  transform: translateY(-1px) scale(0.98);
 }
 
-.connect-row-item:hover .connect-platform-name {
+/* GitHub Pill */
+.pill-github {
+  background: #111625;
   color: #FFFFFF;
 }
-
-.connect-row-item:hover .connect-arrow {
-  transform: translateX(6px);
+.pill-github:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 28px rgba(255, 255, 255, 0.15);
 }
 
-/* Connect Mobile Responsiveness (< 768px) */
-@media (max-width: 767px) {
-  .connect-row-item {
-    padding: 14px 12px;
+/* Instagram Pill */
+.pill-instagram {
+  background: #231221;
+  color: #FF3B7B;
+}
+.pill-instagram:hover {
+  border-color: rgba(255, 59, 123, 0.4);
+  box-shadow: 0 10px 28px rgba(255, 59, 123, 0.25);
+}
+
+/* Facebook Pill */
+.pill-facebook {
+  background: #0E1B33;
+  color: #3880FF;
+}
+.pill-facebook:hover {
+  border-color: rgba(56, 128, 255, 0.4);
+  box-shadow: 0 10px 28px rgba(56, 128, 255, 0.25);
+}
+
+/* Email Pill */
+.pill-email {
+  background: #271216;
+  color: #FF4757;
+}
+.pill-email:hover {
+  border-color: rgba(255, 71, 87, 0.4);
+  box-shadow: 0 10px 28px rgba(255, 71, 87, 0.25);
+}
+
+/* Connect Mobile Responsiveness (< 576px) */
+@media (max-width: 576px) {
+  .social-pills-grid {
+    gap: 12px;
   }
-  .connect-icon-circle {
-    width: 36px;
-    height: 36px;
-  }
-  .connect-platform-name {
-    font-size: 14px;
-  }
-  .connect-username {
-    font-size: 12px;
+  .social-pill-card {
+    height: 70px;
+    border-radius: 20px;
   }
 }
 
