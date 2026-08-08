@@ -3148,17 +3148,17 @@ body.dark-theme .quick-search-footer {
    PUBLIC FOOTER STYLES
    ====================================================== */
 .public-footer {
-  background-color: #121212;
+  background-color: #28262D;
   padding: 40px 0 24px 0;
-  color: #FFFFFF;
+  color: #9E9AA8;
   transition: background-color var(--transition-normal);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 body.dark-theme .public-footer,
 html.dark-theme .public-footer {
-  background-color: #121212 !important;
-  border-top-color: rgba(255, 255, 255, 0.08) !important;
+  background-color: #28262D !important;
+  border-top-color: rgba(255, 255, 255, 0.06) !important;
 }
 
 .footer-content {
@@ -3184,20 +3184,11 @@ html.dark-theme .public-footer {
 }
 
 .footer-bio {
-  color: #A1A1AA;
+  color: #9E9AA8;
   font-size: 15px;
   line-height: 1.6;
   max-width: 320px;
   margin-bottom: 24px;
-}
-
-.footer-bio::after {
-  content: '';
-  display: block;
-  width: 48px;
-  height: 2px;
-  background-color: var(--accent-coral);
-  margin-top: 24px;
 }
 
 .footer-heading {
@@ -3218,7 +3209,7 @@ html.dark-theme .public-footer {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  color: #E4E4E7;
+  color: #9E9AA8;
   font-weight: 600;
   font-size: 15px;
   transition: color var(--transition-fast);
@@ -3242,41 +3233,41 @@ html.dark-theme .public-footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  border: 1px solid #FFFFFF;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
   color: #FFFFFF;
+  background-color: #37353C;
   transition: all var(--transition-fast);
-  background: transparent;
 }
 
 html.dark-theme .public-footer .social-icon,
 body.dark-theme .public-footer .social-icon {
-  border-color: #FFFFFF !important;
+  border: none !important;
   color: #FFFFFF !important;
+  background-color: #37353C !important;
 }
 
 .public-footer .social-icon:hover {
-  border-color: var(--accent-coral);
-  color: var(--accent-coral);
-  background-color: var(--accent-coral-light);
+  color: #FFFFFF;
+  background-color: var(--accent-coral) !important;
   transform: translateY(-2px);
 }
 
 .footer-hr {
   border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   margin-bottom: 24px;
 }
 
 html.dark-theme .footer-hr {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .copyright-text {
   font-size: 14px;
-  color: #A1A1AA;
+  color: #9E9AA8;
   font-weight: 500;
 }
 
