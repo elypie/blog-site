@@ -3292,9 +3292,7 @@ html.dark-theme .footer-hr {
 }
 
 .latest-section {
-  background-color: var(--bg-soft-alt);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  background-color: var(--bg-primary);
 }
 
 .author-section {
