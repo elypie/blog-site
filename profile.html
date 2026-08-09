@@ -395,6 +395,11 @@
       color: #E1306C;
     }
 
+    .social-icon-box.social-mail {
+      background-color: rgba(239, 68, 68, 0.08);
+      color: #EF4444;
+    }
+
     .connect-item-link {
       display: flex;
       align-items: center;
@@ -753,6 +758,22 @@
                 </div>
               </a>
             </div>
+
+            <!-- Email -->
+            <div class="connect-item-vertical">
+              <a href="mailto:ma.contreras@urios.edu.ph" class="connect-item-link" id="social-mail-link">
+                <div class="social-icon-box social-mail">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </div>
+                <div class="connect-meta">
+                  <span class="connect-platform">Email</span>
+                  <span class="connect-username" id="social-mail-text">ma.contreras@urios.edu.ph</span>
+                </div>
+              </a>
+            </div>
           </div>
         </section>
         
@@ -1026,6 +1047,12 @@
           const igText = document.getElementById('social-ig-text');
           if (igLink) igLink.href = author.instagram;
           if (igText) igText.textContent = author.instagram.replace(/^https?:\/\//, '');
+        }
+        if (author.email) {
+          const mailLink = document.getElementById('social-mail-link');
+          const mailText = document.getElementById('social-mail-text');
+          if (mailLink) mailLink.href = `mailto:${author.email}`;
+          if (mailText) mailText.textContent = author.email;
         }
       }
     });
