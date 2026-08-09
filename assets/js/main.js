@@ -146,8 +146,8 @@ document.addEventListener('DOMContentLoaded', async () => {
               <p class="featured-latest-summary" style="font-size: 15px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6;">${latest.summary}</p>
               
               <div class="featured-latest-footer" style="display: flex; justify-content: flex-end; align-items: center; width: 100%; border-top: 1px solid var(--border-light); padding-top: 16px; margin-top: auto;">
-                <a href="blog-detail.html?id=${latest.id}" style="color: var(--accent-coral); font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 4px; transition: transform var(--transition-fast);" class="read-more-link" onclick="event.stopPropagation();">
-                  Read more <span style="transition: transform var(--transition-fast);">→</span>
+                <a href="blog-detail.html?id=${latest.id}" style="color: var(--accent-coral); font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 4px; transition: transform var(--transition-fast);" class="read-more-link">
+                  Read more <span style="display: inline-block; transition: transform var(--transition-fast);">→</span>
                 </a>
               </div>
             </div>
