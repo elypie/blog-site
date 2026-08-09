@@ -209,6 +209,11 @@ function getBlogData() {
       if (parsed && parsed.posts && parsed.posts.length > 0) {
         if (parsed.author) {
           parsed.author.motto = "Code. Create. Protect.";
+          parsed.author.email = "ma.contreras@urios.edu.ph";
+          parsed.author.fullName = "Ma. Elyssa Beda D. Contreras";
+          parsed.author.course = "BS Information Technology";
+          parsed.author.school = "Father Saturnino Urios University";
+          parsed.author.yearLevel = "3rd Year";
         }
         parsed.posts.forEach(p => {
           if (p.summary && (p.summary.startsWith('I. Introduction') || p.summary.startsWith('A technical blog post'))) {
