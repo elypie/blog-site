@@ -204,6 +204,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         `;
       }
     }
+
+    // Update dynamic category counts in the "Explore by Topic" section
+    const topicCards = document.querySelectorAll('.topic-card');
+    if (topicCards.length > 0) {
+      topicCards.forEach(card => {
+        const nameEl = card.querySelector('.topic-name');
+        const countEl = card.querySelector('.topic-count');
+        if (nameEl && countEl) {
+          const categoryName = nameEl.textContent.trim();
+          const count = publishedPosts.filter(p => p.category === categoryName).length;
+          if (count === 1) {
+            countEl.textContent = '1 post';
+          } else {
+            countEl.textContent = `${count} posts`;
+          }
+        }
+      });
+    }
   }
 
   renderHomepagePosts();
