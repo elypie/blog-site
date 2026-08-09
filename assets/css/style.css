@@ -3514,11 +3514,11 @@ body.dark-theme .topic-card {
   bottom: -45px !important;
 }
 
-/* Binary watermark text forming MEOWCOME */
+/* Binary watermark text forming HELLO */
 .hero-binary-meow {
   position: absolute;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 900;
   color: rgba(229, 91, 68, 0.45) !important;
   text-shadow: 0 0 8px rgba(229, 91, 68, 0.15);
