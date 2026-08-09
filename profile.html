@@ -269,35 +269,62 @@
       flex-shrink: 0;
     }
 
-    /* Connect & Exploring cards (3 columns) */
-    .connect-card, .exploring-card {
-      margin-top: 30px;
-      margin-bottom: 30px;
-    }
-
-    .connect-grid, .exploring-grid {
+    /* Bottom 2-Column Grid Layout */
+    .profile-grid-bottom {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 30px;
     }
 
-    .connect-item, .exploring-item {
+    /* Vertical Lists */
+    .vertical-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .connect-item-vertical {
       display: flex;
       align-items: center;
       gap: 16px;
       padding: 16px 0;
     }
 
-    .exploring-item {
+    .connect-item-vertical:not(:last-child) {
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .connect-item-vertical:first-child {
+      padding-top: 0;
+    }
+
+    .connect-item-vertical:last-child {
+      padding-bottom: 0;
+    }
+
+    .exploring-item-vertical {
+      display: flex;
       align-items: flex-start;
+      gap: 16px;
+      padding: 18px 0;
     }
 
-    .connect-item:not(:last-child), .exploring-item:not(:last-child) {
-      border-right: 1px solid var(--border-light);
-      padding-right: 28px;
+    .exploring-item-vertical:not(:last-child) {
+      border-bottom: 1px solid var(--border-light);
     }
 
-    .connect-item:not(:first-child), .exploring-item:not(:first-child) {
-      padding-left: 28px;
+    .exploring-item-vertical:first-child {
+      padding-top: 0;
+    }
+
+    .exploring-item-vertical:last-child {
+      padding-bottom: 0;
+    }
+
+    /* Connect & Exploring cards reset margin */
+    .connect-card, .exploring-card {
+      margin-top: 0;
+      margin-bottom: 0;
     }
 
     .connect-item-link {
@@ -373,25 +400,9 @@
       .about-me-text {
         text-align: center;
       }
-      .connect-grid, .exploring-grid {
+      .profile-grid-bottom {
         grid-template-columns: 1fr;
-        gap: 12px;
-      }
-      .connect-item, .exploring-item {
-        border-right: none !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        padding-top: 16px;
-        padding-bottom: 16px;
-      }
-      .connect-item:not(:last-child), .exploring-item:not(:last-child) {
-        border-bottom: 1px solid var(--border-light);
-      }
-      .connect-item:first-child, .exploring-item:first-child {
-        padding-top: 0;
-      }
-      .connect-item:last-child, .exploring-item:last-child {
-        padding-bottom: 0;
+        gap: 30px;
       }
     }
 
@@ -541,124 +552,129 @@
         </div>
       </section>
       
-      <!-- Connect With Me Card -->
-      <section class="info-card connect-card fade-in-up" style="animation-delay: 0.1s;">
-        <h2 class="profile-card-header">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="2" y1="12" x2="22" y2="12"></line>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-          </svg>
-          Connect With Me
-        </h2>
+      <!-- Bottom Side-by-Side Grid: Connect With Me (Left) & What I'm Exploring (Right) -->
+      <div class="profile-grid-bottom fade-in-up" style="animation-delay: 0.1s;">
         
-        <div class="connect-grid">
-          <!-- Facebook -->
-          <div class="connect-item">
-            <a href="https://facebook.com/elycontz" target="_blank" class="connect-item-link" id="social-fb-link">
-              <div class="icon-circle red">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                </svg>
-              </div>
-              <div class="connect-meta">
-                <span class="connect-platform">Facebook</span>
-                <span class="connect-username" id="social-fb-text">facebook.com/elycontz</span>
-              </div>
-            </a>
-          </div>
+        <!-- Connect With Me Card -->
+        <section class="info-card connect-card">
+          <h2 class="profile-card-header">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            Connect With Me
+          </h2>
           
-          <!-- GitHub -->
-          <div class="connect-item">
-            <a href="https://github.com/elypie" target="_blank" class="connect-item-link" id="social-gh-link">
+          <div class="vertical-list">
+            <!-- Facebook -->
+            <div class="connect-item-vertical">
+              <a href="https://facebook.com/elycontz" target="_blank" class="connect-item-link" id="social-fb-link">
+                <div class="icon-circle red">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                  </svg>
+                </div>
+                <div class="connect-meta">
+                  <span class="connect-platform">Facebook</span>
+                  <span class="connect-username" id="social-fb-text">facebook.com/elycontz</span>
+                </div>
+              </a>
+            </div>
+            
+            <!-- GitHub -->
+            <div class="connect-item-vertical">
+              <a href="https://github.com/elypie" target="_blank" class="connect-item-link" id="social-gh-link">
+                <div class="icon-circle red">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                  </svg>
+                </div>
+                <div class="connect-meta">
+                  <span class="connect-platform">GitHub</span>
+                  <span class="connect-username" id="social-gh-text">github.com/elypie</span>
+                </div>
+              </a>
+            </div>
+            
+            <!-- Instagram -->
+            <div class="connect-item-vertical">
+              <a href="https://instagram.com/_beymm" target="_blank" class="connect-item-link" id="social-ig-link">
+                <div class="icon-circle red">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </div>
+                <div class="connect-meta">
+                  <span class="connect-platform">Instagram</span>
+                  <span class="connect-username" id="social-ig-text">instagram.com/_beymm</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+        
+        <!-- What I'm Exploring Card -->
+        <section class="info-card exploring-card">
+          <h2 class="profile-card-header">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 2s-8 2-10 9c-1.63 1.63-3 4.23-3.75 6.25L4 20l4-4 2.25-.75c2-.75 4.62-2.12 6.25-3.75 7-2 9-10 9-10z"></path>
+              <path d="M9 15l-5 5"></path>
+              <path d="M15 9l-5 5"></path>
+            </svg>
+            What I'm Exploring
+          </h2>
+          
+          <div class="vertical-list">
+            <!-- Web Development -->
+            <div class="exploring-item-vertical">
               <div class="icon-circle red">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="16 18 22 12 16 6"></polyline>
                   <polyline points="8 6 2 12 8 18"></polyline>
                 </svg>
               </div>
-              <div class="connect-meta">
-                <span class="connect-platform">GitHub</span>
-                <span class="connect-username" id="social-gh-text">github.com/elypie</span>
+              <div class="exploring-meta">
+                <span class="exploring-title">Web Development</span>
+                <span class="exploring-desc">Building responsive and user-friendly websites with clean and efficient code.</span>
               </div>
-            </a>
-          </div>
-          
-          <!-- Instagram -->
-          <div class="connect-item">
-            <a href="https://instagram.com/_beymm" target="_blank" class="connect-item-link" id="social-ig-link">
-              <div class="icon-circle red">
+            </div>
+            
+            <!-- UI/UX Design -->
+            <div class="exploring-item-vertical">
+              <div class="icon-circle amber">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
+                  <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2.5 21.5l4.5-.838A9.957 9.957 0 0 0 12 22z"></path>
+                  <circle cx="7.5" cy="10.5" r="1.5"></circle>
+                  <circle cx="11.5" cy="7.5" r="1.5"></circle>
+                  <circle cx="16.5" cy="9.5" r="1.5"></circle>
                 </svg>
               </div>
-              <div class="connect-meta">
-                <span class="connect-platform">Instagram</span>
-                <span class="connect-username" id="social-ig-text">instagram.com/_beymm</span>
+              <div class="exploring-meta">
+                <span class="exploring-title">UI/UX Design</span>
+                <span class="exploring-desc">Creating simple, elegant, and intuitive designs that deliver better experiences.</span>
               </div>
-            </a>
+            </div>
+            
+            <!-- Cybersecurity -->
+            <div class="exploring-item-vertical">
+              <div class="icon-circle blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <div class="exploring-meta">
+                <span class="exploring-title">Cybersecurity</span>
+                <span class="exploring-desc">Learning how systems work and how to protect data, networks, and users.</span>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
-      
-      <!-- What I'm Exploring Card -->
-      <section class="info-card exploring-card fade-in-up" style="animation-delay: 0.2s;">
-        <h2 class="profile-card-header">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 2s-8 2-10 9c-1.63 1.63-3 4.23-3.75 6.25L4 20l4-4 2.25-.75c2-.75 4.62-2.12 6.25-3.75 7-2 9-10 9-10z"></path>
-            <path d="M9 15l-5 5"></path>
-            <path d="M15 9l-5 5"></path>
-          </svg>
-          What I'm Exploring
-        </h2>
+        </section>
         
-        <div class="exploring-grid">
-          <!-- Web Development -->
-          <div class="exploring-item">
-            <div class="icon-circle red">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="16 18 22 12 16 6"></polyline>
-                <polyline points="8 6 2 12 8 18"></polyline>
-              </svg>
-            </div>
-            <div class="exploring-meta">
-              <span class="exploring-title">Web Development</span>
-              <span class="exploring-desc">Building responsive and user-friendly websites with clean and efficient code.</span>
-            </div>
-          </div>
-          
-          <!-- UI/UX Design -->
-          <div class="exploring-item">
-            <div class="icon-circle amber">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2.5 21.5l4.5-.838A9.957 9.957 0 0 0 12 22z"></path>
-                <circle cx="7.5" cy="10.5" r="1.5"></circle>
-                <circle cx="11.5" cy="7.5" r="1.5"></circle>
-                <circle cx="16.5" cy="9.5" r="1.5"></circle>
-              </svg>
-            </div>
-            <div class="exploring-meta">
-              <span class="exploring-title">UI/UX Design</span>
-              <span class="exploring-desc">Creating simple, elegant, and intuitive designs that deliver better experiences.</span>
-            </div>
-          </div>
-          
-          <!-- Cybersecurity -->
-          <div class="exploring-item">
-            <div class="icon-circle blue">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
-            </div>
-            <div class="exploring-meta">
-              <span class="exploring-title">Cybersecurity</span>
-              <span class="exploring-desc">Learning how systems work and how to protect data, networks, and users.</span>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
   </main>
 
