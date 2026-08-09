@@ -15,7 +15,7 @@
     /* Info Card Base */
     .info-card {
       background-color: var(--bg-card);
-      border: 1px solid var(--border-light);
+      border: 1px solid var(--accent-coral);
       border-radius: 24px;
       padding: 36px;
       box-shadow: var(--shadow-sm);
@@ -26,29 +26,11 @@
       box-shadow: var(--shadow-md);
     }
 
-    /* Top Grid Layout */
-    .profile-grid-top {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 30px;
-      margin-bottom: 30px;
-      align-items: stretch;
-    }
-
-    /* Card Section Titles */
-    .profile-card-header {
+    /* Combined Card Top Row Layout */
+    .profile-top-row {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 24px;
-      color: var(--text-main);
-    }
-
-    .profile-card-header svg {
-      color: var(--accent-coral);
-      flex-shrink: 0;
+      gap: 50px;
     }
 
     /* Profile Header Info */
@@ -56,7 +38,6 @@
       display: flex;
       align-items: center;
       gap: 28px;
-      margin-bottom: 32px;
     }
 
     .profile-identity-meta {
@@ -104,19 +85,6 @@
     .quote-text {
       color: var(--text-main);
       font-style: italic;
-    }
-
-    /* About Me Section */
-    .about-me-section {
-      margin-top: 24px;
-    }
-
-    .about-me-text {
-      font-size: 15px;
-      line-height: 1.7;
-      color: var(--text-muted);
-      text-align: justify;
-      margin: 0;
     }
 
     /* Avatar Glow and Sparkles Decoration */
@@ -211,57 +179,33 @@
       }
     }
 
-    /* Facts 2x2 Grid with Dividers */
-    .facts-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    /* Vertical facts list without grid lines */
+    .facts-list-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      flex-grow: 1;
     }
 
-    .fact-item {
+    .fact-item-vertical {
       display: flex;
       align-items: center;
       gap: 16px;
-      padding: 20px;
     }
 
-    /* Col/Row dividers for 2x2 grid */
-    .fact-item.top-left {
-      border-right: 1px solid var(--border-light);
-      border-bottom: 1px solid var(--border-light);
-      padding-left: 0;
-      padding-top: 0;
-    }
-
-    .fact-item.top-right {
-      border-bottom: 1px solid var(--border-light);
-      padding-right: 0;
-      padding-top: 0;
-    }
-
-    .fact-item.bottom-left {
-      border-right: 1px solid var(--border-light);
-      padding-left: 0;
-      padding-bottom: 0;
-    }
-
-    .fact-item.bottom-right {
-      padding-right: 0;
-      padding-bottom: 0;
-    }
-
-    .fact-meta {
+    .fact-meta-vertical {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
 
-    .fact-label {
-      font-size: 14px;
+    .fact-label-vertical {
+      font-size: 13px;
       font-weight: 700;
       color: var(--text-main);
     }
 
-    .fact-value {
+    .fact-value-vertical {
       font-size: 13.5px;
       color: var(--text-muted);
       font-weight: 500;
@@ -285,23 +229,52 @@
       color: var(--accent-coral);
     }
 
-    .icon-circle.amber {
-      background-color: rgba(245, 158, 11, 0.08);
-      color: #D97706;
+    /* Inner Card Divider */
+    .profile-card-hr {
+      border: none;
+      border-top: 1px solid var(--border-light);
+      margin: 28px 0;
     }
 
-    .icon-circle.blue {
-      background-color: rgba(59, 130, 246, 0.08);
-      color: #2563EB;
+    /* Card Section Titles */
+    .about-me-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      color: var(--text-main);
     }
 
-    .icon-circle.green {
-      background-color: rgba(16, 185, 129, 0.08);
-      color: #059669;
+    .profile-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: var(--text-main);
+    }
+
+    .profile-card-header svg {
+      color: var(--accent-coral);
+      flex-shrink: 0;
+    }
+
+    /* About Me Section */
+    .about-me-section {
+      margin-top: 0;
+    }
+
+    .about-me-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      text-align: justify;
+      margin: 0;
     }
 
     /* Connect & Exploring cards (3 columns) */
     .connect-card, .exploring-card {
+      margin-top: 30px;
       margin-bottom: 30px;
     }
 
@@ -348,12 +321,6 @@
       box-shadow: 0 4px 12px rgba(165, 21, 12, 0.12);
     }
 
-    .connect-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
     .connect-platform {
       font-size: 15px;
       font-weight: 700;
@@ -387,10 +354,6 @@
 
     /* Media queries for tablet and mobile */
     @media (max-width: 991px) {
-      .profile-grid-top {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
       .connect-grid, .exploring-grid {
         grid-template-columns: 1fr;
         gap: 12px;
@@ -478,115 +441,61 @@
 
   <main style="padding: 40px 0 80px 0;">
     <div class="container">
-      <!-- Top Grid: About Me & Quick Facts side-by-side -->
-      <div class="profile-grid-top fade-in-up">
-        
-        <!-- About Me Card -->
-        <section class="info-card">
-          <div class="profile-identity-row">
+      <!-- Combined Top Card: Profile & Quick Facts consolidated -->
+      <section class="info-card fade-in-up">
+        <div class="profile-top-row">
+          
+          <!-- Avatar with Decorators -->
+          <div class="avatar-decorator-wrap">
+            <!-- Background Dots -->
+            <div class="decorator-dots"></div>
             
-            <!-- Avatar with Decorators -->
-            <div class="avatar-decorator-wrap">
-              <!-- Background Dots -->
-              <div class="decorator-dots"></div>
-              
-              <!-- Sparkles -->
-              <div class="decorator-sparkle sparkle-tr-1">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"/>
-                </svg>
-              </div>
-              <div class="decorator-sparkle sparkle-tr-2">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"/>
-                </svg>
-              </div>
-              <div class="decorator-sparkle sparkle-bl-1">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"/>
-                </svg>
-              </div>
-              <div class="decorator-sparkle sparkle-bl-2">
-                <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"/>
-                </svg>
-              </div>
-              
-              <div class="profile-avatar-container">
-                <img src="assets/images/profile/profile-pfp.jpg" alt="Elyssa Contreras" class="profile-avatar-img" id="profile-avatar-img" />
-              </div>
+            <!-- Sparkles -->
+            <div class="decorator-sparkle sparkle-tr-1">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"/>
+              </svg>
+            </div>
+            <div class="decorator-sparkle sparkle-tr-2">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"/>
+              </svg>
+            </div>
+            <div class="decorator-sparkle sparkle-bl-1">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"/>
+              </svg>
+            </div>
+            <div class="decorator-sparkle sparkle-bl-2">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"/>
+              </svg>
             </div>
             
-            <!-- Identity Meta Info -->
-            <div class="profile-identity-meta">
-              <h1 class="profile-name-title" id="profile-name-title">Elyssa Contreras</h1>
-              <p class="profile-degree-subtitle" id="profile-degree-subtitle">BSIT 3rd Year Student</p>
-              <div class="profile-quote-wrap">
-                <span class="quote-mark">“</span>
-                <span class="quote-text" id="profile-motto-text">Code. Create. Protect.</span>
-                <span class="quote-mark">”</span>
-              </div>
+            <div class="profile-avatar-container">
+              <img src="assets/images/profile/profile-pfp.jpg" alt="Elyssa Contreras" class="profile-avatar-img" id="profile-avatar-img" />
             </div>
           </div>
           
-          <!-- About Me Content -->
-          <div class="about-me-section">
-            <h2 class="profile-card-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-              About Me
-            </h2>
-            <p class="about-me-text" id="profile-bio-text">
-              Hi! I'm a 3rd-year BSIT student at Father Saturnino Urios University who is passionate about designing and developing websites. Alongside web development, I aim to expand my knowledge of cybersecurity to better understand how to build secure and reliable applications. Through this blog, I share my knowledge, projects, experiences, and reflections as I continue exploring the ever-evolving world of technology, web development, and cybersecurity.
-            </p>
-          </div>
-        </section>
-        
-        <!-- Quick Facts Card -->
-        <section class="info-card">
-          <h2 class="profile-card-header">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-            </svg>
-            Quick Facts
-          </h2>
-          <div class="facts-grid">
+          <!-- Vertical Facts List -->
+          <div class="facts-list-vertical">
             <!-- Full Name -->
-            <div class="fact-item top-left">
+            <div class="fact-item-vertical">
               <div class="icon-circle red">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
                 </svg>
               </div>
-              <div class="fact-meta">
-                <span class="fact-label">Full Name</span>
-                <span class="fact-value" id="fact-fullname">Ma. Elyssa Beda D. Contreras</span>
-              </div>
-            </div>
-            
-            <!-- Course -->
-            <div class="fact-item top-right">
-              <div class="icon-circle amber">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-                  <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
-                </svg>
-              </div>
-              <div class="fact-meta">
-                <span class="fact-label">Course</span>
-                <span class="fact-value" id="fact-course">BS Information Technology</span>
+              <div class="fact-meta-vertical">
+                <span class="fact-label-vertical">Full Name</span>
+                <span class="fact-value-vertical" id="fact-fullname">Ma. Elyssa Beda D. Contreras</span>
               </div>
             </div>
             
             <!-- Year Level -->
-            <div class="fact-item bottom-left">
-              <div class="icon-circle blue">
+            <div class="fact-item-vertical">
+              <div class="icon-circle red">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                   <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -594,28 +503,52 @@
                   <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
               </div>
-              <div class="fact-meta">
-                <span class="fact-label">Year Level</span>
-                <span class="fact-value" id="fact-year">3rd Year</span>
+              <div class="fact-meta-vertical">
+                <span class="fact-label-vertical">Year Level</span>
+                <span class="fact-value-vertical" id="fact-year">3rd Year</span>
+              </div>
+            </div>
+            
+            <!-- Course -->
+            <div class="fact-item-vertical">
+              <div class="icon-circle red">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                  <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+                </svg>
+              </div>
+              <div class="fact-meta-vertical">
+                <span class="fact-label-vertical">Course</span>
+                <span class="fact-value-vertical" id="fact-course">BS Information Technology</span>
               </div>
             </div>
             
             <!-- University -->
-            <div class="fact-item bottom-right">
-              <div class="icon-circle green">
+            <div class="fact-item-vertical">
+              <div class="icon-circle red">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M4 19v-9h16v9M2 20h20M12 2L2 7h20L12 2zM6 10v9M10 10v9M14 10v9M18 10v9"></path>
                 </svg>
               </div>
-              <div class="fact-meta">
-                <span class="fact-label">University</span>
-                <span class="fact-value" id="fact-university">Father Saturnino Urios University</span>
+              <div class="fact-meta-vertical">
+                <span class="fact-label-vertical">University</span>
+                <span class="fact-value-vertical" id="fact-university">Father Saturnino Urios University</span>
               </div>
             </div>
           </div>
-        </section>
+          
+        </div>
         
-      </div>
+        <hr class="profile-card-hr" />
+        
+        <!-- About Me Section -->
+        <div class="about-me-section">
+          <h2 class="about-me-title">About Me</h2>
+          <p class="about-me-text" id="profile-bio-text">
+            Hi! I'm a 3rd-year BSIT student at Father Saturnino Urios University who is passionate about designing and developing websites. Alongside web development, I aim to expand my knowledge of cybersecurity to better understand how to build secure and reliable applications. Through this blog, I share my knowledge, projects, experiences, and reflections as I continue exploring the ever-evolving world of technology, web development, and cybersecurity.
+          </p>
+        </div>
+      </section>
       
       <!-- Connect With Me Card -->
       <section class="info-card connect-card fade-in-up" style="animation-delay: 0.1s;">
