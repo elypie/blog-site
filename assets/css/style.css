@@ -3342,7 +3342,7 @@ html.dark-theme .footer-hr {
 }
 
 .author-section {
-  background-color: var(--bg-primary);
+  background-color: transparent;
 }
 
 /* --- Section Header Styles --- */
@@ -3395,7 +3395,7 @@ html.dark-theme .footer-hr {
 
 /* --- Explore by Topic Section --- */
 .topics-section {
-  background-color: var(--bg-primary);
+  background-color: transparent;
 }
 
 .topics-title {
@@ -3500,4 +3500,10 @@ html.dark-theme .footer-hr {
 .read-more-link:hover span,
 .featured-latest-card:hover .read-more-link span {
   transform: translateX(4px);
+}
+
+/* Dark theme specific background and border for Explore by Topic cards */
+body.dark-theme .topic-card {
+  background-color: #151419 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
