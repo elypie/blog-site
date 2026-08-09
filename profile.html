@@ -521,16 +521,20 @@
       font-size: 13.5px;
       font-weight: 700;
       color: var(--text-main);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
     }
 
     .pill-badge:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      transform: scale(1.08);
     }
 
     .pill-icon {
       flex-shrink: 0;
+      transition: color var(--transition-fast);
+    }
+
+    .pill-badge:hover .pill-icon {
+      color: #FFF !important;
     }
 
     /* Badge Color Themes */
@@ -541,6 +545,12 @@
     .pill-badge.pill-red .pill-icon {
       color: var(--accent-coral);
     }
+    .pill-badge.pill-red:hover {
+      background-color: var(--accent-coral);
+      border-color: var(--accent-coral);
+      color: #FFF;
+      box-shadow: 0 4px 12px rgba(165, 21, 12, 0.15);
+    }
 
     .pill-badge.pill-amber {
       background-color: rgba(245, 158, 11, 0.04);
@@ -548,6 +558,12 @@
     }
     .pill-badge.pill-amber .pill-icon {
       color: #D97706;
+    }
+    .pill-badge.pill-amber:hover {
+      background-color: #D97706;
+      border-color: #D97706;
+      color: #FFF;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.18);
     }
 
     .pill-badge.pill-blue {
@@ -557,6 +573,12 @@
     .pill-badge.pill-blue .pill-icon {
       color: #2563EB;
     }
+    .pill-badge.pill-blue:hover {
+      background-color: #2563EB;
+      border-color: #2563EB;
+      color: #FFF;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.18);
+    }
 
     .pill-badge.pill-orange {
       background-color: rgba(234, 88, 12, 0.04);
@@ -565,6 +587,12 @@
     .pill-badge.pill-orange .pill-icon {
       color: #EA580C;
     }
+    .pill-badge.pill-orange:hover {
+      background-color: #EA580C;
+      border-color: #EA580C;
+      color: #FFF;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.18);
+    }
 
     .pill-badge.pill-yellow {
       background-color: rgba(202, 138, 4, 0.04);
@@ -572,6 +600,12 @@
     }
     .pill-badge.pill-yellow .pill-icon {
       color: #CA8A04;
+    }
+    .pill-badge.pill-yellow:hover {
+      background-color: #CA8A04;
+      border-color: #CA8A04;
+      color: #FFF;
+      box-shadow: 0 4px 12px rgba(202, 138, 4, 0.18);
     }
 
     /* Section Title inside Exploring */
