@@ -1439,11 +1439,19 @@ body.dark-theme .nav-link {
 
 /* --- Hero Section & Showcase (Modern 8px Grid Architecture) --- */
 .hero-section {
+  min-height: calc(100vh - 76px);
+  display: flex;
+  align-items: center;
   padding: 64px 0 88px 0;
   position: relative;
   overflow: hidden;
   background-color: var(--bg-accent);
   border-bottom: 1px solid var(--border);
+  box-sizing: border-box;
+}
+
+.hero-section .container {
+  width: 100%;
 }
 
 .hero-grid {
