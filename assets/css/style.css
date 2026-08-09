@@ -3510,6 +3510,41 @@ body.dark-theme .topic-card {
 
 /* Sizing and alignment overrides for the Hero pixel art cat */
 .hero-pixel-cat {
-  height: 400px !important;
-  bottom: 30px !important;
+  height: 550px !important;
+  bottom: -45px !important;
+}
+
+/* Binary watermark text forming MEOW */
+.hero-binary-meow {
+  position: absolute;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 15px;
+  font-weight: 900;
+  color: rgba(229, 91, 68, 0.12);
+  text-shadow: 0 0 8px rgba(229, 91, 68, 0.08);
+  line-height: 1.15;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hero-binary-meow pre {
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  background: transparent;
+  color: inherit;
+  border: none;
+  box-shadow: none;
+}
+
+body.dark-theme .hero-binary-meow {
+  color: rgba(229, 91, 68, 0.22);
+  text-shadow: 0 0 12px rgba(229, 91, 68, 0.15);
 }
