@@ -78,13 +78,15 @@
     .quote-mark {
       color: var(--accent-coral);
       font-size: 22px;
-      font-weight: 800;
-      line-height: 1;
+      align-items: flex-start;
+      gap: 40px;
     }
 
-    .quote-text {
-      color: var(--text-main);
-      font-style: italic;
+    .profile-bio-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex-grow: 1;
     }
 
     /* Avatar Glow and Sparkles Decoration */
@@ -179,37 +181,60 @@
       }
     }
 
-    /* Vertical facts list without grid lines */
-    .facts-list-vertical {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      flex-grow: 1;
+    /* Inner Card Divider */
+    .profile-card-hr {
+      border: none;
+      border-top: 1px solid var(--border-light);
+      margin: 32px 0;
     }
 
-    .fact-item-vertical {
+    /* About Me Section */
+    .about-me-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-top: 4px;
+      margin-bottom: 0;
+    }
+
+    .about-me-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      text-align: justify;
+      margin: 0;
+    }
+
+    /* Horizontal Facts Grid */
+    .facts-grid-horizontal {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .fact-item-horizontal {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
     }
 
-    .fact-meta-vertical {
+    .fact-meta-horizontal {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
 
-    .fact-label-vertical {
+    .fact-label-horizontal {
       font-size: 13px;
       font-weight: 700;
       color: var(--text-main);
     }
 
-    .fact-value-vertical {
+    .fact-value-horizontal {
       font-size: 13.5px;
       color: var(--text-muted);
       font-weight: 500;
-      line-height: 1.3;
+      line-height: 1.35;
     }
 
     /* Circles for Icons */
@@ -229,21 +254,6 @@
       color: var(--accent-coral);
     }
 
-    /* Inner Card Divider */
-    .profile-card-hr {
-      border: none;
-      border-top: 1px solid var(--border-light);
-      margin: 28px 0;
-    }
-
-    /* Card Section Titles */
-    .about-me-title {
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 16px;
-      color: var(--text-main);
-    }
-
     .profile-card-header {
       display: flex;
       align-items: center;
@@ -257,19 +267,6 @@
     .profile-card-header svg {
       color: var(--accent-coral);
       flex-shrink: 0;
-    }
-
-    /* About Me Section */
-    .about-me-section {
-      margin-top: 0;
-    }
-
-    .about-me-text {
-      font-size: 15px;
-      line-height: 1.7;
-      color: var(--text-muted);
-      text-align: justify;
-      margin: 0;
     }
 
     /* Connect & Exploring cards (3 columns) */
@@ -321,6 +318,12 @@
       box-shadow: 0 4px 12px rgba(165, 21, 12, 0.12);
     }
 
+    .connect-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
     .connect-platform {
       font-size: 15px;
       font-weight: 700;
@@ -353,7 +356,23 @@
     }
 
     /* Media queries for tablet and mobile */
+    @media (max-width: 1200px) {
+      .facts-grid-horizontal {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+    }
+
     @media (max-width: 991px) {
+      .profile-top-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 24px;
+      }
+      .about-me-text {
+        text-align: center;
+      }
       .connect-grid, .exploring-grid {
         grid-template-columns: 1fr;
         gap: 12px;
@@ -376,41 +395,13 @@
       }
     }
 
-    @media (max-width: 768px) {
-      .facts-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-      .fact-item {
-        border-right: none !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        padding-top: 16px;
-        padding-bottom: 16px;
-      }
-      .fact-item:not(:last-child) {
-        border-bottom: 1px solid var(--border-light);
-      }
-      .fact-item:first-child {
-        padding-top: 0;
-      }
-      .fact-item:last-child {
-        padding-bottom: 0;
-      }
-    }
-
     @media (max-width: 576px) {
       .info-card {
         padding: 24px 20px;
       }
-      .profile-identity-row {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+      .facts-grid-horizontal {
+        grid-template-columns: 1fr;
         gap: 16px;
-      }
-      .profile-identity-meta {
-        align-items: center;
       }
     }
   </style>
@@ -477,76 +468,76 @@
             </div>
           </div>
           
-          <!-- Vertical Facts List -->
-          <div class="facts-list-vertical">
-            <!-- Full Name -->
-            <div class="fact-item-vertical">
-              <div class="icon-circle red">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-              </div>
-              <div class="fact-meta-vertical">
-                <span class="fact-label-vertical">Full Name</span>
-                <span class="fact-value-vertical" id="fact-fullname">Ma. Elyssa Beda D. Contreras</span>
-              </div>
-            </div>
-            
-            <!-- Year Level -->
-            <div class="fact-item-vertical">
-              <div class="icon-circle red">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="16" y1="2" x2="16" y2="6"></line>
-                  <line x1="8" y1="2" x2="8" y2="6"></line>
-                  <line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
-              </div>
-              <div class="fact-meta-vertical">
-                <span class="fact-label-vertical">Year Level</span>
-                <span class="fact-value-vertical" id="fact-year">3rd Year</span>
-              </div>
-            </div>
-            
-            <!-- Course -->
-            <div class="fact-item-vertical">
-              <div class="icon-circle red">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-                  <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
-                </svg>
-              </div>
-              <div class="fact-meta-vertical">
-                <span class="fact-label-vertical">Course</span>
-                <span class="fact-value-vertical" id="fact-course">BS Information Technology</span>
-              </div>
-            </div>
-            
-            <!-- University -->
-            <div class="fact-item-vertical">
-              <div class="icon-circle red">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 19v-9h16v9M2 20h20M12 2L2 7h20L12 2zM6 10v9M10 10v9M14 10v9M18 10v9"></path>
-                </svg>
-              </div>
-              <div class="fact-meta-vertical">
-                <span class="fact-label-vertical">University</span>
-                <span class="fact-value-vertical" id="fact-university">Father Saturnino Urios University</span>
-              </div>
-            </div>
+          <!-- About Me on the Right -->
+          <div class="profile-bio-wrap">
+            <h2 class="about-me-title">About Me</h2>
+            <p class="about-me-text" id="profile-bio-text">
+              Hi! I'm a 3rd-year BSIT student at Father Saturnino Urios University who is passionate about designing and developing websites. Alongside web development, I aim to expand my knowledge of cybersecurity to better understand how to build secure and reliable applications. Through this blog, I share my knowledge, projects, experiences, and reflections as I continue exploring the ever-evolving world of technology, web development, and cybersecurity.
+            </p>
           </div>
           
         </div>
         
         <hr class="profile-card-hr" />
         
-        <!-- About Me Section -->
-        <div class="about-me-section">
-          <h2 class="about-me-title">About Me</h2>
-          <p class="about-me-text" id="profile-bio-text">
-            Hi! I'm a 3rd-year BSIT student at Father Saturnino Urios University who is passionate about designing and developing websites. Alongside web development, I aim to expand my knowledge of cybersecurity to better understand how to build secure and reliable applications. Through this blog, I share my knowledge, projects, experiences, and reflections as I continue exploring the ever-evolving world of technology, web development, and cybersecurity.
-          </p>
+        <!-- Horizontal Quick Facts Row below the divider -->
+        <div class="facts-grid-horizontal">
+          <!-- Full Name -->
+          <div class="fact-item-horizontal">
+            <div class="icon-circle red">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <div class="fact-meta-horizontal">
+              <span class="fact-label-horizontal">Full Name</span>
+              <span class="fact-value-horizontal" id="fact-fullname">Ma. Elyssa Beda D. Contreras</span>
+            </div>
+          </div>
+          
+          <!-- Year Level -->
+          <div class="fact-item-horizontal">
+            <div class="icon-circle red">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <div class="fact-meta-horizontal">
+              <span class="fact-label-horizontal">Year Level</span>
+              <span class="fact-value-horizontal" id="fact-year">3rd Year</span>
+            </div>
+          </div>
+          
+          <!-- Course -->
+          <div class="fact-item-horizontal">
+            <div class="icon-circle red">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+              </svg>
+            </div>
+            <div class="fact-meta-horizontal">
+              <span class="fact-label-horizontal">Course</span>
+              <span class="fact-value-horizontal" id="fact-course">BS Information Technology</span>
+            </div>
+          </div>
+          
+          <!-- University -->
+          <div class="fact-item-horizontal">
+            <div class="icon-circle red">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19v-9h16v9M2 20h20M12 2L2 7h20L12 2zM6 10v9M10 10v9M14 10v9M18 10v9"></path>
+              </svg>
+            </div>
+            <div class="fact-meta-horizontal">
+              <span class="fact-label-horizontal">University</span>
+              <span class="fact-value-horizontal" id="fact-university">Father Saturnino Urios University</span>
+            </div>
+          </div>
         </div>
       </section>
       
