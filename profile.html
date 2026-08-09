@@ -12,128 +12,442 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap"
     rel="stylesheet">
   <style>
+    /* Info Card Base */
     .info-card {
       background-color: var(--bg-card);
-      border: 1px solid var(--accent-coral);
+      border: 1px solid var(--border-light);
       border-radius: 24px;
       padding: 36px;
       box-shadow: var(--shadow-sm);
+      transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+    }
+    
+    .info-card:hover {
+      box-shadow: var(--shadow-md);
     }
 
-    .fact-row {
-      display: flex;
-      justify-content: space-between;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border-light);
-      font-size: 14px;
-      margin-bottom: 16px;
+    /* Top Grid Layout */
+    .profile-grid-top {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 30px;
+      margin-bottom: 30px;
+      align-items: stretch;
     }
 
-    /* Connect With Me Redesign */
-    .connect-list {
-      display: flex;
-      flex-direction: column;
-      margin-top: 20px;
-    }
-
-    .connect-row {
-      display: flex;
-      align-items: center;
-      padding: 20px 16px;
-      border-bottom: 1px solid var(--border-light);
-      text-decoration: none;
-      position: relative;
-      transition: all 280ms cubic-bezier(0.16, 1, 0.3, 1);
-      background: transparent;
-    }
-
-    .connect-row:first-of-type {
-      border-top: 1px solid var(--border-light);
-    }
-
-    .connect-row::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background-color: var(--accent-coral);
-      transform: scaleY(0);
-      transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
-      transform-origin: center;
-    }
-
-    .connect-row:hover {
-      background-color: var(--bg-card-hover);
-      box-shadow: 0 8px 24px rgba(165, 21, 12, 0.12);
-      z-index: 1;
-    }
-
-    .connect-row:hover::before {
-      transform: scaleY(1);
-    }
-
-    .connect-icon-circle {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: var(--accent-coral-light);
+    /* Card Section Titles */
+    .profile-card-header {
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: var(--text-main);
+    }
+
+    .profile-card-header svg {
       color: var(--accent-coral);
-      margin-right: 18px;
       flex-shrink: 0;
-      transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .connect-row:hover .connect-icon-circle {
-      transform: scale(1.08);
+    /* Profile Header Info */
+    .profile-identity-row {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-bottom: 32px;
     }
 
-    .connect-details {
+    .profile-identity-meta {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      align-items: flex-start;
       flex-grow: 1;
     }
 
-    .connect-platform {
-      font-size: 16px;
-      font-weight: 600;
+    .profile-name-title {
+      font-size: 28px;
+      font-weight: 800;
       color: var(--text-main);
-      transition: color 280ms ease;
+      letter-spacing: -0.5px;
+      margin: 0;
+      line-height: 1.15;
+    }
+
+    .profile-degree-subtitle {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent-coral);
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+      margin-bottom: 0;
+    }
+
+    .profile-quote-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .quote-mark {
+      color: var(--accent-coral);
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .quote-text {
+      color: var(--text-main);
+      font-style: italic;
+    }
+
+    /* About Me Section */
+    .about-me-section {
+      margin-top: 24px;
+    }
+
+    .about-me-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      text-align: justify;
+      margin: 0;
+    }
+
+    /* Avatar Glow and Sparkles Decoration */
+    .avatar-decorator-wrap {
+      position: relative;
+      display: inline-block;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    .profile-avatar-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(135deg, var(--accent-coral) 0%, rgba(229, 91, 68, 0.3) 100%);
+      box-shadow: 0 8px 30px rgba(165, 21, 12, 0.22);
+      z-index: 2;
+    }
+
+    .profile-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--bg-card);
+      transition: transform var(--transition-normal);
+    }
+
+    .profile-avatar-img:hover {
+      transform: scale(1.03);
+    }
+
+    /* Sparkles & Dots */
+    .decorator-dots {
+      position: absolute;
+      top: -12px;
+      left: -18px;
+      width: 50px;
+      height: 50px;
+      background-image: radial-gradient(var(--accent-coral) 1.5px, transparent 1.5px);
+      background-size: 8px 8px;
+      opacity: 0.35;
+      z-index: 0;
+    }
+
+    body.dark-theme .decorator-dots {
+      opacity: 0.2;
+    }
+
+    .decorator-sparkle {
+      position: absolute;
+      z-index: 3;
+      pointer-events: none;
+      color: var(--accent-coral);
+      animation: pulseSparkle 3s infinite ease-in-out;
+    }
+
+    .sparkle-tr-1 {
+      top: -5px;
+      right: -8px;
+      animation-delay: 0s;
+    }
+
+    .sparkle-tr-2 {
+      top: 30px;
+      right: -24px;
+      animation-delay: 0.75s;
+    }
+
+    .sparkle-bl-1 {
+      bottom: -2px;
+      left: -12px;
+      animation-delay: 1.5s;
+    }
+
+    .sparkle-bl-2 {
+      bottom: 30px;
+      left: -22px;
+      animation-delay: 2.25s;
+    }
+
+    @keyframes pulseSparkle {
+      0%, 100% {
+        transform: scale(0.85) rotate(0deg);
+        opacity: 0.7;
+      }
+      50% {
+        transform: scale(1.15) rotate(15deg);
+        opacity: 1;
+      }
+    }
+
+    /* Facts 2x2 Grid with Dividers */
+    .facts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .fact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+    }
+
+    /* Col/Row dividers for 2x2 grid */
+    .fact-item.top-left {
+      border-right: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+      padding-left: 0;
+      padding-top: 0;
+    }
+
+    .fact-item.top-right {
+      border-bottom: 1px solid var(--border-light);
+      padding-right: 0;
+      padding-top: 0;
+    }
+
+    .fact-item.bottom-left {
+      border-right: 1px solid var(--border-light);
+      padding-left: 0;
+      padding-bottom: 0;
+    }
+
+    .fact-item.bottom-right {
+      padding-right: 0;
+      padding-bottom: 0;
+    }
+
+    .fact-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .fact-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .fact-value {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    /* Circles for Icons */
+    .icon-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .icon-circle.red {
+      background-color: rgba(165, 21, 12, 0.06);
+      color: var(--accent-coral);
+    }
+
+    .icon-circle.amber {
+      background-color: rgba(245, 158, 11, 0.08);
+      color: #D97706;
+    }
+
+    .icon-circle.blue {
+      background-color: rgba(59, 130, 246, 0.08);
+      color: #2563EB;
+    }
+
+    .icon-circle.green {
+      background-color: rgba(16, 185, 129, 0.08);
+      color: #059669;
+    }
+
+    /* Connect & Exploring cards (3 columns) */
+    .connect-card, .exploring-card {
+      margin-bottom: 30px;
+    }
+
+    .connect-grid, .exploring-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .connect-item, .exploring-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+    }
+
+    .exploring-item {
+      align-items: flex-start;
+    }
+
+    .connect-item:not(:last-child), .exploring-item:not(:last-child) {
+      border-right: 1px solid var(--border-light);
+      padding-right: 28px;
+    }
+
+    .connect-item:not(:first-child), .exploring-item:not(:first-child) {
+      padding-left: 28px;
+    }
+
+    .connect-item-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: inherit;
+      width: 100%;
+    }
+
+    .connect-item-link:hover .connect-platform {
+      color: var(--accent-coral);
+    }
+
+    .connect-item-link:hover .icon-circle {
+      transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(165, 21, 12, 0.12);
+    }
+
+    .connect-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .connect-platform {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      transition: color var(--transition-fast);
     }
 
     .connect-username {
       font-size: 13px;
       color: var(--text-muted);
+      font-weight: 500;
     }
 
-    .connect-arrow {
-      color: var(--accent-coral);
-      transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+    .exploring-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
-    .connect-row:hover .connect-arrow {
-      transform: translate(6px, -2px);
+    .exploring-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .exploring-desc {
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    /* Media queries for tablet and mobile */
+    @media (max-width: 991px) {
+      .profile-grid-top {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .connect-grid, .exploring-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .connect-item, .exploring-item {
+        border-right: none !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        padding-top: 16px;
+        padding-bottom: 16px;
+      }
+      .connect-item:not(:last-child), .exploring-item:not(:last-child) {
+        border-bottom: 1px solid var(--border-light);
+      }
+      .connect-item:first-child, .exploring-item:first-child {
+        padding-top: 0;
+      }
+      .connect-item:last-child, .exploring-item:last-child {
+        padding-bottom: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .facts-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .fact-item {
+        border-right: none !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        padding-top: 16px;
+        padding-bottom: 16px;
+      }
+      .fact-item:not(:last-child) {
+        border-bottom: 1px solid var(--border-light);
+      }
+      .fact-item:first-child {
+        padding-top: 0;
+      }
+      .fact-item:last-child {
+        padding-bottom: 0;
+      }
     }
 
     @media (max-width: 576px) {
-      .connect-row {
-        padding: 16px 12px;
+      .info-card {
+        padding: 24px 20px;
       }
-      .connect-icon-circle {
-        width: 36px;
-        height: 36px;
-        margin-right: 12px;
+      .profile-identity-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
       }
-      .connect-platform {
-        font-size: 15px;
-      }
-      .connect-username {
-        font-size: 12px;
+      .profile-identity-meta {
+        align-items: center;
       }
     }
   </style>
@@ -164,138 +478,259 @@
 
   <main style="padding: 40px 0 80px 0;">
     <div class="container">
-      <!-- Profile Card Container -->
-      <section class="profile-main-card fade-in-up">
-
-
-        <!-- Profile Header Body -->
-        <div class="profile-card-body">
+      <!-- Top Grid: About Me & Quick Facts side-by-side -->
+      <div class="profile-grid-top fade-in-up">
+        
+        <!-- About Me Card -->
+        <section class="info-card">
           <div class="profile-identity-row">
-            <div class="profile-avatar-box">
-              <img src="assets/images/profile/profile-pfp.jpg" alt="Elyssa Contreras" class="avatar-circle-profile"
-                id="profile-avatar-img" />
+            
+            <!-- Avatar with Decorators -->
+            <div class="avatar-decorator-wrap">
+              <!-- Background Dots -->
+              <div class="decorator-dots"></div>
+              
+              <!-- Sparkles -->
+              <div class="decorator-sparkle sparkle-tr-1">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"/>
+                </svg>
+              </div>
+              <div class="decorator-sparkle sparkle-tr-2">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"/>
+                </svg>
+              </div>
+              <div class="decorator-sparkle sparkle-bl-1">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"/>
+                </svg>
+              </div>
+              <div class="decorator-sparkle sparkle-bl-2">
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"/>
+                </svg>
+              </div>
+              
+              <div class="profile-avatar-container">
+                <img src="assets/images/profile/profile-pfp.jpg" alt="Elyssa Contreras" class="profile-avatar-img" id="profile-avatar-img" />
+              </div>
             </div>
+            
+            <!-- Identity Meta Info -->
             <div class="profile-identity-meta">
               <h1 class="profile-name-title" id="profile-name-title">Elyssa Contreras</h1>
               <p class="profile-degree-subtitle" id="profile-degree-subtitle">BSIT 3rd Year Student</p>
-              <p class="profile-school-name" id="profile-school-name">Father Saturnino Urios University</p>
-              <p class="profile-motto-quote">
-                <span class="quote-symbol">“</span><span id="profile-motto-text">Built in silence.</span><span
-                  class="quote-symbol">”</span>
-              </p>
+              <div class="profile-quote-wrap">
+                <span class="quote-mark">“</span>
+                <span class="quote-text" id="profile-motto-text">Code. Create. Protect.</span>
+                <span class="quote-mark">”</span>
+              </div>
             </div>
           </div>
-
-          <hr class="profile-card-hr" />
-
-          <!-- About Me Section -->
+          
+          <!-- About Me Content -->
           <div class="about-me-section">
-            <h2 class="about-me-heading">About Me</h2>
+            <h2 class="profile-card-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              About Me
+            </h2>
             <p class="about-me-text" id="profile-bio-text">
-              Hi! I'm a 3rd-year BSIT student at Father Saturnino Urios University who is passionate about designing and
-              developing websites. Alongside web development, I aim to expand my knowledge of cybersecurity to better
-              understand how to build secure and reliable applications. Through this blog, I share my knowledge,
-              projects, experiences, and reflections as I continue exploring the ever-evolving world of technology, web
-              development, and cybersecurity.
+              Hi! I'm a 3rd-year BSIT student at Father Saturnino Urios University who is passionate about designing and developing websites. Alongside web development, I aim to expand my knowledge of cybersecurity to better understand how to build secure and reliable applications. Through this blog, I share my knowledge, projects, experiences, and reflections as I continue exploring the ever-evolving world of technology, web development, and cybersecurity.
             </p>
+          </div>
+        </section>
+        
+        <!-- Quick Facts Card -->
+        <section class="info-card">
+          <h2 class="profile-card-header">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            Quick Facts
+          </h2>
+          <div class="facts-grid">
+            <!-- Full Name -->
+            <div class="fact-item top-left">
+              <div class="icon-circle red">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <div class="fact-meta">
+                <span class="fact-label">Full Name</span>
+                <span class="fact-value" id="fact-fullname">Ma. Elyssa Beda D. Contreras</span>
+              </div>
+            </div>
+            
+            <!-- Course -->
+            <div class="fact-item top-right">
+              <div class="icon-circle amber">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                  <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+                </svg>
+              </div>
+              <div class="fact-meta">
+                <span class="fact-label">Course</span>
+                <span class="fact-value" id="fact-course">BS Information Technology</span>
+              </div>
+            </div>
+            
+            <!-- Year Level -->
+            <div class="fact-item bottom-left">
+              <div class="icon-circle blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </div>
+              <div class="fact-meta">
+                <span class="fact-label">Year Level</span>
+                <span class="fact-value" id="fact-year">3rd Year</span>
+              </div>
+            </div>
+            
+            <!-- University -->
+            <div class="fact-item bottom-right">
+              <div class="icon-circle green">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19v-9h16v9M2 20h20M12 2L2 7h20L12 2zM6 10v9M10 10v9M14 10v9M18 10v9"></path>
+                </svg>
+              </div>
+              <div class="fact-meta">
+                <span class="fact-label">University</span>
+                <span class="fact-value" id="fact-university">Father Saturnino Urios University</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+      </div>
+      
+      <!-- Connect With Me Card -->
+      <section class="info-card connect-card fade-in-up" style="animation-delay: 0.1s;">
+        <h2 class="profile-card-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+          Connect With Me
+        </h2>
+        
+        <div class="connect-grid">
+          <!-- Facebook -->
+          <div class="connect-item">
+            <a href="https://facebook.com/elycontz" target="_blank" class="connect-item-link" id="social-fb-link">
+              <div class="icon-circle red">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+              </div>
+              <div class="connect-meta">
+                <span class="connect-platform">Facebook</span>
+                <span class="connect-username" id="social-fb-text">facebook.com/elycontz</span>
+              </div>
+            </a>
+          </div>
+          
+          <!-- GitHub -->
+          <div class="connect-item">
+            <a href="https://github.com/elypie" target="_blank" class="connect-item-link" id="social-gh-link">
+              <div class="icon-circle red">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+              </div>
+              <div class="connect-meta">
+                <span class="connect-platform">GitHub</span>
+                <span class="connect-username" id="social-gh-text">github.com/elypie</span>
+              </div>
+            </a>
+          </div>
+          
+          <!-- Instagram -->
+          <div class="connect-item">
+            <a href="https://instagram.com/_beymm" target="_blank" class="connect-item-link" id="social-ig-link">
+              <div class="icon-circle red">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </div>
+              <div class="connect-meta">
+                <span class="connect-platform">Instagram</span>
+                <span class="connect-username" id="social-ig-text">instagram.com/_beymm</span>
+              </div>
+            </a>
           </div>
         </div>
       </section>
-
-      <!-- Details Section Grid -->
-      <section>
-        <div class="profile-grid">
-          <!-- Quick Facts Card -->
-          <div class="info-card">
-            <h2 style="font-size: 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-coral)" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
+      
+      <!-- What I'm Exploring Card -->
+      <section class="info-card exploring-card fade-in-up" style="animation-delay: 0.2s;">
+        <h2 class="profile-card-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 2s-8 2-10 9c-1.63 1.63-3 4.23-3.75 6.25L4 20l4-4 2.25-.75c2-.75 4.62-2.12 6.25-3.75 7-2 9-10 9-10z"></path>
+            <path d="M9 15l-5 5"></path>
+            <path d="M15 9l-5 5"></path>
+          </svg>
+          What I'm Exploring
+        </h2>
+        
+        <div class="exploring-grid">
+          <!-- Web Development -->
+          <div class="exploring-item">
+            <div class="icon-circle red">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
               </svg>
-              Quick Facts
-            </h2>
-            <div class="fact-row">
-              <strong>Full Name:</strong>
-              <span style="color: var(--text-muted); font-weight: 600;" id="fact-fullname">Ma. Elyssa Beda D.
-                Contreras</span>
             </div>
-            <div class="fact-row">
-              <strong>Course:</strong>
-              <span style="color: var(--text-muted); font-weight: 600;" id="fact-course">BS Information
-                Technology</span>
-            </div>
-            <div class="fact-row">
-              <strong>Year Level:</strong>
-              <span style="color: var(--text-muted); font-weight: 600;" id="fact-year">3rd Year</span>
-            </div>
-            <div class="fact-row">
-              <strong>University:</strong>
-              <span style="color: var(--text-muted); font-weight: 600;" id="fact-university">Father Saturnino Urios
-                University</span>
+            <div class="exploring-meta">
+              <span class="exploring-title">Web Development</span>
+              <span class="exploring-desc">Building responsive and user-friendly websites with clean and efficient code.</span>
             </div>
           </div>
-
-          <!-- Connect With Me Card -->
-          <div class="info-card">
-            <h2 style="font-size: 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-coral)" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
-                </path>
+          
+          <!-- UI/UX Design -->
+          <div class="exploring-item">
+            <div class="icon-circle amber">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2.5 21.5l4.5-.838A9.957 9.957 0 0 0 12 22z"></path>
+                <circle cx="7.5" cy="10.5" r="1.5"></circle>
+                <circle cx="11.5" cy="7.5" r="1.5"></circle>
+                <circle cx="16.5" cy="9.5" r="1.5"></circle>
               </svg>
-              Connect With Me
-            </h2>
-            <div class="connect-list">
-              <a href="https://facebook.com/elycontz" target="_blank" class="connect-row" id="social-fb-link">
-                <div class="connect-icon-circle">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                  </svg>
-                </div>
-                <div class="connect-details">
-                  <span class="connect-platform">Facebook</span>
-                  <span class="connect-username" id="social-fb-text">@elycontz</span>
-                </div>
-                <svg class="connect-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-              </a>
-              <a href="https://github.com/elypie" target="_blank" class="connect-row" id="social-gh-link">
-                <div class="connect-icon-circle">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                  </svg>
-                </div>
-                <div class="connect-details">
-                  <span class="connect-platform">GitHub</span>
-                  <span class="connect-username" id="social-gh-text">@elypie</span>
-                </div>
-                <svg class="connect-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-              </a>
-              <a href="https://instagram.com/_beymm" target="_blank" class="connect-row" id="social-ig-link">
-                <div class="connect-icon-circle">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                  </svg>
-                </div>
-                <div class="connect-details">
-                  <span class="connect-platform">Instagram</span>
-                  <span class="connect-username" id="social-ig-text">@_beymm</span>
-                </div>
-                <svg class="connect-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-              </a>
+            </div>
+            <div class="exploring-meta">
+              <span class="exploring-title">UI/UX Design</span>
+              <span class="exploring-desc">Creating simple, elegant, and intuitive designs that deliver better experiences.</span>
+            </div>
+          </div>
+          
+          <!-- Cybersecurity -->
+          <div class="exploring-item">
+            <div class="icon-circle blue">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <div class="exploring-meta">
+              <span class="exploring-title">Cybersecurity</span>
+              <span class="exploring-desc">Learning how systems work and how to protect data, networks, and users.</span>
             </div>
           </div>
         </div>
