@@ -843,6 +843,99 @@ document.addEventListener('DOMContentLoaded', async () => {
   initReadingProgressBar();
   initQuickSearchModal();
 
+  // Initialize interactive cat illustration parallax & idle floating effect
+  function initHeroCatParallax() {
+    const showcase = document.querySelector('.hero-cat-showcase');
+    if (!showcase) return;
+
+    const catBody = showcase.querySelector('.hero-cat-body');
+    const watermark = showcase.querySelector('.hero-binary-meow');
+    const symbols = showcase.querySelectorAll('.hero-cat-symbol');
+
+    // Detect if device supports touch (mobile/tablet fallback)
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetMouseX = 0;
+    let targetMouseY = 0;
+    let isHovered = false;
+
+    // Track mouse position relative to illustration container center
+    if (!isTouchDevice) {
+      showcase.addEventListener('mousemove', (e) => {
+        const rect = showcase.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const deltaX = e.clientX - centerX;
+        const deltaY = e.clientY - centerY;
+        
+        // Normalize coordinates from -1 to 1
+        targetMouseX = deltaX / (rect.width / 2);
+        targetMouseY = deltaY / (rect.height / 2);
+        isHovered = true;
+      });
+
+      showcase.addEventListener('mouseleave', () => {
+        targetMouseX = 0;
+        targetMouseY = 0;
+        isHovered = false;
+      });
+    }
+
+    // Interactive Animation Loop using Easing (Interpolation)
+    function animate() {
+      // Easing calculation: current += (target - current) * factor
+      mouseX += (targetMouseX - mouseX) * 0.08;
+      mouseY += (targetMouseY - mouseY) * 0.08;
+
+      const time = Date.now() * 0.0015;
+
+      // 1. Perspective 3D Tilt for container
+      let tiltX = 0;
+      let tiltY = 0;
+      if (!isTouchDevice && isHovered) {
+        tiltX = -mouseY * 2.5; // rotate around X-axis (up/down)
+        tiltY = mouseX * 2.5;  // rotate around Y-axis (left/right)
+      } else {
+        // Idle tilt
+        tiltY = Math.sin(time * 0.8) * 0.5;
+      }
+      showcase.style.transform = `translateX(-50%) perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+
+      // 2. Main Cat Body Parallax & Floating
+      const catTargetX = !isTouchDevice ? (mouseX * 8) : 0;
+      const catTargetY = (!isTouchDevice ? (mouseY * 8) : 0) + (Math.sin(time) * 5); // Idle floating
+      if (catBody) {
+        catBody.style.transform = `translate(${catTargetX}px, ${catTargetY}px)`;
+      }
+
+      // 3. Floating Symbols Layered Parallax
+      symbols.forEach((symbol, idx) => {
+        const depth = parseFloat(symbol.dataset.depth) || 0.1;
+        const offsetMultiplier = 35; // Maximum move distance
+        const symTargetX = (!isTouchDevice ? (mouseX * offsetMultiplier * depth) : 0) + (Math.sin(time + idx) * 3);
+        const symTargetY = (!isTouchDevice ? (mouseY * offsetMultiplier * depth) : 0) + (Math.cos(time + idx) * 3);
+        symbol.style.transform = `translate(${symTargetX}px, ${symTargetY}px)`;
+      });
+
+      // 4. Binary Watermark Subtle Parallax & Floating
+      const watermarkTargetX = !isTouchDevice ? (mouseX * 3) : 0;
+      const watermarkTargetY = (!isTouchDevice ? (mouseY * 3) : 0) + (Math.sin(time * 0.5) * 2);
+      if (watermark) {
+        watermark.style.transform = `translateX(-50%) translate(${watermarkTargetX}px, ${watermarkTargetY}px)`;
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    // Start animation loop
+    animate();
+  }
+  initHeroCatParallax();
+
+
+
   // Initialize newsletter subscription form handling
   function initNewsletterSubscription() {
     const subscribeForms = document.querySelectorAll('.footer-subscribe-form');

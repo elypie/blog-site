@@ -2130,11 +2130,11 @@ svg {
     transform: translate(-50%, -50%) rotate(-35deg) !important;
   }
 
-  .hero-cutout-photo {
+  .hero-cat-showcase {
     position: absolute !important;
-    height: 115% !important;
-    width: auto !important;
-    object-fit: contain !important;
+    width: 420px !important;
+    height: 420px !important;
+    max-width: 100% !important;
     bottom: 0 !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
@@ -3508,11 +3508,51 @@ body.dark-theme .topic-card {
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-/* Sizing and alignment overrides for the Hero pixel art cat */
-.hero-pixel-cat {
-  height: 550px !important;
-  bottom: -45px !important;
+/* Sizing and interactive positioning for the Hero cat showcase */
+.hero-cat-showcase {
+  position: absolute;
+  width: 550px;
+  height: 550px;
+  bottom: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  pointer-events: auto; /* Enable hover detection inside illustration area */
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
+
+.hero-cat-body {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hero-cat-symbol {
+  position: absolute;
+  object-fit: contain;
+  z-index: 4;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Precise relative positioning offsets for the 9 segmented symbols */
+.hero-cat-symbol.symbol-1 { left: 72.1%; top: 71.1%; width: 8.1%; height: 8.1%; }
+.hero-cat-symbol.symbol-2 { left: 27.9%; top: 57.2%; width: 8.3%; height: 8.5%; }
+.hero-cat-symbol.symbol-3 { left: 80.8%; top: 64.2%; width: 8.0%; height: 8.2%; }
+.hero-cat-symbol.symbol-4 { left: 80.9%; top: 16.1%; width: 6.1%; height: 6.1%; }
+.hero-cat-symbol.symbol-5 { left: 72.6%; top: 11.4%; width: 5.8%; height: 5.9%; }
+.hero-cat-symbol.symbol-6 { left: 25.3%; top: 20.0%; width: 5.9%; height: 5.9%; }
+.hero-cat-symbol.symbol-7 { left: 21.5%; top: 26.6%; width: 4.0%; height: 4.0%; }
+.hero-cat-symbol.symbol-8 { left: 37.8%; top: 62.5%; width: 4.7%; height: 4.5%; }
+.hero-cat-symbol.symbol-9 { left: 31.4%; top: 68.9%; width: 2.7%; height: 2.8%; }
+
 
 /* Binary watermark text forming HELLO */
 .hero-binary-meow {
@@ -3547,4 +3587,12 @@ body.dark-theme .topic-card {
 body.dark-theme .hero-binary-meow {
   color: rgba(229, 91, 68, 0.38) !important;
   text-shadow: 0 0 12px rgba(229, 91, 68, 0.35);
+}
+
+/* Extra small mobile screens sizing adjustments for the cat container */
+@media (max-width: 480px) {
+  .hero-cat-showcase {
+    width: 320px !important;
+    height: 320px !important;
+  }
 }
