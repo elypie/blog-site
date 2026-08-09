@@ -1468,28 +1468,33 @@ body.dark-theme .nav-link {
 }
 
 .hero-title {
-  font-size: 54px;
+  font-size: 66px;
   font-weight: 800;
-  margin: 16px 0 16px 0;
-  line-height: 1.12;
+  margin: 20px 0 20px 0;
+  line-height: 1.1;
   letter-spacing: -0.5px;
   color: var(--text-main);
 }
 
 .hero-subtitle {
-  font-size: 18px;
+  font-size: 28px;
   font-weight: 700;
   color: var(--accent-coral);
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   letter-spacing: 0.2px;
 }
 
 .hero-bio {
-  font-size: 16.5px;
+  font-size: 19px;
   color: var(--text-muted);
-  margin-bottom: 40px;
-  max-width: 540px;
+  margin-bottom: 44px;
+  max-width: 560px;
   line-height: 1.75;
+}
+
+.hero-section .badge-category {
+  font-size: 14.5px;
+  padding: 10px 22px;
 }
 
 .hero-cta-wrap {
