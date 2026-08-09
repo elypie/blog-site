@@ -267,7 +267,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
     }
 
     .icon-box.red {
@@ -288,6 +288,31 @@
     .icon-box.green {
       background-color: rgba(16, 185, 129, 0.08);
       color: #059669;
+    }
+
+    /* Fact Card Hover States */
+    .fact-card-horizontal:hover .icon-box.red,
+    .icon-box.red:hover {
+      background-color: var(--accent-coral);
+      color: #FFF;
+    }
+
+    .fact-card-horizontal:hover .icon-box.amber,
+    .icon-box.amber:hover {
+      background-color: #D97706;
+      color: #FFF;
+    }
+
+    .fact-card-horizontal:hover .icon-box.blue,
+    .icon-box.blue:hover {
+      background-color: #2563EB;
+      color: #FFF;
+    }
+
+    .fact-card-horizontal:hover .icon-box.green,
+    .icon-box.green:hover {
+      background-color: #059669;
+      color: #FFF;
     }
 
     .profile-card-header {
