@@ -74,7 +74,7 @@
   --radius-lg: 14px;
 
   /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(35, 33, 41, 0.04);
+  --shadow-sm: 0 2px 8px rgba(35, 33, 41, 0.08);
   --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.06);
   --shadow-hover: 0 10px 25px rgba(35, 33, 41, 0.10);
   --shadow-focus: 0 0 0 3px rgba(165, 21, 12, 0.20);
@@ -747,7 +747,7 @@ body.dark-theme .nav-link {
 .toc-card:hover,
 .author-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(165, 21, 12, 0.06);
+  box-shadow: 0 10px 30px rgba(165, 21, 12, 0.10);
   background: var(--bg-card-hover);
 }
 
