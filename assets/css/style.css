@@ -2580,7 +2580,7 @@ body.dark-theme .public-header {
 }
 
 body.dark-theme .public-footer {
-  background-color: #121212 !important;
+  background-color: rgba(18, 18, 18, 0.92) !important;
   border-top: 1px solid #2A2A36 !important;
 }
 
@@ -3150,7 +3150,7 @@ body.dark-theme .quick-search-footer {
 
 body.dark-theme .public-footer,
 html.dark-theme .public-footer {
-  background-color: #28262D !important;
+  background-color: rgba(18, 18, 18, 0.92) !important;
   border-top-color: rgba(255, 255, 255, 0.06) !important;
 }
 
