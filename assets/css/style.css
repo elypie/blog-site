@@ -3514,11 +3514,11 @@ body.dark-theme .topic-card {
   bottom: -45px !important;
 }
 
-/* Binary watermark text forming MEOW */
+/* Binary watermark text forming MEOWCOME */
 .hero-binary-meow {
   position: absolute;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 15px;
+  font-size: 11px;
   font-weight: 900;
   color: rgba(229, 91, 68, 0.12);
   text-shadow: 0 0 8px rgba(229, 91, 68, 0.08);
@@ -3527,9 +3527,9 @@ body.dark-theme .topic-card {
   pointer-events: none;
   z-index: 1;
   text-align: center;
-  top: 50%;
+  top: 30px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 }
 
 .hero-binary-meow pre {
