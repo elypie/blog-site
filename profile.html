@@ -372,7 +372,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
     }
 
     .social-icon-box.social-fb {
@@ -417,6 +417,31 @@
     .connect-item-link:hover .social-icon-box {
       transform: scale(1.08);
       box-shadow: 0 4px 12px rgba(165, 21, 12, 0.12);
+    }
+
+    .connect-item-link:hover .social-icon-box.social-fb {
+      background-color: #1877F2;
+      color: #FFF;
+    }
+
+    .connect-item-link:hover .social-icon-box.social-ig {
+      background-color: #E1306C;
+      color: #FFF;
+    }
+
+    .connect-item-link:hover .social-icon-box.social-gh {
+      background-color: #24292F;
+      color: #FFF;
+    }
+
+    body.dark-theme .connect-item-link:hover .social-icon-box.social-gh {
+      background-color: #c9d1d9;
+      color: #0d1117;
+    }
+
+    .connect-item-link:hover .social-icon-box.social-mail {
+      background-color: #EF4444;
+      color: #FFF;
     }
 
     .connect-meta {
