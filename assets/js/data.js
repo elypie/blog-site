@@ -36,8 +36,10 @@ const initialData = {
       author: "Elyssa",
       featured: true,
       isLatest: true,
+      likes: 128,
+      views: "1.2K",
       coverImage: "assets/images/posts/post1-cover.png",
-      summary: "A technical blog post on secure design principles, AI-generated code, and developer obligations under Republic Act No. 10173.",
+      summary: "Exploring the security risks, ethical concerns, and lessons learned from building an application with AI in just 72 hours.",
       toc: [
         { id: "intro", text: "I. Introduction" },
         { 
@@ -209,8 +211,12 @@ function getBlogData() {
           parsed.author.motto = "Code. Create. Protect.";
         }
         parsed.posts.forEach(p => {
-          if (p.summary && p.summary.startsWith('I. Introduction')) {
-            p.summary = "A technical blog post on secure design principles, AI-generated code, and developer obligations under Republic Act No. 10173.";
+          if (p.summary && (p.summary.startsWith('I. Introduction') || p.summary.startsWith('A technical blog post'))) {
+            p.summary = "Exploring the security risks, ethical concerns, and lessons learned from building an application with AI in just 72 hours.";
+          }
+          if (!p.likes) {
+            p.likes = 128;
+            p.views = "1.2K";
           }
           if (!p.coverImage || p.coverImage === 'assets/images/post1-cover.png') {
             p.coverImage = 'assets/images/posts/post1-cover.png';

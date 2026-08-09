@@ -127,22 +127,46 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
             <div class="featured-latest-body">
               <div class="featured-latest-badge-wrap">
-                <span class="badge-category-subtle" style="display: inline-block; padding: 4px 12px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${latest.category}</span>
+                <span class="badge-category-subtle" style="display: inline-block; padding: 6px 14px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 10px; font-size: 12.5px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${latest.category}</span>
               </div>
-              <h3 class="featured-latest-title">${latest.title}</h3>
-              <div class="featured-latest-meta">
-                <span style="display: inline-flex; align-items: center;">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                  ${latest.date}
-                </span>
+              <h3 class="featured-latest-title" style="font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; margin-top: 8px; margin-bottom: 12px; line-height: 1.3; color: var(--text-main);">${latest.title}</h3>
+              <div class="featured-latest-meta" style="display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 13.5px; font-weight: 500; margin-bottom: 16px;">
+                <span>${latest.date}</span>
                 <span>•</span>
-                <span style="display: inline-flex; align-items: center;">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                  ${latest.readTime}
+                <span>${latest.readTime}</span>
+                <span>•</span>
+                <span style="display: inline-flex; align-items: center; gap: 4px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.8;">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  ${latest.author || 'Ely'}
                 </span>
               </div>
-              <p class="featured-latest-summary">${latest.summary}</p>
-              <a href="blog-detail.html?id=${latest.id}" class="btn-read-more" style="align-self: flex-start;">Continue Reading →</a>
+              <p class="featured-latest-summary" style="font-size: 15px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6;">${latest.summary}</p>
+              
+              <div class="featured-latest-footer" style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-top: 1px solid var(--border-light); padding-top: 16px; margin-top: auto;">
+                <div style="display: flex; align-items: center; gap: 16px; color: var(--text-muted); font-size: 14px; font-weight: 500;">
+                  <span style="display: inline-flex; align-items: center; gap: 6px;">
+                    <!-- Heart Icon -->
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E55B44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-coral);">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    ${latest.likes || 128}
+                  </span>
+                  <span style="display: inline-flex; align-items: center; gap: 6px;">
+                    <!-- Eye Icon -->
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    ${latest.views || '1.2K'}
+                  </span>
+                </div>
+                <a href="blog-detail.html?id=${latest.id}" style="color: var(--accent-coral); font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 4px; transition: transform var(--transition-fast);" class="read-more-link" onclick="event.stopPropagation();">
+                  Read more <span style="transition: transform var(--transition-fast);">→</span>
+                </a>
+              </div>
             </div>
           </div>
         `;
@@ -210,11 +234,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentCategory = 'All';
     let currentSearch = '';
 
+    // Check for category query parameter
+    const catParam = new URLSearchParams(window.location.search).get('category');
+    if (catParam) {
+      currentCategory = catParam;
+    }
+
     // Render category filter pills
     if (categoryPillsContainer) {
-      let pillsHTML = `<button class="filter-pill active" data-cat="All">All</button>`;
+      let pillsHTML = `<button class="filter-pill ${currentCategory === 'All' ? 'active' : ''}" data-cat="All">All</button>`;
       data.categories.forEach(cat => {
-        pillsHTML += `<button class="filter-pill" data-cat="${cat.name}">${cat.name}</button>`;
+        pillsHTML += `<button class="filter-pill ${currentCategory === cat.name ? 'active' : ''}" data-cat="${cat.name}">${cat.name}</button>`;
       });
       categoryPillsContainer.innerHTML = pillsHTML;
 
@@ -794,5 +824,28 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Initialize interactive extensions
   initReadingProgressBar();
   initQuickSearchModal();
+
+  // Initialize newsletter subscription form handling
+  function initNewsletterSubscription() {
+    const subscribeForms = document.querySelectorAll('.footer-subscribe-form');
+    subscribeForms.forEach(form => {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = form.querySelector('.footer-subscribe-input');
+        const email = input.value.trim();
+        if (email) {
+          const container = form.parentElement;
+          container.innerHTML = `
+            <h3 class="footer-heading">Stay updated</h3>
+            <p style="color: #10B981; font-size: 14px; font-weight: 600; margin-top: 12px; display: flex; align-items: center; gap: 6px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Thank you for subscribing!
+            </p>
+          `;
+        }
+      });
+    });
+  }
+  initNewsletterSubscription();
 });
 
