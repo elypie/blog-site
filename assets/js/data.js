@@ -8,7 +8,7 @@ const initialData = {
     school: "Father Saturnino Urios University",
     yearLevel: "3rd Year",
     motto: "Code. Create. Protect.",
-    email: "ely.admin@elysblog.com",
+    email: "ma.contreras@urios.edu.ph",
     bio: "Hi! I'm a 3rd-year BSIT student at Father Saturnino Urios University who is passionate about designing and developing websites. Alongside web development, I aim to expand my knowledge of cybersecurity to better understand how to build secure and reliable applications. Through this blog, I share my knowledge, projects, experiences, and reflections as I continue exploring the ever-evolving world of technology, web development, and cybersecurity.",
     facebook: "https://facebook.com/elycontz",
     github: "https://github.com/elypie",
