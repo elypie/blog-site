@@ -3493,9 +3493,7 @@ html.dark-theme .footer-hr {
 
 .author-section .info-card:hover {
   transform: translateY(-4px) !important;
-  box-shadow: var(--shadow-hover) !important;
   border-color: var(--accent-coral) !important;
-  background: var(--bg-card) !important;
 }
 
 /* Latest Post card Read More link hover animation */
