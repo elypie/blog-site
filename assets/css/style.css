@@ -3507,3 +3507,9 @@ body.dark-theme .topic-card {
   background-color: #151419 !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
+
+/* Sizing and alignment overrides for the Hero pixel art cat */
+.hero-pixel-cat {
+  height: 400px !important;
+  bottom: 30px !important;
+}
