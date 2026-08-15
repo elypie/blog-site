@@ -1863,12 +1863,16 @@ body.dark-theme .hero-red-card {
 
 body.dark-theme .btn-primary {
   background: linear-gradient(135deg, #A5150C 0%, #830F07 100%) !important;
+  border: 1px solid transparent !important;
+  padding: 11px 25px !important;
   box-shadow: 0 4px 18px rgba(165, 21, 12, 0.4) !important;
 }
 
 body.dark-theme .btn-primary:hover {
-  background: linear-gradient(135deg, #C41C11 0%, #9B1209 100%) !important;
-  box-shadow: 0 6px 22px rgba(165, 21, 12, 0.55) !important;
+  background: rgba(165, 21, 12, 0.05) !important;
+  color: var(--accent-coral) !important;
+  border-color: var(--accent-coral) !important;
+  box-shadow: 0 6px 22px rgba(165, 21, 12, 0.25) !important;
 }
 
 body.dark-theme .badge-category,
