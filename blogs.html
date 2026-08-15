@@ -18,6 +18,14 @@
       font-size: 15px;
       margin-bottom: 20px;
       outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .search-input:hover {
+      border-color: var(--accent-coral);
+    }
+    .search-input:focus {
+      border-color: var(--accent-coral);
+      box-shadow: var(--shadow-focus);
     }
     .filter-pill {
       padding: 6px 16px;

@@ -438,6 +438,11 @@ body.dark-theme .nav-link {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
+.search-input:hover,
+.input-field:hover {
+  border-color: var(--accent-coral);
+}
+
 .search-input:focus,
 .input-field:focus {
   border-color: var(--accent-coral);
