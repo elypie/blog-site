@@ -3580,6 +3580,24 @@ body.dark-theme .topic-card {
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
+/* Dark theme overrides for blog-detail page cards to match topic cards */
+body.dark-theme .toc-card,
+body.dark-theme .author-card,
+body.dark-theme details.mobile-toc-details,
+body.dark-theme #article-detail-root .info-card {
+  background-color: #151419 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-theme .toc-card:hover,
+body.dark-theme .author-card:hover,
+body.dark-theme #article-detail-root .info-card:hover {
+  background-color: #151419 !important;
+  border-color: var(--accent-coral) !important;
+  box-shadow: 0 10px 30px rgba(165, 21, 12, 0.15) !important;
+}
+
+
 /* Sizing and interactive positioning for the Hero cat showcase */
 .hero-cat-showcase {
   position: absolute;
