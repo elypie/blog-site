@@ -584,6 +584,7 @@ body.dark-theme .nav-link {
   transition: color var(--transition-fast) !important;
   display: -webkit-box !important;
   -webkit-line-clamp: 2 !important; /* Limit title to 2 lines max */
+  line-clamp: 2 !important;
   -webkit-box-orient: vertical !important;
   overflow: hidden !important;
 }
@@ -656,6 +657,7 @@ body.dark-theme .nav-link {
   .featured-latest-title {
     font-size: 20px !important;
     -webkit-line-clamp: none !important; /* Show full title if needed on mobile */
+    line-clamp: none !important;
   }
 }
 
