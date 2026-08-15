@@ -38,9 +38,10 @@ body.admin-body:not(.dark-theme) {
 /* Dark Mode Overrides for Admin Body & Login */
 body.dark-theme.admin-body,
 body.dark-theme .login-container {
-  background-color: #121212 !important;
-  background-image: radial-gradient(circle at 50% 0%, rgba(165, 21, 12, 0.20) 0%, #121212 70%) !important;
-  background-attachment: fixed !important;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(165, 21, 12, 0.22) 0%, transparent 45%),
+    radial-gradient(circle at 15% 88%, rgba(165, 21, 12, 0.14) 0%, transparent 50%),
+    linear-gradient(135deg, #0D0C11 0%, #15131C 50%, #1D131B 100%) fixed !important;
   color: #F3F4F6 !important;
 }
 
@@ -653,8 +654,8 @@ body.dark-theme .badge-status.draft {
 
 /* Admin Dark Theme Overrides */
 body.admin-body.dark-theme {
-  --bg-primary: #19171E;
-  --bg-card: #232129;
+  --bg-primary: #0D0C11;
+  --bg-card: #151419;
   --border-light: rgba(255, 255, 255, 0.08);
   --text-main: #FFFFFF;
   --text-muted: #A09CA8;
@@ -670,7 +671,7 @@ body.admin-body.dark-theme .input-field,
 body.admin-body.dark-theme .editor-select,
 body.admin-body.dark-theme .upload-dropzone,
 body.admin-body.dark-theme .media-card {
-  background-color: #232129;
+  background-color: #151419;
   color: #FFFFFF;
   border-color: rgba(255, 255, 255, 0.08);
 }
@@ -680,9 +681,9 @@ body.dark-theme .admin-sidebar,
 body.dark-theme .admin-topbar,
 body.dark-theme .editor-toolbar,
 body.dark-theme .editor-statusbar {
-  background-color: #1C1C24 !important;
+  background-color: #151419 !important;
   background-image: none !important;
-  border-color: #2A2A36 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
   color: #F3F4F6 !important;
 }
 
@@ -692,9 +693,9 @@ body.dark-theme .metric-card,
 body.dark-theme .admin-table-container,
 body.dark-theme .wysiwyg-wrapper,
 body.dark-theme .admin-content-body form > div {
-  background-color: #1C1C24 !important;
+  background-color: #151419 !important;
   background-image: none !important;
-  border: 1px solid #2A2A36 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   color: #F3F4F6 !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
 }
@@ -720,8 +721,8 @@ body.dark-theme .admin-name {
 body.dark-theme .input-field,
 body.dark-theme .select-field,
 body.dark-theme .textarea-field {
-  background-color: #121218 !important;
-  border-color: #2A2A36 !important;
+  background-color: #0D0C11 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
   color: #F3F4F6 !important;
 }
 
@@ -730,18 +731,18 @@ body.dark-theme .input-field::placeholder {
 }
 
 body.dark-theme .admin-table th {
-  background-color: #181820 !important;
+  background-color: #0D0C11 !important;
   color: #F3F4F6 !important;
-  border-bottom-color: #2A2A36 !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 body.dark-theme .admin-table td {
-  border-bottom-color: #2A2A36 !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
   color: #F3F4F6 !important;
 }
 
 body.dark-theme .editor-content-area {
-  background-color: #121218 !important;
+  background-color: #0D0C11 !important;
   color: #F3F4F6 !important;
 }
 
