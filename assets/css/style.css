@@ -417,23 +417,7 @@ body.dark-theme .nav-link {
   transform: translateY(0);
 }
 
-/* Dark theme overrides for secondary buttons to be solid red */
-body.dark-theme .btn-secondary,
-html.dark-theme .btn-secondary {
-  background: var(--accent-coral) !important;
-  border: 1px solid var(--accent-coral) !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 4px 18px rgba(165, 21, 12, 0.4) !important;
-}
 
-body.dark-theme .btn-secondary:hover,
-html.dark-theme .btn-secondary:hover {
-  background: #C41C11 !important;
-  border-color: #C41C11 !important;
-  color: #FFFFFF !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 22px rgba(165, 21, 12, 0.55) !important;
-}
 
 .hero-cta-wrap {
   display: flex;
@@ -1863,18 +1847,13 @@ body.dark-theme .hero-red-card {
 }
 
 body.dark-theme .btn-primary {
-  background: rgba(165, 21, 12, 0.05) !important;
-  border: 1px solid rgba(165, 21, 12, 0.45) !important;
-  color: var(--accent-coral) !important;
-  box-shadow: none !important;
+  background: linear-gradient(135deg, #A5150C 0%, #830F07 100%) !important;
+  box-shadow: 0 4px 18px rgba(165, 21, 12, 0.4) !important;
 }
 
 body.dark-theme .btn-primary:hover {
-  background: var(--accent-coral) !important;
-  color: #FFFFFF !important;
-  border-color: var(--accent-coral) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 20px rgba(165, 21, 12, 0.4) !important;
+  background: linear-gradient(135deg, #C41C11 0%, #9B1209 100%) !important;
+  box-shadow: 0 6px 22px rgba(165, 21, 12, 0.55) !important;
 }
 
 body.dark-theme .badge-category,
