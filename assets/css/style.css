@@ -3714,7 +3714,7 @@ body.dark-theme .profile-page-container .info-card:hover {
   line-height: 1.15;
   user-select: none;
   pointer-events: none;
-  z-index: 1;
+  z-index: 5;
   text-align: center;
   top: 15px;
   left: 50%;
@@ -3947,7 +3947,7 @@ body.dark-theme .skeleton {
 
 .cat-speech-bubble {
   position: absolute;
-  top: 10px; /* Position above the cat's head */
+  top: 140px; /* Position below the HELLO watermark but above cat's head */
   left: 50%;
   transform: translateX(-50%) scale(0.9);
   width: 250px;
@@ -4056,4 +4056,12 @@ body:not(.dark-theme) .bubble-arrow {
 
 body:not(.dark-theme) .bubble-arrow::after {
   border-top-color: #FFFFFF;
+}
+
+/* Responsive adjustment for speech bubble on mobile */
+@media (max-width: 480px) {
+  .cat-speech-bubble {
+    top: 75px !important;
+    width: 220px !important;
+  }
 }
