@@ -3329,7 +3329,7 @@ html.dark-theme .footer-hr {
 }
 
 .copyright-icon {
-  color: var(--accent-coral);
+  color: inherit;
   margin-right: 4px;
   font-weight: 700;
 }
