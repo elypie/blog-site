@@ -3327,10 +3327,13 @@ body.dark-theme .public-footer .social-icon {
   background-color: #37353C !important;
 }
 
-.public-footer .social-icon:hover {
-  color: #FFFFFF;
+.public-footer .social-icon:hover,
+html.dark-theme .public-footer .social-icon:hover,
+body.dark-theme .public-footer .social-icon:hover {
+  color: #FFFFFF !important;
   background-color: var(--accent-coral) !important;
   transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(165, 21, 12, 0.35) !important;
 }
 
 .footer-hr {
