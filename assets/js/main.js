@@ -127,6 +127,7 @@ function initScrollToTopButton() {
 document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initScrollToTopButton();
+  initInteractiveCat();
 });
 
 // ======================================================
@@ -1082,5 +1083,98 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
   initNewsletterSubscription();
+
+  // --- INTERACTIVE RETRO SPEECH-BUBBLE MASCOT (CAT) ---
+  function initInteractiveCat() {
+    const catBody = document.querySelector('.hero-cat-body');
+    const speechBubble = document.getElementById('cat-speech-bubble');
+    const speechText = document.getElementById('speech-text');
+    
+    if (!catBody || !speechBubble || !speechText) return;
+
+    const sayings = [
+      "Why did the developer go broke? Because he used up all his cache!",
+      "There are 10 types of people: those who understand binary, and those who don't.",
+      "Why do programmers prefer dark mode? Because light attracts bugs!",
+      "What is a hacker's favorite drink? Security-Tea!",
+      "To understand recursion, you must first understand recursion.",
+      "Why did the database administrator leave his wife? She had one-to-many relationships.",
+      "How do you get rich in cybersecurity? By finding a lot of bugs!",
+      "Tip: Never reuse passwords. Use a password manager and turn on 2FA!",
+      "Tip: Keep your system updated. Unpatched software is a hacker's favorite entry point.",
+      "Tip: Double check email senders before clicking links. Phishing is real!",
+      "Tip: Use a VPN when connecting to public WiFi. Protect your network traffic!",
+      "Meow! Welcome to EL Journal. Enjoy your reading!",
+      "Have you checked out my Profile page yet? Just click 'Profile' in the header!",
+      "Read my latest article about Security Principles on the Blogs page!"
+    ];
+
+    let hideTimeout = null;
+    let isTyping = false;
+
+    const typeText = (text) => {
+      if (isTyping) return;
+      isTyping = true;
+      speechText.textContent = '';
+      let idx = 0;
+      
+      const interval = setInterval(() => {
+        if (idx < text.length) {
+          speechText.textContent += text[idx];
+          idx++;
+        } else {
+          clearInterval(interval);
+          isTyping = false;
+        }
+      }, 25);
+    };
+
+    const showBubble = (text) => {
+      clearTimeout(hideTimeout);
+      speechBubble.style.display = 'block';
+      // Force a reflow for transition
+      speechBubble.offsetHeight;
+      speechBubble.classList.add('is-visible');
+      typeText(text);
+    };
+
+    const hideBubble = () => {
+      clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(() => {
+        speechBubble.classList.remove('is-visible');
+        setTimeout(() => {
+          if (!speechBubble.classList.contains('is-visible')) {
+            speechBubble.style.display = 'none';
+          }
+        }, 300);
+      }, 5000); // Display the bubble for 5 seconds
+    };
+
+    // Hover Event: show intro meow
+    catBody.addEventListener('mouseenter', () => {
+      if (!speechBubble.classList.contains('is-visible')) {
+        showBubble("Meow! Click me for a security joke or tip!");
+        hideBubble();
+      }
+    });
+
+    // Click Event: get random joke/tip
+    catBody.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const randomIdx = Math.floor(Math.random() * sayings.length);
+      showBubble(sayings[randomIdx]);
+      hideBubble();
+    });
+
+    // Page-click Event: dismiss bubble
+    document.addEventListener('click', () => {
+      if (speechBubble.classList.contains('is-visible')) {
+        speechBubble.classList.remove('is-visible');
+        setTimeout(() => {
+          speechBubble.style.display = 'none';
+        }, 300);
+      }
+    });
+  }
 });
 

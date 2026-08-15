@@ -3918,4 +3918,142 @@ body.dark-theme .skeleton {
     transform: none !important;
     animation: none !important;
   }
+  .hero-cat-body:hover {
+    animation: none !important;
+  }
+}
+
+/* ======================================================
+   INTERACTIVE MASCOT SPEECH BUBBLE & BOUNCE
+   ====================================================== */
+.hero-cat-body {
+  pointer-events: auto !important;
+  cursor: pointer;
+}
+
+/* Bouncing animation on hover */
+.hero-cat-body:hover {
+  animation: cat-bounce 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes cat-bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-8px);
+  }
+}
+
+.cat-speech-bubble {
+  position: absolute;
+  top: 10px; /* Position above the cat's head */
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  width: 250px;
+  background: #151419;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.cat-speech-bubble.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+  pointer-events: auto;
+}
+
+.bubble-terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.terminal-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.terminal-dot.red { background: #EF4444; }
+.terminal-dot.yellow { background: #F59E0B; }
+.terminal-dot.green { background: #10B981; }
+
+.terminal-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-left: 4px;
+  text-transform: lowercase;
+}
+
+.bubble-content {
+  color: #10B981;
+}
+
+.bubble-content .prompt {
+  color: var(--accent-coral);
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+#speech-text {
+  color: #F3F4F6;
+}
+
+.bubble-arrow {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(255, 255, 255, 0.15);
+}
+
+.bubble-arrow::after {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: -7px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid #151419;
+}
+
+/* Light Theme Styling Overrides for Bubble */
+body:not(.dark-theme) .cat-speech-bubble {
+  background: #FFFFFF;
+  border-color: #E5E7EB;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+body:not(.dark-theme) .bubble-terminal-header {
+  border-bottom-color: #F3F4F6;
+}
+
+body:not(.dark-theme) #speech-text {
+  color: #1F2937;
+}
+
+body:not(.dark-theme) .bubble-arrow {
+  border-top-color: #E5E7EB;
+}
+
+body:not(.dark-theme) .bubble-arrow::after {
+  border-top-color: #FFFFFF;
 }
