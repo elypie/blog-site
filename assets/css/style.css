@@ -3858,7 +3858,8 @@ body.dark-theme .scroll-to-top-btn:hover {
   will-change: opacity, transform;
 }
 
-.reveal-on-scroll.revealed {
+.reveal-on-scroll.revealed,
+.reveal-on-scroll.is-visible {
   opacity: 1 !important;
   transform: translateY(0) !important;
 }

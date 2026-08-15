@@ -754,9 +754,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.blog-item-card, .info-card, .metric-card, .toc-card, .author-card, section').forEach(el => {
-      if (!el.classList.contains('reveal-on-scroll')) {
+      if (el.dataset.observed !== 'true') {
         el.classList.add('reveal-on-scroll');
         observer.observe(el);
+        el.dataset.observed = 'true';
       }
     });
   }
