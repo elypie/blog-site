@@ -3714,7 +3714,7 @@ body.dark-theme .profile-page-container .info-card:hover {
   line-height: 1.15;
   user-select: none;
   pointer-events: none;
-  z-index: 5;
+  z-index: 1;
   text-align: center;
   top: 15px;
   left: 50%;
@@ -3947,9 +3947,9 @@ body.dark-theme .skeleton {
 
 .cat-speech-bubble {
   position: absolute;
-  top: 140px; /* Position below the HELLO watermark but above cat's head */
-  left: 50%;
-  transform: translateX(-50%) scale(0.9);
+  top: 130px; /* Position next to the cat's head */
+  right: 15px; /* On the right side */
+  transform: scale(0.9);
   width: 250px;
   background: #151419;
   border: 2px solid rgba(255, 255, 255, 0.15);
@@ -3967,7 +3967,7 @@ body.dark-theme .skeleton {
 
 .cat-speech-bubble.is-visible {
   opacity: 1;
-  transform: translateX(-50%) scale(1);
+  transform: scale(1);
   pointer-events: auto;
 }
 
@@ -4013,26 +4013,27 @@ body.dark-theme .skeleton {
 
 .bubble-arrow {
   position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: -8px;
+  top: 30px; /* Position it on the left-side pointing to the cat */
   width: 0;
   height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 8px solid rgba(255, 255, 255, 0.15);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid rgba(255, 255, 255, 0.15);
+  border-left: none;
 }
 
 .bubble-arrow::after {
   content: '';
   position: absolute;
-  top: -9px;
-  left: -7px;
+  top: -7px;
+  left: 2px;
   width: 0;
   height: 0;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-top: 7px solid #151419;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 7px solid #151419;
+  border-left: none;
 }
 
 /* Light Theme Styling Overrides for Bubble */
@@ -4051,17 +4052,11 @@ body:not(.dark-theme) #speech-text {
 }
 
 body:not(.dark-theme) .bubble-arrow {
-  border-top-color: #E5E7EB;
+  border-right-color: #E5E7EB;
+  border-top-color: transparent;
 }
 
 body:not(.dark-theme) .bubble-arrow::after {
-  border-top-color: #FFFFFF;
-}
-
-/* Responsive adjustment for speech bubble on mobile */
-@media (max-width: 480px) {
-  .cat-speech-bubble {
-    top: 75px !important;
-    width: 220px !important;
-  }
+  border-right-color: #FFFFFF;
+  border-top-color: transparent;
 }
