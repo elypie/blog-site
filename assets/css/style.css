@@ -1350,7 +1350,7 @@ body.dark-theme .nav-link {
 
 .footer-hr {
   border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  border-top: 1px solid var(--navbar-border);
   margin: 40px 0 24px 0;
 }
 
@@ -3314,12 +3314,12 @@ body.dark-theme .public-footer .social-icon {
 
 .footer-hr {
   border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  border-top: 1px solid var(--navbar-border);
   margin-bottom: 24px;
 }
 
 html.dark-theme .footer-hr {
-  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  border-top: 1px solid var(--navbar-border);
 }
 
 .copyright-text {
