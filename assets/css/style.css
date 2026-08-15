@@ -736,7 +736,7 @@ body.dark-theme .nav-link {
 .toc-card,
 .author-card {
   background: var(--bg-card);
-  border: 2px solid var(--border-light);
+  border: 1px solid var(--border-light);
   border-radius: 16px;
   padding: 28px;
   box-shadow: var(--shadow-sm);
@@ -3415,7 +3415,7 @@ html.dark-theme .footer-hr {
 
 .topic-card {
   background: var(--bg-card);
-  border: 2px solid var(--border-light);
+  border: 1px solid var(--border-light);
   border-radius: 16px;
   padding: 24px 16px;
   text-align: center;
