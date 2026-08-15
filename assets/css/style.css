@@ -3947,9 +3947,9 @@ body.dark-theme .skeleton {
 
 .cat-speech-bubble {
   position: absolute;
-  top: 130px; /* Position next to the cat's head */
-  right: 20px; /* On the right side */
-  transform: scale(0.9);
+  top: 10px; /* Position above the cat's head */
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
   width: 250px;
   background: #151419;
   border: 2px solid rgba(255, 255, 255, 0.15);
@@ -3967,7 +3967,7 @@ body.dark-theme .skeleton {
 
 .cat-speech-bubble.is-visible {
   opacity: 1;
-  transform: scale(1);
+  transform: translateX(-50%) scale(1);
   pointer-events: auto;
 }
 
@@ -4013,27 +4013,26 @@ body.dark-theme .skeleton {
 
 .bubble-arrow {
   position: absolute;
-  left: -8px;
-  top: 30px; /* Position it on the left-side pointing to the cat */
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-  border-right: 8px solid rgba(255, 255, 255, 0.15);
-  border-left: none;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(255, 255, 255, 0.15);
 }
 
 .bubble-arrow::after {
   content: '';
   position: absolute;
-  top: -7px;
-  left: 2px;
+  top: -9px;
+  left: -7px;
   width: 0;
   height: 0;
-  border-top: 7px solid transparent;
-  border-bottom: 7px solid transparent;
-  border-right: 7px solid #151419;
-  border-left: none;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid #151419;
 }
 
 /* Light Theme Styling Overrides for Bubble */
@@ -4052,11 +4051,9 @@ body:not(.dark-theme) #speech-text {
 }
 
 body:not(.dark-theme) .bubble-arrow {
-  border-right-color: #E5E7EB;
-  border-top-color: transparent;
+  border-top-color: #E5E7EB;
 }
 
 body:not(.dark-theme) .bubble-arrow::after {
-  border-right-color: #FFFFFF;
-  border-top-color: transparent;
+  border-top-color: #FFFFFF;
 }
