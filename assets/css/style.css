@@ -3522,6 +3522,39 @@ body.dark-theme .author-section .info-card:hover {
   border-color: var(--border-light) !important;
 }
 
+/* Custom View Full Profile button styling (Light and Dark Themes) */
+.author-section .btn-secondary {
+  background-color: var(--accent-coral-light) !important;
+  border: 1px solid rgba(165, 21, 12, 0.25) !important;
+  color: var(--accent-coral) !important;
+  box-shadow: none !important;
+}
+
+.author-section .btn-secondary:hover {
+  background-color: var(--accent-coral) !important;
+  color: #FFFFFF !important;
+  border-color: var(--accent-coral) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(165, 21, 12, 0.3) !important;
+}
+
+body.dark-theme .author-section .btn-secondary,
+html.dark-theme .author-section .btn-secondary {
+  background-color: rgba(165, 21, 12, 0.08) !important;
+  border: 1px solid rgba(165, 21, 12, 0.45) !important;
+  color: var(--accent-coral) !important;
+  box-shadow: none !important;
+}
+
+body.dark-theme .author-section .btn-secondary:hover,
+html.dark-theme .author-section .btn-secondary:hover {
+  background-color: var(--accent-coral) !important;
+  color: #FFFFFF !important;
+  border-color: var(--accent-coral) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(165, 21, 12, 0.4) !important;
+}
+
 /* Latest Post card Read More link hover animation */
 .read-more-link:hover span,
 .featured-latest-card:hover .read-more-link span {
