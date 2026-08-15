@@ -3949,7 +3949,7 @@ body.dark-theme .skeleton {
   position: absolute;
   top: 10px; /* Position above the cat's head */
   left: 50%;
-  transform: translateX(-50%) scale(0.9);
+  transform: translateX(-50%) scale(1);
   width: 250px;
   background: #151419;
   border: 2px solid rgba(255, 255, 255, 0.15);
@@ -3957,18 +3957,12 @@ body.dark-theme .skeleton {
   padding: 12px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
   z-index: 10;
-  opacity: 0;
-  pointer-events: none;
+  opacity: 1;
+  pointer-events: auto;
   font-family: 'Fira Code', 'Courier New', monospace;
   font-size: 12px;
   line-height: 1.4;
   transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.cat-speech-bubble.is-visible {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-  pointer-events: auto;
 }
 
 .bubble-terminal-header {

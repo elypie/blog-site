@@ -1109,7 +1109,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       "What did the router say to the hacker? 'You shall not packet!'"
     ];
 
-    let hideTimeout = null;
     let isTyping = false;
 
     const typeText = (text) => {
@@ -1129,51 +1128,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       }, 25);
     };
 
-    const showBubble = (text) => {
-      clearTimeout(hideTimeout);
-      speechBubble.style.display = 'block';
-      // Force a reflow for transition
-      speechBubble.offsetHeight;
-      speechBubble.classList.add('is-visible');
-      typeText(text);
-    };
-
-    const hideBubble = () => {
-      clearTimeout(hideTimeout);
-      hideTimeout = setTimeout(() => {
-        speechBubble.classList.remove('is-visible');
-        setTimeout(() => {
-          if (!speechBubble.classList.contains('is-visible')) {
-            speechBubble.style.display = 'none';
-          }
-        }, 300);
-      }, 5000); // Display the bubble for 5 seconds
-    };
-
-    // Hover Event: show intro meow
-    catBody.addEventListener('mouseenter', () => {
-      if (!speechBubble.classList.contains('is-visible')) {
-        showBubble("Meow! Click me for a security joke!");
-        hideBubble();
-      }
-    });
-
-    // Click Event: get random joke/tip
+    // Click Event: get random joke
     catBody.addEventListener('click', (e) => {
       e.stopPropagation();
       const randomIdx = Math.floor(Math.random() * sayings.length);
-      showBubble(sayings[randomIdx]);
-      hideBubble();
-    });
-
-    // Page-click Event: dismiss bubble
-    document.addEventListener('click', () => {
-      if (speechBubble.classList.contains('is-visible')) {
-        speechBubble.classList.remove('is-visible');
-        setTimeout(() => {
-          speechBubble.style.display = 'none';
-        }, 300);
-      }
+      typeText(sayings[randomIdx]);
     });
   }
 });
