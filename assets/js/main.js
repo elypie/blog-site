@@ -127,7 +127,6 @@ function initScrollToTopButton() {
 document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initScrollToTopButton();
-  initInteractiveCat();
 });
 
 // ======================================================
@@ -973,7 +972,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const showcase = document.querySelector('.hero-cat-showcase');
     if (!showcase) return;
 
-    const catBody = showcase.querySelector('.hero-cat-body');
+    const catBody = showcase.querySelector('.hero-cat-body-wrap') || showcase.querySelector('.hero-cat-body');
     const watermark = showcase.querySelector('.hero-binary-meow');
     const symbols = showcase.querySelectorAll('.hero-cat-symbol');
 
@@ -1058,6 +1057,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     animate();
   }
   initHeroCatParallax();
+  initInteractiveCat();
 
 
 
