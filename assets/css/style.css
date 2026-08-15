@@ -3521,12 +3521,18 @@ html.dark-theme .footer-hr {
   border-color: var(--border-light) !important;
 }
 
+body.dark-theme .author-section .info-card,
+html.dark-theme .author-section .info-card {
+  background-color: #151419 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
 body.dark-theme .author-section .info-card:hover,
 html.dark-theme .author-section .info-card:hover {
   transform: none !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
-  background: #1C1C24 !important;
-  border-color: #2A2A36 !important;
+  background-color: #151419 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 /* Custom View Full Profile button styling (Light and Dark Themes) */
