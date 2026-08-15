@@ -535,6 +535,14 @@ document.addEventListener('DOMContentLoaded', async () => {
           <div class="toc-card is-accordion expanded" id="main-toc-accordion" style="margin-bottom: 32px; width: 100%; padding: 20px 24px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 20px; box-shadow: var(--shadow-sm); transition: all 0.3s ease;">
             <div class="toc-card-header" onclick="window.toggleMainTocAccordion()" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none;">
               <h3 class="toc-title" style="font-size: 16px; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.85; color: var(--accent-coral);">
+                  <line x1="8" y1="6" x2="21" y2="6"></line>
+                  <line x1="8" y1="12" x2="21" y2="12"></line>
+                  <line x1="8" y1="18" x2="21" y2="18"></line>
+                  <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                  <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                  <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                </svg>
                 <span>On this page</span>
               </h3>
               <button type="button" class="toc-accordion-btn" aria-label="Toggle Outline" style="background: transparent; border: none; padding: 4px; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; transition: transform 0.3s ease;">
