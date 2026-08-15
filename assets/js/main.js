@@ -1099,14 +1099,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       "What is a hacker's favorite drink? Security-Tea!",
       "To understand recursion, you must first understand recursion.",
       "Why did the database administrator leave his wife? She had one-to-many relationships.",
-      "How do you get rich in cybersecurity? By finding a lot of bugs!",
-      "Tip: Never reuse passwords. Use a password manager and turn on 2FA!",
-      "Tip: Keep your system updated. Unpatched software is a hacker's favorite entry point.",
-      "Tip: Double check email senders before clicking links. Phishing is real!",
-      "Tip: Use a VPN when connecting to public WiFi. Protect your network traffic!",
-      "Meow! Welcome to EL Journal. Enjoy your reading!",
-      "Have you checked out my Profile page yet? Just click 'Profile' in the header!",
-      "Read my latest article about Security Principles on the Blogs page!"
+      "How do you get rich in cybersecurity? By finding a lot of cyber bugs!",
+      "Why did the hacker get kicked out of the party? Because he kept scanning the ports!",
+      "A SQL query walks into a bar, walks up to two tables and asks: 'Can I join you?'",
+      "Why do hackers love passwords like '123456'? Because it saves them from guessing!",
+      "Why was the computer cold? It left its Windows open!",
+      "What is a security expert's favorite game? Hide and encrypt!",
+      "Why don't security pros play hide and seek? Good luck hiding from their IP tracker!",
+      "What did the router say to the hacker? 'You shall not packet!'"
     ];
 
     let hideTimeout = null;
@@ -1153,7 +1153,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Hover Event: show intro meow
     catBody.addEventListener('mouseenter', () => {
       if (!speechBubble.classList.contains('is-visible')) {
-        showBubble("Meow! Click me for a security joke or tip!");
+        showBubble("Meow! Click me for a security joke!");
         hideBubble();
       }
     });
