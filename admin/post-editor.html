@@ -6,6 +6,7 @@
   <title>Blog Editor - Ely's Blog Admin</title>
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/admin.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -163,7 +164,7 @@
           <!-- Right Column: Professional WYSIWYG Editor -->
           <div class="editor-container" id="wysiwyg-editor-container">
             <!-- WYSIWYG Toolbar -->
-            <div class="editor-toolbar">
+            <div class="editor-toolbar" style="display: none !important;">
               <!-- Group 1: History -->
               <div class="editor-toolbar-group">
                 <button type="button" class="editor-btn" data-cmd="undo" title="Undo (Ctrl+Z)">
@@ -289,7 +290,7 @@
 
             <!-- Contenteditable Canvas -->
             <div class="editor-canvas-wrapper">
-              <div id="wysiwyg-content-area" class="editor-content-area" contenteditable="true" placeholder="Start writing your blog content here... You can type text, format headings, insert images, code blocks, tables, and quote blocks!"></div>
+              <textarea id="wysiwyg-content-area" class="editor-content-area" placeholder="Start writing your blog content here in Markdown..."></textarea>
             </div>
 
             <!-- Statusbar -->
@@ -341,6 +342,8 @@
   <script src="../assets/js/supabase-client.js"></script>
   <script src="../assets/js/data.js"></script>
   <script src="../assets/js/admin.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       const data = (typeof getBlogDataAsync === 'function') 
@@ -365,6 +368,25 @@
       const wordCountEl = document.getElementById('editor-word-count');
       const charCountEl = document.getElementById('editor-char-count');
       const autosaveStatusEl = document.getElementById('editor-autosave-status');
+
+      // Initialize EasyMDE Editor
+      const easyMDE = new EasyMDE({
+        element: document.getElementById('wysiwyg-content-area'),
+        spellChecker: false,
+        placeholder: "Start writing your blog content here in Markdown...",
+        status: false,
+        renderingConfig: {
+          singleLineBreaks: false,
+          codeSyntaxHighlighting: true
+        },
+        toolbar: [
+          "bold", "italic", "heading", "|",
+          "quote", "unordered-list", "ordered-list", "|",
+          "link", "image", "code", "table", "|",
+          "preview", "side-by-side", "fullscreen", "|",
+          "guide"
+        ]
+      });
 
       // Featured Image Upload Dropzone & Live Preview Elements
       const imageDropzone = document.getElementById('image-dropzone');
@@ -455,8 +477,8 @@
           if (currentPost.coverImage) {
             showImagePreview(currentPost.coverImage, currentPost.coverImage.split('/').pop() || 'Cover Image');
           }
-          if (editorCanvas) {
-            editorCanvas.innerHTML = currentPost.content || '';
+          if (easyMDE) {
+            easyMDE.value(currentPost.content || '');
           }
           updateEditorStats();
         }
@@ -610,9 +632,8 @@
         const title = titleInput.value.trim();
         if (!title) { alert("Please enter article title"); return; }
 
-        const htmlContent = editorCanvas.innerHTML;
-        const plainText = editorCanvas.innerText.trim();
-        const textSummary = plainText.slice(0, 160).replace(/\n/g, ' ') + '...';
+        const plainText = easyMDE.value().trim();
+        const textSummary = plainText.slice(0, 160).replace(/\n/g, ' ').replace(/[#*`_]/g, '') + '...';
 
         const wordCount = plainText ? plainText.split(/\s+/).length : 0;
         const calculatedReadTime = Math.max(1, Math.ceil(wordCount / 200)) + " min read";
@@ -639,7 +660,7 @@
           isLatest: status === 'Published',
           coverImage: imageInput.value || "assets/images/posts/post1-cover.png",
           summary: finalSummary,
-          content: htmlContent
+          content: plainText
         };
 
         try {
@@ -794,7 +815,7 @@
         const categoryText = catSelect.value || 'Information Assurance';
         const authorText = currentPost && currentPost.author ? currentPost.author : 'Elyssa';
         const coverSrc = imageInput.value || '';
-        const bodyContent = editorCanvas.innerHTML || '<p><em>No content written yet.</em></p>';
+        const bodyContent = (typeof marked !== 'undefined') ? marked.parse(easyMDE.value() || '') : (easyMDE.value() || '<p><em>No content written yet.</em></p>');
 
         previewBody.innerHTML = `
           <div style="max-width: 760px; margin: 0 auto; padding: 10px 0;">
@@ -832,21 +853,21 @@
 
       // Word & Character Counter
       function updateEditorStats() {
-        const text = editorCanvas.innerText || '';
+        const text = easyMDE.value() || '';
         const words = text.trim() ? text.trim().split(/\s+/).length : 0;
         const chars = text.length;
         wordCountEl.textContent = words;
         charCountEl.textContent = chars;
       }
 
-      editorCanvas.addEventListener('input', () => {
+      easyMDE.codemirror.on('change', () => {
         updateEditorStats();
         autosaveStatusEl.textContent = 'Editing...';
       });
 
       // Auto-Save Draft Interval (every 15s)
       setInterval(() => {
-        if (titleInput.value.trim() || editorCanvas.innerText.trim()) {
+        if (titleInput.value.trim() || easyMDE.value().trim()) {
           const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
           autosaveStatusEl.textContent = `Draft Auto-Saved at ${now}`;
         }

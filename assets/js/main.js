@@ -422,6 +422,38 @@ document.addEventListener('DOMContentLoaded', async () => {
                  (postId ? publishedPosts.find(p => p.id === postId) : null) || 
                  publishedPosts[0];
 
+    // Convert markdown to HTML if marked is loaded, otherwise fallback to HTML
+    const parsedContent = (typeof marked !== 'undefined') ? marked.parse(post.content || '') : (post.content || '');
+
+    // Update Open Graph and Twitter tags dynamically for clients that run JS (e.g. Google Search)
+    if (post) {
+      document.title = `${post.title} - EL Journal`;
+      
+      const updateMetaTag = (property, value, isName = false) => {
+        const attr = isName ? 'name' : 'property';
+        let meta = document.querySelector(`meta[${attr}="${property}"]`);
+        if (!meta) {
+          meta = document.createElement('meta');
+          meta.setAttribute(attr, property);
+          document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', value);
+      };
+
+      updateMetaTag('og:title', post.title);
+      updateMetaTag('og:description', post.summary || '');
+      if (post.coverImage) {
+        const absoluteImage = post.coverImage.startsWith('http') 
+          ? post.coverImage 
+          : `${window.location.origin}/${post.coverImage}`;
+        updateMetaTag('og:image', absoluteImage);
+        updateMetaTag('twitter:image', absoluteImage);
+      }
+      updateMetaTag('og:url', window.location.href);
+      updateMetaTag('twitter:title', post.title);
+      updateMetaTag('twitter:description', post.summary || '');
+    }
+
     if (!post) {
       articleDetailRoot.innerHTML = `
         <div style="padding: 80px 0; text-align: center; color: var(--text-muted);">
@@ -466,7 +498,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     `).join('');
 
     const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = post.content;
+    tempDiv.innerHTML = parsedContent;
     const headingElements = tempDiv.querySelectorAll('h2, h3, h4');
     const tocGroups = [];
     let currentGroup = null;
@@ -623,7 +655,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         <!-- 4. Blog Article Content -->
         <main class="article-body" id="main-article-content" style="text-align: justify; margin-bottom: 32px;">
-          ${post.content}
+          ${parsedContent}
         </main>
 
         <!-- 5. Share this Article -->

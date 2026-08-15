@@ -884,3 +884,67 @@ body.dark-theme .editor-content-area {
     max-width: 95vw !important;
   }
 }
+
+/* ======================================================
+   EASYMDE MARKDOWN EDITOR STYLING OVERRIDES
+   ====================================================== */
+.EasyMDEContainer {
+  font-family: var(--font-sans), sans-serif;
+}
+
+.editor-toolbar {
+  border-radius: 12px 12px 0 0 !important;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light) !important;
+}
+
+.CodeMirror {
+  border-radius: 0 0 12px 12px !important;
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+  background: var(--bg-primary);
+  color: var(--text-main);
+  border: 1px solid var(--border-light) !important;
+  min-height: 380px !important;
+}
+
+body.dark-theme .editor-toolbar {
+  background-color: #151419 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-theme .editor-toolbar button {
+  color: #F3F4F6 !important;
+}
+
+body.dark-theme .editor-toolbar button.active,
+body.dark-theme .editor-toolbar button:hover {
+  background-color: #232129 !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+body.dark-theme .editor-toolbar i.separator {
+  border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-theme .CodeMirror {
+  background-color: #0D0C11 !important;
+  color: #F3F4F6 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-theme .CodeMirror-cursor {
+  border-left: 1px solid #FFFFFF !important;
+}
+
+body.dark-theme .editor-preview-active-side {
+  background-color: #151419 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-theme .editor-preview {
+  background-color: #151419 !important;
+  color: #F3F4F6 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
