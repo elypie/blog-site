@@ -134,13 +134,71 @@ document.addEventListener('DOMContentLoaded', () => {
 // ======================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Render skeletons instantly while fetching data
+  const latestPostRoot = document.getElementById('homepage-latest-post-root');
+  const featuredPostsRoot = document.getElementById('homepage-featured-posts-root');
+  const blogsListContainer = document.getElementById('public-blogs-list');
+
+  if (latestPostRoot) {
+    latestPostRoot.innerHTML = `
+      <div class="blog-item-card featured-latest-card skeleton-card" style="pointer-events: none; border-color: var(--border-light); width: 100%;">
+        <div class="skeleton" style="width: 42%; height: 300px; border-radius: 16px 0 0 16px;"></div>
+        <div class="featured-latest-body" style="padding: 24px 30px; flex: 1; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px;">
+          <div class="skeleton" style="height: 28px; width: 90px; border-radius: 10px; margin-bottom: 6px;"></div>
+          <div class="skeleton" style="height: 26px; width: 85%; border-radius: 6px; margin-top: 4px; margin-bottom: 6px;"></div>
+          <div class="skeleton" style="height: 16px; width: 180px; border-radius: 4px; margin-bottom: 8px;"></div>
+          <div class="skeleton" style="height: 18px; width: 100%; border-radius: 4px;"></div>
+          <div class="skeleton" style="height: 18px; width: 92%; border-radius: 4px; margin-bottom: 8px;"></div>
+          <div class="skeleton" style="height: 36px; width: 100%; border-radius: 4px; margin-top: auto; border-top: 1px solid var(--border-light); padding-top: 10px;"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  if (featuredPostsRoot) {
+    featuredPostsRoot.innerHTML = `
+      <div class="topics-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; width: 100%;">
+        ${[1, 2, 3].map(() => `
+          <div class="blog-item-card skeleton-card" style="pointer-events: none; display: flex; flex-direction: column; padding: 0; min-height: 400px;">
+            <div class="skeleton" style="height: 200px; width: 100%; border-radius: 16px 16px 0 0;"></div>
+            <div style="padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 8px;">
+              <div class="skeleton" style="height: 20px; width: 80px; border-radius: 10px; margin-bottom: 6px;"></div>
+              <div class="skeleton" style="height: 24px; width: 90%; border-radius: 6px; margin-bottom: 6px;"></div>
+              <div class="skeleton" style="height: 14px; width: 120px; border-radius: 4px; margin-bottom: 8px;"></div>
+              <div class="skeleton" style="height: 16px; width: 100%; border-radius: 4px;"></div>
+              <div class="skeleton" style="height: 16px; width: 95%; border-radius: 4px; margin-bottom: 12px;"></div>
+              <div class="skeleton" style="height: 32px; width: 100px; border-radius: 12px; margin-top: auto;"></div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  if (blogsListContainer) {
+    blogsListContainer.innerHTML = `
+      <div class="blogs-grid-container" style="display: grid; grid-template-columns: 1fr; gap: 24px; width: 100%;">
+        ${[1, 2, 3].map(() => `
+          <div class="blog-item-card skeleton-card" style="pointer-events: none; display: grid; grid-template-columns: 300px 1fr; padding: 0; min-height: 220px; align-items: stretch;">
+            <div class="skeleton" style="width: 300px; height: 100%; border-radius: 16px 0 0 16px;"></div>
+            <div style="padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 8px; justify-content: flex-start;">
+              <div class="skeleton" style="height: 20px; width: 80px; border-radius: 10px; margin-bottom: 6px;"></div>
+              <div class="skeleton" style="height: 24px; width: 85%; border-radius: 6px; margin-bottom: 6px;"></div>
+              <div class="skeleton" style="height: 14px; width: 150px; border-radius: 4px; margin-bottom: 8px;"></div>
+              <div class="skeleton" style="height: 16px; width: 98%; border-radius: 4px;"></div>
+              <div class="skeleton" style="height: 16px; width: 90%; border-radius: 4px; margin-bottom: 12px;"></div>
+              <div class="skeleton" style="height: 32px; width: 110px; border-radius: 12px; margin-top: auto;"></div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
   const data = (typeof getBlogDataAsync === 'function')
     ? await getBlogDataAsync(false)
     : getBlogData();
 
-
-  const latestPostRoot = document.getElementById('homepage-latest-post-root');
-  const featuredPostsRoot = document.getElementById('homepage-featured-posts-root');
 
   function renderHomepagePosts() {
     const freshData = data;
@@ -257,12 +315,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       });
     }
+
+    // Initialize scroll reveal observer for newly rendered cards
+    if (typeof initScrollObserver === 'function') {
+      initScrollObserver();
+    }
   }
 
   renderHomepagePosts();
 
   // --- BLOGS PAGE FILTER & SEARCH ---
-  const blogsListContainer = document.getElementById('public-blogs-list');
   if (blogsListContainer) {
     const searchInput = document.getElementById('blog-search-input');
     const categoryPillsContainer = document.getElementById('category-pills-wrap');
@@ -692,8 +754,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.blog-item-card, .info-card, .metric-card, .toc-card, .author-card, section').forEach(el => {
-      el.classList.add('reveal-on-scroll');
-      observer.observe(el);
+      if (!el.classList.contains('reveal-on-scroll')) {
+        el.classList.add('reveal-on-scroll');
+        observer.observe(el);
+      }
     });
   }
 

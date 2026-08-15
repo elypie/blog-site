@@ -3827,3 +3827,94 @@ body.dark-theme .scroll-to-top-btn:hover {
     height: 20px;
   }
 }
+
+/* ======================================================
+   VISUAL & INTERACTION POLISH (PAGE TRANSITIONS, SCROLL REVEAL, SKELETONS)
+   ====================================================== */
+
+/* --- Page Fade-In Transition --- */
+.fade-in-page {
+  opacity: 0;
+  animation: fadeInPage 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Scroll Reveal Animations --- */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* --- Skeleton Loaders --- */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-card-hover) 25%, var(--border-light) 50%, var(--bg-card-hover) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-glow 1.5s infinite linear;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+body.dark-theme .skeleton {
+  background: linear-gradient(90deg, #1C1C24 25%, #2A2A36 50%, #1C1C24 75%) !important;
+  background-size: 200% 100% !important;
+}
+
+@keyframes skeleton-glow {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-text {
+  height: 14px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.skeleton-title {
+  height: 24px;
+  width: 85%;
+  margin-bottom: 12px;
+}
+
+.skeleton-badge {
+  height: 20px;
+  width: 90px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+/* Respect user preferences for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .fade-in-page {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
