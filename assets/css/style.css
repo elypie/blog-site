@@ -3948,7 +3948,7 @@ body.dark-theme .skeleton {
 .cat-speech-bubble {
   position: absolute;
   top: 130px; /* Position next to the cat's head */
-  right: 15px; /* On the right side */
+  right: 20px; /* On the right side */
   transform: scale(0.9);
   width: 250px;
   background: #151419;
