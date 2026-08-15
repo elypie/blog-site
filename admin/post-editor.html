@@ -815,7 +815,9 @@
         const categoryText = catSelect.value || 'Information Assurance';
         const authorText = currentPost && currentPost.author ? currentPost.author : 'Elyssa';
         const coverSrc = imageInput.value || '';
-        const bodyContent = (typeof marked !== 'undefined') ? marked.parse(easyMDE.value() || '') : (easyMDE.value() || '<p><em>No content written yet.</em></p>');
+        const editorText = easyMDE.value() || '';
+        const isHTML = editorText.trim().startsWith('<');
+        const bodyContent = (isHTML || typeof marked === 'undefined') ? (editorText || '<p><em>No content written yet.</em></p>') : marked.parse(editorText);
 
         previewBody.innerHTML = `
           <div style="max-width: 760px; margin: 0 auto; padding: 10px 0;">

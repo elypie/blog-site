@@ -423,7 +423,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                  publishedPosts[0];
 
     // Convert markdown to HTML if marked is loaded, otherwise fallback to HTML
-    const parsedContent = (typeof marked !== 'undefined') ? marked.parse(post.content || '') : (post.content || '');
+    const isHTML = (post.content || '').trim().startsWith('<');
+    const parsedContent = (isHTML || typeof marked === 'undefined') ? (post.content || '') : marked.parse(post.content || '');
 
     // Update Open Graph and Twitter tags dynamically for clients that run JS (e.g. Google Search)
     if (post) {
