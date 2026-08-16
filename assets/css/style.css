@@ -2646,6 +2646,29 @@ hr,
   opacity: 0.92;
 }
 
+/* References list styling overrides */
+#main-article-content h2#references ~ p,
+#main-article-content h2#references ~ ul,
+#main-article-content h2#references ~ ol,
+.article-body h2#references ~ p,
+.article-body h2#references ~ ul,
+.article-body h2#references ~ ol {
+  font-size: 13px !important;
+  color: var(--text-muted) !important;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+  line-height: 1.6 !important;
+  opacity: 0.85;
+}
+
+#main-article-content h2#references ~ ul li,
+#main-article-content h2#references ~ ol li,
+.article-body h2#references ~ ul li,
+.article-body h2#references ~ ol li {
+  font-size: 13px !important;
+  color: var(--text-muted) !important;
+  font-family: var(--font-sans), Arial, sans-serif !important;
+}
+
 /* Callout Quote Boxes */
 .article-body blockquote,
 #main-article-content blockquote {
