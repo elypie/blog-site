@@ -205,7 +205,7 @@
       border-bottom: 1px solid var(--border-light);
     }
 
-    /* Floating Back to Top Button */
+    /* Floating Back to Top Button with Progress Ring */
     .back-to-top-btn {
       position: fixed;
       bottom: 32px;
@@ -213,19 +213,20 @@
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      background: var(--accent-coral);
-      color: #FFFFFF;
+      background: var(--bg-card);
+      color: var(--accent-coral);
       border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 16px rgba(165, 21, 12, 0.35);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
       opacity: 0;
       visibility: hidden;
       transform: translateY(16px);
       transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.2s ease, box-shadow 0.2s ease;
       z-index: 9999;
+      padding: 0;
     }
     .back-to-top-btn.is-visible {
       opacity: 1;
@@ -233,12 +234,33 @@
       transform: translateY(0);
     }
     .back-to-top-btn:hover {
-      background: var(--accent-coral-hover);
+      background: var(--bg-card);
       transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(165, 21, 12, 0.45);
+      box-shadow: 0 8px 24px rgba(165, 21, 12, 0.2);
     }
     .back-to-top-btn:active {
       transform: translateY(0);
+    }
+
+    .progress-ring-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .back-to-top-icon {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease;
+    }
+    .back-to-top-btn:hover .back-to-top-icon {
+      transform: translateY(-2px);
     }
 
     .author-info-row { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
@@ -604,10 +626,6 @@
 </head>
 <body class="blog-detail-page">
 
-  <!-- Reading Progress Bar -->
-  <div class="reading-progress-container">
-    <div id="reading-progress-bar" class="reading-progress-bar"></div>
-  </div>
 
   <header class="public-header">
     <div class="container header-container">
@@ -631,11 +649,19 @@
 
   <main id="article-detail-root" class="fade-in-page" style="padding: 32px 0 16px 0;"></main>
 
-  <!-- Floating Back to Top Button -->
+  <!-- Floating Back to Top Button with Scroll Progress Ring -->
   <button id="back-to-top-btn" class="back-to-top-btn" aria-label="Back to top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="18 15 12 9 6 15"></polyline>
+    <svg class="progress-ring-svg" viewBox="0 0 48 48">
+      <!-- Background track -->
+      <circle cx="24" cy="24" r="21" stroke="var(--border-light)" stroke-width="3" fill="none" opacity="0.4" />
+      <!-- Active progress outline -->
+      <circle id="progress-ring-circle" cx="24" cy="24" r="21" stroke="var(--accent-coral)" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="131.95" stroke-dashoffset="131.95" transform="rotate(-90 24 24)" />
     </svg>
+    <div class="back-to-top-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </div>
   </button>
 
   <!-- Floating Table of Contents Pane -->

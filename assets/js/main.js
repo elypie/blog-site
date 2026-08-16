@@ -797,32 +797,38 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   initScrollObserver();
 
-  // Floating Back to Top Button Scroll Listener
+  // Floating Back to Top Button Scroll Listener & Progress Ring
   const backToTopBtn = document.getElementById('back-to-top-btn');
+  const progressRingCircle = document.getElementById('progress-ring-circle');
   if (backToTopBtn) {
-    window.addEventListener('scroll', () => {
+    const circumference = 2 * Math.PI * 21; // ~131.95
+    if (progressRingCircle) {
+      progressRingCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+      progressRingCircle.style.strokeDashoffset = circumference;
+    }
+
+    const updateScrollAndProgress = () => {
       if (window.scrollY > 300) {
         backToTopBtn.classList.add('is-visible');
       } else {
         backToTopBtn.classList.remove('is-visible');
       }
-    }, { passive: true });
-  }
 
-  // --- 1. Reading Progress Bar ---
-  function initReadingProgressBar() {
-    const progressBar = document.getElementById('reading-progress-bar');
-    if (!progressBar) return;
-
-    window.addEventListener('scroll', () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight <= 0) {
-        progressBar.style.width = '0%';
-        return;
+      if (progressRingCircle) {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight > 0) {
+          const scrollPercent = window.scrollY / docHeight;
+          const offset = circumference - (scrollPercent * circumference);
+          progressRingCircle.style.strokeDashoffset = Math.max(0, Math.min(circumference, offset));
+        } else {
+          progressRingCircle.style.strokeDashoffset = circumference;
+        }
       }
-      const progress = Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100));
-      progressBar.style.width = `${progress}%`;
-    }, { passive: true });
+    };
+
+    window.addEventListener('scroll', updateScrollAndProgress, { passive: true });
+    window.addEventListener('resize', updateScrollAndProgress, { passive: true });
+    updateScrollAndProgress();
   }
 
   // --- 3. Quick Search Modal (Ctrl + K) ---
@@ -964,7 +970,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Initialize interactive extensions
-  initReadingProgressBar();
+  // Reading progress ring is initialized inside the back-to-top listener
   initQuickSearchModal();
 
   // Initialize interactive cat illustration parallax & idle floating effect
