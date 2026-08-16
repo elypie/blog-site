@@ -3751,14 +3751,14 @@ body.dark-theme .hero-binary-meow {
    ====================================================== */
 .scroll-to-top-btn {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 50px;
-  height: 50px;
+  bottom: 32px;
+  right: 32px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background-color: var(--color-crimson, #A5150C);
-  color: #FFFFFF;
-  border: none;
+  background-color: var(--bg-card);
+  color: var(--accent-coral);
+  border: 1px solid var(--border-light);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -3766,25 +3766,28 @@ body.dark-theme .hero-binary-meow {
   z-index: 9999;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(20px) scale(0.9);
+  transform: translateY(16px);
   transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
               transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
               background-color 0.2s ease,
+              border-color 0.2s ease,
               box-shadow 0.2s ease;
-  box-shadow: 0 4px 15px rgba(165, 21, 12, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
 .scroll-to-top-btn svg {
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   transition: transform 0.2s ease;
 }
 
 /* Hover & Active States */
 .scroll-to-top-btn:hover {
-  background-color: var(--color-crimson-hover, #861009);
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 8px 25px rgba(165, 21, 12, 0.6);
+  background-color: var(--bg-card);
+  border-color: var(--accent-coral);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(165, 21, 12, 0.2);
+  pointer-events: auto;
 }
 
 .scroll-to-top-btn:hover svg {
@@ -3792,39 +3795,32 @@ body.dark-theme .hero-binary-meow {
 }
 
 .scroll-to-top-btn:active {
-  transform: translateY(-2px) scale(0.95);
-  box-shadow: 0 4px 15px rgba(165, 21, 12, 0.5);
+  transform: translateY(0);
 }
 
 /* Active State (Visible) */
 .scroll-to-top-btn.is-visible {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
 /* Dark mode adjustments (extra glowing shadow) */
 body.dark-theme .scroll-to-top-btn {
-  box-shadow: 0 4px 20px rgba(165, 21, 12, 0.6);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
 body.dark-theme .scroll-to-top-btn:hover {
-  box-shadow: 0 8px 30px rgba(165, 21, 12, 0.8);
+  box-shadow: 0 8px 24px rgba(165, 21, 12, 0.3);
 }
 
 /* Responsive Styles */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .scroll-to-top-btn {
-    bottom: 20px;
-    right: 20px;
+    bottom: 24px;
+    right: 24px;
     width: 44px;
     height: 44px;
-    box-shadow: 0 3px 12px rgba(165, 21, 12, 0.35);
-  }
-  
-  .scroll-to-top-btn svg {
-    width: 20px;
-    height: 20px;
   }
 }
 
