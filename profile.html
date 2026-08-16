@@ -116,16 +116,10 @@
       width: 140px;
       height: 140px;
       border-radius: 50%;
-      padding: 0;
-      border: 3px solid var(--accent-coral);
-      box-shadow: 0 8px 30px rgba(165, 21, 12, 0.15);
+      padding: 4px;
+      background: linear-gradient(135deg, var(--accent-coral) 0%, rgba(229, 91, 68, 0.3) 100%);
+      box-shadow: 0 8px 30px rgba(165, 21, 12, 0.22);
       z-index: 2;
-      transition: transform var(--transition-normal), box-shadow var(--transition-normal);
-    }
-
-    .profile-avatar-container:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 12px 36px rgba(165, 21, 12, 0.25);
     }
 
     .profile-avatar-img {
@@ -133,7 +127,12 @@
       height: 100%;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid var(--bg-card);
+      border: 4px solid var(--bg-card);
+      transition: transform var(--transition-normal);
+    }
+
+    .profile-avatar-img:hover {
+      transform: scale(1.03);
     }
 
     /* Sparkles & Dots */
