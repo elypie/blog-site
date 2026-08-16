@@ -3747,6 +3747,11 @@ body.dark-theme .topic-card {
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
+body.dark-theme .topic-card:hover {
+  border-color: var(--topic-accent, var(--accent-coral)) !important;
+  box-shadow: 0 8px 24px var(--topic-shadow, rgba(165, 21, 12, 0.25)) !important;
+}
+
 /* Dark theme overrides for blog-detail and profile page cards to match topic cards */
 body.dark-theme .toc-card,
 body.dark-theme .author-card,
