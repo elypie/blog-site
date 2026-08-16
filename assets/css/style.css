@@ -4051,19 +4051,3 @@ body:not(.dark-theme) .bubble-arrow {
 body:not(.dark-theme) .bubble-arrow::after {
   border-top-color: #FFFFFF;
 }
-
-/* ======================================================
-   VIEW TRANSITION CIRCULAR THEME REVEAL OVERRIDES
-   ====================================================== */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-
-::view-transition-new(root) {
-  z-index: 99999 !important;
-}
-::view-transition-old(root) {
-  z-index: 1 !important;
-}
