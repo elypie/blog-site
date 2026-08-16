@@ -40,7 +40,7 @@
   --bg-dark-accent: #19171E;
 
   /* Navbar */
-  --navbar-bg: var(--bg-primary);
+  --navbar-bg: rgba(255, 255, 255, 0.72);
   --navbar-border: var(--border);
 
   /* Accent */
@@ -113,7 +113,7 @@ body.dark-theme {
   --bg-dark-accent: #121212;
 
   /* Navbar */
-  --navbar-bg: rgba(16, 15, 20, 0.88);
+  --navbar-bg: rgba(16, 15, 20, 0.72);
   --navbar-border: rgba(255, 255, 255, 0.08);
 
   /* Accent */
@@ -208,8 +208,8 @@ button {
 /* --- Header & Navigation --- */
 .public-header {
   background-color: var(--navbar-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--navbar-border);
   position: sticky;
   top: 0;
