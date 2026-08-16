@@ -539,7 +539,7 @@
           <span class="control-label">Reading Font</span>
           <div class="font-toggle-buttons">
             <button id="font-serif-btn" class="font-btn active" style="font-family: 'Playfair Display', serif;">Serif</button>
-            <button id="font-sans-btn" class="font-btn" style="font-family: var(--font-sans), sans-serif;">Sans-Serif</button>
+            <button id="font-sans-btn" class="font-btn" style="font-family: Arial, sans-serif;">Arial</button>
           </div>
         </div>
         
@@ -703,12 +703,12 @@
         columnWidthSlider.value = settings.columnWidth;
         columnWidthVal.textContent = settings.columnWidth + 'px';
 
-        if (settings.fontFamily.includes('Playfair')) {
-          fontSerifBtn.classList.add('active');
-          fontSansBtn.classList.remove('active');
-        } else {
+        if (settings.fontFamily.includes('Arial') || settings.fontFamily.includes('sans-serif')) {
           fontSansBtn.classList.add('active');
           fontSerifBtn.classList.remove('active');
+        } else {
+          fontSerifBtn.classList.add('active');
+          fontSansBtn.classList.remove('active');
         }
       };
 
@@ -745,7 +745,7 @@
       });
 
       fontSansBtn.addEventListener('click', () => {
-        settings.fontFamily = "var(--font-sans), 'Plus Jakarta Sans', sans-serif";
+        settings.fontFamily = "Arial, sans-serif";
         fontSansBtn.classList.add('active');
         fontSerifBtn.classList.remove('active');
         applySettings();
