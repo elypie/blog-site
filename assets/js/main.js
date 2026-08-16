@@ -702,6 +702,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           ${parsedContent}
         </main>
 
+        <hr style="border: none; border-top: 1px solid var(--border-light); margin: 8px 0 32px 0; opacity: 0.6;">
+
         <!-- 5. Share this Article -->
         <div class="info-card" style="padding: 20px 24px; margin-bottom: 20px; background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
           <div>
