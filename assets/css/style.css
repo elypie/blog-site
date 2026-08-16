@@ -1285,13 +1285,30 @@ body.dark-theme .badge-category-subtle.cat-others {
 
 /* Subsection Sublist Grid: Indented by 28px | Fixed Subsection Number (38px) | Flexible Title */
 .toc-sublist {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.toc-group.expanded .toc-sublist {
+  grid-template-rows: 1fr;
+}
+
+.toc-sublist-inner {
   list-style: none;
-  padding: 0;
-  margin: 10px 0 4px 28px;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  transition: all 0.3s ease;
+  padding: 10px 0 4px 28px;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.toc-group.expanded .toc-sublist-inner {
+  opacity: 1;
 }
 
 .toc-row.child-row {

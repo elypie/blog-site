@@ -588,15 +588,17 @@ document.addEventListener('DOMContentLoaded', async () => {
               </a>
             </div>
             ${hasChildren ? `
-              <ul class="toc-sublist" id="toc-sublist-${group.id}">
-                ${group.children.map(child => `
-                  <li class="toc-subitem">
-                    <a href="#${child.id}" class="toc-link child-link toc-link-target-${child.id}" onclick="event.preventDefault(); window.scrollToHeading('${child.id}', false);">
-                      ${child.text}
-                    </a>
-                  </li>
-                `).join('')}
-              </ul>
+              <div class="toc-sublist" id="toc-sublist-${group.id}">
+                <ul class="toc-sublist-inner">
+                  ${group.children.map(child => `
+                    <li class="toc-subitem">
+                      <a href="#${child.id}" class="toc-link child-link toc-link-target-${child.id}" onclick="event.preventDefault(); window.scrollToHeading('${child.id}', false);">
+                        ${child.text}
+                      </a>
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
             ` : ''}
           </li>
         `;
