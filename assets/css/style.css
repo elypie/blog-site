@@ -617,9 +617,9 @@ body.dark-theme .badge-category-subtle.cat-others {
 
 .blog-item-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(165, 21, 12, 0.10);
+  box-shadow: 0 10px 30px var(--topic-shadow, rgba(165, 21, 12, 0.10));
   background: var(--bg-card-hover);
-  border-color: var(--accent-coral);
+  border-color: var(--topic-accent, var(--accent-coral)) !important;
 }
 
 .blog-item-card:active {
@@ -1968,6 +1968,11 @@ body.dark-theme .profile-main-card:hover,
 body.dark-theme .social-btn:hover {
   background: var(--bg-card-hover) !important;
   box-shadow: 0 12px 30px rgba(165, 21, 12, 0.22) !important;
+}
+
+body.dark-theme .blog-item-card:hover {
+  border-color: var(--topic-accent, var(--accent-coral)) !important;
+  box-shadow: 0 12px 30px var(--topic-shadow, rgba(165, 21, 12, 0.25)) !important;
 }
 
 body.dark-theme .hero-red-card {

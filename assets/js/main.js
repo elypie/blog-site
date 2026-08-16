@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       } else {
         const latest = publishedPosts[0];
         latestPostRoot.innerHTML = `
-          <div class="blog-item-card featured-latest-card" onclick="window.location.href='blog-detail.html?id=${latest.id}'">
+          <div class="blog-item-card featured-latest-card cat-card-${getCategoryClass(latest.category)}" onclick="window.location.href='blog-detail.html?id=${latest.id}'">
             <div class="featured-latest-img-wrap">
               <img src="${(!latest.coverImage || latest.coverImage === 'assets/images/post1-cover.png') ? 'assets/images/posts/post1-cover.png' : latest.coverImage}" alt="${latest.title}" class="featured-latest-img" onerror="this.src='assets/images/posts/post1-cover.png'" />
             </div>
@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         featuredPostsRoot.innerHTML = `
           <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
             ${featured.map(post => `
-              <div class="blog-item-card featured-card-responsive" onclick="window.location.href='blog-detail.html?id=${post.id}'" style="display: flex; flex-direction: column; padding: 0;">
+              <div class="blog-item-card featured-card-responsive cat-card-${getCategoryClass(post.category)}" onclick="window.location.href='blog-detail.html?id=${post.id}'" style="display: flex; flex-direction: column; padding: 0;">
                 <div class="featured-card-img-wrap" style="width: 100%; height: 220px; overflow: hidden; border-radius: 16px 16px 0 0;">
                   <img src="${(!post.coverImage || post.coverImage === 'assets/images/post1-cover.png') ? 'assets/images/posts/post1-cover.png' : post.coverImage}" alt="${post.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/images/posts/post1-cover.png'" />
                 </div>
@@ -418,13 +418,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       blogsListContainer.innerHTML = filtered.map(post => `
-        <div class="blog-item-card reveal-on-scroll" onclick="window.location.href='blog-detail.html?id=${post.id}'">
+        <div class="blog-item-card reveal-on-scroll cat-card-${getCategoryClass(post.category)}" onclick="window.location.href='blog-detail.html?id=${post.id}'">
           <div class="item-image-box">
             <img src="${post.coverImage}" alt="${post.title}" class="item-cover-img" style="width: 100%; height: 100%; object-fit: cover;" />
           </div>
           <div class="item-content-box">
             <div style="margin-bottom: 10px;">
-              <span style="display: inline-block; padding: 4px 12px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 12px; font-size: 12px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${post.category}</span>
+              <span class="badge-category-subtle cat-${getCategoryClass(post.category)}">${post.category}</span>
             </div>
             <h3 class="item-title">${post.title}</h3>
             <p class="item-summary">${post.summary}</p>
