@@ -3567,6 +3567,42 @@ html.dark-theme .footer-hr {
   margin-top: 24px;
 }
 
+/* Card Category Custom Theme Variables */
+.cat-card-assurance {
+  --topic-accent: var(--accent-coral);
+  --topic-accent-light: rgba(165, 21, 12, 0.06);
+  --topic-border-light: rgba(165, 21, 12, 0.15);
+  --topic-shadow: rgba(165, 21, 12, 0.15);
+}
+
+.cat-card-context {
+  --topic-accent: #2563EB;
+  --topic-accent-light: rgba(59, 130, 246, 0.06);
+  --topic-border-light: rgba(59, 130, 246, 0.15);
+  --topic-shadow: rgba(59, 130, 246, 0.18);
+}
+
+.cat-card-privacy {
+  --topic-accent: #059669;
+  --topic-accent-light: rgba(16, 185, 129, 0.06);
+  --topic-border-light: rgba(16, 185, 129, 0.15);
+  --topic-shadow: rgba(16, 185, 129, 0.18);
+}
+
+.cat-card-principles {
+  --topic-accent: #D97706;
+  --topic-accent-light: rgba(245, 158, 11, 0.06);
+  --topic-border-light: rgba(245, 158, 11, 0.18);
+  --topic-shadow: rgba(245, 158, 11, 0.18);
+}
+
+.cat-card-others {
+  --topic-accent: #4B5563;
+  --topic-accent-light: rgba(107, 114, 128, 0.06);
+  --topic-border-light: rgba(107, 114, 128, 0.15);
+  --topic-shadow: rgba(107, 114, 128, 0.12);
+}
+
 .topic-card {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
@@ -3580,28 +3616,28 @@ html.dark-theme .footer-hr {
 
 .topic-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--accent-coral);
+  box-shadow: 0 8px 24px var(--topic-shadow, rgba(165, 21, 12, 0.15));
+  border-color: var(--topic-accent, var(--accent-coral)) !important;
 }
 
 .topic-icon-wrap {
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: rgba(165, 21, 12, 0.06);
-  border: 1px solid rgba(165, 21, 12, 0.15);
+  background: var(--topic-accent-light, rgba(165, 21, 12, 0.06));
+  border: 1px solid var(--topic-border-light, rgba(165, 21, 12, 0.15));
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent-coral);
+  color: var(--topic-accent, var(--accent-coral));
   margin: 0 auto 16px auto;
   transition: all var(--transition-normal);
 }
 
 .topic-card:hover .topic-icon-wrap {
-  background: var(--accent-coral);
+  background: var(--topic-accent, var(--accent-coral));
   color: #FFFFFF;
-  border-color: var(--accent-coral);
+  border-color: var(--topic-accent, var(--accent-coral));
 }
 
 .topic-name {
