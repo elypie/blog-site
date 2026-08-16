@@ -545,6 +545,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tocGroups = [];
     let currentGroup = null;
 
+    headingElements.forEach((h, idx) => {
+      const tagName = h.tagName.toLowerCase();
       const text = h.innerText.trim();
       const cleanSlug = text.toLowerCase()
         .replace(/[^\w\s-]/g, '')
