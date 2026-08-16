@@ -545,10 +545,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tocGroups = [];
     let currentGroup = null;
 
-    headingElements.forEach((h, idx) => {
-      const tagName = h.tagName.toLowerCase();
-      const id = h.id || `heading-${idx}`;
       const text = h.innerText.trim();
+      const cleanSlug = text.toLowerCase()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-');
+      const id = h.id || cleanSlug || `heading-${idx}`;
 
       if (tagName === 'h2') {
         currentGroup = {
@@ -787,6 +788,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Attach Lightbox & IntersectionObserver for active TOC highlight + auto expand on scroll
     setTimeout(() => {
+      // Ensure all headings in DOM have proper id tags matching the slug patterns
+      const domHeadings = document.querySelectorAll('#main-article-content h2, #main-article-content h3, #main-article-content h4');
+      domHeadings.forEach((h, idx) => {
+        if (!h.id) {
+          const text = h.innerText.trim();
+          const cleanSlug = text.toLowerCase()
+            .replace(/[^\w\s-]/g, '')
+            .replace(/\s+/g, '-');
+          h.id = cleanSlug || `heading-${idx}`;
+        }
+      });
+
       document.querySelectorAll('#main-article-content img').forEach(img => {
         img.style.cursor = 'zoom-in';
         img.setAttribute('loading', 'lazy');
