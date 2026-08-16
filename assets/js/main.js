@@ -1,5 +1,15 @@
 /* Ely's Blog - Public JS Script */
 
+function getCategoryClass(category) {
+  if (!category) return 'cat-others';
+  const cat = category.toLowerCase().trim();
+  if (cat.includes('assurance')) return 'cat-assurance';
+  if (cat.includes('context')) return 'cat-context';
+  if (cat.includes('privacy')) return 'cat-privacy';
+  if (cat.includes('principles')) return 'cat-principles';
+  return 'cat-others';
+}
+
 // ======================================================
 // GLOBAL LIGHT / DARK THEME CONTROLLER
 // Runs independently — does NOT wait for Supabase data
@@ -223,7 +233,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
             <div class="featured-latest-body">
               <div class="featured-latest-badge-wrap">
-                <span class="badge-category-subtle" style="display: inline-block; padding: 6px 14px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 10px; font-size: 12.5px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${latest.category}</span>
+                <span class="badge-category-subtle cat-${getCategoryClass(latest.category)}">${latest.category}</span>
               </div>
               <h3 class="featured-latest-title" style="font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; margin-top: 8px; margin-bottom: 12px; line-height: 1.3; color: var(--text-main);">${latest.title}</h3>
               <div class="featured-latest-meta" style="display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 13.5px; font-weight: 500; margin-bottom: 16px;">
@@ -275,7 +285,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
                 <div class="featured-card-body" style="padding: 24px; flex: 1; display: flex; flex-direction: column;">
                   <div style="margin-bottom: 10px;">
-                    <span class="badge-category-subtle" style="display: inline-block; padding: 4px 12px; background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid rgba(165, 21, 12, 0.15);">${post.category}</span>
+                    <span class="badge-category-subtle cat-${getCategoryClass(post.category)}">${post.category}</span>
                   </div>
                   <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">${post.title}</h4>
                   <div style="display: flex; align-items: center; gap: 14px; color: var(--text-muted); font-size: 12px; font-weight: 500; margin-bottom: 12px;">
@@ -629,7 +639,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <!-- 1. Article Header -->
         <header class="article-header" style="margin-bottom: 32px;">
           <div class="category-badge-wrap" style="margin-bottom: 14px;">
-            <span class="badge-category-subtle" style="padding: 5px 14px; background: var(--bg-card); color: var(--accent-coral); border-radius: 12px; font-size: 13px; font-weight: 700; border: 1px solid var(--border-light);">${post.category}</span>
+            <span class="badge-category-subtle cat-${getCategoryClass(post.category)}">${post.category}</span>
           </div>
           <h1 class="article-title" style="font-size: 40px; font-weight: 800; margin-bottom: 12px; font-family: 'Playfair Display', serif; line-height: 1.25;">${post.title}</h1>
           <p class="article-subtitle" style="font-size: 16px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">${post.summary}</p>
