@@ -1,13 +1,13 @@
 /* Ely's Blog - Public JS Script */
 
 function getCategoryClass(category) {
-  if (!category) return 'cat-others';
+  if (!category) return 'others';
   const cat = category.toLowerCase().trim();
-  if (cat.includes('assurance')) return 'cat-assurance';
-  if (cat.includes('context')) return 'cat-context';
-  if (cat.includes('privacy')) return 'cat-privacy';
-  if (cat.includes('principles')) return 'cat-principles';
-  return 'cat-others';
+  if (cat.includes('assurance')) return 'assurance';
+  if (cat.includes('context')) return 'context';
+  if (cat.includes('privacy')) return 'privacy';
+  if (cat.includes('principles')) return 'principles';
+  return 'others';
 }
 
 // ======================================================
