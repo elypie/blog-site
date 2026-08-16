@@ -968,11 +968,22 @@
 
       // Scroll event to show/hide the floating TOC button
       window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-          tocToggleBtn.classList.add('is-visible');
+        const mainToc = document.getElementById('main-toc-accordion');
+        if (mainToc) {
+          const rect = mainToc.getBoundingClientRect();
+          if (rect.bottom < 0) {
+            tocToggleBtn.classList.add('is-visible');
+          } else {
+            tocToggleBtn.classList.remove('is-visible');
+            tocPanel.classList.remove('is-open');
+          }
         } else {
-          tocToggleBtn.classList.remove('is-visible');
-          tocPanel.classList.remove('is-open');
+          if (window.scrollY > 400) {
+            tocToggleBtn.classList.add('is-visible');
+          } else {
+            tocToggleBtn.classList.remove('is-visible');
+            tocPanel.classList.remove('is-open');
+          }
         }
       });
 
