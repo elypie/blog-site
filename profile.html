@@ -135,6 +135,41 @@
       transform: scale(1.03);
     }
 
+    /* PFP Rotating Glowing Aura */
+    .profile-avatar-glowing-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-coral) 0%, #a855f7 50%, #3b82f6 100%);
+      z-index: 1;
+      transition: transform var(--transition-normal), opacity var(--transition-normal);
+      animation: spinGlow 10s linear infinite;
+    }
+    .profile-avatar-glowing-ring::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: inherit;
+      filter: blur(10px);
+      opacity: 0.6;
+      z-index: -1;
+      transition: filter 0.3s ease, opacity 0.3s ease;
+    }
+    .avatar-decorator-wrap:hover .profile-avatar-glowing-ring {
+      transform: scale(1.05);
+      animation-duration: 4s;
+    }
+    .avatar-decorator-wrap:hover .profile-avatar-glowing-ring::after {
+      opacity: 0.9;
+      filter: blur(16px);
+    }
+
+    @keyframes spinGlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
     /* Sparkles & Dots */
     .decorator-dots {
       position: absolute;
@@ -370,19 +405,53 @@
       display: flex;
       align-items: center;
       gap: 16px;
-      padding: 16px 0;
+      padding: 16px 20px;
+      margin: 0 -20px;
+      border-radius: 14px;
+      transition: all 0.3s ease;
+      background: transparent;
+      border-bottom: 1px solid transparent !important;
     }
 
     .connect-item-vertical:not(:last-child) {
-      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 4px;
     }
 
-    .connect-item-vertical:first-child {
-      padding-top: 0;
+    /* Branded Hover Glows for Social Rows */
+    .connect-item-vertical.row-fb:hover {
+      background: rgba(24, 119, 242, 0.05);
+      box-shadow: 0 8px 24px rgba(24, 119, 242, 0.12);
+    }
+    body.dark-theme .connect-item-vertical.row-fb:hover {
+      background: rgba(24, 119, 242, 0.08);
+      box-shadow: 0 8px 24px rgba(24, 119, 242, 0.2);
     }
 
-    .connect-item-vertical:last-child {
-      padding-bottom: 0;
+    .connect-item-vertical.row-ig:hover {
+      background: rgba(225, 48, 108, 0.05);
+      box-shadow: 0 8px 24px rgba(225, 48, 108, 0.12);
+    }
+    body.dark-theme .connect-item-vertical.row-ig:hover {
+      background: rgba(225, 48, 108, 0.08);
+      box-shadow: 0 8px 24px rgba(225, 48, 108, 0.2);
+    }
+
+    .connect-item-vertical.row-gh:hover {
+      background: rgba(36, 41, 47, 0.04);
+      box-shadow: 0 8px 24px rgba(36, 41, 47, 0.08);
+    }
+    body.dark-theme .connect-item-vertical.row-gh:hover {
+      background: rgba(255, 255, 255, 0.03);
+      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.08);
+    }
+
+    .connect-item-vertical.row-mail:hover {
+      background: rgba(239, 68, 68, 0.05);
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.12);
+    }
+    body.dark-theme .connect-item-vertical.row-mail:hover {
+      background: rgba(239, 68, 68, 0.08);
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.2);
     }
 
     .exploring-item-vertical {
@@ -560,10 +629,11 @@
       color: var(--accent-coral);
     }
     .pill-badge.pill-red:hover {
-      background-color: var(--accent-coral);
-      border-color: var(--accent-coral);
-      color: #FFF;
-      box-shadow: 0 4px 12px rgba(165, 21, 12, 0.15);
+      background-color: var(--accent-coral) !important;
+      border-color: var(--accent-coral) !important;
+      color: #FFF !important;
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(165, 21, 12, 0.4) !important;
     }
 
     .pill-badge.pill-amber {
@@ -574,10 +644,11 @@
       color: #D97706;
     }
     .pill-badge.pill-amber:hover {
-      background-color: #D97706;
-      border-color: #D97706;
-      color: #FFF;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.18);
+      background-color: #D97706 !important;
+      border-color: #D97706 !important;
+      color: #FFF !important;
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4) !important;
     }
 
     .pill-badge.pill-blue {
@@ -588,10 +659,11 @@
       color: #2563EB;
     }
     .pill-badge.pill-blue:hover {
-      background-color: #2563EB;
-      border-color: #2563EB;
-      color: #FFF;
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.18);
+      background-color: #2563EB !important;
+      border-color: #2563EB !important;
+      color: #FFF !important;
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4) !important;
     }
 
     .pill-badge.pill-orange {
@@ -602,10 +674,11 @@
       color: #EA580C;
     }
     .pill-badge.pill-orange:hover {
-      background-color: #EA580C;
-      border-color: #EA580C;
-      color: #FFF;
-      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.18);
+      background-color: #EA580C !important;
+      border-color: #EA580C !important;
+      color: #FFF !important;
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4) !important;
     }
 
     .pill-badge.pill-yellow {
@@ -616,10 +689,11 @@
       color: #CA8A04;
     }
     .pill-badge.pill-yellow:hover {
-      background-color: #CA8A04;
-      border-color: #CA8A04;
-      color: #FFF;
-      box-shadow: 0 4px 12px rgba(202, 138, 4, 0.18);
+      background-color: #CA8A04 !important;
+      border-color: #CA8A04 !important;
+      color: #FFF !important;
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(202, 138, 4, 0.4) !important;
     }
 
     /* Section Title inside Exploring */
@@ -722,6 +796,7 @@
               </svg>
             </div>
             
+            <div class="profile-avatar-glowing-ring"></div>
             <div class="profile-avatar-container">
               <img src="assets/images/profile/profile-pfp.jpg" alt="Elyssa Contreras" class="profile-avatar-img" id="profile-avatar-img" />
             </div>
@@ -809,7 +884,7 @@
           
           <div class="vertical-list">
             <!-- Facebook -->
-            <div class="connect-item-vertical">
+            <div class="connect-item-vertical row-fb">
               <a href="https://facebook.com/elycontz" target="_blank" class="connect-item-link" id="social-fb-link">
                 <div class="social-icon-box social-fb">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -824,7 +899,7 @@
             </div>
 
             <!-- Instagram -->
-            <div class="connect-item-vertical">
+            <div class="connect-item-vertical row-ig">
               <a href="https://instagram.com/_beymm" target="_blank" class="connect-item-link" id="social-ig-link">
                 <div class="social-icon-box social-ig">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -841,7 +916,7 @@
             </div>
             
             <!-- GitHub -->
-            <div class="connect-item-vertical">
+            <div class="connect-item-vertical row-gh">
               <a href="https://github.com/elypie" target="_blank" class="connect-item-link" id="social-gh-link">
                 <div class="social-icon-box social-gh">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -856,7 +931,7 @@
             </div>
 
             <!-- Email -->
-            <div class="connect-item-vertical">
+            <div class="connect-item-vertical row-mail">
               <a href="mailto:ma.contreras@urios.edu.ph" class="connect-item-link" id="social-mail-link">
                 <div class="social-icon-box social-mail">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
