@@ -36,29 +36,30 @@
       padding: 0 20px;
       transition: max-width 0.25s ease;
     }
-    .article-body {
+    body .article-reader-container #main-article-content,
+    body .article-reader-container #main-article-content p,
+    body .article-reader-container #main-article-content li,
+    body .article-reader-container #main-article-content td,
+    body .article-reader-container #main-article-content th {
       font-family: var(--reader-font-family, 'Playfair Display', serif) !important;
       font-size: var(--reader-font-size, 16px) !important;
       line-height: var(--reader-line-height, 1.8) !important;
     }
-    .article-body p,
-    .article-body li,
-    .article-body td,
-    .article-body th {
-      font-family: var(--reader-font-family, 'Playfair Display', serif) !important;
-      font-size: var(--reader-font-size, 16px) !important;
-      line-height: var(--reader-line-height, 1.8) !important;
+    body .article-reader-container #main-article-content p,
+    body .article-reader-container #main-article-content li,
+    body .article-reader-container #main-article-content td,
+    body .article-reader-container #main-article-content th {
       margin-bottom: 20px;
       color: var(--text-main);
       opacity: 0.92;
     }
-    .article-body h2,
-    .article-body h3,
-    .article-body h4 {
+    body .article-reader-container #main-article-content h2,
+    body .article-reader-container #main-article-content h3,
+    body .article-reader-container #main-article-content h4 {
       font-family: var(--reader-font-family, 'Playfair Display', serif) !important;
       color: var(--text-main);
     }
-    .article-body h3 { font-size: 24px; margin: 32px 0 16px 0; }
+    body .article-reader-container #main-article-content h3 { font-size: 24px; margin: 32px 0 16px 0; }
     
     /* Clean Collapsible Table of Contents Component */
     .toc-card {
