@@ -324,6 +324,37 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   renderHomepagePosts();
 
+  // Dynamic Category Post Counts for index.html
+  function updateHomepageCategoryCounts(posts) {
+    const publishedPosts = posts.filter(p => p.status === 'Published');
+    const counts = {
+      'Information Assurance': 0,
+      'Organizational Context': 0,
+      'Data Privacy': 0,
+      'Security Principles': 0,
+      'Others': 0
+    };
+
+    publishedPosts.forEach(post => {
+      const cat = post.category;
+      if (counts.hasOwnProperty(cat)) {
+        counts[cat]++;
+      } else {
+        counts['Others']++;
+      }
+    });
+
+    Object.keys(counts).forEach(cat => {
+      const countEl = document.querySelector(`[data-category-count="${cat}"]`);
+      if (countEl) {
+        const count = counts[cat];
+        countEl.textContent = `${count} ${count === 1 ? 'post' : 'posts'}`;
+      }
+    });
+  }
+
+  updateHomepageCategoryCounts(data.posts);
+
   // --- BLOGS PAGE FILTER & SEARCH ---
   if (blogsListContainer) {
     const searchInput = document.getElementById('blog-search-input');
