@@ -89,7 +89,7 @@ function initThemeToggle() {
 }
 
 function initScrollToTopButton() {
-  if (document.getElementById('scroll-to-top-btn')) return;
+  if (document.getElementById('scroll-to-top-btn') || document.getElementById('back-to-top-btn')) return;
 
   const btn = document.createElement('button');
   btn.id = 'scroll-to-top-btn';
