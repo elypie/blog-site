@@ -146,7 +146,7 @@ body.dark-theme {
 html {
   scroll-behavior: smooth;
   /* Firefox Support */
-  scrollbar-color: var(--accent-coral) var(--bg-primary);
+  scrollbar-color: var(--accent-coral) transparent;
   scrollbar-width: thin;
 }
 
@@ -157,7 +157,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
