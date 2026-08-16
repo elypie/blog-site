@@ -948,3 +948,19 @@ body.dark-theme .editor-preview {
   color: #F3F4F6 !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
+
+/* ======================================================
+   VIEW TRANSITION CIRCULAR THEME REVEAL OVERRIDES
+   ====================================================== */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  z-index: 99999 !important;
+}
+::view-transition-old(root) {
+  z-index: 1 !important;
+}

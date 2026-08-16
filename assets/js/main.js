@@ -32,12 +32,43 @@ function applyTheme(theme) {
   updateThemeToggleIcons(isDark);
 }
 
-function toggleTheme() {
+function toggleTheme(event) {
   const currentTheme = document.documentElement.classList.contains('dark-theme')
     ? 'dark'
     : 'light';
   const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  applyTheme(newTheme);
+
+  if (!document.startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !event) {
+    applyTheme(newTheme);
+    return;
+  }
+
+  const x = event.clientX;
+  const y = event.clientY;
+  const endRadius = Math.hypot(
+    Math.max(x, window.innerWidth - x),
+    Math.max(y, window.innerHeight - y)
+  );
+
+  const transition = document.startViewTransition(() => {
+    applyTheme(newTheme);
+  });
+
+  transition.ready.then(() => {
+    document.documentElement.animate(
+      {
+        clipPath: [
+          `circle(0px at ${x}px ${y}px)`,
+          `circle(${endRadius}px at ${x}px ${y}px)`
+        ]
+      },
+      {
+        duration: 500,
+        easing: 'ease-in-out',
+        pseudoElement: '::view-transition-new(root)'
+      }
+    );
+  });
 }
 
 function updateThemeToggleIcons(isDark) {
@@ -83,7 +114,7 @@ function initThemeToggle() {
     btn.addEventListener('click', (event) => {
       event.preventDefault();
       event.stopPropagation();
-      toggleTheme();
+      toggleTheme(event);
     });
   });
 }
