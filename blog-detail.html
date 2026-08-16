@@ -467,6 +467,139 @@
         width: 280px;
       }
     }
+
+    /* ======================================================
+       FLOATING TABLE OF CONTENTS PANEL STYLING
+       ====================================================== */
+    .floating-toc-container {
+      position: fixed;
+      bottom: 160px;
+      right: 32px;
+      z-index: 9999;
+      font-family: var(--font-sans), 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .floating-toc-toggle-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(16px);
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+    }
+    .floating-toc-toggle-btn.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .floating-toc-toggle-btn:hover {
+      border-color: var(--accent-coral);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(165, 21, 12, 0.2);
+    }
+    .floating-toc-toggle-btn:active {
+      transform: translateY(0);
+    }
+
+    .floating-toc-panel {
+      position: absolute;
+      bottom: 64px;
+      right: 0;
+      width: 300px;
+      max-height: 400px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.9) translateY(15px);
+      transform-origin: bottom right;
+      transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), visibility 0.3s ease;
+    }
+    .floating-toc-panel.is-open {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+    }
+
+    .floating-toc-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-light);
+      flex-shrink: 0;
+    }
+    .floating-toc-header h4 {
+      font-size: 15px;
+      font-weight: 800;
+      margin: 0;
+      color: var(--text-main);
+      letter-spacing: -0.2px;
+    }
+    .floating-toc-close-btn {
+      background: transparent;
+      border: none;
+      font-size: 16px;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+      width: 24px;
+      height: 24px;
+    }
+    .floating-toc-close-btn:hover {
+      background: rgba(0, 0, 0, 0.05);
+      color: var(--text-main);
+    }
+
+    .floating-toc-body {
+      overflow-y: auto;
+      flex-grow: 1;
+      padding-right: 4px;
+    }
+    .floating-toc-body::-webkit-scrollbar {
+      width: 4px;
+    }
+    .floating-toc-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .floating-toc-body::-webkit-scrollbar-thumb {
+      background: var(--border-light);
+      border-radius: 2px;
+    }
+    .floating-toc-body::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-coral);
+    }
+
+    @media (max-width: 900px) {
+      .floating-toc-container {
+        bottom: 136px;
+        right: 24px;
+      }
+      .floating-toc-panel {
+        width: 280px;
+        max-height: 350px;
+      }
+    }
   </style>
 </head>
 <body class="blog-detail-page">
@@ -504,6 +637,32 @@
       <polyline points="18 15 12 9 6 15"></polyline>
     </svg>
   </button>
+
+  <!-- Floating Table of Contents Pane -->
+  <div id="floating-toc" class="floating-toc-container">
+    <button id="floating-toc-toggle-btn" class="floating-toc-toggle-btn" title="On this page" aria-label="On this page">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="8" y1="6" x2="21" y2="6"></line>
+        <line x1="8" y1="12" x2="21" y2="12"></line>
+        <line x1="8" y1="18" x2="21" y2="18"></line>
+        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+      </svg>
+    </button>
+    
+    <div id="floating-toc-panel" class="floating-toc-panel">
+      <div class="floating-toc-header">
+        <h4>On this page</h4>
+        <button id="floating-toc-close-btn" class="floating-toc-close-btn" aria-label="Close outline">✕</button>
+      </div>
+      <div class="floating-toc-body">
+        <ul id="floating-toc-list" class="toc-list">
+          <!-- Dynamically populated from main TOC -->
+        </ul>
+      </div>
+    </div>
+  </div>
 
   <!-- Image Lightbox Modal -->
   <div id="image-lightbox-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center; cursor: zoom-out;" onclick="this.style.display='none'">
@@ -782,9 +941,15 @@
         saveSettings();
       });
 
+      const floatingList = document.getElementById('floating-toc-list');
+
       let checkAttempts = 0;
       const applyInterval = setInterval(() => {
         checkAttempts++;
+        const mainTocList = document.querySelector('.toc-card .toc-list');
+        if (mainTocList && floatingList && !floatingList.children.length) {
+          floatingList.innerHTML = mainTocList.innerHTML;
+        }
         if (getContainer()) {
           applySettings();
           clearInterval(applyInterval);
@@ -793,6 +958,55 @@
           clearInterval(applyInterval);
         }
       }, 100);
+
+      // ======================================================
+      // FLOATING TABLE OF CONTENTS CONTROLLER
+      // ======================================================
+      const tocToggleBtn = document.getElementById('floating-toc-toggle-btn');
+      const tocCloseBtn = document.getElementById('floating-toc-close-btn');
+      const tocPanel = document.getElementById('floating-toc-panel');
+
+      // Scroll event to show/hide the floating TOC button
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          tocToggleBtn.classList.add('is-visible');
+        } else {
+          tocToggleBtn.classList.remove('is-visible');
+          tocPanel.classList.remove('is-open');
+        }
+      });
+
+      // Toggle panel
+      tocToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        tocPanel.classList.toggle('is-open');
+        
+        const mainTocList = document.querySelector('.toc-card .toc-list');
+        if (mainTocList && floatingList && !floatingList.children.length) {
+          floatingList.innerHTML = mainTocList.innerHTML;
+        }
+      });
+
+      // Close panel
+      tocCloseBtn.addEventListener('click', () => {
+        tocPanel.classList.remove('is-open');
+      });
+
+      // Close panel if clicked outside
+      document.addEventListener('click', (e) => {
+        if (tocPanel.classList.contains('is-open') && !tocPanel.contains(e.target) && e.target !== tocToggleBtn && !tocToggleBtn.contains(e.target)) {
+          tocPanel.classList.remove('is-open');
+        }
+      });
+
+      // Close panel when clicking a TOC heading link
+      if (floatingList) {
+        floatingList.addEventListener('click', (e) => {
+          if (e.target.classList.contains('toc-link')) {
+            tocPanel.classList.remove('is-open');
+          }
+        });
+      }
     });
   </script>
 </body>
