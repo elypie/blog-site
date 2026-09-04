@@ -118,6 +118,28 @@ async function fetchPostBySlugOrIdFromSupabase(identifier) {
   }
 }
 
+// Returns the most recently created matching slug. Unlike .single(), this is
+// safe even when older versions have already created duplicate rows.
+async function findPostBySlugInSupabase(slug) {
+  const client = getSupabaseClient();
+  if (!client || !slug) return null;
+
+  try {
+    const { data, error } = await client
+      .from('posts')
+      .select('*')
+      .eq('slug', slug)
+      .order('id', { ascending: false })
+      .limit(1);
+
+    if (error) throw error;
+    return data && data.length ? mapPostFromDb(data[0]) : null;
+  } catch (err) {
+    console.error('Error finding post by slug in Supabase:', err);
+    return null;
+  }
+}
+
 // Create new post in Supabase
 async function createPostInSupabase(appPost) {
   const client = getSupabaseClient();

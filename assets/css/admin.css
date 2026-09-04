@@ -892,6 +892,31 @@ body.dark-theme .editor-content-area {
   font-family: var(--font-sans), sans-serif;
 }
 
+.editor-format-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+}
+
+.editor-format-controls + .editor-canvas-wrapper .editor-toolbar { border-radius: 0 !important; }
+.editor-format-label, .editor-format-hint { font-size: 12px; color: var(--text-muted); }
+.editor-format-label { font-weight: 700; }
+.editor-format-hint { margin-left: auto; }
+.editor-colour-control { display: inline-flex; align-items: center; gap: 5px; color: var(--text-muted); font-size: 12px; font-weight: 700; }
+.editor-colour-control input { width: 24px; height: 24px; padding: 1px; cursor: pointer; }
+.editor-clear-format { padding: 5px 9px; font-size: 12px; }
+body.dark-theme .editor-format-controls { background: #151419; border-color: rgba(255, 255, 255, 0.08); }
+
+@media (max-width: 700px) {
+  .editor-format-hint { width: 100%; margin-left: 0; }
+}
+
 .editor-toolbar {
   border-radius: 12px 12px 0 0 !important;
   background: var(--bg-card);

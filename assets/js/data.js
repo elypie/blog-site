@@ -204,20 +204,19 @@ function dedupeExactPosts(posts) {
   const seenPosts = new Set();
   return posts.filter(post => {
     const fingerprint = [
-      post.title,
       post.slug,
+      post.title,
       post.category,
-      post.status,
-      post.date,
-      post.coverImage,
-      post.summary,
-      post.content
-    ].map(value => String(value || '').trim()).join('\u001F');
+    ].map(value => String(value || '').trim().toLowerCase()).join('\u001F');
     if (seenPosts.has(fingerprint)) return false;
     seenPosts.add(fingerprint);
     return true;
   });
 }
+
+// Prevent duplicate create requests in the same browser session. The map is
+// shared by every admin handler on the page and is cleared after completion.
+const pendingPostSaves = new Map();
 
 // LocalStorage Persistence Helper (Fallback)
 function getBlogData() {
@@ -305,7 +304,28 @@ async function savePostAsync(post, isEdit = false) {
     if (isEdit && post.id) {
       return await updatePostInSupabase(post.id, post);
     } else {
-      return await createPostInSupabase(post);
+      const slug = post.slug || post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      if (pendingPostSaves.has(slug)) return pendingPostSaves.get(slug);
+
+      const saveRequest = (async () => {
+        // A post with this title has already been created, so update it instead
+        // of inserting a second row. This also repairs repeat submissions from
+        // browser retries or duplicated event handlers.
+        const existingPost = typeof findPostBySlugInSupabase === 'function'
+          ? await findPostBySlugInSupabase(slug)
+          : null;
+        if (existingPost) {
+          return await updatePostInSupabase(existingPost.id, { ...post, id: existingPost.id, slug });
+        }
+        return await createPostInSupabase({ ...post, slug });
+      })();
+
+      pendingPostSaves.set(slug, saveRequest);
+      try {
+        return await saveRequest;
+      } finally {
+        pendingPostSaves.delete(slug);
+      }
     }
   }
 
