@@ -433,6 +433,9 @@
       }
 
       // Load Post Data for Edit Mode
+      // Submission guard — prevents double-inserts from rapid clicks or re-entry
+      let isSubmitting = false;
+
       let currentPost = null;
       if (rawPostId) {
         if (typeof fetchPostBySlugOrIdFromSupabase === 'function' && isSupabaseConfigured()) {
@@ -517,16 +520,42 @@
         });
       }
 
-      function handleFileUpload(file) {
+      async function handleFileUpload(file) {
         if (!file.type.startsWith('image/')) {
           alert('Please select a valid image file (JPG, PNG, WEBP).');
           return;
         }
-        const reader = new FileReader();
-        reader.onload = (evt) => {
-          showImagePreview(evt.target.result, file.name);
+
+        // Show a local preview immediately so the user sees the image
+        const previewReader = new FileReader();
+        previewReader.onload = (evt) => {
+          if (imagePreviewImg) imagePreviewImg.src = evt.target.result;
+          if (imagePreviewFilename) imagePreviewFilename.textContent = file.name;
+          if (imagePreviewWrapper) imagePreviewWrapper.style.display = 'block';
+          if (imageDropzone) imageDropzone.style.display = 'none';
         };
-        reader.readAsDataURL(file);
+        previewReader.readAsDataURL(file);
+
+        // Upload to Supabase Storage and store the permanent public URL
+        if (typeof uploadCoverImageToSupabase === 'function' && typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+          if (imagePreviewFilename) imagePreviewFilename.textContent = 'Uploading...';
+          const publicUrl = await uploadCoverImageToSupabase(file);
+          if (publicUrl) {
+            // Store the real URL (not base64) — this is what gets saved to the database
+            if (imageInput) imageInput.value = publicUrl;
+            if (imagePreviewImg) imagePreviewImg.src = publicUrl;
+            if (imagePreviewFilename) imagePreviewFilename.textContent = file.name;
+          } else {
+            // Storage upload failed — clear the URL field so we don't save garbage
+            if (imageInput) imageInput.value = '';
+            if (imagePreviewFilename) imagePreviewFilename.textContent = file.name + ' (upload failed — enter URL manually)';
+            console.warn('Cover image upload failed. The image preview is local-only and will not persist.');
+          }
+        } else {
+          // Supabase Storage not configured — leave URL field empty
+          if (imageInput) imageInput.value = '';
+          if (imagePreviewFilename) imagePreviewFilename.textContent = file.name + ' (enter URL manually to save)';
+        }
       }
 
       if (removeImageBtn) {
@@ -629,8 +658,22 @@
 
       // Handle Save & Update
       async function handleSave(status) {
+        // Guard against duplicate submissions (rapid clicks, Enter key, etc.)
+        if (isSubmitting) return;
+        isSubmitting = true;
+
+        // Disable submit buttons for the duration of the async operation
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Saving...'; }
+        if (saveDraftBtn) { saveDraftBtn.disabled = true; }
+
         const title = titleInput.value.trim();
-        if (!title) { alert("Please enter article title"); return; }
+        if (!title) {
+          alert("Please enter article title");
+          isSubmitting = false;
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = currentPost ? 'Update Article' : 'Publish Article'; }
+          if (saveDraftBtn) { saveDraftBtn.disabled = false; }
+          return;
+        }
 
         const plainText = easyMDE.value().trim();
         const textSummary = plainText.slice(0, 160).replace(/\n/g, ' ').replace(/[#*`_]/g, '') + '...';
@@ -691,6 +734,10 @@
           }, 900);
         } catch(err) {
           alert('Failed to save blog post: ' + err.message);
+          // Re-enable buttons on error so the user can try again
+          isSubmitting = false;
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = currentPost ? 'Update Article' : 'Publish Article'; }
+          if (saveDraftBtn) { saveDraftBtn.disabled = false; }
         }
       }
       document.querySelectorAll('.editor-btn[data-cmd]').forEach(btn => {

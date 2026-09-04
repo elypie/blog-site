@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <tr>
           <td>
             <div style="display: flex; align-items: center; gap: 12px;">
-              <img src="${post.coverImage}" alt="" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover;" />
+              <img src="${post.coverImage || ''}" alt="" onerror="this.onerror=null;this.src='';this.style.cssText='width:44px;height:44px;border-radius:10px;background:var(--bg-primary);border:1px dashed var(--border-light);display:flex;align-items:center;justify-content:center;';" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover; background: var(--bg-primary); border: 1px solid var(--border-light);" />
               <strong style="max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${post.title}</strong>
             </div>
           </td>

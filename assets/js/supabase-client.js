@@ -199,6 +199,42 @@ async function fetchCategoriesFromSupabase() {
   }
 }
 
+// Upload a cover image File to Supabase Storage and return its public URL
+async function uploadCoverImageToSupabase(file) {
+  const client = getSupabaseClient();
+  if (!client || !file) return null;
+
+  try {
+    // Build a unique, URL-safe filename to avoid collisions
+    const ext = file.name.split('.').pop().toLowerCase() || 'jpg';
+    const uniqueName = `cover-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const filePath = `covers/${uniqueName}`;
+
+    const { error: uploadError } = await client.storage
+      .from('post-covers')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false,
+        contentType: file.type || 'image/jpeg'
+      });
+
+    if (uploadError) {
+      console.error('Supabase Storage upload error:', uploadError);
+      return null;
+    }
+
+    // Get the permanent public URL
+    const { data } = client.storage
+      .from('post-covers')
+      .getPublicUrl(filePath);
+
+    return (data && data.publicUrl) ? data.publicUrl : null;
+  } catch (err) {
+    console.error('Error uploading cover image to Supabase Storage:', err);
+    return null;
+  }
+}
+
 // --- SUPABASE AUTHENTICATION HELPERS ---
 
 async function signInAdminWithSupabase(email, password) {
