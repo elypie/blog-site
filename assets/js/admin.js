@@ -71,7 +71,10 @@ document.addEventListener('DOMContentLoaded', async () => {
           <td>
             <div style="display: flex; align-items: center; gap: 12px;">
               <img src="${getAdminImageUrl(post.coverImage)}" alt="" onerror="this.onerror=null;this.src='';this.style.cssText='width:44px;height:44px;border-radius:10px;background:var(--bg-primary);border:1px dashed var(--border-light);display:flex;align-items:center;justify-content:center;';" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover; background: var(--bg-primary); border: 1px solid var(--border-light);" />
-              <strong style="max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${post.title}</strong>
+              <div style="min-width: 0;">
+                <span class="blog-number-label">Blog ${getBlogNumber(post, data.posts)}</span>
+                <strong style="display: block; max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${post.title}</strong>
+              </div>
             </div>
           </td>
           <td><span class="badge-category-subtle" style="padding: 4px 10px; background: rgba(165,21,12,0.08); color: var(--accent-coral); border-radius: 12px; font-size: 12px; font-weight: 600;">${post.category}</span></td>

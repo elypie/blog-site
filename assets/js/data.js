@@ -214,6 +214,12 @@ function dedupeExactPosts(posts) {
   });
 }
 
+function getBlogNumber(post, posts) {
+  const orderedPosts = [...posts].sort((first, second) => Number(first.id) - Number(second.id));
+  const postIndex = orderedPosts.findIndex(candidate => String(candidate.id) === String(post.id));
+  return postIndex === -1 ? '' : postIndex + 1;
+}
+
 // Prevent duplicate create requests in the same browser session. The map is
 // shared by every admin handler on the page and is cleared after completion.
 const pendingPostSaves = new Map();

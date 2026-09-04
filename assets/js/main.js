@@ -258,6 +258,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
             <div class="featured-latest-body">
               <div class="featured-latest-badge-wrap">
+                <span class="blog-number-label">Blog ${getBlogNumber(latest, freshData.posts)}</span>
                 <span class="badge-category-subtle cat-${getCategoryClass(latest.category)}">${latest.category}</span>
               </div>
               <h3 class="featured-latest-title" style="font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; margin-top: 8px; margin-bottom: 12px; line-height: 1.3; color: var(--text-main);">${latest.title}</h3>
@@ -310,6 +311,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
                 <div class="featured-card-body" style="padding: 24px; flex: 1; display: flex; flex-direction: column;">
                   <div style="margin-bottom: 10px;">
+                    <span class="blog-number-label">Blog ${getBlogNumber(post, freshData.posts)}</span>
                     <span class="badge-category-subtle cat-${getCategoryClass(post.category)}">${post.category}</span>
                   </div>
                   <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">${post.title}</h4>
@@ -449,6 +451,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
           <div class="item-content-box">
             <div style="margin-bottom: 10px;">
+              <span class="blog-number-label">Blog ${getBlogNumber(post, data.posts)}</span>
               <span class="badge-category-subtle cat-${getCategoryClass(post.category)}">${post.category}</span>
             </div>
             <h3 class="item-title">${post.title}</h3>
@@ -668,6 +671,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <!-- 1. Article Header -->
         <header class="article-header" style="margin-bottom: 32px;">
           <div class="category-badge-wrap" style="margin-bottom: 14px;">
+            <span class="blog-number-label">Blog ${getBlogNumber(post, freshData.posts)}</span>
             <span class="badge-category-subtle cat-${getCategoryClass(post.category)}">${post.category}</span>
           </div>
           <h1 class="article-title" style="font-size: 40px; font-weight: 800; margin-bottom: 12px; font-family: 'Playfair Display', serif; line-height: 1.25;">${post.title}</h1>
