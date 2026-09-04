@@ -484,6 +484,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (articleDetailRoot) {
     const freshData = getBlogData();
     const publishedPosts = (freshData.posts || []).filter(p => p.status === 'Published');
+    publishedPosts.sort((first, second) => Number(first.id) - Number(second.id));
     const urlParams = new URLSearchParams(window.location.search);
     const postSlug = urlParams.get('slug');
     const postId = parseInt(urlParams.get('id'), 10);
