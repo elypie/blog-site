@@ -10,6 +10,31 @@ function getCategoryClass(category) {
   return 'others';
 }
 
+// The editor saves Markdown. Use Marked when it is available, with a small
+// built-in fallback so essential formatting still works if the CDN is slow or
+// unavailable on the public article page.
+function renderArticleContent(content) {
+  const source = String(content || '');
+  if (source.trim().startsWith('<')) return source;
+  if (typeof marked !== 'undefined') return marked.parse(source);
+
+  const escapeHtml = value => value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  const inline = value => escapeHtml(value)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/__(.+?)__/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/_(.+?)_/g, '<em>$1</em>');
+
+  return source.split(/\n{2,}/).filter(Boolean).map(block => {
+    const heading = block.match(/^(#{1,6})\s+(.+)$/);
+    if (heading) return `<h${heading[1].length}>${inline(heading[2])}</h${heading[1].length}>`;
+    return `<p>${inline(block).replace(/\n/g, '<br>')}</p>`;
+  }).join('');
+}
+
 // ======================================================
 // GLOBAL LIGHT / DARK THEME CONTROLLER
 // Runs independently — does NOT wait for Supabase data
@@ -464,8 +489,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                  publishedPosts[0];
 
     // Convert markdown to HTML if marked is loaded, otherwise fallback to HTML
-    const isHTML = (post.content || '').trim().startsWith('<');
-    const parsedContent = (isHTML || typeof marked === 'undefined') ? (post.content || '') : marked.parse(post.content || '');
+    const parsedContent = renderArticleContent(post.content);
 
     // Update Open Graph and Twitter tags dynamically for clients that run JS (e.g. Google Search)
     if (post) {

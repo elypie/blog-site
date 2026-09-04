@@ -940,7 +940,9 @@
         const coverSrc = imageInput.value || '';
         const editorText = easyMDE.value() || '';
         const isHTML = editorText.trim().startsWith('<');
-        const bodyContent = (isHTML || typeof marked === 'undefined') ? (editorText || '<p><em>No content written yet.</em></p>') : marked.parse(editorText);
+        const bodyContent = isHTML
+          ? (editorText || '<p><em>No content written yet.</em></p>')
+          : easyMDE.markdown(editorText || '<em>No content written yet.</em>');
 
         const summaryText = document.getElementById('post-summary-input').value.trim();
         const words = editorText.trim() ? editorText.trim().split(/\s+/).length : 0;
