@@ -155,6 +155,7 @@
 
             <!-- Action Buttons -->
             <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 28px;">
+              <button type="button" class="btn-secondary" id="open-public-preview-btn" style="width: 100%; text-align: center;">Preview Public Post</button>
               <button type="submit" class="btn-primary" id="submit-post-btn" style="width: 100%; text-align: center;">Publish Article</button>
               <button type="button" class="btn-secondary" id="save-draft-btn" style="width: 100%; text-align: center;">Save as Draft</button>
               <button type="button" id="delete-post-btn" style="display: none; width: 100%; text-align: center; background: rgba(239, 68, 68, 0.1); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.3); padding: 10px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">Delete Article</button>
@@ -932,7 +933,7 @@
       // Live Preview Modal
       const previewModal = document.getElementById('editor-preview-modal');
       const previewBody = document.getElementById('editor-preview-body');
-      document.getElementById('btn-live-preview').addEventListener('click', () => {
+      function openPublicPreview() {
         const titleText = titleInput.value.trim() || 'Untitled Article';
         const categoryText = catSelect.value || 'Information Assurance';
         const authorText = currentPost && currentPost.author ? currentPost.author : 'Elyssa';
@@ -967,7 +968,10 @@
           </div>
         `;
         previewModal.classList.add('is-open');
-      });
+      }
+
+      document.getElementById('btn-live-preview').addEventListener('click', openPublicPreview);
+      document.getElementById('open-public-preview-btn').addEventListener('click', openPublicPreview);
 
       document.getElementById('close-preview-btn').addEventListener('click', () => {
         previewModal.classList.remove('is-open');
