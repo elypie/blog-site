@@ -433,6 +433,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function renderFilteredBlogs() {
       const published = data.posts.filter(p => p.status === 'Published');
+      published.sort((first, second) => Number(first.id) - Number(second.id));
       const filtered = published.filter(p => {
         const matchesCategory = currentCategory === 'All' || p.category === currentCategory;
         const matchesSearch = p.title.toLowerCase().includes(currentSearch) || p.summary.toLowerCase().includes(currentSearch);
