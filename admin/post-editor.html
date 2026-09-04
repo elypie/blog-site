@@ -346,8 +346,8 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      const data = (typeof getBlogDataAsync === 'function') 
-        ? await getBlogDataAsync(true) 
+      const data = (typeof getBlogDataAsync === 'function')
+        ? await getBlogDataAsync(true)
         : getBlogData();
       const urlParams = new URLSearchParams(window.location.search);
       const rawPostId = urlParams.get('id');
@@ -418,7 +418,11 @@
       function showImagePreview(src, filename = 'Featured Image') {
         if (!src) return;
         if (imageInput) imageInput.value = src;
-        if (imagePreviewImg) imagePreviewImg.src = src;
+        // Paths are stored relative to the public site root, while this page
+        // lives in /admin. Keep the stored value unchanged and only adjust the
+        // preview URL used by this page.
+        const previewSrc = /^(https?:|data:|blob:|\.\.\/)/i.test(src) ? src : `../${src.replace(/^\.\//, '')}`;
+        if (imagePreviewImg) imagePreviewImg.src = previewSrc;
         if (imagePreviewFilename) imagePreviewFilename.textContent = filename;
         if (imagePreviewWrapper) imagePreviewWrapper.style.display = 'block';
         if (imageDropzone) imageDropzone.style.display = 'none';
@@ -536,25 +540,19 @@
         };
         previewReader.readAsDataURL(file);
 
-        // Upload to Supabase Storage and store the permanent public URL
-        if (typeof uploadCoverImageToSupabase === 'function' && typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+        // Save a permanent URL, rather than the browser-only preview URL.
+        // This also ensures the thumbnail is available after revisiting admin.
+        if (typeof uploadCoverImageToSupabase === 'function' &&
+            typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
           if (imagePreviewFilename) imagePreviewFilename.textContent = 'Uploading...';
           const publicUrl = await uploadCoverImageToSupabase(file);
-          if (publicUrl) {
-            // Store the real URL (not base64) — this is what gets saved to the database
-            if (imageInput) imageInput.value = publicUrl;
-            if (imagePreviewImg) imagePreviewImg.src = publicUrl;
-            if (imagePreviewFilename) imagePreviewFilename.textContent = file.name;
-          } else {
-            // Storage upload failed — clear the URL field so we don't save garbage
-            if (imageInput) imageInput.value = '';
-            if (imagePreviewFilename) imagePreviewFilename.textContent = file.name + ' (upload failed — enter URL manually)';
-            console.warn('Cover image upload failed. The image preview is local-only and will not persist.');
+          if (!publicUrl) {
+            if (imagePreviewFilename) imagePreviewFilename.textContent = `${file.name} (upload failed — enter an image URL manually)`;
+            return;
           }
-        } else {
-          // Supabase Storage not configured — leave URL field empty
-          if (imageInput) imageInput.value = '';
-          if (imagePreviewFilename) imagePreviewFilename.textContent = file.name + ' (enter URL manually to save)';
+          showImagePreview(publicUrl, file.name);
+        } else if (imagePreviewFilename) {
+          imagePreviewFilename.textContent = `${file.name} (enter an image URL to save it)`;
         }
       }
 
@@ -658,50 +656,71 @@
 
       // Handle Save & Update
       async function handleSave(status) {
-        // Guard against duplicate submissions (rapid clicks, Enter key, etc.)
         if (isSubmitting) return;
-        isSubmitting = true;
-
-        // Disable submit buttons for the duration of the async operation
-        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Saving...'; }
-        if (saveDraftBtn) { saveDraftBtn.disabled = true; }
 
         const title = titleInput.value.trim();
         if (!title) {
           alert("Please enter article title");
-          isSubmitting = false;
-          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = currentPost ? 'Update Article' : 'Publish Article'; }
-          if (saveDraftBtn) { saveDraftBtn.disabled = false; }
           return;
         }
 
+        isSubmitting = true;
+
+        if (submitBtn) submitBtn.disabled = true;
+        if (saveDraftBtn) saveDraftBtn.disabled = true;
+
         const plainText = easyMDE.value().trim();
-        const textSummary = plainText.slice(0, 160).replace(/\n/g, ' ').replace(/[#*`_]/g, '') + '...';
+        const textSummary = plainText
+          .slice(0, 160)
+          .replace(/\n/g, ' ')
+          .replace(/[#*`_]/g, '') + '...';
 
         const wordCount = plainText ? plainText.split(/\s+/).length : 0;
-        const calculatedReadTime = Math.max(1, Math.ceil(wordCount / 200)) + " min read";
+        const calculatedReadTime =
+          Math.max(1, Math.ceil(wordCount / 200)) + " min read";
 
         const now = new Date();
-        const formattedDate = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        const formattedDate = now.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        });
+
+        const slug = title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '');
 
         const summaryInputEl = document.getElementById('post-summary-input');
         const userSummary = summaryInputEl ? summaryInputEl.value.trim() : '';
-        const finalSummary = userSummary || (currentPost && currentPost.summary ? currentPost.summary : textSummary);
+
+        const finalSummary =
+          userSummary ||
+          (currentPost && currentPost.summary
+            ? currentPost.summary
+            : textSummary);
 
         const postObj = {
           id: currentPost ? currentPost.id : Date.now(),
           title,
           slug: (currentPost && currentPost.slug) ? currentPost.slug : slug,
           category: catSelect.value || "Information Assurance",
-          status, // 'Published' or 'Draft'
-          date: (currentPost && currentPost.date) ? currentPost.date : formattedDate,
+          status,
+          date: (currentPost && currentPost.date)
+            ? currentPost.date
+            : formattedDate,
           lastUpdated: formattedDate,
           readTime: calculatedReadTime,
-          author: (currentPost && currentPost.author) ? currentPost.author : "Elyssa",
+          author: (currentPost && currentPost.author)
+            ? currentPost.author
+            : "Elyssa",
           featured: currentPost ? currentPost.featured : false,
           isLatest: status === 'Published',
-          coverImage: imageInput.value || "assets/images/posts/post1-cover.png",
+          coverImage:
+            imageInput.value ||
+            (currentPost && currentPost.coverImage
+              ? currentPost.coverImage
+              : "assets/images/posts/post1-cover.png"),
           summary: finalSummary,
           content: plainText
         };
@@ -709,37 +728,30 @@
         try {
           if (typeof savePostAsync === 'function') {
             await savePostAsync(postObj, Boolean(currentPost));
+          } else {
+            throw new Error("savePostAsync() is not available.");
           }
 
-          // Always synchronize local cache for immediate public site & admin reflection
-          if (typeof getBlogData === 'function') {
-            const localData = getBlogData();
-            if (currentPost) {
-              const index = localData.posts.findIndex(p => String(p.id) === String(currentPost.id));
-              if (index !== -1) {
-                localData.posts[index] = { ...localData.posts[index], ...postObj };
-              } else {
-                localData.posts.unshift(postObj);
-              }
-            } else {
-              localData.posts.unshift(postObj);
-            }
-            saveBlogData(localData);
-          }
+          const toastMsg = currentPost
+            ? "Article updated successfully."
+            : `Article saved as ${status}!`;
 
-          const toastMsg = currentPost ? "Article updated successfully." : `Article saved as ${status}!`;
           showToast(toastMsg);
+
           setTimeout(() => {
             window.location.href = 'posts.html';
           }, 900);
-        } catch(err) {
+
+        } catch (err) {
+          console.error("Failed to save post:", err);
           alert('Failed to save blog post: ' + err.message);
-          // Re-enable buttons on error so the user can try again
+
           isSubmitting = false;
-          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = currentPost ? 'Update Article' : 'Publish Article'; }
-          if (saveDraftBtn) { saveDraftBtn.disabled = false; }
+          if (submitBtn) submitBtn.disabled = false;
+          if (saveDraftBtn) saveDraftBtn.disabled = false;
         }
       }
+
       document.querySelectorAll('.editor-btn[data-cmd]').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();

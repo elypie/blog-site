@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   initScrollToTopButton();
 
   // Async data fetch from Supabase (with fallback)
-  const data = (typeof getBlogDataAsync === 'function') 
-    ? await getBlogDataAsync(true) 
+  const data = (typeof getBlogDataAsync === 'function')
+    ? await getBlogDataAsync(true)
     : getBlogData();
 
   // Setup Logout action for sidebar exit links
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <tr>
           <td>
             <div style="display: flex; align-items: center; gap: 12px;">
-              <img src="${post.coverImage || ''}" alt="" onerror="this.onerror=null;this.src='';this.style.cssText='width:44px;height:44px;border-radius:10px;background:var(--bg-primary);border:1px dashed var(--border-light);display:flex;align-items:center;justify-content:center;';" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover; background: var(--bg-primary); border: 1px solid var(--border-light);" />
+              <img src="${getAdminImageUrl(post.coverImage)}" alt="" onerror="this.onerror=null;this.src='';this.style.cssText='width:44px;height:44px;border-radius:10px;background:var(--bg-primary);border:1px dashed var(--border-light);display:flex;align-items:center;justify-content:center;';" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover; background: var(--bg-primary); border: 1px solid var(--border-light);" />
               <strong style="max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${post.title}</strong>
             </div>
           </td>
@@ -132,6 +132,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.location.href = `post-editor.html?id=${id}`;
   };
 });
+
+// Post image paths are saved relative to the site root. Admin pages are one
+// directory deeper, so make local paths work here without changing stored data.
+function getAdminImageUrl(imageUrl) {
+  if (!imageUrl || /^(https?:|data:|blob:|\.\.\/)/i.test(imageUrl)) return imageUrl || '';
+  return `../${imageUrl.replace(/^\.\//, '')}`;
+}
 
 function initAdminTheme() {
   const savedTheme = localStorage.getItem('elys_admin_theme') || 'dark';

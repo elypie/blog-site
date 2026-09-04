@@ -200,6 +200,25 @@ const initialData = {
   ]
 };
 
+function dedupeExactPosts(posts) {
+  const seenPosts = new Set();
+  return posts.filter(post => {
+    const fingerprint = [
+      post.title,
+      post.slug,
+      post.category,
+      post.status,
+      post.date,
+      post.coverImage,
+      post.summary,
+      post.content
+    ].map(value => String(value || '').trim()).join('\u001F');
+    if (seenPosts.has(fingerprint)) return false;
+    seenPosts.add(fingerprint);
+    return true;
+  });
+}
+
 // LocalStorage Persistence Helper (Fallback)
 function getBlogData() {
   const saved = localStorage.getItem('elys_blog_data');
@@ -227,6 +246,10 @@ function getBlogData() {
             p.coverImage = 'assets/images/posts/post1-cover.png';
           }
         });
+        // Earlier versions saved a new post twice: once in savePostAsync and
+        // once again in the editor. Remove only exact duplicate records left by
+        // that bug, while preserving distinct posts with the same title.
+        parsed.posts = dedupeExactPosts(parsed.posts);
         localStorage.setItem('elys_blog_data', JSON.stringify(parsed));
         return parsed;
       }
@@ -254,7 +277,7 @@ async function getBlogDataAsync(forAdmin = false) {
       const data = {
         author: initialData.author,
         categories: (categories && categories.length > 0) ? categories : initialData.categories,
-        posts: posts
+        posts: dedupeExactPosts(posts)
       };
 
       // Seed initial posts to Supabase DB if database table is completely empty
