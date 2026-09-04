@@ -35,6 +35,21 @@ function renderArticleContent(content) {
   }).join('');
 }
 
+function getArticleSlug(post) {
+  return post.slug || String(post.title || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
+function copyArticleLink(slug) {
+  const articleUrl = new URL('blog-detail.html', window.location.href);
+  articleUrl.searchParams.set('slug', slug);
+  navigator.clipboard.writeText(articleUrl.href).then(() => {
+    alert('Article link copied to clipboard!');
+  });
+}
+
 // ======================================================
 // GLOBAL LIGHT / DARK THEME CONTROLLER
 // Runs independently — does NOT wait for Supabase data
@@ -747,7 +762,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             <button class="social-share-btn" onclick="window.open('https://facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href), '_blank')" title="Share on Facebook" aria-label="Share on Facebook">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </button>
-            <button class="social-share-btn" onclick="navigator.clipboard.writeText(location.href); alert('Article link copied to clipboard!');" title="Copy Link" aria-label="Copy Link">
+            <button class="social-share-btn" onclick="copyArticleLink('${getArticleSlug(post)}')" title="Copy Link" aria-label="Copy Link">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
             </button>
           </div>
