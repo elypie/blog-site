@@ -6,7 +6,6 @@
   <title>Blog Editor - Ely's Blog Admin</title>
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/admin.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -165,7 +164,7 @@
           <!-- Right Column: Professional WYSIWYG Editor -->
           <div class="editor-container" id="wysiwyg-editor-container">
             <!-- WYSIWYG Toolbar -->
-            <div class="editor-toolbar" style="display: none !important;">
+            <div class="editor-toolbar">
               <!-- Group 1: History -->
               <div class="editor-toolbar-group">
                 <button type="button" class="editor-btn" data-cmd="undo" title="Undo (Ctrl+Z)">
@@ -290,7 +289,7 @@
             </div>
 
             <!-- Contenteditable Canvas -->
-            <div class="editor-format-controls" aria-label="Text formatting controls">
+            <div class="editor-format-controls" aria-label="Text formatting controls" style="display: none;">
               <span class="editor-format-label">Selected text</span>
               <select id="markdown-font-family" class="editor-select" title="Font family">
                 <option value="">Font</option>
@@ -314,7 +313,7 @@
               <span class="editor-format-hint">Select text, then choose a style.</span>
             </div>
             <div class="editor-canvas-wrapper">
-              <textarea id="wysiwyg-content-area" class="editor-content-area" placeholder="Start writing your blog content here in Markdown..."></textarea>
+              <div id="wysiwyg-content-area" class="editor-content-area word-document" contenteditable="true" spellcheck="true" lang="en" role="textbox" aria-multiline="true" placeholder="Start writing your blog content here..."></div>
             </div>
 
             <!-- Statusbar -->
@@ -324,7 +323,7 @@
                 <span>Characters: <strong id="editor-char-count">0</strong></span>
               </div>
               <div class="editor-stats-item">
-                <span id="editor-autosave-status">Draft Auto-Saved</span>
+                <span id="editor-autosave-status" title="Your browser provides spelling and grammar suggestions while you type.">Spelling & grammar suggestions enabled</span>
               </div>
             </div>
           </div>
@@ -366,7 +365,6 @@
   <script src="../assets/js/supabase-client.js"></script>
   <script src="../assets/js/data.js"></script>
   <script src="../assets/js/admin.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
@@ -393,64 +391,13 @@
       const charCountEl = document.getElementById('editor-char-count');
       const autosaveStatusEl = document.getElementById('editor-autosave-status');
 
-      // Initialize EasyMDE Editor
-      const easyMDE = new EasyMDE({
-        element: document.getElementById('wysiwyg-content-area'),
-        spellChecker: false,
-        placeholder: "Start writing your blog content here in Markdown...",
-        status: false,
-        renderingConfig: {
-          singleLineBreaks: false,
-          codeSyntaxHighlighting: true
-        },
-        toolbar: [
-          "bold", "italic", "heading", "|",
-          "quote", "unordered-list", "ordered-list", "|",
-          "link", "image", "code", "table", "|",
-          "preview", "side-by-side", "fullscreen", "|",
-          "guide"
-        ]
-      });
-
-      // EasyMDE stores Markdown, so custom typography is inserted as inline
-      // HTML. The public article renderer preserves these spans.
-      function applySelectedTextStyle(style) {
-        const codeMirror = easyMDE.codemirror;
-        const selectedText = codeMirror.getSelection();
-        if (!selectedText) {
-          alert('Select the text you want to format first.');
-          return;
-        }
-        codeMirror.replaceSelection(`<span style="${style}">${selectedText}</span>`);
-        codeMirror.focus();
+      // The editor is a native rich-text document surface. Browser spellcheck
+      // provides underlined spelling and grammar suggestions as you type.
+      function contentToEditorHtml(content) {
+        const source = String(content || '');
+        if (!source || source.trim().startsWith('<')) return source;
+        return typeof marked !== 'undefined' ? marked.parse(source) : `<p>${source.replace(/\n/g, '<br>')}</p>`;
       }
-
-      const fontFamilyControl = document.getElementById('markdown-font-family');
-      const fontSizeControl = document.getElementById('markdown-font-size');
-      const textColorControl = document.getElementById('markdown-text-color');
-      const highlightColorControl = document.getElementById('markdown-highlight-color');
-      const clearFormatControl = document.getElementById('clear-markdown-format');
-
-      fontFamilyControl.addEventListener('change', () => {
-        if (fontFamilyControl.value) applySelectedTextStyle(`font-family: ${fontFamilyControl.value}`);
-        fontFamilyControl.value = '';
-      });
-      fontSizeControl.addEventListener('change', () => {
-        if (fontSizeControl.value) applySelectedTextStyle(`font-size: ${fontSizeControl.value}`);
-        fontSizeControl.value = '';
-      });
-      textColorControl.addEventListener('input', () => applySelectedTextStyle(`color: ${textColorControl.value}`));
-      highlightColorControl.addEventListener('input', () => applySelectedTextStyle(`background-color: ${highlightColorControl.value}`));
-      clearFormatControl.addEventListener('click', () => {
-        const codeMirror = easyMDE.codemirror;
-        const selectedText = codeMirror.getSelection();
-        if (!selectedText) {
-          alert('Select formatted text to clear its style.');
-          return;
-        }
-        codeMirror.replaceSelection(selectedText.replace(/<span\b[^>]*>|<\/span>/gi, ''));
-        codeMirror.focus();
-      });
 
       // Featured Image Upload Dropzone & Live Preview Elements
       const imageDropzone = document.getElementById('image-dropzone');
@@ -548,9 +495,7 @@
           if (currentPost.coverImage) {
             showImagePreview(currentPost.coverImage, currentPost.coverImage.split('/').pop() || 'Cover Image');
           }
-          if (easyMDE) {
-            easyMDE.value(currentPost.content || '');
-          }
+          editorCanvas.innerHTML = contentToEditorHtml(currentPost.content);
           updateEditorStats();
         }
       }
@@ -733,7 +678,8 @@
         if (submitBtn) submitBtn.disabled = true;
         if (saveDraftBtn) saveDraftBtn.disabled = true;
 
-        const plainText = easyMDE.value().trim();
+        const editorHtml = editorCanvas.innerHTML.trim();
+        const plainText = editorCanvas.innerText.trim();
         const textSummary = plainText
           .slice(0, 160)
           .replace(/\n/g, ' ')
@@ -786,7 +732,7 @@
               ? currentPost.coverImage
               : "assets/images/posts/post1-cover.png"),
           summary: finalSummary,
-          content: plainText
+          content: editorHtml
         };
 
         try {
@@ -938,11 +884,8 @@
         const categoryText = catSelect.value || 'Information Assurance';
         const authorText = currentPost && currentPost.author ? currentPost.author : 'Elyssa';
         const coverSrc = imageInput.value || '';
-        const editorText = easyMDE.value() || '';
-        const isHTML = editorText.trim().startsWith('<');
-        const bodyContent = isHTML
-          ? (editorText || '<p><em>No content written yet.</em></p>')
-          : easyMDE.markdown(editorText || '<em>No content written yet.</em>');
+        const editorText = editorCanvas.innerText || '';
+        const bodyContent = editorCanvas.innerHTML || '<p><em>No content written yet.</em></p>';
 
         const summaryText = document.getElementById('post-summary-input').value.trim();
         const words = editorText.trim() ? editorText.trim().split(/\s+/).length : 0;
@@ -995,21 +938,21 @@
 
       // Word & Character Counter
       function updateEditorStats() {
-        const text = easyMDE.value() || '';
+        const text = editorCanvas.innerText || '';
         const words = text.trim() ? text.trim().split(/\s+/).length : 0;
         const chars = text.length;
         wordCountEl.textContent = words;
         charCountEl.textContent = chars;
       }
 
-      easyMDE.codemirror.on('change', () => {
+      editorCanvas.addEventListener('input', () => {
         updateEditorStats();
         autosaveStatusEl.textContent = 'Editing...';
       });
 
       // Auto-Save Draft Interval (every 15s)
       setInterval(() => {
-        if (titleInput.value.trim() || easyMDE.value().trim()) {
+        if (titleInput.value.trim() || editorCanvas.innerText.trim()) {
           const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
           autosaveStatusEl.textContent = `Draft Auto-Saved at ${now}`;
         }
