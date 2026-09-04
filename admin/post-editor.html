@@ -408,6 +408,8 @@
       const removeImageBtn = document.getElementById('remove-image-btn');
       const toggleUrlBtn = document.getElementById('toggle-url-input-btn');
       const urlInputContainer = document.getElementById('url-input-container');
+      let pendingCoverUpload = null;
+      let coverUploadError = null;
 
       function showToast(message, bg = '#10B981') {
         if (toastEl) {
@@ -539,6 +541,10 @@
           return;
         }
 
+        // A newly selected cover must not fall back to an older image while it uploads.
+        coverUploadError = null;
+        if (imageInput) imageInput.value = '';
+
         // Show a local preview immediately so the user sees the image
         const previewReader = new FileReader();
         previewReader.onload = (evt) => {
@@ -554,7 +560,18 @@
         if (typeof uploadCoverImageToSupabase === 'function' &&
             typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
           if (imagePreviewFilename) imagePreviewFilename.textContent = 'Uploading...';
-          const publicUrl = await uploadCoverImageToSupabase(file);
+          pendingCoverUpload = uploadCoverImageToSupabase(file)
+            .then(publicUrl => {
+              if (!publicUrl) throw new Error('The image could not be uploaded.');
+              showImagePreview(publicUrl, file.name);
+              return publicUrl;
+            })
+            .catch(error => {
+              coverUploadError = error;
+              return null;
+            })
+            .finally(() => { pendingCoverUpload = null; });
+          const publicUrl = await pendingCoverUpload;
           if (!publicUrl) {
             if (imagePreviewFilename) imagePreviewFilename.textContent = `${file.name} (upload failed — enter an image URL manually)`;
             return;
@@ -677,6 +694,16 @@
 
         if (submitBtn) submitBtn.disabled = true;
         if (saveDraftBtn) saveDraftBtn.disabled = true;
+
+        // Do not save a post until the selected cover has its permanent URL.
+        if (pendingCoverUpload) await pendingCoverUpload;
+        if (coverUploadError) {
+          alert('Your new cover image did not upload. Please try again or enter an image URL before saving.');
+          isSubmitting = false;
+          if (submitBtn) submitBtn.disabled = false;
+          if (saveDraftBtn) saveDraftBtn.disabled = false;
+          return;
+        }
 
         const editorHtml = editorCanvas.innerHTML.trim();
         const plainText = editorCanvas.innerText.trim();
