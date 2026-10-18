@@ -751,6 +751,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <!-- 1. Article Header -->
         <header class="article-header" style="margin-bottom: 32px;">
           <div class="category-badge-wrap" style="margin-bottom: 14px;">
+            <span class="blog-number-label">Blog ${getBlogNumber(post, freshData.posts)}</span>
             <span class="badge-category-subtle cat-${getCategoryClass(post.category)}">${post.category}</span>
           </div>
           <h1 class="article-title" style="font-size: 36px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 10px; font-family: var(--font-heading); line-height: 1.25;">${post.title}</h1>
