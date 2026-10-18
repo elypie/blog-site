@@ -574,7 +574,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (articleDetailRoot) {
     const freshData = await getBlogDataAsync(false);
     const publishedPosts = (freshData.posts || []).filter(p => p.status === 'Published');
-    sortPostsNewestFirst(publishedPosts);
+    publishedPosts.sort((first, second) => Number(first.id) - Number(second.id));
 
     const urlParams = new URLSearchParams(window.location.search);
     const postSlug = urlParams.get('slug');
@@ -847,20 +847,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         ` : ''}
 
         <!-- 7. Article Navigation (Prev/Next) -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-light);">
+        <nav class="article-navigation" aria-label="Article navigation" style="display: flex; justify-content: space-between; gap: 16px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-light);">
           ${prevPost ? `
-            <div class="info-card" style="padding: 16px 20px; cursor: pointer;" data-article-url="${getPostUrl(prevPost)}" role="link" tabindex="0" aria-label="Read previous article: ${prevPost.title}">
+            <div class="info-card" style="padding: 16px 20px; cursor: pointer; flex: 0 1 calc(50% - 8px);" data-article-url="${getPostUrl(prevPost)}" role="link" tabindex="0" aria-label="Read previous article: ${prevPost.title}">
               <span style="font-size: 11px; color: var(--accent-coral); font-weight: 700;">← PREVIOUS ARTICLE</span>
               <h4 style="font-size: 14px; font-weight: 700; margin-top: 4px; color: var(--text-main); line-clamp: 2;">${prevPost.title}</h4>
             </div>
-          ` : '<div></div>'}
+          ` : ''}
           ${nextPost ? `
-            <div class="info-card" style="padding: 16px 20px; cursor: pointer; text-align: right;" data-article-url="${getPostUrl(nextPost)}" role="link" tabindex="0" aria-label="Read next article: ${nextPost.title}">
+            <div class="info-card" style="padding: 16px 20px; cursor: pointer; text-align: right; flex: 0 1 calc(50% - 8px); margin-left: auto;" data-article-url="${getPostUrl(nextPost)}" role="link" tabindex="0" aria-label="Read next article: ${nextPost.title}">
               <span style="font-size: 11px; color: var(--accent-coral); font-weight: 700;">NEXT ARTICLE →</span>
               <h4 style="font-size: 14px; font-weight: 700; margin-top: 4px; color: var(--text-main); line-clamp: 2;">${nextPost.title}</h4>
             </div>
-          ` : '<div></div>'}
-        </div>
+          ` : ''}
+        </nav>
       </div>
     `;
 
