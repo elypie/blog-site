@@ -19,9 +19,7 @@ function renderPostTags(tags, className = 'post-tags') {
 
 function getPostUrl(post) {
   const slug = encodeURIComponent(post.slug);
-  const isLocalPreview = window.location.protocol === 'file:' ||
-    ['localhost', '127.0.0.1'].includes(window.location.hostname);
-  return isLocalPreview ? `blog-detail.html?slug=${slug}` : `/blogs/${slug}`;
+  return `blog-detail.html?slug=${slug}`;
 }
 
 function getPostTimestamp(post) {
