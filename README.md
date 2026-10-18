@@ -7,7 +7,7 @@ EL Journal is a static HTML, CSS, and JavaScript blog deployed on Vercel. Publis
 1. Put the image file in `assets/images/posts/`.
 2. Add a post object to `initialData.posts` in `assets/js/data.js`. Keep `id` unique and `slug` stable, set `publishedAt` to an ISO date such as `2026-10-18`, and add a short `tags` array. Set `coverImage` to a root-relative path such as `assets/images/posts/example.webp`.
 3. Set `status` to `Draft` while preparing the article. Change it to `Published` when ready.
-4. Preview at `blog-detail.html?slug=<slug>` and check the listing and homepage.
+4. Preview locally at `blog-detail.html?slug=<slug>` and check the listing and homepage. On Vercel, the public article URL is `/blogs/<slug>`.
 5. Commit and push the project files to the connected Vercel repository. The deployment publishes the post and image together.
 
 The Admin Post Editor page explains this workflow but does not write project files. Browser uploads cannot modify the repository or a Vercel deployment. The Media Library's Prepare Image action downloads a selected image so it can be added to the project.

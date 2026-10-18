@@ -1,11 +1,10 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
+  "rewrites": [
     {
       "source": "/blogs/:slug",
-      "destination": "/blog-detail.html?slug=:slug",
-      "permanent": false
+      "destination": "/blog-detail?slug=:slug"
     }
   ]
 }
