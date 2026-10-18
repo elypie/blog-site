@@ -982,7 +982,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Floating Back to Top Button Scroll Listener & Progress Ring
   const backToTopBtn = document.getElementById('back-to-top-btn');
   const progressRingCircle = document.getElementById('progress-ring-circle');
-  const readingProgressBar = document.getElementById('reading-progress-bar');
   if (backToTopBtn) {
     const circumference = 2 * Math.PI * 21; // ~131.95
     if (progressRingCircle) {
@@ -1004,10 +1003,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           const offset = circumference - (scrollPercent * circumference);
           progressRingCircle.style.strokeDashoffset = Math.max(0, Math.min(circumference, offset));
         }
-        if (readingProgressBar) readingProgressBar.style.width = `${Math.max(0, Math.min(100, scrollPercent * 100))}%`;
       } else {
         if (progressRingCircle) progressRingCircle.style.strokeDashoffset = circumference;
-        if (readingProgressBar) readingProgressBar.style.width = '0%';
       }
     };
 
