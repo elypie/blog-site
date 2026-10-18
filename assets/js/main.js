@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <span class="blog-number-label">Blog ${getBlogNumber(latest, freshData.posts)}</span>
                 <span class="badge-category-subtle cat-${getCategoryClass(latest.category)}">${latest.category}</span>
               </div>
-              <h3 class="featured-latest-title" style="font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; margin-top: 8px; margin-bottom: 12px; line-height: 1.3; color: var(--text-main);">${latest.title}</h3>
+              <h3 class="featured-latest-title" style="font-family: var(--font-heading); font-size: 26px; font-weight: 800; letter-spacing: -0.025em; margin-top: 8px; margin-bottom: 12px; line-height: 1.3; color: var(--text-main);">${latest.title}</h3>
               <div class="featured-latest-meta" style="display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 13.5px; font-weight: 500; margin-bottom: 16px;">
                 <span>${latest.date}</span>
                 <span>•</span>
@@ -755,7 +755,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             <span class="badge-category-subtle cat-${getCategoryClass(post.category)}">${post.category}</span>
           </div>
           ${renderPostTags(post.tags)}
-          <h1 class="article-title" style="font-size: 40px; font-weight: 800; margin-bottom: 12px; font-family: 'Playfair Display', serif; line-height: 1.25;">${post.title}</h1>
+          <h1 class="article-title" style="font-size: 40px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; font-family: var(--font-heading); line-height: 1.25;">${post.title}</h1>
           <p class="article-subtitle" style="font-size: 16px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">${post.summary}</p>
           <div class="article-meta-row" style="display: flex; align-items: center; gap: 14px; color: var(--text-muted); font-size: 14px; font-weight: 500; flex-wrap: wrap;">
             <span style="display: inline-flex; align-items: center;">
