@@ -381,6 +381,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (nameEl && countEl) {
           const categoryName = nameEl.textContent.trim();
           const count = publishedPosts.filter(p => p.category === categoryName).length;
+          card.hidden = count === 0;
           if (count === 1) {
             countEl.textContent = '1 post';
           } else {
@@ -438,17 +439,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentCategory = 'All';
     let currentTag = 'All';
     let currentSearch = '';
+    const publishedCategoryNames = new Set(
+      data.posts.filter(post => post.status === 'Published').map(post => post.category)
+    );
 
     // Check for category query parameter
     const catParam = new URLSearchParams(window.location.search).get('category');
-    if (catParam) {
+    if (catParam && publishedCategoryNames.has(catParam)) {
       currentCategory = catParam;
     }
 
     // Render category filter pills
     if (categoryPillsContainer) {
       let pillsHTML = `<button type="button" class="filter-pill ${currentCategory === 'All' ? 'active' : ''}" data-cat="All" aria-pressed="${currentCategory === 'All'}">All</button>`;
-      const publishedCategoryNames = new Set(data.posts.filter(post => post.status === 'Published').map(post => post.category));
       data.categories.filter(cat => publishedCategoryNames.has(cat.name)).forEach(cat => {
         pillsHTML += `<button type="button" class="filter-pill ${currentCategory === cat.name ? 'active' : ''}" data-cat="${cat.name}" aria-pressed="${currentCategory === cat.name}">${cat.name}</button>`;
       });
@@ -505,7 +508,28 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
 
       if (filtered.length === 0) {
-        blogsListContainer.innerHTML = `<p style="padding: 40px; text-align: center; color: var(--text-muted);">No posts found matching your search.</p>`;
+        blogsListContainer.innerHTML = `
+          <div style="padding: 40px; text-align: center; color: var(--text-muted);">
+            <p style="margin-bottom: 14px;">No articles match the selected filters.</p>
+            <button type="button" class="btn-secondary" data-clear-blog-filters>Clear filters</button>
+          </div>
+        `;
+        blogsListContainer.querySelector('[data-clear-blog-filters]')?.addEventListener('click', () => {
+          currentCategory = 'All';
+          currentTag = 'All';
+          currentSearch = '';
+          if (searchInput) searchInput.value = '';
+          document.querySelectorAll('[data-cat]').forEach(button => {
+            const isAll = button.dataset.cat === 'All';
+            button.classList.toggle('active', isAll);
+            button.setAttribute('aria-pressed', String(isAll));
+          });
+          document.querySelectorAll('[data-tag]').forEach(button => {
+            button.classList.remove('active');
+            button.setAttribute('aria-pressed', 'false');
+          });
+          renderFilteredBlogs();
+        });
         return;
       }
 
