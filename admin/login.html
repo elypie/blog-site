@@ -1,14 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Login - EL Journal</title>
+
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/admin.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
   <style>
     .login-container {
       min-height: 100vh;
@@ -18,6 +21,7 @@
       background: var(--bg-primary);
       padding: 24px;
     }
+
     .login-card {
       width: 100%;
       max-width: 420px;
@@ -27,10 +31,12 @@
       padding: 40px 36px;
       box-shadow: var(--shadow-md);
     }
+
     .login-header {
       text-align: center;
       margin-bottom: 32px;
     }
+
     .login-avatar {
       width: 60px;
       height: 60px;
@@ -44,6 +50,7 @@
       justify-content: center;
       margin: 0 auto 16px auto;
     }
+
     .error-banner {
       background-color: #FEE2E2;
       color: #991B1B;
@@ -54,12 +61,14 @@
       margin-bottom: 20px;
       display: none;
     }
+
     .password-input-wrapper {
       position: relative;
       width: 100%;
       display: flex;
       align-items: center;
     }
+
     .toggle-password-btn {
       position: absolute;
       right: 12px;
@@ -74,40 +83,82 @@
       border-radius: 50%;
       transition: color var(--transition-fast), background-color var(--transition-fast);
     }
+
     .toggle-password-btn:hover {
       color: var(--accent-coral);
       background-color: var(--accent-coral-light);
     }
   </style>
 </head>
-<body>
 
+<body>
   <div class="login-container">
     <div class="login-card">
+
       <div class="login-header">
         <div class="login-avatar">EL</div>
         <h1 style="font-size: 24px; margin-bottom: 8px;">Admin Portal Login</h1>
-        <p style="font-size: 14px; color: var(--text-muted);">Sign in to access your CMS Dashboard</p>
+        <p style="font-size: 14px; color: var(--text-muted);">
+          Sign in to access your CMS Dashboard
+        </p>
       </div>
 
       <div id="login-error" class="error-banner"></div>
 
       <form id="login-form" autocomplete="off">
+
         <div class="form-group" style="margin-bottom: 20px;">
-          <label class="form-label" for="username" style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 13px; color: var(--text-main);">Username</label>
-          <input type="text" id="username" class="input-field" placeholder="Enter admin username" required autofocus autocomplete="off" value="" />
+          <label class="form-label" for="username"
+            style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 13px; color: var(--text-main);">
+            Email Address
+          </label>
+          <input
+            type="email"
+            id="username"
+            class="input-field"
+            placeholder="Enter admin email"
+            required
+            autofocus
+            autocomplete="username"
+            style="width: 100%;"
+          />
         </div>
 
         <div class="form-group" style="margin-bottom: 24px;">
-          <label class="form-label" for="password" style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 13px; color: var(--text-main);">Password</label>
+          <label class="form-label" for="password"
+            style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 13px; color: var(--text-main);">
+            Password
+          </label>
+
           <div class="password-input-wrapper">
-            <input type="password" id="password" class="input-field" placeholder="Enter password" required autocomplete="new-password" value="" style="padding-right: 48px; width: 100%;" />
-            <button type="button" id="toggle-password-btn" class="toggle-password-btn" title="Toggle Password Visibility" aria-label="Toggle Password Visibility">
-              <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <input
+              type="password"
+              id="password"
+              class="input-field"
+              placeholder="Enter password"
+              required
+              autocomplete="current-password"
+              style="padding-right: 48px; width: 100%;"
+            />
+
+            <button
+              type="button"
+              id="toggle-password-btn"
+              class="toggle-password-btn"
+              title="Toggle Password Visibility"
+              aria-label="Toggle Password Visibility"
+            >
+              <svg id="eye-icon" width="20" height="20"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                 <circle cx="12" cy="12" r="3"></circle>
               </svg>
-              <svg id="eye-off-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+
+              <svg id="eye-off-icon" width="20" height="20"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                style="display: none;">
                 <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
                 <line x1="1" y1="1" x2="23" y2="23"></line>
               </svg>
@@ -115,114 +166,104 @@
           </div>
         </div>
 
-        <button type="submit" class="btn-primary" style="width: 100%; padding: 14px; margin-top: 6px; font-size: 15px;">Sign In to Dashboard</button>
+        <button
+          type="submit"
+          class="btn-primary"
+          style="width: 100%; padding: 14px; margin-top: 6px; font-size: 15px;">
+          Sign In to Dashboard
+        </button>
       </form>
 
-      <div style="text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-light);">
-        <button type="button" id="toggle-supabase-config-btn" style="background: none; border: none; font-size: 12px; color: var(--text-muted); cursor: pointer; text-decoration: underline; display: inline-flex; align-items: center; gap: 6px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-          Configure Supabase API Keys
-        </button>
-      </div>
-
-      <!-- Supabase Inline Config Box -->
-      <div id="supabase-config-box" style="display: none; margin-top: 16px; padding: 16px; background: rgba(165, 21, 12, 0.04); border: 1px solid var(--border-light); border-radius: 12px;">
-        <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Supabase API Connection</h4>
-        <input type="text" id="config-supabase-url" class="input-field" placeholder="https://xxx.supabase.co" style="font-size: 12px; margin-bottom: 8px; width: 100%;" />
-        <input type="password" id="config-supabase-key" class="input-field" placeholder="your-anon-public-key" style="font-size: 12px; margin-bottom: 8px; width: 100%;" />
-        <button type="button" id="save-supabase-keys-btn" class="btn-secondary" style="width: 100%; padding: 8px; font-size: 12px;">Save Credentials</button>
-      </div>
-
       <div style="text-align: center; margin-top: 24px;">
-        <a href="../index.html" style="font-size: 13px; color: var(--text-muted); font-weight: 600;">← Back to Public Website</a>
+        <a href="../index.html"
+          style="font-size: 13px; color: var(--text-muted); font-weight: 600;">
+          ← Back to Public Website
+        </a>
       </div>
+
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/supabase-client.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const toggleConfigBtn = document.getElementById('toggle-supabase-config-btn');
-      const configBox = document.getElementById('supabase-config-box');
-      const configUrlInput = document.getElementById('config-supabase-url');
-      const configKeyInput = document.getElementById('config-supabase-key');
-      const saveKeysBtn = document.getElementById('save-supabase-keys-btn');
+  <script type="module">
+    import { auth } from '../assets/js/firebase-client.js';
 
-      if (configUrlInput) configUrlInput.value = localStorage.getItem('elys_supabase_url') || '';
-      if (configKeyInput) configKeyInput.value = localStorage.getItem('elys_supabase_anon_key') || '';
+    import {
+      signInWithEmailAndPassword,
+      signOut
+    } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
 
-      if (toggleConfigBtn) {
-        toggleConfigBtn.addEventListener('click', () => {
-          configBox.style.display = configBox.style.display === 'none' ? 'block' : 'none';
-        });
-      }
+    // IMPORTANT: Replace this with your actual Firebase admin UID.
+    // Use the same UID configured in your Firestore security rules.
+    const ADMIN_UID = 'ousMq8F19BaaioW9ltneiW2Gw2a2';
 
-      if (saveKeysBtn) {
-        saveKeysBtn.addEventListener('click', () => {
-          const url = configUrlInput.value.trim();
-          const key = configKeyInput.value.trim();
-          if (url) localStorage.setItem('elys_supabase_url', url);
-          if (key) localStorage.setItem('elys_supabase_anon_key', key);
-          alert('Supabase API keys saved! Page will reload.');
-          window.location.reload();
-        });
-      }
+    const loginForm = document.getElementById('login-form');
+    const emailInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const errorBanner = document.getElementById('login-error');
+    const submitButton = loginForm.querySelector('button[type="submit"]');
+    const togglePasswordBtn = document.getElementById('toggle-password-btn');
+    const eyeIcon = document.getElementById('eye-icon');
+    const eyeOffIcon = document.getElementById('eye-off-icon');
 
+    togglePasswordBtn.addEventListener('click', () => {
+      const isPassword = passwordInput.type === 'password';
 
-      const loginForm = document.getElementById('login-form');
-      const usernameInput = document.getElementById('username');
-      const passwordInput = document.getElementById('password');
-      const errorBanner = document.getElementById('login-error');
-      const togglePasswordBtn = document.getElementById('toggle-password-btn');
-      const eyeIcon = document.getElementById('eye-icon');
-      const eyeOffIcon = document.getElementById('eye-off-icon');
+      passwordInput.type = isPassword ? 'text' : 'password';
+      eyeIcon.style.display = isPassword ? 'none' : 'block';
+      eyeOffIcon.style.display = isPassword ? 'block' : 'none';
+    });
 
-      usernameInput.value = '';
-      passwordInput.value = '';
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
 
-      togglePasswordBtn.addEventListener('click', () => {
-        const isPassword = passwordInput.type === 'password';
-        passwordInput.type = isPassword ? 'text' : 'password';
-        eyeIcon.style.display = isPassword ? 'none' : 'block';
-        eyeOffIcon.style.display = isPassword ? 'block' : 'none';
-      });
+      errorBanner.style.display = 'none';
+      submitButton.disabled = true;
+      submitButton.textContent = 'Signing in...';
 
-      loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        errorBanner.style.display = 'none';
-        const username = usernameInput.value.trim();
-        const password = passwordInput.value.trim();
-
-        let supabaseAuthError = null;
-
-        // Attempt Supabase Email Authentication if Supabase is configured
-        if (typeof signInAdminWithSupabase === 'function' && isSupabaseConfigured()) {
-          try {
-            const email = username.includes('@') ? username : 'ely.admin@elysblog.com';
-            await signInAdminWithSupabase(email, password);
-            localStorage.setItem('elys_admin_logged_in', 'true');
-            localStorage.setItem('elys_admin_user', username);
-            window.location.href = 'dashboard.html';
-            return;
-          } catch(err) {
-            console.warn('Supabase Auth attempt failed:', err);
-            supabaseAuthError = err.message || 'Invalid credentials in Supabase';
-          }
+      try {
+        if (ADMIN_UID === 'YOUR_FIREBASE_ADMIN_UID') {
+          throw new Error('Please configure your Firebase admin UID first.');
         }
 
-        // Admin access fallback
-        if (username.length > 0 && password.length > 0) {
-          localStorage.setItem('elys_admin_logged_in', 'true');
-          localStorage.setItem('elys_admin_user', username);
-          window.location.href = 'dashboard.html';
+        const credential = await signInWithEmailAndPassword(
+          auth,
+          emailInput.value.trim(),
+          passwordInput.value
+        );
+
+        if (credential.user.uid !== ADMIN_UID) {
+          await signOut(auth);
+          throw new Error('This account is not authorized as an administrator.');
+        }
+
+        // Temporary compatibility with existing admin pages.
+        // This localStorage flag is NOT a security boundary.
+        localStorage.setItem('elys_admin_logged_in', 'true');
+        localStorage.setItem('elys_admin_user', credential.user.email || '');
+
+        window.location.href = 'dashboard.html';
+
+      } catch (error) {
+        console.error('Firebase admin sign-in failed:', error);
+
+        if (
+          error.message === 'This account is not authorized as an administrator.' ||
+          error.message === 'Please configure your Firebase admin UID first.'
+        ) {
+          errorBanner.textContent = error.message;
         } else {
-          errorBanner.style.display = 'block';
-          errorBanner.textContent = 'Please enter your username and password.';
+          errorBanner.textContent =
+            'Login failed. Please check your email and password.';
         }
-      });
+
+        errorBanner.style.display = 'block';
+
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Sign In to Dashboard';
+      }
     });
   </script>
+
 </body>
 </html>

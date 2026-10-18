@@ -92,6 +92,7 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header class="public-header">
     <div class="container header-container">
@@ -113,13 +114,15 @@
     </div>
   </header>
 
-  <main class="fade-in-page" style="padding: 40px 0 80px 0;">
+  <main id="main-content" class="fade-in-page" style="padding: 40px 0 80px 0;">
     <div class="container">
       <h1 style="font-size: 32px; margin-bottom: 24px;">All Blogs</h1>
 
-      <input type="text" id="blog-search-input" class="search-input" placeholder="Search blog..." />
+      <label class="sr-only" for="blog-search-input">Search articles by title, topic, or tag</label>
+      <input type="search" id="blog-search-input" class="search-input" placeholder="Search by title, topic, or tag..." autocomplete="off" />
 
-      <div id="category-pills-wrap" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px;"></div>
+      <div id="category-pills-wrap" aria-label="Filter articles by category" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px;"></div>
+      <div id="tag-pills-wrap" aria-label="Filter articles by tag" style="display: flex; gap: 10px; flex-wrap: wrap; margin: -16px 0 32px;"></div>
 
       <div id="public-blogs-list"></div>
     </div>
@@ -182,7 +185,7 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" id="quick-search-input" class="quick-search-input" placeholder="Search blog posts by title, tag, or topic..." autocomplete="off" />
+        <input type="text" id="quick-search-input" class="quick-search-input" aria-label="Search blog posts by title, tag, or topic" placeholder="Search blog posts by title, tag, or topic..." autocomplete="off" />
         <button type="button" id="quick-search-close" class="quick-search-close">ESC</button>
       </div>
       <div id="quick-search-results" class="quick-search-results">
@@ -195,9 +198,6 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="assets/js/config.js"></script>
-  <script src="assets/js/supabase-client.js"></script>
   <script src="assets/js/data.js"></script>
   <script src="assets/js/main.js"></script>
 </body>

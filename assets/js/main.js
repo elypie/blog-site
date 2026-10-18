@@ -10,6 +10,29 @@ function getCategoryClass(category) {
   return 'others';
 }
 
+function renderPostTags(tags, className = 'post-tags') {
+  if (!Array.isArray(tags) || tags.length === 0) return '';
+  return `<div class="${className}" aria-label="Article tags">${tags.map(tag =>
+    `<span class="post-tag">${String(tag).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</span>`
+  ).join('')}</div>`;
+}
+
+function getPostUrl(post) {
+  const slug = encodeURIComponent(post.slug);
+  const isLocalPreview = window.location.protocol === 'file:' ||
+    ['localhost', '127.0.0.1'].includes(window.location.hostname);
+  return isLocalPreview ? `blog-detail.html?slug=${slug}` : `/blogs/${slug}`;
+}
+
+function getPostTimestamp(post) {
+  const timestamp = Date.parse(post.publishedAt || post.date || '');
+  return Number.isNaN(timestamp) ? Number(post.id) : timestamp;
+}
+
+function sortPostsNewestFirst(posts) {
+  return posts.sort((first, second) => getPostTimestamp(second) - getPostTimestamp(first) || Number(second.id) - Number(first.id));
+}
+
 // The editor saves Markdown. Use Marked when it is available, with a small
 // built-in fallback so essential formatting still works if the CDN is slow or
 // unavailable on the public article page.
@@ -37,7 +60,7 @@ function renderArticleContent(content) {
 
 // ======================================================
 // GLOBAL LIGHT / DARK THEME CONTROLLER
-// Runs independently — does NOT wait for Supabase data
+// Runs independently from static post data.
 // ======================================================
 
 const THEME_STORAGE_KEY = 'elys_theme';
@@ -158,14 +181,28 @@ function initScrollToTopButton() {
   });
 }
 
-// Run as soon as DOM is ready — independent of Supabase fetch
+// Run as soon as DOM is ready — independent of post loading.
 document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initScrollToTopButton();
+
+  document.addEventListener('click', (event) => {
+    const card = event.target.closest('[data-article-url]');
+    if (!card || event.target.closest('a, button, input, select, textarea')) return;
+    window.location.href = card.dataset.articleUrl;
+  });
+
+  document.addEventListener('keydown', (event) => {
+    const card = event.target.closest('[data-article-url]');
+    if (card && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      window.location.href = card.dataset.articleUrl;
+    }
+  });
 });
 
 // ======================================================
-// DATA-DEPENDENT PAGE LOGIC (waits for Supabase)
+// DATA-DEPENDENT PAGE LOGIC (uses checked-in post data)
 // ======================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -240,7 +277,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const publishedPosts = freshData.posts.filter(p => p.status === 'Published');
 
     // Sort published posts by newest first
-    publishedPosts.sort((a, b) => (b.id - a.id));
+    sortPostsNewestFirst(publishedPosts);
 
     if (latestPostRoot) {
       if (publishedPosts.length === 0) {
@@ -252,7 +289,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       } else {
         const latest = publishedPosts[0];
         latestPostRoot.innerHTML = `
-          <div class="blog-item-card featured-latest-card cat-card-${getCategoryClass(latest.category)}" onclick="window.location.href='blog-detail.html?id=${latest.id}'">
+          <div class="blog-item-card featured-latest-card cat-card-${getCategoryClass(latest.category)}" data-article-url="${getPostUrl(latest)}" role="link" tabindex="0" aria-label="Read ${latest.title}">
             <div class="featured-latest-img-wrap">
               <img src="${(!latest.coverImage || latest.coverImage === 'assets/images/post1-cover.png') ? 'assets/images/posts/post1-cover.png' : latest.coverImage}" alt="${latest.title}" class="featured-latest-img" onerror="this.src='assets/images/posts/post1-cover.png'" />
             </div>
@@ -276,6 +313,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </span>
               </div>
               <p class="featured-latest-summary" style="font-size: 15px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6;">${latest.summary}</p>
+              ${renderPostTags(latest.tags)}
               
               <div class="featured-latest-footer" style="display: flex; justify-content: flex-end; align-items: center; width: 100%; border-top: 1px solid var(--border-light); padding-top: 16px; margin-top: auto;">
               </div>
@@ -305,7 +343,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         featuredPostsRoot.innerHTML = `
           <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
             ${featured.map(post => `
-              <div class="blog-item-card featured-card-responsive cat-card-${getCategoryClass(post.category)}" onclick="window.location.href='blog-detail.html?id=${post.id}'" style="display: flex; flex-direction: column; padding: 0;">
+              <div class="blog-item-card featured-card-responsive cat-card-${getCategoryClass(post.category)}" data-article-url="${getPostUrl(post)}" role="link" tabindex="0" aria-label="Read ${post.title}" style="display: flex; flex-direction: column; padding: 0;">
                 <div class="featured-card-img-wrap" style="width: 100%; height: 220px; overflow: hidden; border-radius: 16px 16px 0 0;">
                   <img src="${(!post.coverImage || post.coverImage === 'assets/images/post1-cover.png') ? 'assets/images/posts/post1-cover.png' : post.coverImage}" alt="${post.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/images/posts/post1-cover.png'" />
                 </div>
@@ -326,7 +364,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </span>
                   </div>
                   <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px; flex: 1; line-height: 1.6;">${post.summary}</p>
-                  <a href="blog-detail.html?id=${post.id}" class="btn-read-more" style="align-self: flex-start;">Read Article →</a>
+                  ${renderPostTags(post.tags)}
+                  <a href="${getPostUrl(post)}" class="btn-read-more" style="align-self: flex-start;">Read Article →</a>
                 </div>
               </div>
             `).join('')}
@@ -396,8 +435,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (blogsListContainer) {
     const searchInput = document.getElementById('blog-search-input');
     const categoryPillsContainer = document.getElementById('category-pills-wrap');
+    const tagPillsContainer = document.getElementById('tag-pills-wrap');
 
     let currentCategory = 'All';
+    let currentTag = 'All';
     let currentSearch = '';
 
     // Check for category query parameter
@@ -408,9 +449,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Render category filter pills
     if (categoryPillsContainer) {
-      let pillsHTML = `<button class="filter-pill ${currentCategory === 'All' ? 'active' : ''}" data-cat="All">All</button>`;
-      data.categories.forEach(cat => {
-        pillsHTML += `<button class="filter-pill ${currentCategory === cat.name ? 'active' : ''}" data-cat="${cat.name}">${cat.name}</button>`;
+      let pillsHTML = `<button type="button" class="filter-pill ${currentCategory === 'All' ? 'active' : ''}" data-cat="All" aria-pressed="${currentCategory === 'All'}">All</button>`;
+      const publishedCategoryNames = new Set(data.posts.filter(post => post.status === 'Published').map(post => post.category));
+      data.categories.filter(cat => publishedCategoryNames.has(cat.name)).forEach(cat => {
+        pillsHTML += `<button type="button" class="filter-pill ${currentCategory === cat.name ? 'active' : ''}" data-cat="${cat.name}" aria-pressed="${currentCategory === cat.name}">${cat.name}</button>`;
       });
       categoryPillsContainer.innerHTML = pillsHTML;
 
@@ -418,10 +460,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (e.target.classList.contains('filter-pill')) {
           document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
           e.target.classList.add('active');
+          document.querySelectorAll('[data-cat]').forEach(p => p.setAttribute('aria-pressed', String(p === e.target)));
           currentCategory = e.target.getAttribute('data-cat');
           renderFilteredBlogs();
         }
       });
+    }
+
+    if (tagPillsContainer) {
+      const availableTags = [...new Set(data.posts
+        .filter(post => post.status === 'Published')
+        .flatMap(post => post.tags || []))].sort();
+      if (availableTags.length > 0) {
+        tagPillsContainer.innerHTML = `<span style="align-self: center; color: var(--text-muted); font-size: 13px; font-weight: 700;">Topics:</span>${availableTags.map(tag =>
+          `<button type="button" class="filter-pill ${currentTag === tag ? 'active' : ''}" data-tag="${tag}" aria-pressed="${currentTag === tag}">${tag}</button>`
+        ).join('')}`;
+        tagPillsContainer.addEventListener('click', event => {
+          const pill = event.target.closest('[data-tag]');
+          if (!pill) return;
+          currentTag = currentTag === pill.dataset.tag ? 'All' : pill.dataset.tag;
+          tagPillsContainer.querySelectorAll('[data-tag]').forEach(button => {
+            button.classList.toggle('active', button.dataset.tag === currentTag);
+            button.setAttribute('aria-pressed', String(button.dataset.tag === currentTag));
+          });
+          renderFilteredBlogs();
+        });
+      }
     }
 
     if (searchInput) {
@@ -433,11 +497,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function renderFilteredBlogs() {
       const published = data.posts.filter(p => p.status === 'Published');
-      published.sort((first, second) => Number(first.id) - Number(second.id));
+      sortPostsNewestFirst(published);
       const filtered = published.filter(p => {
         const matchesCategory = currentCategory === 'All' || p.category === currentCategory;
-        const matchesSearch = p.title.toLowerCase().includes(currentSearch) || p.summary.toLowerCase().includes(currentSearch);
-        return matchesCategory && matchesSearch;
+        const matchesTag = currentTag === 'All' || (p.tags || []).includes(currentTag);
+        const searchableText = [p.title, p.summary, p.category, ...(p.tags || [])].join(' ').toLowerCase();
+        const matchesSearch = searchableText.includes(currentSearch);
+        return matchesCategory && matchesTag && matchesSearch;
       });
 
       if (filtered.length === 0) {
@@ -446,7 +512,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       blogsListContainer.innerHTML = filtered.map(post => `
-        <div class="blog-item-card reveal-on-scroll cat-card-${getCategoryClass(post.category)}" onclick="window.location.href='blog-detail.html?id=${post.id}'">
+        <div class="blog-item-card reveal-on-scroll cat-card-${getCategoryClass(post.category)}" data-article-url="${getPostUrl(post)}" role="link" tabindex="0" aria-label="Read ${post.title}">
           <div class="item-image-box">
             <img src="${post.coverImage}" alt="${post.title}" class="item-cover-img" style="width: 100%; height: 100%; object-fit: cover;" />
           </div>
@@ -457,6 +523,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
             <h3 class="item-title">${post.title}</h3>
             <p class="item-summary">${post.summary}</p>
+            ${renderPostTags(post.tags)}
             <div class="item-meta-row" style="display: flex; align-items: center; gap: 18px; color: var(--text-muted); font-size: 13px; font-weight: 500;">
               <span style="display: inline-flex; align-items: center;">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
@@ -468,7 +535,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               </span>
             </div>
             <div class="item-action-row">
-              <a href="blog-detail.html?id=${post.id}" class="btn-read-more">Read Article →</a>
+              <a href="${getPostUrl(post)}" class="btn-read-more">Read Article →</a>
             </div>
           </div>
         </div>
@@ -483,18 +550,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   // --- SINGLE ARTICLE DETAIL PAGE ---
   const articleDetailRoot = document.getElementById('article-detail-root');
   if (articleDetailRoot) {
-    const freshData = getBlogData();
+    const freshData = await getBlogDataAsync(false);
     const publishedPosts = (freshData.posts || []).filter(p => p.status === 'Published');
-    publishedPosts.sort((first, second) => Number(first.id) - Number(second.id));
+    sortPostsNewestFirst(publishedPosts);
+
     const urlParams = new URLSearchParams(window.location.search);
     const postSlug = urlParams.get('slug');
     const postId = parseInt(urlParams.get('id'), 10);
-    const post = (postSlug ? publishedPosts.find(p => p.slug === postSlug) : null) || 
-                 (postId ? publishedPosts.find(p => p.id === postId) : null) || 
-                 publishedPosts[0];
+
+    const post = (postSlug ? publishedPosts.find(p => p.slug === postSlug) : null) ||
+                 (postId ? publishedPosts.find(p => p.id === postId) : null);
 
     // Convert markdown to HTML if marked is loaded, otherwise fallback to HTML
-    const parsedContent = renderArticleContent(post.content);
+    const parsedContent = post ? renderArticleContent(post.content) : '';
 
     // Update Open Graph and Twitter tags dynamically for clients that run JS (e.g. Google Search)
     if (post) {
@@ -526,11 +594,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     if (!post) {
+      document.title = 'Article Not Found - EL Journal';
+      const recentArticles = publishedPosts.slice(0, 3).map(article =>
+        `<li><a href="${getPostUrl(article)}">${article.title}</a></li>`
+      ).join('');
       articleDetailRoot.innerHTML = `
         <div style="padding: 80px 0; text-align: center; color: var(--text-muted);">
           <h2>Article Not Found</h2>
-          <p>The requested article does not exist or has been removed.</p>
-          <a href="blogs.html" class="btn-primary" style="margin-top: 16px;">Back to Blogs</a>
+          <p>The article may have been moved, removed, or the link may be incomplete.</p>
+          <a href="blogs.html" class="btn-primary" style="margin-top: 16px;">Browse all articles</a>
+          ${recentArticles ? `<div class="article-empty-suggestions"><p>Try one of the latest articles:</p><ul>${recentArticles}</ul></div>` : ''}
         </div>
       `;
       return;
@@ -551,19 +624,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     const prevPost = currentIndex > 0 ? publishedPosts[currentIndex - 1] : null;
     const nextPost = currentIndex < publishedPosts.length - 1 ? publishedPosts[currentIndex + 1] : null;
 
-    let relatedPosts = publishedPosts.filter(p => p.id !== post.id && p.category === post.category);
-    if (relatedPosts.length < 3) {
-      const remaining = publishedPosts.filter(p => p.id !== post.id && p.category !== post.category);
-      relatedPosts = [...relatedPosts, ...remaining];
-    }
-    relatedPosts = relatedPosts.slice(0, 3);
+    const currentTags = new Set((post.tags || []).map(tag => String(tag).toLowerCase()));
+    const relatedPosts = publishedPosts
+      .filter(candidate => candidate.id !== post.id)
+      .map(candidate => ({
+        ...candidate,
+        relevance: (candidate.category === post.category ? 2 : 0) +
+          (candidate.tags || []).filter(tag => currentTags.has(String(tag).toLowerCase())).length * 3
+      }))
+      .sort((first, second) => second.relevance - first.relevance || Number(second.id) - Number(first.id))
+      .slice(0, 3);
 
     const relatedHTML = relatedPosts.map(rel => `
-      <div class="related-post-item" onclick="window.location.href='blog-detail.html?id=${rel.id}'">
+      <div class="related-post-item" data-article-url="${getPostUrl(rel)}" role="link" tabindex="0" aria-label="Read related article: ${rel.title}">
         <img src="${rel.coverImage}" alt="${rel.title}" class="related-post-thumb" />
         <div>
           <h5 class="related-post-title">${rel.title}</h5>
           <span class="related-post-date">${rel.date}</span>
+          ${renderPostTags(rel.tags)}
         </div>
       </div>
     `).join('');
@@ -663,6 +741,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     const tocHTML = generateTocHTML(tocGroups);
+    const floatingTocList = document.getElementById('floating-toc-list');
+    if (floatingTocList) floatingTocList.innerHTML = tocHTML;
 
     articleDetailRoot.innerHTML = `
       <div class="article-reader-container fade-in-up">
@@ -676,6 +756,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             <span class="blog-number-label">Blog ${getBlogNumber(post, freshData.posts)}</span>
             <span class="badge-category-subtle cat-${getCategoryClass(post.category)}">${post.category}</span>
           </div>
+          ${renderPostTags(post.tags)}
           <h1 class="article-title" style="font-size: 40px; font-weight: 800; margin-bottom: 12px; font-family: 'Playfair Display', serif; line-height: 1.25;">${post.title}</h1>
           <p class="article-subtitle" style="font-size: 16px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">${post.summary}</p>
           <div class="article-meta-row" style="display: flex; align-items: center; gap: 14px; color: var(--text-muted); font-size: 14px; font-weight: 500; flex-wrap: wrap;">
@@ -697,40 +778,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         </header>
 
         <!-- 2. Featured Image -->
-        <div class="article-cover-wrapper" style="height: 440px; border-radius: 20px; overflow: hidden; margin-bottom: 36px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="openLightbox('${(!post.coverImage || post.coverImage === 'assets/images/post1-cover.png') ? 'assets/images/posts/post1-cover.png' : post.coverImage}')">
+        <div class="article-cover-wrapper" role="button" tabindex="0" aria-label="Expand article cover image" style="height: 440px; border-radius: 20px; overflow: hidden; margin-bottom: 36px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="openLightbox('${(!post.coverImage || post.coverImage === 'assets/images/post1-cover.png') ? 'assets/images/posts/post1-cover.png' : post.coverImage}', this)">
           <img src="${(!post.coverImage || post.coverImage === 'assets/images/post1-cover.png') ? 'assets/images/posts/post1-cover.png' : post.coverImage}" alt="${post.title}" class="article-cover-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/images/posts/post1-cover.png'" />
         </div>
 
-        <!-- 3. On this page (Collapsible Accordion Card - Expanded by Default) -->
-        ${tocGroups.length > 0 ? `
-          <div class="toc-card is-accordion expanded" id="main-toc-accordion" style="margin-bottom: 32px; width: 100%; padding: 20px 24px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 20px; box-shadow: var(--shadow-sm); transition: all 0.3s ease;">
-            <div class="toc-card-header" onclick="window.toggleMainTocAccordion()" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none;">
-              <h3 class="toc-title" style="font-size: 16px; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 8px;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.85; color: var(--accent-coral);">
-                  <line x1="8" y1="6" x2="21" y2="6"></line>
-                  <line x1="8" y1="12" x2="21" y2="12"></line>
-                  <line x1="8" y1="18" x2="21" y2="18"></line>
-                  <line x1="3" y1="6" x2="3.01" y2="6"></line>
-                  <line x1="3" y1="12" x2="3.01" y2="12"></line>
-                  <line x1="3" y1="18" x2="3.01" y2="18"></line>
-                </svg>
-                <span>On this page</span>
-              </h3>
-              <button type="button" class="toc-accordion-btn" aria-label="Toggle Outline" style="background: transparent; border: none; padding: 4px; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; transition: transform 0.3s ease;">
-                <svg id="main-toc-chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);">
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-              </button>
-            </div>
-            <div class="toc-card-body" id="main-toc-accordion-body" style="margin-top: 16px; max-height: 1500px; opacity: 1; overflow: hidden; transition: max-height 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin 0.25s ease;">
-              <ul class="toc-list">
-                ${tocHTML}
-              </ul>
-            </div>
-          </div>
-        ` : ''}
-
-        <!-- 4. Blog Article Content -->
+        <!-- 3. Blog Article Content -->
         <main class="article-body" id="main-article-content" style="text-align: justify; margin-bottom: 32px;">
           ${parsedContent}
         </main>
@@ -766,16 +818,23 @@ document.addEventListener('DOMContentLoaded', async () => {
           <p class="author-bio" style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin: 0;">A BSIT student at Father Saturnino Urios University with a passion for designing and developing websites while expanding knowledge in cybersecurity. This blog shares knowledge, projects, and insights gained through exploring technology and building secure, reliable applications.</p>
         </div>
 
+        ${relatedPosts.length ? `
+          <section class="info-card" aria-labelledby="related-articles-heading" style="padding: 20px 24px; margin-bottom: 24px; border-radius: 18px;">
+            <h2 id="related-articles-heading" style="font-size: 18px; font-weight: 800; font-family: var(--font-sans); margin-bottom: 12px;">Related articles</h2>
+            <div class="related-posts-list">${relatedHTML}</div>
+          </section>
+        ` : ''}
+
         <!-- 7. Article Navigation (Prev/Next) -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-light);">
           ${prevPost ? `
-            <div class="info-card" style="padding: 16px 20px; cursor: pointer;" onclick="window.location.href='blog-detail.html?id=${prevPost.id}'">
+            <div class="info-card" style="padding: 16px 20px; cursor: pointer;" data-article-url="${getPostUrl(prevPost)}" role="link" tabindex="0" aria-label="Read previous article: ${prevPost.title}">
               <span style="font-size: 11px; color: var(--accent-coral); font-weight: 700;">← PREVIOUS ARTICLE</span>
               <h4 style="font-size: 14px; font-weight: 700; margin-top: 4px; color: var(--text-main); line-clamp: 2;">${prevPost.title}</h4>
             </div>
           ` : '<div></div>'}
           ${nextPost ? `
-            <div class="info-card" style="padding: 16px 20px; cursor: pointer; text-align: right;" onclick="window.location.href='blog-detail.html?id=${nextPost.id}'">
+            <div class="info-card" style="padding: 16px 20px; cursor: pointer; text-align: right;" data-article-url="${getPostUrl(nextPost)}" role="link" tabindex="0" aria-label="Read next article: ${nextPost.title}">
               <span style="font-size: 11px; color: var(--accent-coral); font-weight: 700;">NEXT ARTICLE →</span>
               <h4 style="font-size: 14px; font-weight: 700; margin-top: 4px; color: var(--text-main); line-clamp: 2;">${nextPost.title}</h4>
             </div>
@@ -784,39 +843,35 @@ document.addEventListener('DOMContentLoaded', async () => {
       </div>
     `;
 
-    // Toggle Main Table of Contents Accordion
-    window.toggleMainTocAccordion = function() {
-      const card = document.getElementById('main-toc-accordion');
-      const body = document.getElementById('main-toc-accordion-body');
-      const chevron = document.getElementById('main-toc-chevron-icon');
-
-      if (card && body) {
-        const isExpanded = card.classList.contains('expanded');
-        if (isExpanded) {
-          card.classList.remove('expanded');
-          body.style.maxHeight = '0px';
-          body.style.opacity = '0';
-          body.style.marginTop = '0px';
-          if (chevron) chevron.style.transform = 'rotate(-90deg)';
-        } else {
-          card.classList.add('expanded');
-          body.style.maxHeight = '1500px';
-          body.style.opacity = '1';
-          body.style.marginTop = '16px';
-          if (chevron) chevron.style.transform = 'rotate(0deg)';
-        }
-      }
-    };
-
     // Image Lightbox Helper Function
-    window.openLightbox = function(src) {
+    let lightboxTrigger = null;
+    window.openLightbox = function(src, trigger = document.activeElement) {
       const modal = document.getElementById('image-lightbox-modal');
       const img = document.getElementById('lightbox-modal-img');
       if (modal && img) {
+        lightboxTrigger = trigger;
         img.src = src;
         modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+        document.getElementById('lightbox-close-btn')?.focus();
       }
     };
+
+    window.closeLightbox = function() {
+      const modal = document.getElementById('image-lightbox-modal');
+      if (!modal) return;
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+      lightboxTrigger?.focus();
+    };
+
+    document.getElementById('image-lightbox-modal')?.addEventListener('click', event => {
+      if (event.target === event.currentTarget) window.closeLightbox();
+    });
+    document.addEventListener('keydown', event => {
+      const modal = document.getElementById('image-lightbox-modal');
+      if (event.key === 'Escape' && modal?.style.display === 'flex') window.closeLightbox();
+    });
 
     // Attach Lightbox & IntersectionObserver for active TOC highlight + auto expand on scroll
     setTimeout(() => {
@@ -835,7 +890,23 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.querySelectorAll('#main-article-content img').forEach(img => {
         img.style.cursor = 'zoom-in';
         img.setAttribute('loading', 'lazy');
-        img.addEventListener('click', () => window.openLightbox(img.src));
+        img.setAttribute('role', 'button');
+        img.setAttribute('tabindex', '0');
+        img.setAttribute('aria-label', `Expand image: ${img.alt || 'article image'}`);
+        img.addEventListener('click', () => window.openLightbox(img.src, img));
+        img.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            window.openLightbox(img.src, img);
+          }
+        });
+      });
+
+      document.querySelector('.article-cover-wrapper')?.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          event.currentTarget.click();
+        }
       });
 
       const articleHeadings = document.querySelectorAll('#main-article-content h2, #main-article-content h3');
@@ -890,6 +961,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Floating Back to Top Button Scroll Listener & Progress Ring
   const backToTopBtn = document.getElementById('back-to-top-btn');
   const progressRingCircle = document.getElementById('progress-ring-circle');
+  const readingProgressBar = document.getElementById('reading-progress-bar');
   if (backToTopBtn) {
     const circumference = 2 * Math.PI * 21; // ~131.95
     if (progressRingCircle) {
@@ -904,15 +976,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         backToTopBtn.classList.remove('is-visible');
       }
 
-      if (progressRingCircle) {
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        if (docHeight > 0) {
-          const scrollPercent = window.scrollY / docHeight;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (docHeight > 0) {
+        const scrollPercent = window.scrollY / docHeight;
+        if (progressRingCircle) {
           const offset = circumference - (scrollPercent * circumference);
           progressRingCircle.style.strokeDashoffset = Math.max(0, Math.min(circumference, offset));
-        } else {
-          progressRingCircle.style.strokeDashoffset = circumference;
         }
+        if (readingProgressBar) readingProgressBar.style.width = `${Math.max(0, Math.min(100, scrollPercent * 100))}%`;
+      } else {
+        if (progressRingCircle) progressRingCircle.style.strokeDashoffset = circumference;
+        if (readingProgressBar) readingProgressBar.style.width = '0%';
       }
     };
 
@@ -983,7 +1057,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         resultsContainer.innerHTML = `
           <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 16px 4px 16px;">Recent Articles</div>
           ${currentResults.map((p, idx) => `
-            <a href="blog-detail.html?slug=${p.slug}" class="search-result-item ${idx === selectedIndex ? 'selected' : ''}">
+            <a href="${getPostUrl(p)}" class="search-result-item ${idx === selectedIndex ? 'selected' : ''}">
               <span class="search-result-category">${p.category}</span>
               <div class="search-result-title">${p.title}</div>
               <div class="search-result-snippet">${p.summary || ''}</div>
@@ -997,6 +1071,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return (p.title && p.title.toLowerCase().includes(q)) ||
                (p.summary && p.summary.toLowerCase().includes(q)) ||
                (p.category && p.category.toLowerCase().includes(q)) ||
+               (p.tags && p.tags.some(tag => String(tag).toLowerCase().includes(q))) ||
                (p.content && p.content.toLowerCase().includes(q));
       }).slice(0, 6);
 
@@ -1010,7 +1085,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       resultsContainer.innerHTML = currentResults.map((p, idx) => `
-        <a href="blog-detail.html?slug=${p.slug}" class="search-result-item ${idx === selectedIndex ? 'selected' : ''}">
+        <a href="${getPostUrl(p)}" class="search-result-item ${idx === selectedIndex ? 'selected' : ''}">
           <span class="search-result-category">${p.category}</span>
           <div class="search-result-title">${p.title}</div>
           <div class="search-result-snippet">${p.summary || ''}</div>
@@ -1037,7 +1112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateSelectedResult(items);
       } else if (e.key === 'Enter' && selectedIndex >= 0 && selectedIndex < currentResults.length) {
         e.preventDefault();
-        window.location.href = `blog-detail.html?slug=${currentResults[selectedIndex].slug}`;
+        window.location.href = getPostUrl(currentResults[selectedIndex]);
       }
     });
 

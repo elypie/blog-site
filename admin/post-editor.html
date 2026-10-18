@@ -3,996 +3,142 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog Editor - Ely's Blog Admin</title>
+  <title>Static Publishing - EL Journal Admin</title>
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/admin.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <style>
+    body.admin-body { visibility: hidden; }
+    .workflow-steps { display: grid; gap: 16px; max-width: 980px; }
+    .workflow-step { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; padding: 22px 24px; }
+    .workflow-step h2 { font-size: 17px; margin: 0 0 8px; }
+    .workflow-step p { color: var(--text-muted); margin: 0; line-height: 1.65; }
+    .workflow-step code, .workflow-note code { color: var(--accent-coral); }
+    .workflow-example { margin: 14px 0 0; padding: 16px; overflow: auto; border-radius: 8px; background: var(--bg-primary); border: 1px solid var(--border-light); font: 12px/1.6 monospace; }
+    .workflow-note { max-width: 980px; padding: 14px 18px; margin-bottom: 20px; border-left: 4px solid var(--accent-coral); background: var(--accent-coral-light); color: var(--text-main); }
+    @media (max-width: 600px) { .workflow-step { padding: 18px; } }
+  </style>
 </head>
 <body class="admin-body">
-
   <aside class="admin-sidebar">
     <div class="sidebar-brand">
       <h2 class="brand-logo"><span class="logo-accent">EL</span> Journal</h2>
       <p class="admin-subtitle">ADMIN CMS</p>
     </div>
     <nav class="sidebar-nav">
-      <a href="dashboard.html" class="sidebar-link">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
-        <span>Dashboard</span>
-      </a>
-      <a href="posts.html" class="sidebar-link active">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-        <span>Posts</span>
-      </a>
-      <a href="categories.html" class="sidebar-link">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-        <span>Categories</span>
-      </a>
-      <a href="media.html" class="sidebar-link">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-        <span>Media</span>
-      </a>
-      <a href="profile-settings.html" class="sidebar-link">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-        <span>Settings</span>
-      </a>
+      <a href="dashboard.html" class="sidebar-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg><span>Dashboard</span></a>
+      <a href="posts.html" class="sidebar-link active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg><span>Posts</span></a>
+      <a href="categories.html" class="sidebar-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg><span>Categories</span></a>
+      <a href="media.html" class="sidebar-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg><span>Media</span></a>
+      <a href="profile-settings.html" class="sidebar-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Settings</span></a>
     </nav>
     <div class="sidebar-footer">
-      <a href="login.html" class="sidebar-link" style="color: #EF4444;" id="admin-logout-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-        <span>Logout</span>
-      </a>
+      <a href="login.html" class="sidebar-link" id="admin-logout-btn" style="color:#EF4444"><span>Logout</span></a>
     </div>
   </aside>
 
   <div class="admin-main">
     <header class="admin-topbar">
-      <div></div>
-      <div style="display: flex; align-items: center; gap: 16px;">
-        <button class="admin-theme-btn" id="admin-theme-toggle">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-          <span>Dark Mode</span>
-        </button>
-        <div class="admin-profile-badge">
-          <div class="avatar-circle">EL</div>
-          <div style="display: flex; flex-direction: column;">
-            <span class="admin-name">Ely</span>
-            <span class="admin-role">Administrator</span>
-          </div>
-        </div>
+      <div><a href="posts.html" class="btn-secondary">Back to Posts</a></div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <button class="admin-theme-btn" id="admin-theme-toggle" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg><span>Dark Mode</span></button>
+        <div class="admin-profile-badge"><div class="avatar-circle">EL</div><div><span class="admin-name">Ely</span><span class="admin-role">Administrator</span></div></div>
       </div>
     </header>
 
     <main class="admin-content-body">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <a href="posts.html" class="btn-secondary">← Back to Posts</a>
-          <h1 style="font-size: 24px;" id="editor-page-title">Create New Blog</h1>
-          <div id="editor-status-badge"></div>
-        </div>
-      </div>
+      <h1 style="font-size:28px;margin-bottom:8px">Publish a Static Post</h1>
+      <p style="color:var(--text-muted);margin-bottom:20px">Posts and images are site files. Edit them in the project, then deploy the updated site.</p>
+      <div class="workflow-note"><strong>This page does not save posts.</strong> Browser-based pages cannot write files into your project or Vercel deployment. Do not paste data URLs into post content or cover images.</div>
 
-      <!-- Toast Notification Banner -->
-      <div id="editor-toast" style="display: none; position: fixed; top: 24px; right: 24px; z-index: 3000; background: #10B981; color: #FFF; padding: 14px 22px; border-radius: 14px; font-weight: 700; font-size: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); transition: all 0.3s ease;">
-        ✓ Article updated successfully.
-      </div>
+      <div class="workflow-steps">
+        <section class="workflow-step">
+          <h2>1. Add the image file</h2>
+          <p>Place the original image in <code>assets/images/posts/</code>. Use a short, lowercase filename and keep the image reasonably compressed. The file will be served by Vercel after deployment.</p>
+        </section>
 
-      <form id="blog-form">
-        <div style="display: grid; grid-template-columns: 320px 1fr; gap: 28px; align-items: start;">
-          <!-- Left Column: Post Metadata -->
-          <div style="background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-light); padding: 24px; box-shadow: var(--shadow-sm);">
-            <h3 style="font-size: 16px; margin-bottom: 20px;">Article Settings</h3>
-            
-            <div class="form-group">
-              <label class="form-label">Article Title</label>
-              <input type="text" id="post-title-input" class="input-field" placeholder="Enter blog title..." required />
-            </div>
+        <section class="workflow-step">
+          <h2>2. Add the post to the static source</h2>
+          <p>Open <code>assets/js/data.js</code> and add a post object inside <code>initialData.posts</code>. Use a unique numeric ID and slug. Keep <code>coverImage</code> as a path relative to the site root.</p>
+          <pre class="workflow-example"><code>{
+  id: 2,
+  title: 'Your article title',
+  slug: 'your-article-title',
+  category: 'Information Assurance',
+  status: 'Draft',
+  date: 'Oct 18, 2026',
+  readTime: '5 min read',
+  author: 'Elyssa',
+  featured: false,
+  isLatest: false,
+  likes: 0,
+  views: '0',
+  coverImage: 'assets/images/posts/your-cover.webp',
+  summary: 'A short description for the post listing.',
+  content: `&lt;h2 id="intro"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Write the article using HTML elements.&lt;/p&gt;`
+}</code></pre>
+        </section>
 
-            <div class="form-group">
-              <label class="form-label">Category</label>
-              <select id="post-category-select" class="input-field">
-                <option value="Information Assurance">Information Assurance</option>
-                <option value="Organizational Context">Organizational Context</option>
-                <option value="Computing Ethics">Computing Ethics</option>
-                <option value="Data Privacy">Data Privacy</option>
-                <option value="Security Principles">Security Principles</option>
-                <option value="Others">Others</option>
-              </select>
-            </div>
+        <section class="workflow-step">
+          <h2>3. Preview and publish</h2>
+          <p>Run the site locally and check the post at <code>blog-detail.html?id=2</code>. Change <code>status</code> to <code>Published</code> when ready. Save the project changes and push them to the connected Vercel repository to publish.</p>
+        </section>
 
-            <div class="form-group">
-              <label class="form-label">Short Description / Subtitle</label>
-              <textarea id="post-summary-input" class="input-field" rows="3" placeholder="Enter short description or subtitle..." style="font-size: 13px; resize: vertical; line-height: 1.5;"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
-                <span>Featured Cover Image</span>
-                <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Direct Upload</span>
-              </label>
-
-              <!-- Upload Dropzone -->
-              <div id="image-dropzone" style="border: 2px dashed var(--border-light); border-radius: 16px; padding: 22px 14px; text-align: center; background: var(--bg-primary); cursor: pointer; transition: all 0.2s ease;">
-                <input type="file" id="post-image-file" accept="image/jpeg, image/jpg, image/png, image/webp" style="display: none;" />
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--accent-coral)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 6px;">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="17 8 12 3 7 8"></polyline>
-                  <line x1="12" y1="3" x2="12" y2="15"></line>
-                </svg>
-                <p style="font-size: 13px; font-weight: 700; margin-bottom: 2px; color: var(--text-main);">Click or Drag & Drop Image</p>
-                <span style="font-size: 11px; color: var(--text-muted);">JPG, PNG, WEBP supported</span>
-              </div>
-
-              <!-- Live Image Preview Card -->
-              <div id="image-preview-wrapper" style="display: none; margin-top: 10px;">
-                <div style="border-radius: 14px; overflow: hidden; border: 1px solid var(--border-light); background: var(--bg-primary);">
-                  <img id="image-preview-img" src="" alt="Featured Cover Preview" style="width: 100%; height: 150px; object-fit: cover; display: block;" />
-                  <div style="padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); border-top: 1px solid var(--border-light);">
-                    <span id="image-preview-filename" style="font-size: 11px; font-weight: 600; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">image.jpg</span>
-                    <button type="button" id="remove-image-btn" style="background: rgba(239, 68, 68, 0.12); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">Remove</button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- URL & Media Library Actions -->
-              <div style="margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-                <button type="button" id="open-media-modal-btn" style="background: none; border: none; font-size: 11px; font-weight: 700; color: var(--accent-coral); cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 4px;">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-                  Select from Media Library
-                </button>
-                <button type="button" id="toggle-url-input-btn" style="background: none; border: none; font-size: 11px; font-weight: 600; color: var(--text-muted); cursor: pointer; padding: 0;">
-                  + Or enter image URL
-                </button>
-              </div>
-
-              <div id="url-input-container" style="display: none; margin-top: 8px;">
-                <input type="text" id="post-image-input" class="input-field" placeholder="https://... or assets/images/..." style="font-size: 13px;" />
-              </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 28px;">
-              <button type="button" class="btn-secondary" id="open-public-preview-btn" style="width: 100%; text-align: center;">Preview Public Post</button>
-              <button type="submit" class="btn-primary" id="submit-post-btn" style="width: 100%; text-align: center;">Publish Article</button>
-              <button type="button" class="btn-secondary" id="save-draft-btn" style="width: 100%; text-align: center;">Save as Draft</button>
-              <button type="button" id="delete-post-btn" style="display: none; width: 100%; text-align: center; background: rgba(239, 68, 68, 0.1); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.3); padding: 10px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">Delete Article</button>
-            </div>
-          </div>
-
-          <!-- Right Column: Professional WYSIWYG Editor -->
-          <div class="editor-container" id="wysiwyg-editor-container">
-            <!-- WYSIWYG Toolbar -->
-            <div class="editor-toolbar">
-              <!-- Group 1: History -->
-              <div class="editor-toolbar-group">
-                <button type="button" class="editor-btn" data-cmd="undo" title="Undo (Ctrl+Z)">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
-                </button>
-                <button type="button" class="editor-btn" data-cmd="redo" title="Redo (Ctrl+Y)">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"></path><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"></path></svg>
-                </button>
-              </div>
-
-              <!-- Group 2: Headings & Typography -->
-              <div class="editor-toolbar-group">
-                <select class="editor-select" id="editor-heading-select" title="Headings">
-                  <option value="p">Paragraph</option>
-                  <option value="h1">Heading 1 (H1)</option>
-                  <option value="h2">Heading 2 (H2)</option>
-                  <option value="h3">Heading 3 (H3)</option>
-                  <option value="h4">Heading 4 (H4)</option>
-                </select>
-
-                <select class="editor-select" id="editor-font-select" title="Font Family">
-                  <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
-                  <option value="Inter">Inter (Swiss UI)</option>
-                  <option value="Roboto">Roboto (Clean Sans)</option>
-                  <option value="Poppins">Poppins (Geometric)</option>
-                  <option value="Outfit">Outfit (Tech Modern)</option>
-                  <option value="Playfair Display">Playfair Display (Editorial Serif)</option>
-                  <option value="Lora">Lora (Literary Serif)</option>
-                  <option value="Merriweather">Merriweather (Classic Serif)</option>
-                  <option value="Fira Code">Fira Code (Code Monospace)</option>
-                </select>
-
-                <select class="editor-select" id="editor-size-select" title="Font Size">
-                  <option value="15px">Normal (15px)</option>
-                  <option value="12px">Small (12px)</option>
-                  <option value="18px">Medium (18px)</option>
-                  <option value="22px">Large (22px)</option>
-                  <option value="28px">Extra Large (28px)</option>
-                </select>
-              </div>
-
-              <!-- Group 3: Formatting -->
-              <div class="editor-toolbar-group">
-                <button type="button" class="editor-btn" data-cmd="bold" title="Bold (Ctrl+B)"><b>B</b></button>
-                <button type="button" class="editor-btn" data-cmd="italic" title="Italic (Ctrl+I)"><i>I</i></button>
-                <button type="button" class="editor-btn" data-cmd="underline" title="Underline (Ctrl+U)"><u>U</u></button>
-                <button type="button" class="editor-btn" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
-
-                <label class="editor-color-label" title="Text Color">
-                  <span style="font-weight: 800; color: var(--accent-coral);">A</span>
-                  <input type="color" class="editor-color-input" id="editor-text-color" value="#17171B" />
-                </label>
-
-                <label class="editor-color-label" title="Highlight Color" style="background-color: #FEF3C7;">
-                  <span style="font-size: 11px; font-weight: 800; color: #D97706;">HL</span>
-                  <input type="color" class="editor-color-input" id="editor-bg-color" value="#FEF3C7" />
-                </label>
-
-                <button type="button" class="editor-btn" data-cmd="removeFormat" title="Clear Formatting">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-              </div>
-
-              <!-- Group 4: Alignment -->
-              <div class="editor-toolbar-group">
-                <button type="button" class="editor-btn" data-cmd="justifyLeft" title="Align Left">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
-                </button>
-                <button type="button" class="editor-btn" data-cmd="justifyCenter" title="Center">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="10" x2="6" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="18" y1="14" x2="6" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
-                </button>
-                <button type="button" class="editor-btn" data-cmd="justifyRight" title="Align Right">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="7" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="7" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
-                </button>
-                <button type="button" class="editor-btn" data-cmd="justifyFull" title="Justify">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
-                </button>
-              </div>
-
-              <!-- Group 5: Lists -->
-              <div class="editor-toolbar-group">
-                <button type="button" class="editor-btn" data-cmd="insertUnorderedList" title="Bulleted List">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                </button>
-                <button type="button" class="editor-btn" data-cmd="insertOrderedList" title="Numbered List">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="6" x2="21" y2="6"></line><line x1="10" y1="12" x2="21" y2="12"></line><line x1="10" y1="18" x2="21" y2="18"></line><path d="M4 6h1v4"></path><path d="M4 10h2"></path><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg>
-                </button>
-              </div>
-
-              <!-- Group 6: Inserts -->
-              <div class="editor-toolbar-group">
-                <button type="button" class="editor-btn" id="btn-insert-link" title="Insert Link">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                </button>
-                <button type="button" class="editor-btn" id="btn-insert-image" title="Insert Image">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                </button>
-                <button type="button" class="editor-btn" id="btn-insert-table" title="Insert Table">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M3 15h18"></path><path d="M9 3v18"></path><path d="M15 3v18"></path></svg>
-                </button>
-                <button type="button" class="editor-btn" id="btn-insert-hr" title="Horizontal Line">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                </button>
-                <button type="button" class="editor-btn" id="btn-insert-quote" title="Blockquote">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21z"></path><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21z"></path></svg>
-                </button>
-                <button type="button" class="editor-btn" id="btn-insert-code" title="Code Block">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-                </button>
-              </div>
-
-              <!-- Group 7: Pro Features -->
-              <div style="margin-left: auto; display: flex; align-items: center; gap: 6px;">
-                <button type="button" class="editor-btn" id="btn-live-preview" title="Live Preview" style="width: auto; padding: 0 10px; gap: 5px;">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                  <span>Preview</span>
-                </button>
-                <button type="button" class="editor-btn" id="btn-fullscreen-toggle" title="Toggle Fullscreen Mode">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- Contenteditable Canvas -->
-            <div class="editor-format-controls" aria-label="Text formatting controls" style="display: none;">
-              <span class="editor-format-label">Selected text</span>
-              <select id="markdown-font-family" class="editor-select" title="Font family">
-                <option value="">Font</option>
-                <option value="'Plus Jakarta Sans', sans-serif">Plus Jakarta Sans</option>
-                <option value="Inter, sans-serif">Inter</option>
-                <option value="Poppins, sans-serif">Poppins</option>
-                <option value="Roboto, sans-serif">Roboto</option>
-                <option value="'Playfair Display', serif">Playfair Display</option>
-                <option value="Lora, serif">Lora</option>
-                <option value="Merriweather, serif">Merriweather</option>
-                <option value="'Fira Code', monospace">Fira Code</option>
-              </select>
-              <select id="markdown-font-size" class="editor-select" title="Font size">
-                <option value="">Size</option>
-                <option value="12px">Small</option><option value="15px">Normal</option>
-                <option value="18px">Medium</option><option value="22px">Large</option><option value="28px">Extra large</option>
-              </select>
-              <label class="editor-colour-control" title="Text colour">Text <input type="color" id="markdown-text-color" value="#17171B"></label>
-              <label class="editor-colour-control" title="Highlight colour">Highlight <input type="color" id="markdown-highlight-color" value="#FEF3C7"></label>
-              <button type="button" class="btn-secondary editor-clear-format" id="clear-markdown-format">Clear selected style</button>
-              <span class="editor-format-hint">Select text, then choose a style.</span>
-            </div>
-            <div class="editor-canvas-wrapper">
-              <div id="wysiwyg-content-area" class="editor-content-area word-document" contenteditable="true" spellcheck="true" lang="en" role="textbox" aria-multiline="true" placeholder="Start writing your blog content here..."></div>
-            </div>
-
-            <!-- Statusbar -->
-            <div class="editor-statusbar">
-              <div class="editor-stats-item">
-                <span>Words: <strong id="editor-word-count">0</strong></span>
-                <span>Characters: <strong id="editor-char-count">0</strong></span>
-              </div>
-              <div class="editor-stats-item">
-                <span id="editor-autosave-status" title="Your browser provides spelling and grammar suggestions while you type.">Spelling & grammar suggestions enabled</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <!-- Live Preview Modal -->
-      <div class="editor-preview-modal" id="editor-preview-modal">
-        <div class="editor-preview-card">
-          <div class="editor-preview-header">
-            <h3 style="font-size: 16px;">Live Article Preview</h3>
-            <button type="button" class="btn-secondary" id="close-preview-btn" style="padding: 6px 14px; font-size: 13px;">Close Preview</button>
-          </div>
-          <div class="editor-preview-body" id="editor-preview-body"></div>
-        </div>
-      </div>
-
-      <!-- Media Library Picker Modal -->
-      <div class="editor-preview-modal" id="media-picker-modal">
-        <div class="editor-preview-card" style="max-width: 760px;">
-          <div class="editor-preview-header">
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-coral)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-              <h3 style="font-size: 16px; font-weight: 800;">Select Featured Image from Media Library</h3>
-            </div>
-            <button type="button" class="btn-secondary" id="close-media-picker-btn" style="padding: 6px 14px; font-size: 13px;">Close</button>
-          </div>
-          <div class="editor-preview-body" style="padding: 24px;">
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Opening <strong>📁 Blog Cover Images</strong> folder. Click any image to set it as your featured cover:</p>
-            <div id="media-picker-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;"></div>
-          </div>
-        </div>
+        <section class="workflow-step">
+          <h2>4. Edit or remove a post</h2>
+          <p>Edit or remove its object in <code>assets/js/data.js</code>. Keep an existing ID and slug when editing so current links continue working. Remove an image file only after confirming no post or profile references it.</p>
+        </section>
       </div>
     </main>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/supabase-client.js"></script>
-  <script src="../assets/js/data.js"></script>
-  <script src="../assets/js/admin.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const data = (typeof getBlogDataAsync === 'function')
-        ? await getBlogDataAsync(true)
-        : getBlogData();
-      const urlParams = new URLSearchParams(window.location.search);
-      const rawPostId = urlParams.get('id');
+  <script type="module">
+    import { auth } from '../assets/js/firebase-client.js';
+    import { signOut } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
 
-      // Elements
-      const titleInput = document.getElementById('post-title-input');
-      const catSelect = document.getElementById('post-category-select');
-      const imageInput = document.getElementById('post-image-input');
-      const pageTitle = document.getElementById('editor-page-title');
-      const statusBadge = document.getElementById('editor-status-badge');
-      const submitBtn = document.getElementById('submit-post-btn');
-      const saveDraftBtn = document.getElementById('save-draft-btn');
-      const deleteBtn = document.getElementById('delete-post-btn');
-      const toastEl = document.getElementById('editor-toast');
+    const ADMIN_UID = 'ousMq8F19BaaioW9ltneiW2Gw2a2';
+    const themeButton = document.getElementById('admin-theme-toggle');
+    const logoutButton = document.getElementById('admin-logout-btn');
 
-      const editorCanvas = document.getElementById('wysiwyg-content-area');
-      const editorContainer = document.getElementById('wysiwyg-editor-container');
-      const wordCountEl = document.getElementById('editor-word-count');
-      const charCountEl = document.getElementById('editor-char-count');
-      const autosaveStatusEl = document.getElementById('editor-autosave-status');
-
-      // The editor is a native rich-text document surface. Browser spellcheck
-      // provides underlined spelling and grammar suggestions as you type.
-      function contentToEditorHtml(content) {
-        const source = String(content || '');
-        if (!source || source.trim().startsWith('<')) return source;
-        return typeof marked !== 'undefined' ? marked.parse(source) : `<p>${source.replace(/\n/g, '<br>')}</p>`;
+    try {
+      await auth.authStateReady();
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        window.location.replace('login.html');
+      } else {
+        document.body.style.visibility = 'visible';
       }
+    } catch (error) {
+      console.error('Admin authentication failed:', error);
+      window.location.replace('login.html');
+    }
 
-      // Featured Image Upload Dropzone & Live Preview Elements
-      const imageDropzone = document.getElementById('image-dropzone');
-      const imageFileInput = document.getElementById('post-image-file');
-      const imagePreviewWrapper = document.getElementById('image-preview-wrapper');
-      const imagePreviewImg = document.getElementById('image-preview-img');
-      const imagePreviewFilename = document.getElementById('image-preview-filename');
-      const removeImageBtn = document.getElementById('remove-image-btn');
-      const toggleUrlBtn = document.getElementById('toggle-url-input-btn');
-      const urlInputContainer = document.getElementById('url-input-container');
-      let pendingCoverUpload = null;
-      let coverUploadError = null;
+    function applyTheme(theme) {
+      const dark = theme === 'dark';
+      document.body.classList.toggle('dark-theme', dark);
+      themeButton.querySelector('span').textContent = dark ? 'Light Mode' : 'Dark Mode';
+    }
 
-      function showToast(message, bg = '#10B981') {
-        if (toastEl) {
-          toastEl.textContent = message;
-          toastEl.style.background = bg;
-          toastEl.style.display = 'block';
-        }
+    applyTheme(localStorage.getItem('elys_admin_theme') || 'dark');
+    themeButton.addEventListener('click', () => {
+      const next = (localStorage.getItem('elys_admin_theme') || 'dark') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('elys_admin_theme', next);
+      applyTheme(next);
+    });
+
+    logoutButton.addEventListener('click', async event => {
+      event.preventDefault();
+      try {
+        await signOut(auth);
+        localStorage.removeItem('elys_admin_logged_in');
+        localStorage.removeItem('elys_admin_user');
+        window.location.replace('login.html');
+      } catch (error) {
+        console.error('Logout failed:', error);
+        alert('Unable to log out. Please try again.');
       }
-
-      function updateEditorStats() {
-        if (!editorCanvas) return;
-        const text = editorCanvas.innerText || '';
-        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-        const chars = text.length;
-        if (wordCountEl) wordCountEl.textContent = words;
-        if (charCountEl) charCountEl.textContent = chars;
-      }
-
-      function showImagePreview(src, filename = 'Featured Image') {
-        if (!src) return;
-        if (imageInput) imageInput.value = src;
-        // Paths are stored relative to the public site root, while this page
-        // lives in /admin. Keep the stored value unchanged and only adjust the
-        // preview URL used by this page.
-        const previewSrc = /^(https?:|data:|blob:|\.\.\/)/i.test(src) ? src : `../${src.replace(/^\.\//, '')}`;
-        if (imagePreviewImg) imagePreviewImg.src = previewSrc;
-        if (imagePreviewFilename) imagePreviewFilename.textContent = filename;
-        if (imagePreviewWrapper) imagePreviewWrapper.style.display = 'block';
-        if (imageDropzone) imageDropzone.style.display = 'none';
-      }
-
-      function clearImagePreview() {
-        if (imageInput) imageInput.value = '';
-        if (imageFileInput) imageFileInput.value = '';
-        if (imagePreviewImg) imagePreviewImg.src = '';
-        if (imagePreviewWrapper) imagePreviewWrapper.style.display = 'none';
-        if (imageDropzone) imageDropzone.style.display = 'block';
-      }
-
-      // Load Post Data for Edit Mode
-      // Submission guard — prevents double-inserts from rapid clicks or re-entry
-      let isSubmitting = false;
-
-      let currentPost = null;
-      if (rawPostId) {
-        if (typeof fetchPostBySlugOrIdFromSupabase === 'function' && isSupabaseConfigured()) {
-          currentPost = await fetchPostBySlugOrIdFromSupabase(rawPostId);
-        }
-        if (!currentPost && data && data.posts) {
-          currentPost = data.posts.find(p => String(p.id) === String(rawPostId));
-        }
-
-        if (currentPost) {
-          if (pageTitle) pageTitle.textContent = 'Edit Blog Post';
-          
-          if (currentPost.status === 'Published') {
-            if (submitBtn) submitBtn.textContent = 'Update Article';
-            if (statusBadge) {
-              statusBadge.innerHTML = `<span style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">🟢 Published</span>`;
-            }
-          } else {
-            if (submitBtn) submitBtn.textContent = 'Publish Article';
-            if (statusBadge) {
-              statusBadge.innerHTML = `<span style="background: rgba(245, 158, 11, 0.15); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">🟡 Draft</span>`;
-            }
-          }
-
-          if (deleteBtn) {
-            deleteBtn.style.display = 'block';
-            deleteBtn.addEventListener('click', async () => {
-              if (confirm(`Are you sure you want to delete "${currentPost.title}"? This action cannot be undone.`)) {
-                if (typeof deletePostAsync === 'function') {
-                  await deletePostAsync(currentPost.id);
-                }
-                showToast('Article deleted successfully.', '#EF4444');
-                setTimeout(() => window.location.href = 'posts.html', 900);
-              }
-            });
-          }
-
-          if (titleInput) titleInput.value = currentPost.title || '';
-          if (catSelect) catSelect.value = currentPost.category || 'Information Assurance';
-          const summaryInput = document.getElementById('post-summary-input');
-          if (summaryInput) summaryInput.value = currentPost.summary || '';
-          if (currentPost.coverImage) {
-            showImagePreview(currentPost.coverImage, currentPost.coverImage.split('/').pop() || 'Cover Image');
-          }
-          editorCanvas.innerHTML = contentToEditorHtml(currentPost.content);
-          updateEditorStats();
-        }
-      }
-
-      if (imageDropzone && imageFileInput) {
-        imageDropzone.addEventListener('click', () => imageFileInput.click());
-
-        // Drag & Drop Styling
-        imageDropzone.addEventListener('dragover', (e) => {
-          e.preventDefault();
-          imageDropzone.style.borderColor = 'var(--accent-coral)';
-          imageDropzone.style.background = 'var(--accent-coral-light)';
-        });
-
-        ['dragleave', 'dragend'].forEach(type => {
-          imageDropzone.addEventListener(type, () => {
-            imageDropzone.style.borderColor = 'var(--border-light)';
-            imageDropzone.style.background = 'var(--bg-primary)';
-          });
-        });
-
-        imageDropzone.addEventListener('drop', (e) => {
-          e.preventDefault();
-          imageDropzone.style.borderColor = 'var(--border-light)';
-          imageDropzone.style.background = 'var(--bg-primary)';
-          if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-            handleFileUpload(e.dataTransfer.files[0]);
-          }
-        });
-
-        imageFileInput.addEventListener('change', (e) => {
-          if (e.target.files && e.target.files.length > 0) {
-            handleFileUpload(e.target.files[0]);
-          }
-        });
-      }
-
-      async function handleFileUpload(file) {
-        if (!file.type.startsWith('image/')) {
-          alert('Please select a valid image file (JPG, PNG, WEBP).');
-          return;
-        }
-
-        // A newly selected cover must not fall back to an older image while it uploads.
-        coverUploadError = null;
-        if (imageInput) imageInput.value = '';
-
-        // Show a local preview immediately so the user sees the image
-        const previewReader = new FileReader();
-        previewReader.onload = (evt) => {
-          if (imagePreviewImg) imagePreviewImg.src = evt.target.result;
-          if (imagePreviewFilename) imagePreviewFilename.textContent = file.name;
-          if (imagePreviewWrapper) imagePreviewWrapper.style.display = 'block';
-          if (imageDropzone) imageDropzone.style.display = 'none';
-        };
-        previewReader.readAsDataURL(file);
-
-        // Save a permanent URL, rather than the browser-only preview URL.
-        // This also ensures the thumbnail is available after revisiting admin.
-        if (typeof uploadCoverImageToSupabase === 'function' &&
-            typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
-          if (imagePreviewFilename) imagePreviewFilename.textContent = 'Uploading...';
-          pendingCoverUpload = uploadCoverImageToSupabase(file)
-            .then(publicUrl => {
-              if (!publicUrl) throw new Error('The image could not be uploaded.');
-              showImagePreview(publicUrl, file.name);
-              return publicUrl;
-            })
-            .catch(error => {
-              coverUploadError = error;
-              return null;
-            })
-            .finally(() => { pendingCoverUpload = null; });
-          const publicUrl = await pendingCoverUpload;
-          if (!publicUrl) {
-            if (imagePreviewFilename) imagePreviewFilename.textContent = `${file.name} (upload failed — enter an image URL manually)`;
-            return;
-          }
-          showImagePreview(publicUrl, file.name);
-        } else if (imagePreviewFilename) {
-          imagePreviewFilename.textContent = `${file.name} (enter an image URL to save it)`;
-        }
-      }
-
-      if (removeImageBtn) {
-        removeImageBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          clearImagePreview();
-        });
-      }
-
-      if (toggleUrlBtn) {
-        toggleUrlBtn.addEventListener('click', () => {
-          const isHidden = urlInputContainer.style.display === 'none';
-          urlInputContainer.style.display = isHidden ? 'block' : 'none';
-          toggleUrlBtn.textContent = isHidden ? '- Hide image URL input' : '+ Or enter image URL';
-        });
-      }
-
-      // Media Library Picker Modal Integration
-      const openMediaBtn = document.getElementById('open-media-modal-btn');
-      const mediaPickerModal = document.getElementById('media-picker-modal');
-      const closeMediaPickerBtn = document.getElementById('close-media-picker-btn');
-      const mediaPickerGrid = document.getElementById('media-picker-grid');
-
-      if (openMediaBtn && mediaPickerModal) {
-        openMediaBtn.addEventListener('click', () => {
-          const mediaState = JSON.parse(localStorage.getItem('elys_media_explorer_state')) || {
-            folders: [
-              { id: 'posts', name: 'Blog Cover Images', files: [{ id: 5, name: 'post1-cover.png', path: 'assets/images/posts/post1-cover.png' }] }
-            ]
-          };
-
-          const postsFolder = mediaState.folders.find(f => f.id === 'posts') || mediaState.folders[0];
-          const files = postsFolder ? postsFolder.files : [];
-
-          if (files.length === 0) {
-            mediaPickerGrid.innerHTML = `
-              <div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: var(--text-muted);">
-                <p>No images in Blog Cover Images folder.</p>
-              </div>
-            `;
-          } else {
-            mediaPickerGrid.innerHTML = files.map(file => {
-              const relPath = file.path.startsWith('http') || file.path.startsWith('data:') ? file.path : '../' + file.path;
-              return `
-                <div style="background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 14px; overflow: hidden; cursor: pointer; transition: transform 0.2s ease;" onclick="selectMediaImage('${file.path}')">
-                  <img src="${relPath}" alt="${file.name}" style="width: 100%; height: 120px; object-fit: cover;" />
-                  <div style="padding: 10px; font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</div>
-                </div>
-              `;
-            }).join('');
-          }
-
-          mediaPickerModal.classList.add('is-open');
-        });
-      }
-
-      window.selectMediaImage = function(path) {
-        showImagePreview(path, path.split('/').pop() || 'Selected Cover');
-        if (mediaPickerModal) mediaPickerModal.classList.remove('is-open');
-      };
-
-      if (closeMediaPickerBtn) {
-        closeMediaPickerBtn.addEventListener('click', () => {
-          mediaPickerModal.classList.remove('is-open');
-        });
-      }
-
-      if (imageInput) {
-        imageInput.addEventListener('input', (e) => {
-          const val = e.target.value.trim();
-          if (val) {
-            showImagePreview(val, val.split('/').pop() || 'URL Image');
-          } else {
-            clearImagePreview();
-          }
-        });
-      }
-
-      // Prepopulate image preview in edit mode
-      if (currentPost && currentPost.coverImage) {
-        showImagePreview(currentPost.coverImage, currentPost.coverImage.split('/').pop() || 'Cover Image');
-      }
-
-      // Populate Category Options
-      if (catSelect && data.categories) {
-        catSelect.innerHTML = data.categories.map(c => `
-          <option value="${c.name}" ${currentPost && currentPost.category === c.name ? 'selected' : ''}>${c.name}</option>
-        `).join('');
-      }
-
-      function updateEditorStats() {
-        const text = editorCanvas.innerText || '';
-        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-        const chars = text.length;
-        wordCountEl.textContent = words;
-        charCountEl.textContent = chars;
-      }
-
-      editorCanvas.addEventListener('input', updateEditorStats);
-
-      // Handle Save & Update
-      async function handleSave(status) {
-        if (isSubmitting) return;
-
-        const title = titleInput.value.trim();
-        if (!title) {
-          alert("Please enter article title");
-          return;
-        }
-
-        isSubmitting = true;
-
-        if (submitBtn) submitBtn.disabled = true;
-        if (saveDraftBtn) saveDraftBtn.disabled = true;
-
-        // Do not save a post until the selected cover has its permanent URL.
-        if (pendingCoverUpload) await pendingCoverUpload;
-        if (coverUploadError) {
-          alert('Your new cover image did not upload. Please try again or enter an image URL before saving.');
-          isSubmitting = false;
-          if (submitBtn) submitBtn.disabled = false;
-          if (saveDraftBtn) saveDraftBtn.disabled = false;
-          return;
-        }
-
-        const editorHtml = editorCanvas.innerHTML.trim();
-        const plainText = editorCanvas.innerText.trim();
-        const textSummary = plainText
-          .slice(0, 160)
-          .replace(/\n/g, ' ')
-          .replace(/[#*`_]/g, '') + '...';
-
-        const wordCount = plainText ? plainText.split(/\s+/).length : 0;
-        const calculatedReadTime =
-          Math.max(1, Math.ceil(wordCount / 200)) + " min read";
-
-        const now = new Date();
-        const formattedDate = now.toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric'
-        });
-
-        const slug = title
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/(^-|-$)/g, '');
-
-        const summaryInputEl = document.getElementById('post-summary-input');
-        const userSummary = summaryInputEl ? summaryInputEl.value.trim() : '';
-
-        const finalSummary =
-          userSummary ||
-          (currentPost && currentPost.summary
-            ? currentPost.summary
-            : textSummary);
-
-        const postObj = {
-          id: currentPost ? currentPost.id : Date.now(),
-          title,
-          slug: (currentPost && currentPost.slug) ? currentPost.slug : slug,
-          category: catSelect.value || "Information Assurance",
-          status,
-          date: (currentPost && currentPost.date)
-            ? currentPost.date
-            : formattedDate,
-          lastUpdated: formattedDate,
-          readTime: calculatedReadTime,
-          author: (currentPost && currentPost.author)
-            ? currentPost.author
-            : "Elyssa",
-          featured: currentPost ? currentPost.featured : false,
-          isLatest: status === 'Published',
-          coverImage:
-            imageInput.value ||
-            (currentPost && currentPost.coverImage
-              ? currentPost.coverImage
-              : "assets/images/posts/post1-cover.png"),
-          summary: finalSummary,
-          content: editorHtml
-        };
-
-        try {
-          if (typeof savePostAsync === 'function') {
-            await savePostAsync(postObj, Boolean(currentPost));
-          } else {
-            throw new Error("savePostAsync() is not available.");
-          }
-
-          const toastMsg = currentPost
-            ? "Article updated successfully."
-            : `Article saved as ${status}!`;
-
-          showToast(toastMsg);
-
-          setTimeout(() => {
-            window.location.href = 'posts.html';
-          }, 900);
-
-        } catch (err) {
-          console.error("Failed to save post:", err);
-          alert('Failed to save blog post: ' + err.message);
-
-          isSubmitting = false;
-          if (submitBtn) submitBtn.disabled = false;
-          if (saveDraftBtn) saveDraftBtn.disabled = false;
-        }
-      }
-
-      document.querySelectorAll('.editor-btn[data-cmd]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const cmd = btn.getAttribute('data-cmd');
-          document.execCommand(cmd, false, null);
-          editorCanvas.focus();
-          updateEditorStats();
-        });
-      });
-
-      // Headings dropdown
-      document.getElementById('editor-heading-select').addEventListener('change', (e) => {
-        const heading = e.target.value;
-        document.execCommand('formatBlock', false, heading);
-        editorCanvas.focus();
-      });
-
-      // Font family
-      document.getElementById('editor-font-select').addEventListener('change', (e) => {
-        const font = e.target.value;
-        document.execCommand('fontName', false, font);
-        editorCanvas.focus();
-      });
-
-      // Font size
-      document.getElementById('editor-size-select').addEventListener('change', (e) => {
-        const size = e.target.value;
-        document.execCommand('fontSize', false, '7');
-        const fontElements = editorCanvas.getElementsByTagName('font');
-        for (let el of fontElements) {
-          if (el.size === '7') {
-            el.removeAttribute('size');
-            el.style.fontSize = size;
-          }
-        }
-        editorCanvas.focus();
-      });
-
-      // Color pickers
-      document.getElementById('editor-text-color').addEventListener('input', (e) => {
-        document.execCommand('foreColor', false, e.target.value);
-      });
-
-      document.getElementById('editor-bg-color').addEventListener('input', (e) => {
-        document.execCommand('hiliteColor', false, e.target.value);
-      });
-
-      // Insert Link
-      document.getElementById('btn-insert-link').addEventListener('click', () => {
-        const url = prompt('Enter Destination Hyperlink URL:', 'https://');
-        if (url) {
-          document.execCommand('createLink', false, url);
-        }
-      });
-
-      // Insert Image
-      document.getElementById('btn-insert-image').addEventListener('click', () => {
-        const url = prompt('Enter Image URL:', 'https://images.unsplash.com/...');
-        if (url) {
-          document.execCommand('insertImage', false, url);
-        }
-      });
-
-      // Insert Table
-      document.getElementById('btn-insert-table').addEventListener('click', () => {
-        const tableHTML = `
-          <table>
-            <thead>
-              <tr><th>Header 1</th><th>Header 2</th><th>Header 3</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Data Cell 1</td><td>Data Cell 2</td><td>Data Cell 3</td></tr>
-              <tr><td>Data Cell 4</td><td>Data Cell 5</td><td>Data Cell 6</td></tr>
-            </tbody>
-          </table>
-          <p></p>
-        `;
-        document.execCommand('insertHTML', false, tableHTML);
-      });
-
-      // Insert HR
-      document.getElementById('btn-insert-hr').addEventListener('click', () => {
-        document.execCommand('insertHorizontalRule', false, null);
-      });
-
-      // Insert Blockquote
-      document.getElementById('btn-insert-quote').addEventListener('click', () => {
-        document.execCommand('formatBlock', false, 'blockquote');
-      });
-
-      // Insert Code Block
-      document.getElementById('btn-insert-code').addEventListener('click', () => {
-        const codeHTML = `<pre><code>// Type or paste your code snippet here...</code></pre><p></p>`;
-        document.execCommand('insertHTML', false, codeHTML);
-      });
-
-      // Fullscreen Toggle
-      document.getElementById('btn-fullscreen-toggle').addEventListener('click', () => {
-        editorContainer.classList.toggle('is-fullscreen');
-      });
-
-      // ESC Key listener to exit Fullscreen and Preview Modes
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          if (editorContainer.classList.contains('is-fullscreen')) {
-            editorContainer.classList.remove('is-fullscreen');
-          }
-          const previewModalEl = document.getElementById('editor-preview-modal');
-          if (previewModalEl && previewModalEl.classList.contains('is-open')) {
-            previewModalEl.classList.remove('is-open');
-          }
-        }
-      });
-
-      // Live Preview Modal
-      const previewModal = document.getElementById('editor-preview-modal');
-      const previewBody = document.getElementById('editor-preview-body');
-      function openPublicPreview() {
-        const titleText = titleInput.value.trim() || 'Untitled Article';
-        const categoryText = catSelect.value || 'Information Assurance';
-        const authorText = currentPost && currentPost.author ? currentPost.author : 'Elyssa';
-        const coverSrc = imageInput.value || '';
-        const editorText = editorCanvas.innerText || '';
-        const bodyContent = editorCanvas.innerHTML || '<p><em>No content written yet.</em></p>';
-
-        const summaryText = document.getElementById('post-summary-input').value.trim();
-        const words = editorText.trim() ? editorText.trim().split(/\s+/).length : 0;
-        const readTime = `${Math.max(1, Math.ceil(words / 200))} min read`;
-        const previewCoverSrc = coverSrc && !/^(https?:|data:|blob:|\.\.\/)/i.test(coverSrc)
-          ? `../${coverSrc.replace(/^\.\//, '')}`
-          : coverSrc;
-
-        previewBody.innerHTML = `
-          <div class="article-reader-container" style="max-width: 920px; margin: 0 auto;">
-            <p style="font-size: 12px; color: var(--text-muted); margin: 0 0 20px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;">Public article preview</p>
-            <header class="article-header" style="margin-bottom: 32px;">
-            <div class="category-badge-wrap" style="margin-bottom: 14px;"><span class="badge-category-subtle">${categoryText}</span></div>
-            <h1 class="article-title" style="font-size: 40px; font-weight: 800; line-height: 1.25; margin-bottom: 12px; font-family: 'Playfair Display', serif;">${titleText}</h1>
-            ${summaryText ? `<p class="article-subtitle" style="font-size: 16px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">${summaryText}</p>` : ''}
-            <div style="color: var(--text-muted); font-size: 13px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
-              <span>By <strong>${authorText}</strong></span>
-              <span>•</span>
-              <span>${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-              <span>• ${readTime}</span>
-            </div>
-            </header>
-            ${previewCoverSrc ? `<div class="article-cover-wrapper" style="height: 440px; border-radius: 20px; overflow: hidden; margin-bottom: 36px; box-shadow: var(--shadow-sm);"><img src="${previewCoverSrc}" style="width: 100%; height: 100%; object-fit: cover; display: block;" /></div>` : ''}
-            <main class="article-body" style="font-size: 16px; line-height: 1.8; text-align: justify;">${bodyContent}</main>
-          </div>
-        `;
-        previewModal.classList.add('is-open');
-      }
-
-      document.getElementById('btn-live-preview').addEventListener('click', openPublicPreview);
-      document.getElementById('open-public-preview-btn').addEventListener('click', openPublicPreview);
-
-      document.getElementById('close-preview-btn').addEventListener('click', () => {
-        previewModal.classList.remove('is-open');
-      });
-
-      // Drag & Drop Image Handling
-      editorCanvas.addEventListener('dragover', (e) => e.preventDefault());
-      editorCanvas.addEventListener('drop', (e) => {
-        e.preventDefault();
-        const files = e.dataTransfer.files;
-        if (files.length > 0 && files[0].type.startsWith('image/')) {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            document.execCommand('insertImage', false, event.target.result);
-          };
-          reader.readAsDataURL(files[0]);
-        }
-      });
-
-      // Word & Character Counter
-      function updateEditorStats() {
-        const text = editorCanvas.innerText || '';
-        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-        const chars = text.length;
-        wordCountEl.textContent = words;
-        charCountEl.textContent = chars;
-      }
-
-      editorCanvas.addEventListener('input', () => {
-        updateEditorStats();
-        autosaveStatusEl.textContent = 'Editing...';
-      });
-
-      // Auto-Save Draft Interval (every 15s)
-      setInterval(() => {
-        if (titleInput.value.trim() || editorCanvas.innerText.trim()) {
-          const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-          autosaveStatusEl.textContent = `Draft Auto-Saved at ${now}`;
-        }
-      }, 15000);
-
-      document.getElementById('blog-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        handleSave('Published');
-      });
-
-      document.getElementById('save-draft-btn').addEventListener('click', () => {
-        handleSave('Draft');
-      });
     });
   </script>
 </body>

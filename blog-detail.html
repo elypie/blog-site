@@ -520,9 +520,9 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(16px);
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
       transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
     }
     .floating-toc-toggle-btn.is-visible {
@@ -632,6 +632,7 @@
   </style>
 </head>
 <body class="blog-detail-page">
+  <a class="skip-link" href="#article-detail-root">Skip to article</a>
 
 
   <header class="public-header">
@@ -655,6 +656,8 @@
   </header>
 
   <main id="article-detail-root" class="fade-in-page" style="padding: 32px 0 16px 0;"></main>
+
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"><div id="reading-progress-bar"></div></div>
 
   <!-- Floating Back to Top Button with Scroll Progress Ring -->
   <button id="back-to-top-btn" class="back-to-top-btn" aria-label="Back to top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
@@ -698,9 +701,9 @@
   </div>
 
   <!-- Image Lightbox Modal -->
-  <div id="image-lightbox-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center; cursor: zoom-out;" onclick="this.style.display='none'">
+  <div id="image-lightbox-modal" role="dialog" aria-modal="true" aria-label="Expanded article image" aria-hidden="true" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center; cursor: zoom-out;">
     <img id="lightbox-modal-img" src="" alt="Full view" style="max-width: 90vw; max-height: 90vh; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); object-fit: contain;" />
-    <button onclick="document.getElementById('image-lightbox-modal').style.display='none'" style="position: absolute; top: 24px; right: 24px; background: rgba(255,255,255,0.2); border: none; color: white; width: 44px; height: 44px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
+    <button id="lightbox-close-btn" type="button" aria-label="Close expanded image" onclick="closeLightbox()" style="position: absolute; top: 24px; right: 24px; background: rgba(255,255,255,0.2); border: none; color: white; width: 44px; height: 44px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
   </div>
 
   <!-- Floating Reader Customizer Pane -->
@@ -824,7 +827,7 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" id="quick-search-input" class="quick-search-input" placeholder="Search blog posts by title, tag, or topic..." autocomplete="off" />
+        <input type="text" id="quick-search-input" class="quick-search-input" aria-label="Search blog posts by title, tag, or topic" placeholder="Search blog posts by title, tag, or topic..." autocomplete="off" />
         <button type="button" id="quick-search-close" class="quick-search-close">ESC</button>
       </div>
       <div id="quick-search-results" class="quick-search-results">
@@ -837,9 +840,6 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="assets/js/config.js"></script>
-  <script src="assets/js/supabase-client.js"></script>
   <script src="assets/js/data.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="assets/js/main.js"></script>
@@ -974,15 +974,9 @@
         saveSettings();
       });
 
-      const floatingList = document.getElementById('floating-toc-list');
-
       let checkAttempts = 0;
       const applyInterval = setInterval(() => {
         checkAttempts++;
-        const mainTocList = document.querySelector('.toc-card .toc-list');
-        if (mainTocList && floatingList && !floatingList.children.length) {
-          floatingList.innerHTML = mainTocList.innerHTML;
-        }
         if (getContainer()) {
           applySettings();
           clearInterval(applyInterval);
@@ -995,40 +989,15 @@
       // ======================================================
       // FLOATING TABLE OF CONTENTS CONTROLLER
       // ======================================================
+      const floatingList = document.getElementById('floating-toc-list');
       const tocToggleBtn = document.getElementById('floating-toc-toggle-btn');
       const tocCloseBtn = document.getElementById('floating-toc-close-btn');
       const tocPanel = document.getElementById('floating-toc-panel');
-
-      // Scroll event to show/hide the floating TOC button
-      window.addEventListener('scroll', () => {
-        const mainToc = document.getElementById('main-toc-accordion');
-        if (mainToc) {
-          const rect = mainToc.getBoundingClientRect();
-          if (rect.bottom < 0) {
-            tocToggleBtn.classList.add('is-visible');
-          } else {
-            tocToggleBtn.classList.remove('is-visible');
-            tocPanel.classList.remove('is-open');
-          }
-        } else {
-          if (window.scrollY > 400) {
-            tocToggleBtn.classList.add('is-visible');
-          } else {
-            tocToggleBtn.classList.remove('is-visible');
-            tocPanel.classList.remove('is-open');
-          }
-        }
-      });
 
       // Toggle panel
       tocToggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         tocPanel.classList.toggle('is-open');
-        
-        const mainTocList = document.querySelector('.toc-card .toc-list');
-        if (mainTocList && floatingList && !floatingList.children.length) {
-          floatingList.innerHTML = mainTocList.innerHTML;
-        }
       });
 
       // Close panel

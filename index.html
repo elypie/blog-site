@@ -22,6 +22,7 @@
 </head>
 
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <!-- Public Header Navigation -->
   <header class="public-header">
@@ -44,7 +45,7 @@
     </div>
   </header>
 
-  <main class="fade-in-page">
+  <main id="main-content" class="fade-in-page">
     <!-- Hero Showcase Section -->
     <section class="hero-section">
       <div class="container hero-container-wrap">
@@ -152,6 +153,20 @@
         </div>
         
         <div id="homepage-latest-post-root"></div>
+      </div>
+    </section>
+
+    <!-- Editor's Picks Section -->
+    <section class="featured-posts-section" style="padding: 20px 0 40px 0;">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h2 class="section-title">Editor's Picks</h2>
+            <div class="section-title-bar"></div>
+          </div>
+        </div>
+        <p style="color: var(--text-muted); margin: -10px 0 24px;">A selection of articles worth returning to.</p>
+        <div id="homepage-featured-posts-root"></div>
       </div>
     </section>
 
@@ -320,7 +335,7 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" id="quick-search-input" class="quick-search-input" placeholder="Search blog posts by title, tag, or topic..." autocomplete="off" />
+        <input type="text" id="quick-search-input" class="quick-search-input" aria-label="Search blog posts by title, tag, or topic" placeholder="Search blog posts by title, tag, or topic..." autocomplete="off" />
         <button type="button" id="quick-search-close" class="quick-search-close">ESC</button>
       </div>
       <div id="quick-search-results" class="quick-search-results">
@@ -333,9 +348,6 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="assets/js/config.js"></script>
-  <script src="assets/js/supabase-client.js"></script>
   <script src="assets/js/data.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="assets/js/typewriter.js"></script>

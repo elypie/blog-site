@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile - EL Journal</title>
-  
+
   <!-- Open Graph / Social Media Link Preview Meta Tags -->
   <meta property="og:type" content="profile">
   <meta property="og:title" content="Profile - EL Journal">
@@ -709,6 +709,7 @@
 </head>
 
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header class="public-header">
     <div class="container header-container">
@@ -731,7 +732,7 @@
     </div>
   </header>
 
-  <main class="profile-page-container fade-in-page" style="padding: 40px 0 80px 0;">
+  <main id="main-content" class="profile-page-container fade-in-page" style="padding: 40px 0 80px 0;">
     <div class="container">
       <!-- Combined Top Card: Profile & Quick Facts consolidated -->
       <section class="info-card fade-in-up">
@@ -769,13 +770,14 @@
           <!-- About Me on the Right -->
           <div class="profile-bio-wrap">
             <h2 class="about-me-title">About Me</h2>
+
             <p class="about-me-text" id="profile-bio-text">
               Hi! I'm a 3rd-year BSIT student at Father Saturnino Urios University who is passionate about designing and developing websites. Alongside web development, I aim to expand my knowledge of cybersecurity to better understand how to build secure and reliable applications. Through this blog, I share my knowledge, projects, experiences, and reflections as I continue exploring the ever-evolving world of technology, web development, and cybersecurity.
             </p>
           </div>
-          
-        </div>
-        
+
+          </div>
+
         <hr class="profile-card-hr" />
         
         <!-- Horizontal Quick Facts Row below the divider -->
@@ -1050,7 +1052,7 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" id="quick-search-input" class="quick-search-input"
+        <input type="text" id="quick-search-input" class="quick-search-input" aria-label="Search blog posts by title, tag, or topic"
           placeholder="Search blog posts by title, tag, or topic..." autocomplete="off" />
         <button type="button" id="quick-search-close" class="quick-search-close">ESC</button>
       </div>
@@ -1072,96 +1074,76 @@
 
   <script src="assets/js/data.js"></script>
   <script src="assets/js/main.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const data = (typeof getBlogDataAsync === 'function')
-        ? await getBlogDataAsync(false)
-        : getBlogData();
 
-      if (data && data.author) {
-        const author = data.author;
+  <script type="module">
+    import { db } from './assets/js/firebase-client.js';
+    import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 
-        // Populate Images with Fallbacks
-        const coverImg = document.getElementById('profile-cover-img');
-        if (coverImg) {
-          coverImg.src = (author.coverUrl && !author.coverUrl.includes('unsplash.com')) ? author.coverUrl : 'assets/images/profile/profile-cover.png';
-          coverImg.onerror = function () { this.src = 'assets/images/profile/profile-cover.png'; };
-        }
+    const setText = (id, value) => {
+      const element = document.getElementById(id);
+      if (element && value != null) element.textContent = value;
+    };
 
-        const avatarImg = document.getElementById('profile-avatar-img');
-        if (avatarImg) {
-          avatarImg.src = (author.avatarUrl && !author.avatarUrl.includes('unsplash.com')) ? author.avatarUrl : 'assets/images/profile/profile-pfp.jpg';
-          avatarImg.onerror = function () { this.src = 'assets/images/profile/profile-pfp.jpg'; };
-        }
+    const setImage = (id, path, fallback) => {
+      const image = document.getElementById(id);
+      if (!image) return;
+      image.onerror = () => {
+        image.onerror = null;
+        image.src = fallback;
+      };
+      if (path && !path.includes('unsplash.com')) image.src = path;
+    };
 
-        // Populate Main Identity
-        if (author.name) {
-          const nameTitle = document.getElementById('profile-name-title');
-          if (nameTitle) nameTitle.textContent = author.name;
-        }
-        if (author.role) {
-          const roleSubtitle = document.getElementById('profile-degree-subtitle');
-          if (roleSubtitle) roleSubtitle.textContent = author.role;
-        }
-        if (author.school) {
-          const schoolName = document.getElementById('profile-school-name');
-          if (schoolName) schoolName.textContent = author.school;
-        }
-        if (author.motto) {
-          const mottoText = document.getElementById('profile-motto-text');
-          if (mottoText) mottoText.textContent = author.motto;
-        }
-        if (author.bio) {
-          const bioText = document.getElementById('profile-bio-text');
-          if (bioText) bioText.textContent = author.bio;
+    const setSocial = (linkId, textId, value, email = false) => {
+      if (!value) return;
+      const link = document.getElementById(linkId);
+      const text = document.getElementById(textId);
+      if (link) link.href = email ? `mailto:${value}` : value;
+      if (text) text.textContent = email
+        ? value
+        : value.replace(/^https?:\/\//, '');
+    };
+
+    async function loadPublicProfile() {
+      try {
+        const snapshot = await getDoc(doc(db, 'site_settings', 'author'));
+        if (!snapshot.exists()) {
+          console.warn('Firebase author profile not found.');
+          return;
         }
 
-        // Populate Quick Facts
-        if (author.fullName) {
-          const factFullname = document.getElementById('fact-fullname');
-          if (factFullname) factFullname.textContent = author.fullName;
-        }
-        if (author.course) {
-          const factCourse = document.getElementById('fact-course');
-          if (factCourse) factCourse.textContent = author.course;
-        }
-        if (author.yearLevel) {
-          const factYear = document.getElementById('fact-year');
-          if (factYear) factYear.textContent = author.yearLevel;
-        }
-        if (author.school) {
-          const factUni = document.getElementById('fact-university');
-          if (factUni) factUni.textContent = author.school;
-        }
+        const author = snapshot.data();
 
-        // Populate Social Links
-        if (author.facebook) {
-          const fbLink = document.getElementById('social-fb-link');
-          const fbText = document.getElementById('social-fb-text');
-          if (fbLink) fbLink.href = author.facebook;
-          if (fbText) fbText.textContent = author.facebook.replace(/^https?:\/\//, '');
-        }
-        if (author.github) {
-          const ghLink = document.getElementById('social-gh-link');
-          const ghText = document.getElementById('social-gh-text');
-          if (ghLink) ghLink.href = author.github;
-          if (ghText) ghText.textContent = author.github.replace(/^https?:\/\//, '');
-        }
-        if (author.instagram) {
-          const igLink = document.getElementById('social-ig-link');
-          const igText = document.getElementById('social-ig-text');
-          if (igLink) igLink.href = author.instagram;
-          if (igText) igText.textContent = author.instagram.replace(/^https?:\/\//, '');
-        }
-        if (author.email) {
-          const mailLink = document.getElementById('social-mail-link');
-          const mailText = document.getElementById('social-mail-text');
-          if (mailLink) mailLink.href = `mailto:${author.email}`;
-          if (mailText) mailText.textContent = author.email;
-        }
+        setText('profile-name-title', author.name);
+        setText('profile-degree-subtitle', author.role);
+        setText('profile-school-name', author.school);
+        setText('profile-bio-text', author.bio);
+
+        setText('fact-fullname', author.fullName);
+        setText('fact-course', author.course);
+        setText('fact-year', author.yearLevel);
+        setText('fact-university', author.school);
+
+        setImage('profile-avatar-img', author.avatarUrl,
+          'assets/images/profile/profile-pfp.jpg');
+        setImage('profile-cover-img', author.coverUrl,
+          'assets/images/profile/profile-cover.png');
+
+        setSocial('social-fb-link', 'social-fb-text', author.facebook);
+        setSocial('social-ig-link', 'social-ig-text', author.instagram);
+        setSocial('social-gh-link', 'social-gh-text', author.github);
+        setSocial('social-mail-link', 'social-mail-text', author.email, true);
+
+        console.log('Public profile loaded from Firebase.');
+      } catch (error) {
+        console.error('Failed to load public profile:', error);
       }
-    });
+    }
+
+    loadPublicProfile();
   </script>
+
+
 </body>
 
 </html>

@@ -1,233 +1,457 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Categories - Ely's Blog Admin</title>
+
+  <title>Categories - EL Journal</title>
+
   <link rel="stylesheet" href="../assets/css/style.css">
+
   <link rel="stylesheet" href="../assets/css/admin.css">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
 </head>
-<body class="admin-body">
+
+<body class="admin-body" style="visibility: hidden;">
+
+
 
   <aside class="admin-sidebar">
+
     <div class="sidebar-brand">
+
       <h2 class="brand-logo"><span class="logo-accent">EL</span> Journal</h2>
+
       <p class="admin-subtitle">ADMIN CMS</p>
+
     </div>
+
     <nav class="sidebar-nav">
+
       <a href="dashboard.html" class="sidebar-link">
+
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+
         <span>Dashboard</span>
+
       </a>
+
       <a href="posts.html" class="sidebar-link">
+
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+
         <span>Posts</span>
+
       </a>
+
       <a href="categories.html" class="sidebar-link active">
+
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+
         <span>Categories</span>
+
       </a>
+
       <a href="media.html" class="sidebar-link">
+
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+
         <span>Media</span>
+
       </a>
+
       <a href="profile-settings.html" class="sidebar-link">
+
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+
         <span>Settings</span>
+
       </a>
+
     </nav>
+
     <div class="sidebar-footer">
+
       <a href="login.html" class="sidebar-link" style="color: #EF4444;" id="admin-logout-btn">
+
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+
         <span>Logout</span>
+
       </a>
+
     </div>
+
   </aside>
 
+
+
   <div class="admin-main">
+
     <header class="admin-topbar">
+
       <div></div>
+
       <div style="display: flex; align-items: center; gap: 16px;">
+
         <button class="admin-theme-btn" id="admin-theme-toggle">
+
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+
           <span>Dark Mode</span>
+
         </button>
+
         <div class="admin-profile-badge">
+
           <div class="avatar-circle">EL</div>
+
           <div style="display: flex; flex-direction: column;">
+
             <span class="admin-name">Ely</span>
+
             <span class="admin-role">Administrator</span>
+
           </div>
+
         </div>
+
       </div>
+
     </header>
 
+
+
     <main class="admin-content-body">
+
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+
         <div>
+
           <h1 style="font-size: 28px;">Categories</h1>
+
           <p style="color: var(--text-muted); font-size: 14px;">Manage your blog categories and view posts in each category.</p>
+
         </div>
+
         <button class="btn-primary" id="add-cat-btn">+ Add Category</button>
+
       </div>
+
+
 
       <div style="background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-light); padding: 24px;">
+
         <table class="admin-table">
+
           <thead>
+
             <tr>
+
               <th>CATEGORY NAME</th>
+
               <th>POSTS</th>
+
               <th style="text-align: right;">ACTIONS</th>
+
             </tr>
+
           </thead>
+
           <tbody id="categories-table-body"></tbody>
+
         </table>
+
       </div>
+
     </main>
+
   </div>
+
+
 
   <!-- Category Articles Modal -->
+
   <div class="editor-preview-modal" id="cat-posts-modal">
+
     <div class="editor-preview-card" style="max-width: 760px;">
+
       <div class="editor-preview-header">
+
         <div style="display: flex; align-items: center; gap: 10px;">
+
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-coral)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+
           <h3 style="font-size: 18px;" id="cat-modal-title">Posts in Category</h3>
+
         </div>
+
         <button type="button" class="btn-secondary" id="close-cat-modal-btn" style="padding: 6px 14px; font-size: 13px;">Close</button>
+
       </div>
+
       <div class="editor-preview-body" style="padding: 24px;">
+
         <div id="cat-posts-list-container"></div>
+
       </div>
+
     </div>
+
   </div>
 
+
   <script src="../assets/js/data.js"></script>
-  <script src="../assets/js/admin.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const data = getBlogData();
-      const tbody = document.getElementById('categories-table-body');
+  <script type="module">
+    import { auth, db } from '../assets/js/firebase-client.js';
+    import { signOut } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+    import { collection, doc, getDocs, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+    import { fetchCategoriesFromFirebase } from '../assets/js/firebase-data.js';
 
-      const catModal = document.getElementById('cat-posts-modal');
-      const catModalTitle = document.getElementById('cat-modal-title');
-      const catModalBody = document.getElementById('cat-posts-list-container');
-      const closeCatModalBtn = document.getElementById('close-cat-modal-btn');
+    // Replace with the same UID in your working admin/login.html.
+    const ADMIN_UID = 'ousMq8F19BaaioW9ltneiW2Gw2a2';
+    const tbody = document.getElementById('categories-table-body');
+    const modal = document.getElementById('cat-posts-modal');
+    const modalTitle = document.getElementById('cat-modal-title');
+    const modalBody = document.getElementById('cat-posts-list-container');
+    let categories = [];
+    let posts = [];
+    let busy = false;
 
-      if (closeCatModalBtn && catModal) {
-        closeCatModalBtn.addEventListener('click', () => {
-          catModal.classList.remove('is-open');
-        });
+    function loginRedirect() {
+      localStorage.removeItem('elys_admin_logged_in');
+      localStorage.removeItem('elys_admin_user');
+      window.location.replace('login.html');
+    }
+
+    function cell(text) {
+      const td = document.createElement('td');
+      td.textContent = String(text ?? '');
+      return td;
+    }
+
+    function message(text) {
+      tbody.replaceChildren();
+      const tr = document.createElement('tr');
+      const td = cell(text);
+      td.colSpan = 3;
+      td.style.cssText = 'text-align:center;padding:40px;color:var(--text-muted)';
+      tr.append(td);
+      tbody.append(tr);
+    }
+
+    function assignedPosts(name) {
+      return posts.filter(p => String(p.category || '').trim().toLowerCase() === String(name).trim().toLowerCase());
+    }
+
+    function action(label, className, handler) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = label;
+      button.className = className;
+      button.style.cssText = 'padding:6px 14px;font-size:13px;';
+      button.addEventListener('click', handler);
+      return button;
+    }
+
+    function renderCategories() {
+      tbody.replaceChildren();
+      if (!categories.length) {
+        message('No categories found. Click + Add Category to create one!');
+        return;
       }
+      for (const cat of categories) {
+        const tr = document.createElement('tr');
+        const nameTd = document.createElement('td');
+        const clickable = document.createElement('div');
+        clickable.style.cssText = 'display:flex;align-items:center;gap:12px;cursor:pointer;';
+        const dot = document.createElement('span');
+        dot.style.cssText = 'width:12px;height:12px;border-radius:50%;display:inline-block;flex-shrink:0;';
+        dot.style.backgroundColor = /^#[0-9a-f]{3,8}$/i.test(cat.color || '') ? cat.color : '#A5150C';
+        const name = document.createElement('span');
+        name.style.cssText = 'font-weight:700;font-size:15px;';
+        name.textContent = cat.name;
+        clickable.append(dot, name);
+        clickable.addEventListener('click', () => viewPosts(cat));
+        nameTd.append(clickable);
 
-      function getCategoryPostCount(catName) {
-        return data.posts.filter(p => p.category && p.category.toLowerCase() === catName.toLowerCase()).length;
+        const countTd = document.createElement('td');
+        const badge = document.createElement('span');
+        badge.className = 'badge-status';
+        badge.style.cssText = 'background:rgba(165,21,12,.08);color:var(--accent-coral);padding:4px 12px;border-radius:12px;font-size:13px;';
+        badge.textContent = `${assignedPosts(cat.name).length} articles`;
+        countTd.append(badge);
+
+        const actionsTd = document.createElement('td');
+        actionsTd.style.textAlign = 'right';
+        const buttons = document.createElement('div');
+        buttons.style.cssText = 'display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;';
+        buttons.append(
+          action('View Posts', 'btn-action-edit', () => viewPosts(cat)),
+          action('Edit', 'btn-action-edit', () => editCategory(cat)),
+          action('Delete', 'btn-action-delete', () => removeCategory(cat))
+        );
+        actionsTd.append(buttons);
+        tr.append(nameTd, countTd, actionsTd);
+        tbody.append(tr);
       }
+    }
 
-      function renderCategories() {
-        if (!data.categories || data.categories.length === 0) {
-          tbody.innerHTML = `
-            <tr>
-              <td colspan="3" style="text-align: center; padding: 40px; color: var(--text-muted);">
-                No categories found. Click <strong>+ Add Category</strong> to create one!
-              </td>
-            </tr>
-          `;
+    function viewPosts(cat) {
+      const matches = assignedPosts(cat.name);
+      modalTitle.textContent = `${cat.name} Articles (${matches.length})`;
+      modalBody.replaceChildren();
+      if (!matches.length) {
+        const empty = document.createElement('p');
+        empty.style.cssText = 'text-align:center;padding:40px;color:var(--text-muted);';
+        empty.textContent = 'No posts assigned to this category yet.';
+        modalBody.append(empty);
+      } else {
+        const list = document.createElement('div');
+        list.style.cssText = 'display:flex;flex-direction:column;gap:12px;';
+        for (const post of matches) {
+          const item = document.createElement('div');
+          item.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:var(--bg-primary);border:1px solid var(--border-light);border-radius:12px;';
+          const info = document.createElement('div');
+          const heading = document.createElement('h4');
+          heading.textContent = post.title || 'Untitled';
+          heading.style.cssText = 'font-size:15px;font-weight:700;margin-bottom:4px;';
+          const meta = document.createElement('div');
+          meta.style.cssText = 'font-size:12px;color:var(--text-muted);';
+          meta.textContent = `${post.date || ''} • ${post.status || 'Draft'}`;
+          info.append(heading, meta);
+          const edit = document.createElement('a');
+          edit.className = 'btn-secondary';
+          edit.style.cssText = 'padding:6px 12px;font-size:12px;white-space:nowrap;';
+          edit.textContent = 'View Post';
+          edit.href = '../blog-detail.html?id=' + encodeURIComponent(post.id);
+          item.append(info, edit);
+          list.append(item);
+        }
+        modalBody.append(list);
+      }
+      modal.classList.add('is-open');
+    }
+
+    // Locate the actual Firestore document ID, even if the imported data uses a different id field.
+    async function categoryReference(cat) {
+      const snapshot = await getDocs(collection(db, 'categories'));
+      const found = snapshot.docs.find(s => String(s.data().id ?? s.id) === String(cat.id));
+      if (!found) throw new Error('Category no longer exists in Firestore.');
+      return found.ref;
+    }
+
+    async function addCategory() {
+      if (busy) return;
+      const raw = prompt('Enter new category name:');
+      if (raw === null) return;
+      const name = raw.trim();
+      if (!name) return alert('Please enter a category name.');
+      if (categories.some(c => c.name.toLowerCase() === name.toLowerCase())) return alert('That category already exists.');
+      busy = true;
+      try {
+        const reference = doc(collection(db, 'categories'));
+        await setDoc(reference, { id: reference.id, name, color: '#A5150C', count: 0 });
+        categories = await fetchCategoriesFromFirebase();
+        renderCategories();
+      } catch (error) {
+        console.error(error);
+        alert('Could not add category: ' + error.message);
+      } finally { busy = false; }
+    }
+
+    async function editCategory(cat) {
+      if (busy) return;
+      const raw = prompt('Edit category name:', cat.name);
+      if (raw === null) return;
+      const name = raw.trim();
+      if (!name) return alert('Category name cannot be empty.');
+      if (name === cat.name) return;
+      if (categories.some(c => String(c.id) !== String(cat.id) && c.name.toLowerCase() === name.toLowerCase())) return alert('That category already exists.');
+      // Renaming a category used by posts would require updating all those posts too.
+      if (assignedPosts(cat.name).length) return alert('This category has posts. Reassign those posts before renaming it.');
+      busy = true;
+      try {
+        const reference = await categoryReference(cat);
+        await setDoc(reference, { ...cat, name }, { merge: true });
+        categories = await fetchCategoriesFromFirebase();
+        renderCategories();
+      } catch (error) {
+        console.error(error);
+        alert('Could not edit category: ' + error.message);
+      } finally { busy = false; }
+    }
+
+    async function removeCategory(cat) {
+      if (busy) return;
+      if (assignedPosts(cat.name).length) return alert('This category contains posts. Reassign those posts before deleting it.');
+      if (!confirm(`Delete category "${cat.name}"?`)) return;
+      busy = true;
+      try {
+        // Recheck posts immediately before deleting to reduce stale-data mistakes.
+        if (assignedPosts(cat.name).length) throw new Error('This category now has posts. Reassign them first.');
+        await deleteDoc(await categoryReference(cat));
+        categories = await fetchCategoriesFromFirebase();
+        renderCategories();
+      } catch (error) {
+        console.error(error);
+        alert('Could not delete category: ' + error.message);
+      } finally { busy = false; }
+    }
+
+    document.getElementById('add-cat-btn').addEventListener('click', addCategory);
+    document.getElementById('close-cat-modal-btn').addEventListener('click', () => modal.classList.remove('is-open'));
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('is-open'); });
+
+    document.getElementById('admin-logout-btn').addEventListener('click', async e => {
+      e.preventDefault();
+      try { await signOut(auth); loginRedirect(); }
+      catch (error) { alert('Logout failed. Please try again.'); }
+    });
+
+    const themeButton = document.getElementById('admin-theme-toggle');
+    function applyTheme(theme) {
+      const dark = theme === 'dark';
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      document.body.classList.toggle('dark-mode', dark);
+      themeButton.querySelector('span').textContent = dark ? 'Light Mode' : 'Dark Mode';
+    }
+    applyTheme(localStorage.getItem('elys_admin_theme') || 'light');
+    themeButton.addEventListener('click', () => {
+      const next = (localStorage.getItem('elys_admin_theme') || 'light') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('elys_admin_theme', next);
+      applyTheme(next);
+    });
+
+    async function initialize() {
+      try {
+        await auth.authStateReady();
+        if (ADMIN_UID === 'YOUR_FIREBASE_ADMIN_UID' || !auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+          loginRedirect();
           return;
         }
-
-        tbody.innerHTML = data.categories.map(cat => {
-          const count = getCategoryPostCount(cat.name);
-          return `
-            <tr>
-              <td>
-                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="viewCategoryPosts('${cat.name.replace(/'/g, "\\'")}')">
-                  <span style="width: 12px; height: 12px; border-radius: 50%; background: ${cat.color || 'var(--accent-coral)'}; display: inline-block;"></span>
-                  <span style="font-weight: 700; font-size: 15px;">${cat.name}</span>
-                </div>
-              </td>
-              <td>
-                <span class="badge-status" style="background: rgba(165, 21, 12, 0.08); color: var(--accent-coral); padding: 4px 12px; border-radius: 12px; font-size: 13px;">${count} articles</span>
-              </td>
-              <td style="text-align: right;">
-                <div style="display: inline-flex; align-items: center; gap: 8px;">
-                  <button onclick="viewCategoryPosts('${cat.name.replace(/'/g, "\\'")}')" class="btn-action-edit" style="padding: 6px 14px; font-size: 13px;">View Posts</button>
-                  <button onclick="deleteCat(${cat.id})" class="btn-action-delete" style="padding: 6px 14px; font-size: 13px; color: #EF4444;">Delete</button>
-                </div>
-              </td>
-            </tr>
-          `;
-        }).join('');
+        document.body.style.visibility = 'visible';
+        message('Loading categories...');
+        posts = getBlogData().posts;
+        categories = await fetchCategoriesFromFirebase();
+        renderCategories();
+      } catch (error) {
+        console.error('Categories initialization error:', error);
+        if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) loginRedirect();
+        else { document.body.style.visibility = 'visible'; message('Could not load categories from Firebase.'); }
       }
-
-      window.viewCategoryPosts = function(catName) {
-        const catPosts = data.posts.filter(p => p.category && p.category.toLowerCase() === catName.toLowerCase());
-        catModalTitle.textContent = `${catName} Articles (${catPosts.length})`;
-
-        if (catPosts.length === 0) {
-          catModalBody.innerHTML = `
-            <div style="padding: 40px; text-align: center; color: var(--text-muted);">
-              <p style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">No posts assigned to this category yet.</p>
-              <a href="post-editor.html" class="btn-primary" style="font-size: 13px;">+ Write Article in ${catName}</a>
-            </div>
-          `;
-        } else {
-          catModalBody.innerHTML = `
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-              ${catPosts.map(post => `
-                <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--bg-primary); border: 1px solid var(--border-light); border-radius: 12px;">
-                  <div style="display: flex; align-items: center; gap: 12px;">
-                    <img src="${post.coverImage}" alt="" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;" />
-                    <div>
-                      <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 4px;">${post.title}</h4>
-                      <div style="display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--text-muted);">
-                        <span>Published: ${post.date}</span>
-                        <span>•</span>
-                        <span style="font-weight: 700; color: ${post.status === 'Published' ? '#059669' : '#D97706'};">● ${post.status}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <a href="post-editor.html?id=${post.id}" class="btn-secondary" style="padding: 6px 12px; font-size: 12px;">Edit Post</a>
-                </div>
-              `).join('')}
-            </div>
-          `;
-        }
-
-        catModal.classList.add('is-open');
-      };
-
-      const addBtn = document.getElementById('add-cat-btn');
-      if (addBtn) {
-        addBtn.addEventListener('click', () => {
-          const catName = prompt("Enter new category name:");
-          if (catName && catName.trim() !== '') {
-            const newId = data.categories.length > 0 ? Math.max(...data.categories.map(c => c.id)) + 1 : 1;
-            data.categories.push({
-              id: newId,
-              name: catName.trim(),
-              count: 0,
-              color: "#A5150C"
-            });
-            saveBlogData(data);
-            renderCategories();
-          }
-        });
-      }
-
-      window.deleteCat = function(id) {
-        if (confirm("Are you sure you want to delete this category?")) {
-          data.categories = data.categories.filter(c => c.id !== id);
-          saveBlogData(data);
-          renderCategories();
-        }
-      };
-
-      renderCategories();
-    });
+    }
+    initialize();
   </script>
 </body>
 </html>

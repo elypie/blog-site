@@ -215,6 +215,7 @@
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
   </style>
+  <style>body.admin-body { visibility: hidden; }</style>
 </head>
 <body class="admin-body">
 
@@ -277,11 +278,11 @@
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 16px;">
         <div>
           <h1 style="font-size: 28px;">Media Library Explorer</h1>
-          <p style="color: var(--text-muted); font-size: 14px;">Organize and manage media assets in structured folders.</p>
+          <p style="color: var(--text-muted); font-size: 14px;">Prepare images for the project, then place them in assets/images and deploy the site.</p>
         </div>
         <div style="display: flex; align-items: center; gap: 12px;">
           <input type="text" id="media-search-input" class="input-field" placeholder="Search media files..." style="width: 240px; font-size: 13px;" />
-          <button class="btn-primary" id="upload-media-btn">+ Upload File</button>
+          <button class="btn-primary" id="upload-media-btn">+ Prepare Image</button>
         </div>
       </div>
 
@@ -314,8 +315,6 @@
     </div>
   </div>
 
-  <script src="../assets/js/data.js"></script>
-  <script src="../assets/js/admin.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Explorer Folders Schema & File Registry
@@ -331,16 +330,7 @@
               { id: 1, name: 'profile-pfp.jpg', path: 'assets/images/profile/profile-pfp.jpg', size: '222 KB', date: 'Aug 5, 2026', type: 'JPG' }
             ]
           },
-          {
-            id: 'covers',
-            name: 'Cover Images',
-            path: 'assets/images/profile/',
-            description: 'Profile headers and site showcase banners',
-            icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>`,
-            files: [
-              { id: 4, name: 'profile-cover.png', path: 'assets/images/profile/profile-cover.png', size: '683 KB', date: 'Aug 5, 2026', type: 'PNG' }
-            ]
-          },
+          
           {
             id: 'posts',
             name: 'Blog Cover Images',
@@ -364,10 +354,6 @@
 
       // Load saved media registry or set default
       let mediaState = JSON.parse(localStorage.getItem('elys_media_explorer_state')) || initialMediaData;
-
-      function saveMediaState() {
-        localStorage.setItem('elys_media_explorer_state', JSON.stringify(mediaState));
-      }
 
       let currentFolderId = 'root';
       const container = document.getElementById('explorer-view-container');
@@ -455,7 +441,7 @@
             </div>
           `;
         } else {
-          // INSIDE FOLDER VIEW: Upload dropzone + File Grid
+          // INSIDE FOLDER VIEW: Static asset preparation + File Grid
           const folder = mediaState.folders.find(f => f.id === currentFolderId);
           if (!folder) { navigateToFolder('root'); return; }
 
@@ -468,8 +454,8 @@
                 <polyline points="17 8 12 3 7 8"></polyline>
                 <line x1="12" y1="3" x2="12" y2="15"></line>
               </svg>
-              <h4 style="font-size: 15px; margin-bottom: 2px;">Upload Image into ${folder.name}</h4>
-              <p style="font-size: 12px; color: var(--text-muted);">Click or drag & drop JPG, PNG, WEBP files</p>
+              <h4 style="font-size: 15px; margin-bottom: 2px;">Prepare an image for ${folder.name}</h4>
+              <p style="font-size: 12px; color: var(--text-muted);">Choose an image to download, then add it to this project folder and redeploy.</p>
             </div>
 
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
@@ -479,7 +465,7 @@
             ${folder.files.length === 0 ? `
               <div style="padding: 40px; text-align: center; color: var(--text-muted); background: var(--bg-card); border-radius: 18px; border: 1px solid var(--border-light);">
                 <p style="font-size: 14px; font-weight: 600;">This folder is empty.</p>
-                <p style="font-size: 12px; margin-top: 4px;">Upload images above to add files to ${folder.name}.</p>
+                <p style="font-size: 12px; margin-top: 4px;">Add image files to the project folder to list them here.</p>
               </div>
             ` : `
               <div class="media-file-grid">
@@ -519,8 +505,8 @@
                 <button class="file-btn" onclick="copyFilePath('${file.path.replace(/'/g, "\\'")}')" title="Copy File URL" aria-label="Copy URL">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                 </button>
-                <button class="file-btn file-btn-delete" onclick="deleteFile(${file.id})" title="Delete Image" aria-label="Delete" style="color: #EF4444;">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <button class="file-btn" onclick="downloadFile(${file.id})" title="Download Image" aria-label="Download">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                 </button>
               </div>
             </div>
@@ -534,24 +520,16 @@
           return;
         }
 
-        const reader = new FileReader();
-        reader.onload = (evt) => {
-          const folder = mediaState.folders.find(f => f.id === folderId);
-          if (folder) {
-            const newFile = {
-              id: Date.now(),
-              name: file.name,
-              path: evt.target.result,
-              size: (file.size / 1024).toFixed(0) + ' KB',
-              date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-              type: file.name.split('.').pop().toUpperCase()
-            };
-            folder.files.unshift(newFile);
-            saveMediaState();
-            renderExplorer();
-          }
-        };
-        reader.readAsDataURL(file);
+        const folder = mediaState.folders.find(item => item.id === folderId);
+        const downloadUrl = URL.createObjectURL(file);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = downloadUrl;
+        downloadLink.download = file.name;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        downloadLink.remove();
+        setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+        alert(`Image downloaded. Add it to ${folder?.path || 'assets/images/posts/'} in the project, then add its path to the post in assets/js/data.js.`);
       }
 
       window.openLightbox = function(name, src, path) {
@@ -563,18 +541,23 @@
       };
 
       window.copyFilePath = function(path) {
+        if (path.startsWith('data:')) {
+          alert('This image is saved only in this browser. Download it first, then add it to the project image folder.');
+          return;
+        }
         navigator.clipboard.writeText(path);
         alert(`Image path copied to clipboard:\n${path}`);
       };
 
-      window.deleteFile = function(fileId) {
-        if (confirm('Are you sure you want to delete this image?')) {
-          mediaState.folders.forEach(folder => {
-            folder.files = folder.files.filter(f => f.id !== fileId);
-          });
-          saveMediaState();
-          renderExplorer();
-        }
+      window.downloadFile = function(fileId) {
+        const file = mediaState.folders.flatMap(folder => folder.files).find(item => item.id === fileId);
+        if (!file) return;
+        const link = document.createElement('a');
+        link.href = file.path.startsWith('data:') || file.path.startsWith('http') ? file.path : '../' + file.path;
+        link.download = file.name;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
       };
 
       if (closeLightboxBtn) {
@@ -601,6 +584,64 @@
       // Initial Render
       renderExplorer();
     });
+  </script>
+  <script type="module">
+    import { auth } from '../assets/js/firebase-client.js';
+    import { signOut } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+
+    const ADMIN_UID = 'ousMq8F19BaaioW9ltneiW2Gw2a2';
+    const logoutButton = document.getElementById('admin-logout-btn');
+    const themeButton = document.getElementById('admin-theme-toggle');
+
+    try {
+      await auth.authStateReady();
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        window.location.replace('login.html');
+      } else {
+        document.body.style.visibility = 'visible';
+      }
+    } catch (error) {
+      console.error('Media page authentication failed:', error);
+      window.location.replace('login.html');
+    }
+
+    logoutButton.addEventListener('click', async event => {
+      event.preventDefault();
+      try {
+        await signOut(auth);
+        localStorage.removeItem('elys_admin_logged_in');
+        localStorage.removeItem('elys_admin_user');
+        window.location.replace('login.html');
+      } catch (error) {
+        console.error('Logout failed:', error);
+        alert('Unable to log out. Please try again.');
+      }
+    });
+
+    function applyTheme(theme) {
+      const dark = theme === 'dark';
+      document.body.classList.toggle('dark-theme', dark);
+      themeButton.querySelector('span').textContent = dark ? 'Light Mode' : 'Dark Mode';
+    }
+
+    applyTheme(localStorage.getItem('elys_admin_theme') || 'dark');
+    themeButton.addEventListener('click', () => {
+      const next = (localStorage.getItem('elys_admin_theme') || 'dark') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('elys_admin_theme', next);
+      applyTheme(next);
+    });
+
+    const scrollToTopButton = document.createElement('button');
+    scrollToTopButton.id = 'scroll-to-top-btn';
+    scrollToTopButton.className = 'scroll-to-top-btn';
+    scrollToTopButton.setAttribute('aria-label', 'Scroll to top');
+    scrollToTopButton.title = 'Scroll to top';
+    scrollToTopButton.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+    document.body.appendChild(scrollToTopButton);
+    window.addEventListener('scroll', () => {
+      scrollToTopButton.classList.toggle('is-visible', window.scrollY > 300);
+    }, { passive: true });
+    scrollToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   </script>
 </body>
 </html>
