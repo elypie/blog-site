@@ -277,43 +277,33 @@ const initialData = {
         <p>As a result, our recommendations focused not only on introducing new safeguards but also on strengthening consistency, accountability, and verification.</p>
 
         <h2 id="what-we-learned-about-risk-treatment">VI. What We Learned About Risk Treatment</h2>
-        <p>One of the most rewarding parts of the assessment was developing risk treatment recommendations. Initially, we assumed that effective security improvements would require major investments or sophisticated technologies.</p>
+        <p>One of the most rewarding parts of the assessment was developing risk treatment recommendations. At the beginning of the project, many of us assumed that improving security would require expensive technology or complex cybersecurity solutions. However, as we worked through the risks we identified, we realized that effective risk treatment often involves practical and manageable improvements rather than major investments.</p>
 
-        <p>Instead, we found that many practical improvements involved:</p>
-        <ul class="article-bullet-list">
-          <li>Improving documentation</li>
-          <li>Clarifying responsibilities</li>
-          <li>Strengthening procedures</li>
-          <li>Enhancing physical safeguards</li>
-          <li>Formalizing existing practices</li>
-          <li>Establishing clearer accountability</li>
-        </ul>
+        <p>Many of the recommendations our group developed focused on strengthening existing processes, clarifying responsibilities, improving documentation, and formalizing procedures that were already being followed informally. In several cases, relatively simple changes had the potential to reduce risk significantly. This helped us understand that risk treatment is not always about eliminating a threat completely. More often, it is about reducing the likelihood of an incident or minimizing its impact to an acceptable level.</p>
 
-        <p>This taught us that effective risk management is often less about expensive technology and more about creating reliable processes.</p>
+        <p>The experience also taught us that risk treatments must be realistic and aligned with the organization's needs. A control may appear effective in theory, but if it is difficult to implement or maintain, it may not provide the intended benefits. As we evaluated different treatment options, we learned that security controls must balance protection with practicality. Organizations still need to accomplish their goals, and security measures must support rather than hinder day-to-day operations.</p>
 
-        <p>Many of our recommended treatments focused on reducing risk through better management practices rather than complex technical solutions. This experience helped us understand that security should be practical, realistic, and aligned with organizational needs.</p>
+        <p>Most importantly, we came to appreciate that risk treatment is not a one-time activity. Risks change over time, and controls must be reviewed regularly to ensure they remain effective. A treatment that works today may need adjustment in the future as technologies, personnel, and operational requirements evolve. This reinforced the idea that risk management is an ongoing process of monitoring, evaluation, and improvement.</p>
 
         <h2 id="reflecting-on-the-overall-experience">VII. Reflecting on the Overall Experience</h2>
-        <p>Looking back, our group's fieldwork was one of the most valuable learning experiences in the course. It allowed us to apply classroom concepts in a real environment and see how information security functions outside academic examples.</p>
+        <p>Looking back, our group's risk assessment fieldwork was one of the most valuable learning experiences of the course. It allowed us to apply information security concepts outside the classroom and observe how they function in a real organizational environment. Rather than working with hypothetical examples, we were required to evaluate actual assets, identify realistic risks, and develop recommendations that could be implemented in practice.</p>
 
-        <p>The assessment showed us that:</p>
-        <ul class="article-bullet-list">
-          <li>Security involves people, processes, physical assets, and technology.</li>
-          <li>Asset identification is the foundation of risk management.</li>
-          <li>Human behavior significantly influences security outcomes.</li>
-          <li>Controls must be evaluated for effectiveness, not just existence.</li>
-          <li>Documentation and accountability are essential for long-term security.</li>
-          <li>Risk management is a continuous process rather than a one-time activity.</li>
-        </ul>
+        <p>The experience changed the way we think about information security. Before the assessment, it was easy to view security primarily as a technical issue focused on protecting computers and networks. However, our fieldwork showed us that security is deeply connected to people, processes, physical resources, and organizational culture. Many of the risks we identified were influenced as much by human behavior and operational practices as by technology itself.</p>
 
-        <p>Most importantly, we learned that information security is not solely the responsibility of technical personnel. Everyone within an organization contributes to maintaining a secure environment through their daily actions and decisions.</p>
+        <p>The project also helped us better understand the importance of asset awareness, accountability, and risk prioritization. We learned that not every risk deserves the same level of attention and that organizations must make decisions about where to focus their time and resources. The structured approach provided by the Risk Assessment Form helped us analyze these decisions more systematically and encouraged us to think about risk from multiple perspectives.</p>
+
+        <p>Another important lesson involved the value of documentation. Throughout the assessment, we saw how easily information can become dependent on informal practices and shared understanding. This reinforced why organizations need documented procedures, clear ownership, and consistent recordkeeping to support accountability and continuity. Security controls are most effective when they are understood, maintained, and consistently applied by everyone involved.</p>
+
+        <p>Ultimately, the fieldwork demonstrated that information security is not simply about preventing incidents. It is about creating an environment where assets are understood, responsibilities are clear, and risks are managed proactively rather than reactively.</p>
 
         <h2 id="conclusion">VIII. Conclusion</h2>
-        <p>Conducting the risk assessment fieldwork transformed our understanding of information security. What began as a classroom assignment became an opportunity to observe how security principles are applied in a real organizational setting. The experience reinforced concepts from the module while also showing us the practical challenges organizations face when managing risk.</p>
+        <p>Conducting the risk assessment allowed our group to bridge the gap between theory and practice. While classroom discussions introduced us to concepts such as asset management, risk analysis, security controls, and risk treatment, the fieldwork gave us the opportunity to see how those concepts operate in a real organizational setting.</p>
 
-        <p>Our group learned that successful information security depends on understanding assets, identifying realistic risks, implementing effective controls, and continually reviewing those controls over time. We also discovered that many security improvements can be achieved through better procedures, clearer responsibilities, and stronger awareness rather than technology alone.</p>
+        <p>Through this experience, we learned that effective information security depends on much more than technical safeguards. It requires an understanding of organizational assets, awareness of how people interact with those assets, and a commitment to continuously managing risk. The assessment highlighted the importance of identifying what matters most, evaluating realistic threats, and implementing practical controls that support both security and operational goals.</p>
 
-        <p>Ultimately, this fieldwork helped us connect theory with practice and gave us a deeper appreciation for the role of risk management in protecting organizational assets and supporting operational success.</p>
+        <p>Perhaps the most significant lesson was recognizing that security is an ongoing responsibility rather than a one-time task. Risks evolve, environments change, and controls must be reviewed regularly to remain effective. Organizations that understand their assets, document their processes, and continuously assess their risks are better positioned to protect the resources that support their mission.</p>
+
+        <p>As a group, this experience gave us a deeper appreciation for the challenges of information security in practice. It reinforced the value of risk management as a decision-making process and showed us that successful security programs are built not only on technology, but also on accountability, communication, and continuous improvement.</p>
 
         <h2 id="references">IX. References</h2>
         <p>ISACA. (2022, February 9). <em>Tips for effective control design</em>. <a href="https://www.isaca.org/resources/news-and-trends/newsletters/atisaca/2022/volume-6/tips-for-effective-control-design" target="_blank" rel="noopener noreferrer">https://www.isaca.org/resources/news-and-trends/newsletters/atisaca/2022/volume-6/tips-for-effective-control-design</a></p>
